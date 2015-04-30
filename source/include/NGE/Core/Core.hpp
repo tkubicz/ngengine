@@ -10,7 +10,7 @@
 
 #ifdef ANDROID
 #include <EGL/egl.h>
-#include <GLES3/gl3.h>
+#include <GLES2/gl2.h>
 #else 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
