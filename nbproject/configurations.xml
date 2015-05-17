@@ -1,0 +1,722 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="95">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df root="../ngengine" name="0">
+      <df name="source">
+        <df name="src">
+          <df name="NGE">
+            <df name="Appearance">
+              <df name="Scene">
+                <in>SceneNode.cpp</in>
+              </df>
+              <in>Light.cpp</in>
+            </df>
+            <df name="Events">
+              <in>KeyboardEvent.cpp</in>
+              <in>MouseEvent.cpp</in>
+            </df>
+            <df name="Geometry">
+              <df name="Basic">
+                <in>Box.cpp</in>
+                <in>Floor.cpp</in>
+                <in>Plane.cpp</in>
+                <in>Sphere.cpp</in>
+              </df>
+              <df name="Models">
+                <df name="Obj">
+                  <in>ObjFileImporter.cpp</in>
+                  <in>ObjFileMtlImporter.cpp</in>
+                  <in>ObjFileParser.cpp</in>
+                </df>
+                <in>ColladaModel.cpp</in>
+                <in>XModel.cpp</in>
+              </df>
+              <df name="Nature">
+                <in>DiamondSquareTerrain.cpp</in>
+                <in>SkyColor.cpp</in>
+                <in>SkyDome.cpp</in>
+                <in>SkyPlane.cpp</in>
+                <in>Terrain.cpp</in>
+                <in>WaterTexture.cpp</in>
+              </df>
+              <df name="Skeleton">
+                <in>Skeleton.cpp</in>
+                <in>SkeletonNode.cpp</in>
+                <in>SkinnedMesh.cpp</in>
+              </df>
+              <in>Face.cpp</in>
+              <in>Mesh.cpp</in>
+              <in>Ray.cpp</in>
+            </df>
+            <df name="GUI">
+              <in>GUIAlphaElement.cpp</in>
+              <in>GUIButton.cpp</in>
+              <in>GUIClippedRectangle.cpp</in>
+              <in>GUIEvent.cpp</in>
+              <in>GUIFrame.cpp</in>
+              <in>GUILabel.cpp</in>
+              <in>GUIPanel.cpp</in>
+              <in>GUIRectangle.cpp</in>
+              <in>GUISeparator.cpp</in>
+              <in>GUITexCoordDescriptor.cpp</in>
+              <in>GUIText.cpp</in>
+              <in>GUITextBox.cpp</in>
+            </df>
+            <df name="Input">
+              <in>SoftwareMouse.cpp</in>
+            </df>
+            <df name="Math">
+              <in>MathUtils.cpp</in>
+              <in>NumberConverter.cpp</in>
+            </df>
+            <df name="Media">
+              <df name="Fonts">
+                <in>FontManager.cpp</in>
+                <in>FreeTypeFont.cpp</in>
+                <in>TextureMappedFont.cpp</in>
+              </df>
+              <df name="Images">
+                <in>JpegImage.cpp</in>
+                <in>PngImage.cpp</in>
+                <in>TargaImage.cpp</in>
+                <in>Texture.cpp</in>
+                <in>TextureManager.cpp</in>
+              </df>
+              <df name="Shaders">
+                <in>GLSLProgram.cpp</in>
+                <in>ShaderManager.cpp</in>
+              </df>
+              <in>MediaManager.cpp</in>
+              <in>MediaPathManager.cpp</in>
+            </df>
+            <df name="Parsers">
+              <in>pugixml.cpp</in>
+            </df>
+            <df name="Physics">
+              <df name="MassAggregate">
+                <in>Particle.cpp</in>
+                <in>ParticleContacts.cpp</in>
+                <in>ParticleForceGenerator.cpp</in>
+                <in>ParticleLinks.cpp</in>
+                <in>ParticleWorld.cpp</in>
+              </df>
+              <df name="RigidBody">
+                <in>BoundingSphere.cpp</in>
+                <in>CollisionDetector.cpp</in>
+                <in>CollisionPrimitive.cpp</in>
+                <in>Contact.cpp</in>
+                <in>ContactResolver.cpp</in>
+                <in>ForceGenerator.cpp</in>
+                <in>IntersectionTests.cpp</in>
+                <in>Joint.cpp</in>
+                <in>RigidBody.cpp</in>
+                <in>World.cpp</in>
+              </df>
+            </df>
+            <df name="Rendering">
+              <df name="Camera">
+                <in>Camera.cpp</in>
+              </df>
+              <in>Renderer.cpp</in>
+            </df>
+            <df name="Tools">
+              <in>Logger.cpp</in>
+              <in>Random.cpp</in>
+              <in>Timing.cpp</in>
+            </df>
+            <df name="Windows">
+              <in>AndroidWindow.cpp</in>
+              <in>Application.cpp</in>
+              <in>D3DWindow.cpp</in>
+              <in>GLFW3Window.cpp</in>
+            </df>
+          </df>
+        </df>
+      </df>
+    </df>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>../ngengine/CMakeLists.txt</itemPath>
+      <itemPath>../ngengine/build/Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
+  <sourceRootList>
+    <Elem>../ngengine</Elem>
+  </sourceRootList>
+  <projectmakefile>../ngengine/build/Makefile</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>false</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <flagsDictionary>
+        <element flagsID="0" commonFlags="-fPIC -std=c++11"/>
+      </flagsDictionary>
+      <codeAssistance>
+      </codeAssistance>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>../ngengine/build</buildCommandWorkingDir>
+          <buildCommand>${MAKE} -f Makefile</buildCommand>
+          <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
+          <executablePath></executablePath>
+          <ccTool>
+            <incDir>
+              <pElem>source/include</pElem>
+              <pElem>source/src/NGE</pElem>
+              <pElem>build</pElem>
+            </incDir>
+            <preprocessorList>
+              <Elem>USE_GLFW</Elem>
+              <Elem>nge_EXPORTS</Elem>
+            </preprocessorList>
+          </ccTool>
+        </makeTool>
+      </makefileType>
+      <item path="../ngengine/source/src/NGE/Appearance/Light.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Appearance/Scene/SceneNode.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Events/KeyboardEvent.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Events/MouseEvent.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/GUI/GUIAlphaElement.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/GUI/GUIButton.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/GUI/GUIClippedRectangle.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/GUI/GUIEvent.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/GUI/GUIFrame.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/GUI/GUILabel.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/GUI/GUIPanel.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/GUI/GUIRectangle.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/GUI/GUISeparator.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/GUI/GUITexCoordDescriptor.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/GUI/GUIText.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/GUI/GUITextBox.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Geometry/Basic/Box.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Geometry/Basic/Floor.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Geometry/Basic/Plane.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Geometry/Basic/Sphere.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Geometry/Face.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Geometry/Mesh.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Geometry/Models/ColladaModel.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Geometry/Models/Obj/ObjFileImporter.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Geometry/Models/Obj/ObjFileMtlImporter.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Geometry/Models/Obj/ObjFileParser.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Geometry/Models/XModel.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Geometry/Nature/DiamondSquareTerrain.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Geometry/Nature/SkyColor.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Geometry/Nature/SkyDome.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Geometry/Nature/SkyPlane.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Geometry/Nature/Terrain.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Geometry/Nature/WaterTexture.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Geometry/Ray.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Geometry/Skeleton/Skeleton.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Geometry/Skeleton/SkeletonNode.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Geometry/Skeleton/SkinnedMesh.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Input/SoftwareMouse.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Math/MathUtils.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Math/NumberConverter.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Media/Fonts/FontManager.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Media/Fonts/FreeTypeFont.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Media/Fonts/TextureMappedFont.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Media/Images/JpegImage.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Media/Images/PngImage.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Media/Images/TargaImage.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Media/Images/Texture.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Media/Images/TextureManager.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Media/MediaManager.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Media/MediaPathManager.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Media/Shaders/GLSLProgram.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Media/Shaders/ShaderManager.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Parsers/pugixml.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Physics/MassAggregate/Particle.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Physics/MassAggregate/ParticleContacts.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Physics/MassAggregate/ParticleForceGenerator.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Physics/MassAggregate/ParticleLinks.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Physics/MassAggregate/ParticleWorld.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Physics/RigidBody/BoundingSphere.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Physics/RigidBody/CollisionDetector.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Physics/RigidBody/CollisionPrimitive.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Physics/RigidBody/Contact.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Physics/RigidBody/ContactResolver.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Physics/RigidBody/ForceGenerator.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Physics/RigidBody/IntersectionTests.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Physics/RigidBody/Joint.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Physics/RigidBody/RigidBody.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Physics/RigidBody/World.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Rendering/Camera/Camera.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Rendering/Renderer.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Tools/Logger.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Tools/Random.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Tools/Timing.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Windows/AndroidWindow.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Windows/Application.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Windows/D3DWindow.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="../ngengine/source/src/NGE/Windows/GLFW3Window.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>

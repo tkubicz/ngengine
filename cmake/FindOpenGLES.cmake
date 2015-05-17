@@ -30,6 +30,8 @@
 #  OPENGLES_LIBRARIES    - Link these to use OpenGLES
 
 if(ANDROID)
+    message(STATUS "Searching for OpenGLES")
+    message(STATUS "${ANDROID_STANDALONE_TOOLCHAIN}")
     FIND_PATH( OPENGLES_INCLUDE_DIR
         GLES2/gl2.h
         "${ANDROID_STANDALONE_TOOLCHAIN}/usr/include"

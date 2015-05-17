@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 2.8)
 
-project (nge2)
+project (nge)
 
 # --------------------------------------
 message(STATUS "Compiling ${CMAKE_PROJECT_NAME} version 1.0")
@@ -91,7 +91,7 @@ if (ANDROID)
 	set (EXTRA_LIBS ${EXTRA_LIBS} z)
 endif()
 
-add_library(nge2 SHARED
+add_library(nge SHARED
 	source/src/NGE/Appearance/Light.cpp
 	source/src/NGE/Appearance/Scene/SceneNode.cpp
 	source/src/NGE/Events/KeyboardEvent.cpp
@@ -192,8 +192,8 @@ add_library(nge2 SHARED
 )
 
 if (ANDROID)
-	target_link_libraries(nge2 ${EXTRA_LIBS})
+	target_link_libraries(nge ${EXTRA_LIBS})
 endif()
 
-install (TARGETS nge2 DESTINATION bin)
+install (TARGETS nge DESTINATION bin)
 install (DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/source/include/ DESTINATION include)

@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="95">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df root="../ngengine" name="0">
+      <df name="build">
+      </df>
+      <df name="cmake">
+      </df>
+      <df name="source">
+        <df name="include">
+          <df name="NGE">
+            <df name="Appearance">
+              <df name="Scene">
+                <in>Animation.hpp</in>
+                <in>Animation.hpp</in>
+                <in>MeshAnim.hpp</in>
+                <in>MeshAnim.hpp</in>
+                <in>MeshKey.hpp</in>
+                <in>MeshKey.hpp</in>
+                <in>NodeAnim.hpp</in>
+                <in>NodeAnim.hpp</in>
+                <in>Scene.hpp</in>
+                <in>Scene.hpp</in>
+                <in>SceneNode.hpp</in>
+                <in>SceneNode.hpp</in>
+              </df>
+              <in>Light.hpp</in>
+              <in>Light.hpp</in>
+              <in>Material.hpp</in>
+              <in>Material.hpp</in>
+            </df>
+            <df name="Core">
+              <in>Core.hpp</in>
+              <in>Core.hpp</in>
+            </df>
+            <df name="Events">
+              <in>Events.hpp</in>
+              <in>Events.hpp</in>
+              <in>EventsTypes.hpp</in>
+              <in>EventsTypes.hpp</in>
+              <in>GUIEventListener.hpp</in>
+              <in>GUIEventListener.hpp</in>
+              <in>KeyboardEvent.hpp</in>
+              <in>KeyboardEvent.hpp</in>
+              <in>MouseEvent.hpp</in>
+              <in>MouseEvent.hpp</in>
+            </df>
+            <df name="Geometry">
+              <df name="Basic">
+                <in>Basic.hpp</in>
+                <in>Basic.hpp</in>
+                <in>Box.hpp</in>
+                <in>Box.hpp</in>
+                <in>Floor.hpp</in>
+                <in>Floor.hpp</in>
+                <in>Plane.hpp</in>
+                <in>Plane.hpp</in>
+                <in>Sphere.hpp</in>
+                <in>Sphere.hpp</in>
+              </df>
+              <df name="Models">
+                <df name="MD5">
+                  <in>MD5Loader.hpp</in>
+                  <in>MD5Loader.hpp</in>
+                  <in>MD5Parser.hpp</in>
+                  <in>MD5Parser.hpp</in>
+                </df>
+                <df name="Obj">
+                  <in>ObjFileData.hpp</in>
+                  <in>ObjFileData.hpp</in>
+                  <in>ObjFileImporter.hpp</in>
+                  <in>ObjFileImporter.hpp</in>
+                  <in>ObjFileMtlImporter.hpp</in>
+                  <in>ObjFileMtlImporter.hpp</in>
+                  <in>ObjFileParser.hpp</in>
+                  <in>ObjFileParser.hpp</in>
+                  <in>ObjModel.hpp</in>
+                  <in>ObjModel.hpp</in>
+                  <in>ObjTools.hpp</in>
+                  <in>ObjTools.hpp</in>
+                </df>
+                <in>ColladaModel.hpp</in>
+                <in>ColladaModel.hpp</in>
+                <in>XModel.hpp</in>
+                <in>XModel.hpp</in>
+              </df>
+              <df name="Nature">
+                <in>DiamonSquareTerrain.hpp</in>
+                <in>DiamonSquareTerrain.hpp</in>
+                <in>SkyColor.hpp</in>
+                <in>SkyColor.hpp</in>
+                <in>SkyDome.hpp</in>
+                <in>SkyDome.hpp</in>
+                <in>SkyPlane.hpp</in>
+                <in>SkyPlane.hpp</in>
+                <in>Terrain.hpp</in>
+                <in>Terrain.hpp</in>
+                <in>WaterTexture.hpp</in>
+                <in>WaterTexture.hpp</in>
+              </df>
+              <df name="Skeleton">
+                <in>Skeleton.hpp</in>
+                <in>Skeleton.hpp</in>
+                <in>SkeletonNode.hpp</in>
+                <in>SkeletonNode.hpp</in>
+                <in>SkinnedMesh.hpp</in>
+                <in>SkinnedMesh.hpp</in>
+              </df>
+              <in>Bone.hpp</in>
+              <in>Bone.hpp</in>
+              <in>DistanceObject.hpp</in>
+              <in>DistanceObject.hpp</in>
+              <in>Face.hpp</in>
+              <in>Face.hpp</in>
+              <in>Mesh.hpp</in>
+              <in>Mesh.hpp</in>
+              <in>Ray.hpp</in>
+              <in>Ray.hpp</in>
+              <in>VertexWeight.hpp</in>
+              <in>VertexWeight.hpp</in>
+            </df>
+            <df name="GUI">
+              <in>GUI.hpp</in>
+              <in>GUI.hpp</in>
+              <in>GUIAlphaElement.hpp</in>
+              <in>GUIAlphaElement.hpp</in>
+              <in>GUIButton.hpp</in>
+              <in>GUIButton.hpp</in>
+              <in>GUIClippedRectangle.hpp</in>
+              <in>GUIClippedRectangle.hpp</in>
+              <in>GUIEvent.hpp</in>
+              <in>GUIEvent.hpp</in>
+              <in>GUIFont.hpp</in>
+              <in>GUIFont.hpp</in>
+              <in>GUIFrame.hpp</in>
+              <in>GUIFrame.hpp</in>
+              <in>GUILabel.hpp</in>
+              <in>GUILabel.hpp</in>
+              <in>GUIPanel.hpp</in>
+              <in>GUIPanel.hpp</in>
+              <in>GUIRectangle.hpp</in>
+              <in>GUIRectangle.hpp</in>
+              <in>GUISeparator.hpp</in>
+              <in>GUISeparator.hpp</in>
+              <in>GUITexCoordDescriptor.hpp</in>
+              <in>GUITexCoordDescriptor.hpp</in>
+              <in>GUIText.hpp</in>
+              <in>GUIText.hpp</in>
+              <in>GUITextBox.hpp</in>
+              <in>GUITextBox.hpp</in>
+              <in>GUITypes.hpp</in>
+              <in>GUITypes.hpp</in>
+            </df>
+            <df name="Input">
+              <in>SoftwareMouse.h</in>
+              <in>SoftwareMouse.h</in>
+              <in>SoftwareMouse.hpp</in>
+              <in>SoftwareMouse.hpp</in>
+            </df>
+            <df name="Math">
+              <df name="Algorithms">
+                <in>Sort.h</in>
+                <in>Sort.h</in>
+              </df>
+              <df name="Objects3D">
+                <in>AABox.hpp</in>
+                <in>AABox.hpp</in>
+                <in>AABox.inc</in>
+                <in>AABox.inc</in>
+                <in>Plane.hpp</in>
+                <in>Plane.hpp</in>
+                <in>Plane.inc</in>
+                <in>Plane.inc</in>
+                <in>Sphere.hpp</in>
+                <in>Sphere.hpp</in>
+                <in>Sphere.inc</in>
+                <in>Sphere.inc</in>
+              </df>
+              <df name="Types">
+                <in>QuaternionKey.hpp</in>
+                <in>QuaternionKey.hpp</in>
+                <in>QuaternionKey.inc</in>
+                <in>QuaternionKey.inc</in>
+                <in>Vector3Key.hpp</in>
+                <in>Vector3Key.hpp</in>
+                <in>Vector3Key.inc</in>
+                <in>Vector3Key.inc</in>
+              </df>
+              <in>Math.hpp</in>
+              <in>Math.hpp</in>
+              <in>MathUtils.hpp</in>
+              <in>MathUtils.hpp</in>
+              <in>Matrix3.hpp</in>
+              <in>Matrix3.hpp</in>
+              <in>Matrix4.hpp</in>
+              <in>Matrix4.hpp</in>
+              <in>MinSphere3.hpp</in>
+              <in>MinSphere3.hpp</in>
+              <in>NumberConverter.hpp</in>
+              <in>NumberConverter.hpp</in>
+              <in>NumberConverter.inc</in>
+              <in>NumberConverter.inc</in>
+              <in>Quaternion.hpp</in>
+              <in>Quaternion.hpp</in>
+              <in>Vector2.hpp</in>
+              <in>Vector2.hpp</in>
+              <in>Vector3.hpp</in>
+              <in>Vector3.hpp</in>
+              <in>Vector4.hpp</in>
+              <in>Vector4.hpp</in>
+            </df>
+            <df name="Media">
+              <df name="Fonts">
+                <in>FontManager.hpp</in>
+                <in>FontManager.hpp</in>
+                <in>FreeTypeFont.hpp</in>
+                <in>FreeTypeFont.hpp</in>
+                <in>TextureMappedFont.hpp</in>
+                <in>TextureMappedFont.hpp</in>
+              </df>
+              <df name="Images">
+                <in>Image.hpp</in>
+                <in>Image.hpp</in>
+                <in>JpegImage.hpp</in>
+                <in>JpegImage.hpp</in>
+                <in>PngImage.hpp</in>
+                <in>PngImage.hpp</in>
+                <in>TargaImage.hpp</in>
+                <in>TargaImage.hpp</in>
+                <in>Texture.hpp</in>
+                <in>Texture.hpp</in>
+                <in>TextureManager.hpp</in>
+                <in>TextureManager.hpp</in>
+              </df>
+              <df name="Shaders">
+                <in>GLSLProgram.hpp</in>
+                <in>GLSLProgram.hpp</in>
+                <in>ShaderManager.hpp</in>
+                <in>ShaderManager.hpp</in>
+              </df>
+              <in>Media.hpp</in>
+              <in>Media.hpp</in>
+              <in>MediaManager.hpp</in>
+              <in>MediaManager.hpp</in>
+              <in>MediaPathManager.hpp</in>
+              <in>MediaPathManager.hpp</in>
+            </df>
+            <df name="Parsers">
+              <in>ParsingUtils.hpp</in>
+              <in>ParsingUtils.hpp</in>
+              <in>pugiconfig.hpp</in>
+              <in>pugiconfig.hpp</in>
+              <in>pugixml.hpp</in>
+              <in>pugixml.hpp</in>
+            </df>
+            <df name="Physics">
+              <df name="MassAggregate">
+                <in>Particle.hpp</in>
+                <in>Particle.hpp</in>
+                <in>ParticleContacts.hpp</in>
+                <in>ParticleContacts.hpp</in>
+                <in>ParticleForceGenerator.hpp</in>
+                <in>ParticleForceGenerator.hpp</in>
+                <in>ParticleLinks.hpp</in>
+                <in>ParticleLinks.hpp</in>
+                <in>ParticleWorld.hpp</in>
+                <in>ParticleWorld.hpp</in>
+              </df>
+              <df name="RigidBody">
+                <in>BVHNode.hpp</in>
+                <in>BVHNode.hpp</in>
+                <in>BoundingSphere.hpp</in>
+                <in>BoundingSphere.hpp</in>
+                <in>CollisionBox.hpp</in>
+                <in>CollisionBox.hpp</in>
+                <in>CollisionData.hpp</in>
+                <in>CollisionData.hpp</in>
+                <in>CollisionDetector.hpp</in>
+                <in>CollisionDetector.hpp</in>
+                <in>CollisionPlane.hpp</in>
+                <in>CollisionPlane.hpp</in>
+                <in>CollisionPrimitive.hpp</in>
+                <in>CollisionPrimitive.hpp</in>
+                <in>CollisionSphere.hpp</in>
+                <in>CollisionSphere.hpp</in>
+                <in>Contact.hpp</in>
+                <in>Contact.hpp</in>
+                <in>ContactGenerator.hpp</in>
+                <in>ContactGenerator.hpp</in>
+                <in>ContactResolver.hpp</in>
+                <in>ContactResolver.hpp</in>
+                <in>ForceGenerator.hpp</in>
+                <in>ForceGenerator.hpp</in>
+                <in>IntersectionTests.hpp</in>
+                <in>IntersectionTests.hpp</in>
+                <in>Joint.hpp</in>
+                <in>Joint.hpp</in>
+                <in>RigidBody.hpp</in>
+                <in>RigidBody.hpp</in>
+                <in>World.hpp</in>
+                <in>World.hpp</in>
+              </df>
+            </df>
+            <df name="Rendering">
+              <df name="Camera">
+                <in>Camera.hpp</in>
+                <in>Camera.hpp</in>
+                <in>Frustum.hpp</in>
+                <in>Frustum.hpp</in>
+                <in>Frustum.inc</in>
+                <in>Frustum.inc</in>
+              </df>
+              <in>MatrixStack.hpp</in>
+              <in>MatrixStack.hpp</in>
+              <in>Renderer.hpp</in>
+              <in>Renderer.hpp</in>
+              <in>Rendering.hpp</in>
+              <in>Rendering.hpp</in>
+            </df>
+            <df name="ThirdPart">
+              <in>android_native_app_glue.h</in>
+              <in>android_native_app_glue.h</in>
+            </df>
+            <df name="Tools">
+              <in>Logger.hpp</in>
+              <in>Logger.hpp</in>
+              <in>Random.hpp</in>
+              <in>Random.hpp</in>
+              <in>Settings.hpp</in>
+              <in>Settings.hpp</in>
+              <in>Timing.hpp</in>
+              <in>Timing.hpp</in>
+              <in>Tools.hpp</in>
+              <in>Tools.hpp</in>
+            </df>
+            <df name="Windows">
+              <in>AndroidWindow.hpp</in>
+              <in>AndroidWindow.hpp</in>
+              <in>Application.hpp</in>
+              <in>Application.hpp</in>
+              <in>D3DWindow.hpp</in>
+              <in>D3DWindow.hpp</in>
+              <in>GLFW3Window.hpp</in>
+              <in>GLFW3Window.hpp</in>
+              <in>Window.hpp</in>
+              <in>Window.hpp</in>
+              <in>Windows.hpp</in>
+              <in>Windows.hpp</in>
+            </df>
+          </df>
+        </df>
+        <df name="src">
+          <df name="NGE">
+            <df name="Appearance">
+              <df name="Scene">
+                <in>SceneNode.cpp</in>
+              </df>
+              <in>Light.cpp</in>
+            </df>
+            <df name="Events">
+              <in>KeyboardEvent.cpp</in>
+              <in>MouseEvent.cpp</in>
+            </df>
+            <df name="Geometry">
+              <df name="Basic">
+                <in>Box.cpp</in>
+                <in>Floor.cpp</in>
+                <in>Plane.cpp</in>
+                <in>Sphere.cpp</in>
+              </df>
+              <df name="Models">
+                <df name="MD5">
+                  <in>MD5Loader.cpp</in>
+                  <in>MD5Loader.cpp</in>
+                  <in>MD5Parser.cpp</in>
+                  <in>MD5Parser.cpp</in>
+                </df>
+                <df name="Obj">
+                  <in>ObjFileImporter.cpp</in>
+                  <in>ObjFileMtlImporter.cpp</in>
+                  <in>ObjFileParser.cpp</in>
+                </df>
+                <in>ColladaModel.cpp</in>
+                <in>XModel.cpp</in>
+              </df>
+              <df name="Nature">
+                <in>DiamondSquareTerrain.cpp</in>
+                <in>SkyColor.cpp</in>
+                <in>SkyDome.cpp</in>
+                <in>SkyPlane.cpp</in>
+                <in>Terrain.cpp</in>
+                <in>WaterTexture.cpp</in>
+              </df>
+              <df name="Skeleton">
+                <in>Skeleton.cpp</in>
+                <in>SkeletonNode.cpp</in>
+                <in>SkinnedMesh.cpp</in>
+              </df>
+              <in>Face.cpp</in>
+              <in>Mesh.cpp</in>
+              <in>Ray.cpp</in>
+            </df>
+            <df name="GUI">
+              <in>GUIAlphaElement.cpp</in>
+              <in>GUIButton.cpp</in>
+              <in>GUIClippedRectangle.cpp</in>
+              <in>GUIEvent.cpp</in>
+              <in>GUIFrame.cpp</in>
+              <in>GUILabel.cpp</in>
+              <in>GUIPanel.cpp</in>
+              <in>GUIRectangle.cpp</in>
+              <in>GUISeparator.cpp</in>
+              <in>GUITexCoordDescriptor.cpp</in>
+              <in>GUIText.cpp</in>
+              <in>GUITextBox.cpp</in>
+            </df>
+            <df name="Input">
+              <in>SoftwareMouse.cpp</in>
+            </df>
+            <df name="Math">
+              <in>MathUtils.cpp</in>
+              <in>NumberConverter.cpp</in>
+            </df>
+            <df name="Media">
+              <df name="Fonts">
+                <in>FontManager.cpp</in>
+                <in>FreeTypeFont.cpp</in>
+                <in>TextureMappedFont.cpp</in>
+              </df>
+              <df name="Images">
+                <in>JpegImage.cpp</in>
+                <in>PngImage.cpp</in>
+                <in>TargaImage.cpp</in>
+                <in>Texture.cpp</in>
+                <in>TextureManager.cpp</in>
+              </df>
+              <df name="Shaders">
+                <in>GLSLProgram.cpp</in>
+                <in>ShaderManager.cpp</in>
+              </df>
+              <in>MediaManager.cpp</in>
+              <in>MediaPathManager.cpp</in>
+            </df>
+            <df name="Parsers">
+              <in>pugixml.cpp</in>
+            </df>
+            <df name="Physics">
+              <df name="MassAggregate">
+                <in>Particle.cpp</in>
+                <in>ParticleContacts.cpp</in>
+                <in>ParticleForceGenerator.cpp</in>
+                <in>ParticleLinks.cpp</in>
+                <in>ParticleWorld.cpp</in>
+              </df>
+              <df name="RigidBody">
+                <in>BoundingSphere.cpp</in>
+                <in>CollisionDetector.cpp</in>
+                <in>CollisionPrimitive.cpp</in>
+                <in>Contact.cpp</in>
+                <in>ContactResolver.cpp</in>
+                <in>ForceGenerator.cpp</in>
+                <in>IntersectionTests.cpp</in>
+                <in>Joint.cpp</in>
+                <in>RigidBody.cpp</in>
+                <in>World.cpp</in>
+              </df>
+            </df>
+            <df name="Rendering">
+              <df name="Camera">
+                <in>Camera.cpp</in>
+              </df>
+              <in>Renderer.cpp</in>
+            </df>
+            <df name="ThirdPart">
+              <in>android_native_app_glue.c</in>
+              <in>android_native_app_glue.c</in>
+            </df>
+            <df name="Tools">
+              <in>Logger.cpp</in>
+              <in>Random.cpp</in>
+              <in>Timing.cpp</in>
+            </df>
+            <df name="Windows">
+              <in>AndroidWindow.cpp</in>
+              <in>Application.cpp</in>
+              <in>D3DWindow.cpp</in>
+              <in>GLFW3Window.cpp</in>
+            </df>
+          </df>
+        </df>
+      </df>
+    </df>
+  </logicalFolder>
+  <projectmakefile>../ngengine/build/Makefile</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <platform>2</platform>
+      </toolsSet>
+      <compile>
+        <compiledirpicklist>
+          <compiledirpicklistitem>.</compiledirpicklistitem>
+          <compiledirpicklistitem>${AUTO_FOLDER}</compiledirpicklistitem>
+        </compiledirpicklist>
+        <compiledir>${AUTO_FOLDER}</compiledir>
+        <compilecommandpicklist>
+          <compilecommandpicklistitem>${MAKE} ${ITEM_NAME}.o</compilecommandpicklistitem>
+          <compilecommandpicklistitem>${AUTO_COMPILE}</compilecommandpicklistitem>
+        </compilecommandpicklist>
+        <compilecommand>${AUTO_COMPILE}</compilecommand>
+      </compile>
+      <dbx_gdbdebugger version="1">
+        <gdb_pathmaps>
+        </gdb_pathmaps>
+        <gdb_interceptlist>
+          <gdbinterceptoptions gdb_all="false" gdb_unhandled="true" gdb_unexpected="true"/>
+        </gdb_interceptlist>
+        <gdb_options>
+          <DebugOptions>
+          </DebugOptions>
+        </gdb_options>
+        <gdb_buildfirst gdb_buildfirst_overriden="false" gdb_buildfirst_old="false"/>
+      </dbx_gdbdebugger>
+      <nativedebugger version="1">
+        <engine>gdb</engine>
+      </nativedebugger>
+      <runprofile version="9">
+        <runcommandpicklist>
+          <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
+        </runcommandpicklist>
+        <runcommand>"${OUTPUT_PATH}"</runcommand>
+        <rundir>../ngengine/build</rundir>
+        <buildfirst>false</buildfirst>
+        <terminal-type>0</terminal-type>
+        <remove-instrumentation>0</remove-instrumentation>
+        <environment>
+        </environment>
+      </runprofile>
+    </conf>
+  </confs>
+</configurationDescriptor>
