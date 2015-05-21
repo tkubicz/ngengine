@@ -30,18 +30,19 @@
 #  OPENGLES_LIBRARIES    - Link these to use OpenGLES
 
 if(ANDROID)
-    message(STATUS "Searching for OpenGLES")
-    message(STATUS "${ANDROID_STANDALONE_TOOLCHAIN}")
+    message(STATUS "${ANDROID_SYSROOT}")
     FIND_PATH( OPENGLES_INCLUDE_DIR
-        GLES2/gl2.h
-        "${ANDROID_STANDALONE_TOOLCHAIN}/usr/include"
+    	NAMES
+        	GLES3/gl3.h
+        PATHS
+        	"${ANDROID_SYSROOT}/usr/include"
     )
 
     FIND_LIBRARY( OPENGLES_LIBRARIES
         NAMES
-            GLESv2
+            GLESv3
         PATHS
-            "${ANDROID_STANDALONE_TOOLCHAIN}/usr/lib"
+            "${ANDROID_SYSROOT}/usr/lib"
     )
 
 elseif(IOS)

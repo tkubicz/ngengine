@@ -3,6 +3,66 @@
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <df root="../ngengine" name="0">
       <df name="build">
+        <df name="CMakeFiles">
+          <df name="2.8.12.2">
+          </df>
+          <df name="nge.dir">
+            <df name="source">
+              <df name="src">
+                <df name="NGE">
+                  <df name="Appearance">
+                    <df name="Scene">
+                    </df>
+                  </df>
+                  <df name="Events">
+                  </df>
+                  <df name="Geometry">
+                    <df name="Basic">
+                    </df>
+                    <df name="Models">
+                      <df name="Obj">
+                      </df>
+                    </df>
+                    <df name="Nature">
+                    </df>
+                    <df name="Skeleton">
+                    </df>
+                  </df>
+                  <df name="GUI">
+                  </df>
+                  <df name="Input">
+                  </df>
+                  <df name="Math">
+                  </df>
+                  <df name="Media">
+                    <df name="Fonts">
+                    </df>
+                    <df name="Images">
+                    </df>
+                    <df name="Shaders">
+                    </df>
+                  </df>
+                  <df name="Parsers">
+                  </df>
+                  <df name="Physics">
+                    <df name="MassAggregate">
+                    </df>
+                    <df name="RigidBody">
+                    </df>
+                  </df>
+                  <df name="Rendering">
+                    <df name="Camera">
+                    </df>
+                  </df>
+                  <df name="Tools">
+                  </df>
+                  <df name="Windows">
+                  </df>
+                </df>
+              </df>
+            </df>
+          </df>
+        </df>
       </df>
       <df name="cmake">
       </df>
