@@ -10,30 +10,27 @@
 
 #include "NGE/Geometry/Basic/Basic.hpp"
 
-namespace NGE
-{
-    namespace Geometry
-    {
-        namespace Basic
-        {
-            class Plane : public Basic
-            {
-              public:
-                bool Initialize();
-                
-                virtual void Update(float dt);
-                virtual void Render();
-                
-              protected:
-                virtual void DeleteBuffers();
-                virtual void DeleteArrays();
+namespace NGE {
+	namespace Geometry {
+		namespace Basic {
 
-                virtual bool InitializeGeometry();
-                virtual bool InitializeVBA();
-                virtual bool InitializeVBO();
-            };
-        }
-    }
+			class Plane : public Basic {
+			  public:
+				bool Initialize();
+
+				virtual void Update(float dt);
+				virtual void Render();
+
+			  protected:
+				virtual void DeleteBuffers();
+				virtual void DeleteArrays();
+
+				virtual bool InitializeGeometry();
+				virtual bool InitializeVBA();
+				virtual bool InitializeVBO();
+			};
+		}
+	}
 }
 
 #endif	/* PLANE_HPP */

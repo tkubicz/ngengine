@@ -14,58 +14,53 @@
 #include "NGE/Physics/MassAggregate/ParticleLinks.hpp"
 #include "NGE/Physics/MassAggregate/ParticleContacts.hpp"
 
-namespace NGE
-{
-    namespace Physics
-    {
-        namespace MassAggregate
-        {
+namespace NGE {
+	namespace Physics {
+		namespace MassAggregate {
 
-            class ParticleWorld
-            {
-              public:
-                typedef std::vector<Particle*> Particles;
-                typedef std::vector<ParticleContactGenerator*> ContactGenerators;
+			class ParticleWorld {
+			  public:
+				typedef std::vector<Particle*> Particles;
+				typedef std::vector<ParticleContactGenerator*> ContactGenerators;
 
-              protected:
-                /**
-                 * Zmienna przechowująca cząsteczki
-                 */
-                Particles particles;
+			  protected:
+				/**
+				 * Zmienna przechowująca cząsteczki
+				 */
+				Particles particles;
 
-                bool calculateIterations;
-                ParticleForceRegistry registry;
-                ParticleContactResolver resolver;
-                ContactGenerators contactGenerators;
-                ParticleContact* contacts;
-                unsigned maxContacts;
+				bool calculateIterations;
+				ParticleForceRegistry registry;
+				ParticleContactResolver resolver;
+				ContactGenerators contactGenerators;
+				ParticleContact* contacts;
+				unsigned maxContacts;
 
-              public:
-                ParticleWorld(unsigned maxContacts, unsigned iterations = 0);
-                ~ParticleWorld();
+			  public:
+				ParticleWorld(unsigned maxContacts, unsigned iterations = 0);
+				~ParticleWorld();
 
-                unsigned GenerateContacts();
-                void Integrate(float duration);
-                void RunPhysics(float duration);
+				unsigned GenerateContacts();
+				void Integrate(float duration);
+				void RunPhysics(float duration);
 
-                void StartFrame();
+				void StartFrame();
 
-                Particles& GetParticles();
-                ContactGenerators& GetContactGenerators();
-                ParticleForceRegistry& GetForceRegistry();
-            };
+				Particles& GetParticles();
+				ContactGenerators& GetContactGenerators();
+				ParticleForceRegistry& GetForceRegistry();
+			};
 
-            class GroundContacts : public ParticleContactGenerator
-            {
-                ParticleWorld::Particles* particles;
+			class GroundContacts : public ParticleContactGenerator {
+				ParticleWorld::Particles* particles;
 
-              public:
-                void Init(ParticleWorld::Particles* particles);
+			  public:
+				void Init(ParticleWorld::Particles* particles);
 
-                virtual unsigned AddContact(ParticleContact* contact, unsigned limit) const;
-            };
-        }
-    }
+				virtual unsigned AddContact(ParticleContact* contact, unsigned limit) const;
+			};
+		}
+	}
 }
 #endif	/* PARTICLEWORLD_HPP */
 

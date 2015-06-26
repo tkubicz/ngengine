@@ -2,14 +2,12 @@
 
 using namespace NGE::Input;
 
-bool SoftwareMouse::InitializeGeometry()
-{
+bool SoftwareMouse::InitializeGeometry() {
 	// TODO: Finish this method.
-	return true; 
+	return true;
 }
 
-bool SoftwareMouse::InitializeObjects()
-{ 
+bool SoftwareMouse::InitializeObjects() {
 	// TODO: Finish this method.
 	return true;
 }

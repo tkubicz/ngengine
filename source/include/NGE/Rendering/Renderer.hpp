@@ -16,76 +16,72 @@
 
 #define matrixStack Rendering::Renderer::GetInstance().GetMatrixStack()
 
-namespace NGE
-{
-    namespace Rendering
-    {
+namespace NGE {
+	namespace Rendering {
 
-        class Renderer
-        {
-          private:
-            Renderer();
-            Renderer(const Renderer&);
-            Renderer& operator=(const Renderer&);
-            ~Renderer();
+		class Renderer {
+		  private:
+			Renderer();
+			Renderer(const Renderer&);
+			Renderer& operator=(const Renderer&);
+			~Renderer();
 
-            MatrixStack<float> stack;
-            Math::vec2i dimensions;
+			MatrixStack<float> stack;
+			Math::vec2i dimensions;
 
-          public:
+		  public:
 
-            static Renderer& GetInstance()
-            {
-                static Renderer instance;
-                return instance;
-            }
-            
-            void GetRendererInformation();
+			static Renderer& GetInstance() {
+				static Renderer instance;
+				return instance;
+			}
 
-            MatrixStack<float>& GetMatrixStack();
+			void GetRendererInformation();
 
-            Math::Vector3<float> GetScreenCoords(const Math::Vector3<float>& worldPosition);
-            Math::Vector3<float> GetWorldCoords(const Math::Vector3<float>& windowPosition);
+			MatrixStack<float>& GetMatrixStack();
 
-            Geometry::Ray<float> GetCursorRay(const Math::vec2i& mousePosition);
+			Math::Vector3<float> GetScreenCoords(const Math::Vector3<float>& worldPosition);
+			Math::Vector3<float> GetWorldCoords(const Math::Vector3<float>& windowPosition);
 
-            void Enter2DMode();
-            void Exit2DMode();
+			Geometry::Ray<float> GetCursorRay(const Math::vec2i& mousePosition);
 
-            /**
-             * Clear buffers - color, depth or stencil. If the method is invoked
-             * without any parameter, by default it clears all buffers.
-             * TODO: This method should be rewritten to support both OpenGL and
-             * DirectX.
-             * @param buffers This parameter is a bitfield.
-             * The values can be GL_COLOR_BUFFER_BIT, GL_DEPTH_BUFFER_BIT,
-             * GL_STENCIL_BUFFER_BIT.
-             */
-            void ClearBuffers(unsigned int buffers = GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+			void Enter2DMode();
+			void Exit2DMode();
 
-            /**
-             * Set background color. When rendering API is OpenGL this method
-             * invokes glClearColor with provided parameters.
-             * TODO: Add support to DirectX.
-             * @param red Red color component from 0.0f to 1.0f.
-             * @param green Green color component from 0.0f to 1.0f.
-             * @param blue Blue color component from 0.0f to 1.0f.
-             * @param alpha Alpha component from 0.0f to 1.0f.
-             */
-            void ClearColor(float red, float green, float blue, float alpha);
+			/**
+			 * Clear buffers - color, depth or stencil. If the method is invoked
+			 * without any parameter, by default it clears all buffers.
+			 * TODO: This method should be rewritten to support both OpenGL and
+			 * DirectX.
+			 * @param buffers This parameter is a bitfield.
+			 * The values can be GL_COLOR_BUFFER_BIT, GL_DEPTH_BUFFER_BIT,
+			 * GL_STENCIL_BUFFER_BIT.
+			 */
+			void ClearBuffers(unsigned int buffers = GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-            /**
-             * Set background color. When rendering API is OpenGL this method
-             * invokes glClearColor with provided parameters.
-             * @param color Color vector with componenets between 0.0f to 1.0f,
-             * where x is red, y is green, z is blue and w is alpha.
-             */
-            void ClearColor(const Math::Vector4<float>& color);
+			/**
+			 * Set background color. When rendering API is OpenGL this method
+			 * invokes glClearColor with provided parameters.
+			 * TODO: Add support to DirectX.
+			 * @param red Red color component from 0.0f to 1.0f.
+			 * @param green Green color component from 0.0f to 1.0f.
+			 * @param blue Blue color component from 0.0f to 1.0f.
+			 * @param alpha Alpha component from 0.0f to 1.0f.
+			 */
+			void ClearColor(float red, float green, float blue, float alpha);
 
-            void SetDimensions(const Math::vec2i& dimensions);
-            Math::vec2i& GetDimensions();
-        };
-    }
+			/**
+			 * Set background color. When rendering API is OpenGL this method
+			 * invokes glClearColor with provided parameters.
+			 * @param color Color vector with componenets between 0.0f to 1.0f,
+			 * where x is red, y is green, z is blue and w is alpha.
+			 */
+			void ClearColor(const Math::Vector4<float>& color);
+
+			void SetDimensions(const Math::vec2i& dimensions);
+			Math::vec2i& GetDimensions();
+		};
+	}
 }
 
 #endif	/* RENDERER_HPP */

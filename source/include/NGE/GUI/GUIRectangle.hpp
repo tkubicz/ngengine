@@ -18,89 +18,86 @@
 #include "NGE/GUI/GUITexCoordDescriptor.hpp"
 #include <string>
 
-namespace NGE
-{
-    namespace GUI
-    {
+namespace NGE {
+	namespace GUI {
 
-        class GUIRectangle
-        {
-        protected:
-            GUIRectangle* parent;
+		class GUIRectangle {
+		  protected:
+			GUIRectangle* parent;
 
-            Math::vec4i windowBounds;
-            Math::vec2i position, dimensions, lastMousePosition;
-            bool mouseOver, released, focused, pressed, clicked, visible, active, update;
-            int lastAction, widgetType, anchor, z;
-            std::string callbackString;
+			Math::vec4i windowBounds;
+			Math::vec2i position, dimensions, lastMousePosition;
+			bool mouseOver, released, focused, pressed, clicked, visible, active, update;
+			int lastAction, widgetType, anchor, z;
+			std::string callbackString;
 
-        public:
-            GUIRectangle(const char* callback = NULL);
+		  public:
+			GUIRectangle(const char* callback = NULL);
 
-            void SetCallbackString(const std::string& callback);
-            void SetCallbackString(const char* callback);
-            const std::string& GetCallbackString();
+			void SetCallbackString(const std::string& callback);
+			void SetCallbackString(const char* callback);
+			const std::string& GetCallbackString();
 
-            virtual void SetParent(GUIRectangle* parent);
-            virtual GUIRectangle* GetParent();
+			virtual void SetParent(GUIRectangle* parent);
+			virtual GUIRectangle* GetParent();
 
-            bool LoadXMLSettings(const pugi::xml_node& node);
+			bool LoadXMLSettings(const pugi::xml_node& node);
 
-            void SetDimensions(int width, int height);
-            void SetDimensions(const Math::vec2i& dimensions);
-            const Math::vec2i& GetDimensions();
+			void SetDimensions(int width, int height);
+			void SetDimensions(const Math::vec2i& dimensions);
+			const Math::vec2i& GetDimensions();
 
-            void SetPosition(int xPos, int yPos);
-            void SetPosition(const Math::vec2i& position);
-            const Math::vec2i& GetPosition();
+			void SetPosition(int xPos, int yPos);
+			void SetPosition(const Math::vec2i& position);
+			const Math::vec2i& GetPosition();
 
-            virtual Math::vec2i GetCenter();
+			virtual Math::vec2i GetCenter();
 
-            int GetWidth();
-            int GetHeight();
+			int GetWidth();
+			int GetHeight();
 
-            void SetActive(bool active);
-            bool IsActive();
+			void SetActive(bool active);
+			bool IsActive();
 
-            void SetAnchorPoint(const std::string& anchor);
-            void SetAnchorPoint(int anchor);
-            int GetAnchorPoint();
+			void SetAnchorPoint(const std::string& anchor);
+			void SetAnchorPoint(int anchor);
+			int GetAnchorPoint();
 
-            virtual void ForceUpdate(bool update);
+			virtual void ForceUpdate(bool update);
 
-            void SetVisible(bool visible);
-            bool IsVisible();
+			void SetVisible(bool visible);
+			bool IsVisible();
 
-            bool IsAttached();
-            int GetWidgetType();
+			bool IsAttached();
+			int GetWidgetType();
 
-            virtual void CheckMouseEvents(Events::MouseEvent& event);
-            virtual void CheckKeyboardEvents(Events::KeyboardEvent& event);
-            
-            virtual void Update(float dt) = 0;
-            virtual void Render() = 0;
+			virtual void CheckMouseEvents(Events::MouseEvent& event);
+			virtual void CheckKeyboardEvents(Events::KeyboardEvent& event);
 
-            virtual GUITexCoordDescriptior* GetTexCoordsInfo(int type);
-            virtual Events::GUIEventListener* GetEventsListener();
-            
-            virtual void EnableGUITexture();
-            virtual void DisableGUITexture();
-            
-            virtual void SetZCoordinate(int z);
-            virtual int GetZCoordinate();
+			virtual void Update(float dt) = 0;
+			virtual void Render() = 0;
 
-            virtual const void ComputeWindowBounds();
-            virtual const Math::vec4i& GetWindowBounds();
+			virtual GUITexCoordDescriptior* GetTexCoordsInfo(int type);
+			virtual Events::GUIEventListener* GetEventsListener();
 
-            bool EventDetected();
-            bool IsMouseOver();
-            bool isReleased();
-            bool IsFocused();
-            bool IsDragged();
-            bool IsClicked();
-            bool IsPressed();
-        };
-    }
+			virtual void EnableGUITexture();
+			virtual void DisableGUITexture();
+
+			virtual void SetZCoordinate(int z);
+			virtual int GetZCoordinate();
+
+			virtual const void ComputeWindowBounds();
+			virtual const Math::vec4i& GetWindowBounds();
+
+			bool EventDetected();
+			bool IsMouseOver();
+			bool isReleased();
+			bool IsFocused();
+			bool IsDragged();
+			bool IsClicked();
+			bool IsPressed();
+		};
+	}
 }
 
 #endif	/* GUIRECTANGLE_HPP */

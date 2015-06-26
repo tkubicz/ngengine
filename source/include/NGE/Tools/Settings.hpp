@@ -18,7 +18,7 @@
  * used in productive environment.
  */
 #ifndef NGE_DEBUG
-    #define NGE_DEBUG
+#define NGE_DEBUG
 #endif
 
 /**
@@ -26,7 +26,7 @@
  * libjpeg is used for JPEG and JPG image loader (JpegImage class)
  */
 #ifndef NGE_LIB_JPEG
-    #define NGE_LIB_JPEG true
+#define NGE_LIB_JPEG true
 #endif
 
 /**

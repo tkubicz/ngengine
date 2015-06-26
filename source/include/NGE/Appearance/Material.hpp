@@ -8,107 +8,88 @@
 #ifndef MATERIAL_HPP
 #define	MATERIAL_HPP
 
-namespace NGE
-{
-    namespace Appearance
-    {
+namespace NGE {
+	namespace Appearance {
 
-        class Material
-        {
-          public:
+		class Material {
+		  public:
 
-            Material() { }
+			Material() { }
 
-            void SetAmbientColor(const Math::vec4f& color)
-            {
-                ambientColor = color;
-            }
+			void SetAmbientColor(const Math::vec4f& color) {
+				ambientColor = color;
+			}
 
-            void SetAmbientColor(float r, float g, float b, float a)
-            {
-                ambientColor = Math::vec4f(r, g, b, a);
-            }
+			void SetAmbientColor(float r, float g, float b, float a) {
+				ambientColor = Math::vec4f(r, g, b, a);
+			}
 
-            Math::vec4f GetAmbientColor()
-            {
-                return ambientColor;
-            }
+			Math::vec4f GetAmbientColor() {
+				return ambientColor;
+			}
 
-            void SetDiffuseColor(const Math::vec4f& color)
-            {
-                diffuseColor = color;
-            }
+			void SetDiffuseColor(const Math::vec4f& color) {
+				diffuseColor = color;
+			}
 
-            void SetDiffuseColor(float r, float g, float b, float a)
-            {
-                diffuseColor = Math::vec4f(r, g, b, a);
-            }
+			void SetDiffuseColor(float r, float g, float b, float a) {
+				diffuseColor = Math::vec4f(r, g, b, a);
+			}
 
-            Math::vec4f GetDiffuseColor()
-            {
-                return diffuseColor;
-            }
+			Math::vec4f GetDiffuseColor() {
+				return diffuseColor;
+			}
 
-            void SetSpecularColor(const Math::vec4f& color)
-            {
-                specularColor = color;
-            }
+			void SetSpecularColor(const Math::vec4f& color) {
+				specularColor = color;
+			}
 
-            void SetSpecularColor(float r, float g, float b, float a)
-            {
-                specularColor = Math::vec4f(r, g, b, a);
-            }
+			void SetSpecularColor(float r, float g, float b, float a) {
+				specularColor = Math::vec4f(r, g, b, a);
+			}
 
-            Math::vec4f GetSpecularColor()
-            {
-                return specularColor;
-            }
+			Math::vec4f GetSpecularColor() {
+				return specularColor;
+			}
 
-            void SetEmissiveColor(const Math::vec4f& color)
-            {
-                emissiveColor = color;
-            }
+			void SetEmissiveColor(const Math::vec4f& color) {
+				emissiveColor = color;
+			}
 
-            void SetEmissiveColor(float r, float g, float b, float a)
-            {
-                emissiveColor = Math::vec4f(r, g, b, a);
-            }
+			void SetEmissiveColor(float r, float g, float b, float a) {
+				emissiveColor = Math::vec4f(r, g, b, a);
+			}
 
-            Math::vec4f GetEmissiveColor()
-            {
-                return emissiveColor;
-            }
+			Math::vec4f GetEmissiveColor() {
+				return emissiveColor;
+			}
 
-            void SetShininess(float exponent)
-            {
-                shininess = exponent;
-            }
+			void SetShininess(float exponent) {
+				shininess = exponent;
+			}
 
-            float GetShininess()
-            {
-                return shininess;
-            }
+			float GetShininess() {
+				return shininess;
+			}
 
-            std::string GetName()
-            {
-                return name;
-            }
+			std::string GetName() {
+				return name;
+			}
 
-            void SetName(const std::string& name)
-            {
-                this->name = name;
-            }
+			void SetName(const std::string& name) {
+				this->name = name;
+			}
 
-          protected:
-            Math::vec4f ambientColor;
-            Math::vec4f diffuseColor;
-            Math::vec4f specularColor;
-            Math::vec4f emissiveColor;
-            float shininess;
+		  protected:
+			Math::vec4f ambientColor;
+			Math::vec4f diffuseColor;
+			Math::vec4f specularColor;
+			Math::vec4f emissiveColor;
+			float shininess;
 
-            std::string name;
-        };
-    }
+			std::string name;
+		};
+	}
 }
 
 #endif	/* MATERIAL_HPP */

@@ -12,135 +12,118 @@
 #include "NGE/Appearance/Scene/MeshAnim.hpp"
 
 
-namespace NGE
-{
-    namespace Appearance
-    {
-        namespace Scene
-        {
+namespace NGE {
+	namespace Appearance {
+		namespace Scene {
 
-            /**
-             * An animation consists of keyframe data for a number of nodes. For
-             * each node affected by the animation a separate series of data is given.
-             */
-            class Animation
-            {
-              public:
+			/**
+			 * An animation consists of keyframe data for a number of nodes. For
+			 * each node affected by the animation a separate series of data is given.
+			 */
+			class Animation {
+			  public:
 
-                Animation() : duration(-1.0) { }
+				Animation() : duration(-1.0) { }
 
-                virtual ~Animation()
-                {
-                    if (numChannels && channels)
-                    {
-                        for (unsigned int i = 0; i < numChannels; ++i)
-                            delete channels[i];
+				virtual ~Animation() {
+					if (numChannels && channels) {
+						for (unsigned int i = 0; i < numChannels; ++i)
+							delete channels[i];
 
-                        delete[] channels;
-                    }
+						delete[] channels;
+					}
 
-                    if (numMeshChannels && meshChannels)
-                    {
-                        for (unsigned int i = 0; i < numMeshChannels; ++i)
-                            delete meshChannels[i];
+					if (numMeshChannels && meshChannels) {
+						for (unsigned int i = 0; i < numMeshChannels; ++i)
+							delete meshChannels[i];
 
-                        delete[] meshChannels;
-                    }
-                }
+						delete[] meshChannels;
+					}
+				}
 
-                std::string GetName() const
-                {
-                    return name;
-                }
+				std::string GetName() const {
+					return name;
+				}
 
-                void SetName(const std::string& name)
-                {
-                    this->name = name;
-                }
+				void SetName(const std::string& name) {
+					this->name = name;
+				}
 
-                double GetDuration() const
-                {
-                    return duration;
-                }
+				double GetDuration() const {
+					return duration;
+				}
 
-                void SetDuration(double duration)
-                {
-                    this->duration = duration;
-                }
+				void SetDuration(double duration) {
+					this->duration = duration;
+				}
 
-                double GetTicksPerSecond() const
-                {
-                    return ticksPerSecond;
-                }
+				double GetTicksPerSecond() const {
+					return ticksPerSecond;
+				}
 
-                void SetTicksPerSecond(double ticksPerSecond)
-                {
-                    this->ticksPerSecond = ticksPerSecond;
-                }
+				void SetTicksPerSecond(double ticksPerSecond) {
+					this->ticksPerSecond = ticksPerSecond;
+				}
 
-                unsigned int GetNumChannels() const
-                {
-                    return numChannels;
-                }
+				unsigned int GetNumChannels() const {
+					return numChannels;
+				}
 
-                void SetNumChannels(unsigned int numChannels)
-                {
-                    this->numChannels = numChannels;
-                }
-                
-                NodeAnim** GetChannels()
-                {
-                    return channels;
-                }
-                
-                void SetChannels(NodeAnim** channels)
-                {
-                    this->channels = channels;
-                }
+				void SetNumChannels(unsigned int numChannels) {
+					this->numChannels = numChannels;
+				}
 
-              protected:
-                /**
-                 * The name of the animation. If the modeling package this data was
-                 * exported from does support only a single animation channel, this
-                 * name is usually empty.
-                 */
-                std::string name;
+				NodeAnim** GetChannels() {
+					return channels;
+				}
 
-                /**
-                 * Duration of the animation in ticks.
-                 */
-                double duration;
+				void SetChannels(NodeAnim** channels) {
+					this->channels = channels;
+				}
 
-                /**
-                 * Ticks per second. 0 if not specified in the imported file.
-                 */
-                double ticksPerSecond;
+			  protected:
+				/**
+				 * The name of the animation. If the modeling package this data was
+				 * exported from does support only a single animation channel, this
+				 * name is usually empty.
+				 */
+				std::string name;
 
-                /**
-                 * The number of bone animation channels. Each channel affects a single node.
-                 */
-                unsigned int numChannels;
+				/**
+				 * Duration of the animation in ticks.
+				 */
+				double duration;
 
-                /**
-                 * The node animation channels. Each channel affects a single node.
-                 * The array is numChannels in size.
-                 */
-                NodeAnim** channels;
+				/**
+				 * Ticks per second. 0 if not specified in the imported file.
+				 */
+				double ticksPerSecond;
 
-                /**
-                 * The number of mesh animation channels. Each channel affects a single
-                 * mesh and defines vertex-based animation.
-                 */
-                unsigned int numMeshChannels;
+				/**
+				 * The number of bone animation channels. Each channel affects a single node.
+				 */
+				unsigned int numChannels;
 
-                /**
-                 * The mesh animation channels. Each channel affects a single mesh.
-                 * The array is numMeshChannels in size.
-                 */
-                MeshAnim** meshChannels;
-            };
-        }
-    }
+				/**
+				 * The node animation channels. Each channel affects a single node.
+				 * The array is numChannels in size.
+				 */
+				NodeAnim** channels;
+
+				/**
+				 * The number of mesh animation channels. Each channel affects a single
+				 * mesh and defines vertex-based animation.
+				 */
+				unsigned int numMeshChannels;
+
+				/**
+				 * The mesh animation channels. Each channel affects a single mesh.
+				 * The array is numMeshChannels in size.
+				 */
+				MeshAnim** meshChannels;
+			};
+		}
+	}
 }
 
 #endif	/* ANIMATION_HPP */

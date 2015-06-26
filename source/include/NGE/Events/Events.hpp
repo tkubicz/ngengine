@@ -23,7 +23,7 @@
 #ifndef MOUSEEVENT_HPP
 #include "MouseEvent.hpp"
 #endif
-        
+
 
 #endif	/* EVENTS_HPP */
 

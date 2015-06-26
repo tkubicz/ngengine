@@ -12,44 +12,41 @@
 #include "NGE/GUI/GUITypes.hpp"
 #include "NGE/Parsers/pugixml.hpp"
 
-namespace NGE
-{
-    namespace GUI
-    {
+namespace NGE {
+	namespace GUI {
 
-        class GUISeparator : public GUIRectangle
-        {
-        public:
-            GUISeparator(Orientation orientation = HORIZONTAL);
-            
-            virtual bool LoadXMLSettings(const pugi::xml_node& node);
-            
-            virtual void Update(float dt);
-            virtual void Render();
+		class GUISeparator : public GUIRectangle {
+		  public:
+			GUISeparator(Orientation orientation = HORIZONTAL);
 
-            virtual const Math::vec4i& GetWindowBounds();
-            virtual const void ComputeWindowBounds();
+			virtual bool LoadXMLSettings(const pugi::xml_node& node);
 
-            void SetOrientation(Orientation orientation);
-            void SetOrientation(const std::string& orientation);
-            Orientation GetOrientation();
-            
-            void SetColor(float r, float g, float b);
-            const Math::vec3f& GetColor();
+			virtual void Update(float dt);
+			virtual void Render();
 
-            void SetRatio(float ratio);
-            float GetRatio();
+			virtual const Math::vec4i& GetWindowBounds();
+			virtual const void ComputeWindowBounds();
 
-        private:
-            Orientation orientation;
-            float ratio;
-            Math::vec3f color;
-            
-            Media::Shaders::GLSLProgram* shader;
-            GLuint vertexBuffer;
-            Math::vec4f vertices[2];
-        };
-    }
+			void SetOrientation(Orientation orientation);
+			void SetOrientation(const std::string& orientation);
+			Orientation GetOrientation();
+
+			void SetColor(float r, float g, float b);
+			const Math::vec3f& GetColor();
+
+			void SetRatio(float ratio);
+			float GetRatio();
+
+		  private:
+			Orientation orientation;
+			float ratio;
+			Math::vec3f color;
+
+			Media::Shaders::GLSLProgram* shader;
+			GLuint vertexBuffer;
+			Math::vec4f vertices[2];
+		};
+	}
 }
 
 #endif	/* GUISEPARATOR_HPP */

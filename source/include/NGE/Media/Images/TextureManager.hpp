@@ -14,31 +14,28 @@
 #include "NGE/Media/Images/Texture.hpp"
 #include "NGE/Parsers/pugixml.hpp"
 
-namespace NGE
-{
-    namespace Media
-    {
-        namespace Images
-        {
-            class TextureManager
-            {
-              public:
-                void Initialize();
-                void Deinitialize();
+namespace NGE {
+	namespace Media {
+		namespace Images {
 
-                bool AddTexture(const std::string& name, Texture* texture);
-                
-                bool LoadTexture(const pugi::xml_node& node);
-                Texture* GetTexture(const std::string& name);
-                Texture* GetTexture(const pugi::xml_node& node);
+			class TextureManager {
+			  public:
+				void Initialize();
+				void Deinitialize();
 
-                int GetTextureCount();
+				bool AddTexture(const std::string& name, Texture* texture);
 
-              private:
-                std::map<std::string, Texture*> textures;
-            };
-        }
-    }
+				bool LoadTexture(const pugi::xml_node& node);
+				Texture* GetTexture(const std::string& name);
+				Texture* GetTexture(const pugi::xml_node& node);
+
+				int GetTextureCount();
+
+			  private:
+				std::map<std::string, Texture*> textures;
+			};
+		}
+	}
 }
 
 #endif	/* TEXTUREMANAGER_HPP */

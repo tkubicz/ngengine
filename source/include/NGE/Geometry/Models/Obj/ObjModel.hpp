@@ -8,27 +8,23 @@
 #ifndef OBJMODEL_HPP
 #define	OBJMODEL_HPP
 
-namespace NGE
-{
-    namespace Geometry
-    {
-        namespace Models
-        {
-            namespace Obj
-            {
-                class ObjModel
-                {
-                  public:
-                    /**
-                     * Default constructor.
-                     */
-                    ObjModel();
-                    
-                    //virtual ~
-                };
-            }
-        }
-    }
+namespace NGE {
+	namespace Geometry {
+		namespace Models {
+			namespace Obj {
+
+				class ObjModel {
+				  public:
+					/**
+					 * Default constructor.
+					 */
+					ObjModel();
+
+					//virtual ~
+				};
+			}
+		}
+	}
 }
 
 #endif	/* OBJMODEL_HPP */

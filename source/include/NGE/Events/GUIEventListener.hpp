@@ -10,16 +10,14 @@
 
 #include "NGE/GUI/GUIEvent.hpp"
 
-namespace NGE
-{
-    namespace Events
-    {
-        class GUIEventListener
-        {
-        public:
-            virtual void ActionPerformed(GUI::GUIEvent& event) = 0;
-        };
-    }
+namespace NGE {
+	namespace Events {
+
+		class GUIEventListener {
+		  public:
+			virtual void ActionPerformed(GUI::GUIEvent& event) = 0;
+		};
+	}
 }
 
 #endif	/* GUIEVENTLISTENER_HPP */

@@ -12,53 +12,49 @@
 #include "NGE/Math/Matrix4.hpp"
 #include "NGE/Math/Vector3.hpp"
 
-namespace NGE
-{
-    namespace Physics
-    {
-        namespace RigidBody
-        {
-            class IntersectionTests;
-            class CollisionDetector;
+namespace NGE {
+	namespace Physics {
+		namespace RigidBody {
+			class IntersectionTests;
+			class CollisionDetector;
 
-            /**
-             * Klasa reprezentująca obiekt do detekcji kolizjii
-             */
-            class CollisionPrimitive
-            {
-              public:
-                friend class IntersectionTests;
-                friend class CollisionDetector;
+			/**
+			 * Klasa reprezentująca obiekt do detekcji kolizjii
+			 */
+			class CollisionPrimitive {
+			  public:
+				friend class IntersectionTests;
+				friend class CollisionDetector;
 
-                /**
-                 * Ciało sztywne reprezentowane przez ten prymityw.
-                 */
-                RigidBody* body;
+				/**
+				 * Ciało sztywne reprezentowane przez ten prymityw.
+				 */
+				RigidBody* body;
 
-                /**
-                 * Offset prymitywu od ciała sztywnego.
-                 */
-                Math::mat4f offset;
+				/**
+				 * Offset prymitywu od ciała sztywnego.
+				 */
+				Math::mat4f offset;
 
-                void CalculateInternals();
+				void CalculateInternals();
 
-                /**
-                 * Metoda dostępu do wektorów osi w macierzy transformacji.
-                 */
-                Math::vec3f GetAxis(unsigned index) const;
+				/**
+				 * Metoda dostępu do wektorów osi w macierzy transformacji.
+				 */
+				Math::vec3f GetAxis(unsigned index) const;
 
-                /**
-                 * Zwrócenie macierzy transformacji obliczonej z połączenia
-                 * offsetu i transformacji (orientacja + pozycja) ciała sztywnego
-                 * które jest przypisane do tego prymitywu.
-                 */
-                const Math::mat4f& GetTransform() const;
+				/**
+				 * Zwrócenie macierzy transformacji obliczonej z połączenia
+				 * offsetu i transformacji (orientacja + pozycja) ciała sztywnego
+				 * które jest przypisane do tego prymitywu.
+				 */
+				const Math::mat4f& GetTransform() const;
 
-              protected:
-                Math::mat4f transform;
-            };
-        }
-    }
+			  protected:
+				Math::mat4f transform;
+			};
+		}
+	}
 }
 
 #endif	/* COLLISIONPRIMITIVE_HPP */

@@ -11,27 +11,23 @@
 #include "NGE/Physics/RigidBody/CollisionPrimitive.hpp"
 #include "NGE/Math/Vector3.hpp"
 
-namespace NGE
-{
-    namespace Physics
-    {
-        namespace RigidBody
-        {
+namespace NGE {
+	namespace Physics {
+		namespace RigidBody {
 
-            /**
-             * Reprezentacja ciała sztywnego które może być traktowane
-             * jako pudełko do wykrywania kolizjii.
-             */
-            class CollisionBox : public CollisionPrimitive
-            {
-              public:
-                /**
-                 * Połowa wielkości pudełka.
-                 */
-                Math::vec3f halfSize;
-            };
-        }
-    }
+			/**
+			 * Reprezentacja ciała sztywnego które może być traktowane
+			 * jako pudełko do wykrywania kolizjii.
+			 */
+			class CollisionBox : public CollisionPrimitive {
+			  public:
+				/**
+				 * Połowa wielkości pudełka.
+				 */
+				Math::vec3f halfSize;
+			};
+		}
+	}
 }
 
 #endif	/* COLLISIONBOX_P */

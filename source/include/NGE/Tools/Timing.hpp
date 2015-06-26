@@ -8,42 +8,41 @@
 #ifndef TIMING_HPP
 #define	TIMING_HPP
 
-namespace NGE
-{
-    namespace Tools
-    {
+namespace NGE {
+	namespace Tools {
 
-        class Timing
-        {
-        public:
-            unsigned frameNumber;
-            double lastFrameTimestamp;
-            double lastFrameDuration;
-            //unsigned long lastFrameClockstamp;
-            //unsigned long lastFrameClockTicks;
+		class Timing {
+		  public:
+			unsigned frameNumber;
+			double lastFrameTimestamp;
+			double lastFrameDuration;
+			//unsigned long lastFrameClockstamp;
+			//unsigned long lastFrameClockTicks;
 
-            bool isPaused;
+			bool isPaused;
 
-            double averageFrameDuration;
-            float fps;
+			double averageFrameDuration;
+			float fps;
 
-            static Timing& Get();
-            static void Update();
-            static void Initialize();
-            static void Deinitialize();
+			static Timing& Get();
+			static void Update();
+			static void Initialize();
+			static void Deinitialize();
 
-            static unsigned GetTime();
-            //static unsigned long GetClock();
+			static unsigned GetTime();
+			//static unsigned long GetClock();
 
-        private:
+		  private:
 
-            Timing() { }
+			Timing() { }
 
-            Timing(const Timing&) { }
+			Timing(const Timing&) { }
 
-            Timing& operator =(const Timing&) { return *this; }
-        };
-    }
+			Timing& operator=(const Timing&) {
+				return *this;
+			}
+		};
+	}
 }
 
 #endif	/* TIMING_HPP */

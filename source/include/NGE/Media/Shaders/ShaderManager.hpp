@@ -13,29 +13,26 @@
 #include "NGE/Media/Shaders/GLSLProgram.hpp"
 #include "NGE/Parsers/pugixml.hpp"
 
-namespace NGE
-{
-    namespace Media
-    {
-        namespace Shaders
-        {
-            class ShaderManager
-            {
-              public:
-                void Initialize();
-                void Deinitialize();
+namespace NGE {
+	namespace Media {
+		namespace Shaders {
 
-                bool LoadProgram(const std::string& programName, const std::string& fileName);
-                GLSLProgram* GetProgram(const std::string& name);
-                GLSLProgram* GetProgram(const pugi::xml_node& node);
-                
-                int GetProgramCount();
+			class ShaderManager {
+			  public:
+				void Initialize();
+				void Deinitialize();
 
-              private:
-                std::map<std::string, GLSLProgram> programs;
-            };
-        }
-    }
+				bool LoadProgram(const std::string& programName, const std::string& fileName);
+				GLSLProgram* GetProgram(const std::string& name);
+				GLSLProgram* GetProgram(const pugi::xml_node& node);
+
+				int GetProgramCount();
+
+			  private:
+				std::map<std::string, GLSLProgram> programs;
+			};
+		}
+	}
 }
 
 #endif	/* SHADERMANAGER_HPP */

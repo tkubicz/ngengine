@@ -18,45 +18,41 @@
 #include "NGE/Geometry/Basic/Basic.hpp"
 #include <vector>
 
-namespace NGE
-{
-    namespace Geometry
-    {
-        namespace Basic
-        {
+namespace NGE {
+	namespace Geometry {
+		namespace Basic {
 
-            class Sphere : public Basic
-            {
-              public:
+			class Sphere : public Basic {
+			  public:
 
-                bool Initialize();
-                bool Initialize(unsigned int slices, float radius, Media::Shaders::GLSLProgram* program = NULL);
+				bool Initialize();
+				bool Initialize(unsigned int slices, float radius, Media::Shaders::GLSLProgram* program = NULL);
 
-                virtual void Update(float deltaTime);
-                virtual void Render();
+				virtual void Update(float deltaTime);
+				virtual void Render();
 
-                void SetShader(Media::Shaders::GLSLProgram* shader);
-                void SetTexture(Media::Images::Texture* texture);
+				void SetShader(Media::Shaders::GLSLProgram* shader);
+				void SetTexture(Media::Images::Texture* texture);
 
-              protected:
+			  protected:
 
-                virtual void DeleteBuffers();
-                virtual void DeleteArrays();
+				virtual void DeleteBuffers();
+				virtual void DeleteArrays();
 
-              protected:
+			  protected:
 
-                virtual bool InitializeGeometry();
-                virtual bool InitializeVBO();
-                virtual bool InitializeVBA();
+				virtual bool InitializeGeometry();
+				virtual bool InitializeVBO();
+				virtual bool InitializeVBA();
 
-                unsigned int numberSlices;
-                float sphereRadius;
+				unsigned int numberSlices;
+				float sphereRadius;
 
-                Media::Shaders::GLSLProgram* shader;
-                Media::Images::Texture* texture;
-            };
-        }
-    }
+				Media::Shaders::GLSLProgram* shader;
+				Media::Images::Texture* texture;
+			};
+		}
+	}
 }
 
 #endif	/* SPHERE_HPP */

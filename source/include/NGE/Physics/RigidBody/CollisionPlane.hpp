@@ -8,33 +8,29 @@
 #ifndef COLLISIONPLANE_HPP
 #define	COLLISIONPLANE_HPP
 
-namespace NGE
-{
-    namespace Physics
-    {
-        namespace RigidBody
-        {
+namespace NGE {
+	namespace Physics {
+		namespace RigidBody {
 
-            /**
-             * Płaszczyzna nie jest primitywem - nie przedstawia ciała
-             * sztywnego. Jest używana do kontaktu z "nieporuszalnymi"
-             * elementami geometrii świata.
-             */
-            class CollisionPlane
-            {
-              public:
-                /**
-                 * Wektor normalny płaszczyzny.
-                 */
-                Math::vec3f direction;
+			/**
+			 * Płaszczyzna nie jest primitywem - nie przedstawia ciała
+			 * sztywnego. Jest używana do kontaktu z "nieporuszalnymi"
+			 * elementami geometrii świata.
+			 */
+			class CollisionPlane {
+			  public:
+				/**
+				 * Wektor normalny płaszczyzny.
+				 */
+				Math::vec3f direction;
 
-                /**
-                 * Odległość płaszczyzny od punktu początkowego.
-                 */
-                float offset;
-            };
-        }
-    }
+				/**
+				 * Odległość płaszczyzny od punktu początkowego.
+				 */
+				float offset;
+			};
+		}
+	}
 }
 
 #endif	/* COLLISIONPLANE_HPP */

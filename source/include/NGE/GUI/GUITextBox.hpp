@@ -15,60 +15,57 @@
 #include "NGE/Media/Fonts/FreeTypeFont.hpp"
 #include "NGE/Media/Shaders/GLSLProgram.hpp"
 
-namespace NGE
-{
-    namespace GUI
-    {
+namespace NGE {
+	namespace GUI {
 
-        class GUITextBox : public GUIAlphaElement
-        {
-          public:
-            GUITextBox(const char* callbackString = NULL, const char* fieldText = NULL);
-            virtual ~GUITextBox();
+		class GUITextBox : public GUIAlphaElement {
+		  public:
+			GUITextBox(const char* callbackString = NULL, const char* fieldText = NULL);
+			virtual ~GUITextBox();
 
-            virtual void Update(float dt);
-            virtual void Render();
+			virtual void Update(float dt);
+			virtual void Render();
 
-            virtual void CheckMouseEvents(Events::MouseEvent& event);
-            virtual void CheckKeyboardEvents(Events::KeyboardEvent& event);
+			virtual void CheckMouseEvents(Events::MouseEvent& event);
+			virtual void CheckKeyboardEvents(Events::KeyboardEvent& event);
 
-            virtual bool LoadXMLSettings(const pugi::xml_node& node);
-            virtual const Math::vec4i& GetWindowBounds();
+			virtual bool LoadXMLSettings(const pugi::xml_node& node);
+			virtual const Math::vec4i& GetWindowBounds();
 
-            void SetText(const std::string& text);
-            const std::string& GetText();
+			void SetText(const std::string& text);
+			const std::string& GetText();
 
-            bool TextChanged();
+			bool TextChanged();
 
-            void SetBordersColor(const Math::vec3f& color);
-            void SetBordersColor(float r, float g, float b);
-            const Math::vec3f& GetBordersColor();
+			void SetBordersColor(const Math::vec3f& color);
+			void SetBordersColor(float r, float g, float b);
+			const Math::vec3f& GetBordersColor();
 
-            void SetPadding(const Math::vec2i& padding);
-            void SetPadding(int x, int y);
-            const Math::vec2i& GetPadding();
+			void SetPadding(const Math::vec2i& padding);
+			void SetPadding(int x, int y);
+			const Math::vec2i& GetPadding();
 
 #ifdef NGE_USE_FREETYPE
-            void SetFont(Media::Fonts::FreeTypeFont* font);
-            Media::Fonts::FreeTypeFont* GetFont();
+			void SetFont(Media::Fonts::FreeTypeFont* font);
+			Media::Fonts::FreeTypeFont* GetFont();
 #endif
 
-          protected:
-            Math::vec2i padding;
-            Math::vec3f bordersColor, textColor;
-            float blinkerTimer;
-            bool blinkerOn;
-            int blinkerPosition, textStartIndex, textEndIndex;
-            Events::KeyboardEvent keyEvent;
+		  protected:
+			Math::vec2i padding;
+			Math::vec3f bordersColor, textColor;
+			float blinkerTimer;
+			bool blinkerOn;
+			int blinkerPosition, textStartIndex, textEndIndex;
+			Events::KeyboardEvent keyEvent;
 
-            GLuint vertexBuffer;
-            Media::Shaders::GLSLProgram* shader;
+			GLuint vertexBuffer;
+			Media::Shaders::GLSLProgram* shader;
 
-          private:
-            void SetupText(int type, char* info = NULL);
-            void SetupBlinker(int mouseX);
-        };
-    }
+		  private:
+			void SetupText(int type, char* info = NULL);
+			void SetupBlinker(int mouseX);
+		};
+	}
 }
 
 #endif	/* GUITEXTBOX_H */

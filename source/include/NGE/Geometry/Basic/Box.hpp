@@ -13,45 +13,41 @@
 #include "NGE/Media/Shaders/GLSLProgram.hpp"
 #include "NGE/Media/Images/Texture.hpp"
 
-namespace NGE
-{
-    namespace Geometry
-    {
-        namespace Basic
-        {
+namespace NGE {
+	namespace Geometry {
+		namespace Basic {
 
-            class Box : public Basic
-            {
-              public:
-                bool Initialize();
-                
-                /**
-                 * Zainicjowanie kostki
-                 * @param size Rozmiar boku kostki w jednostkach OpenGL. Domyślnie 1.0.
-                 * @return true - jeżeli wszystko się powiodło.
-                 */
-                bool Initialize(float size);
+			class Box : public Basic {
+			  public:
+				bool Initialize();
 
-                virtual void Update(float deltaTime);
-                virtual void Render();
+				/**
+				 * Zainicjowanie kostki
+				 * @param size Rozmiar boku kostki w jednostkach OpenGL. Domyślnie 1.0.
+				 * @return true - jeżeli wszystko się powiodło.
+				 */
+				bool Initialize(float size);
 
-                void SetShader(Media::Shaders::GLSLProgram* shader);
-                void SetTexture(Media::Images::Texture* texture);
+				virtual void Update(float deltaTime);
+				virtual void Render();
 
-              protected:
-                virtual void DeleteBuffers();
-                virtual void DeleteArrays();
-                
-                virtual bool InitializeGeometry();
-                virtual bool InitializeVBO();
-                virtual bool InitializeVBA();
+				void SetShader(Media::Shaders::GLSLProgram* shader);
+				void SetTexture(Media::Images::Texture* texture);
 
-                Media::Shaders::GLSLProgram* shader;
-                Media::Images::Texture* texture;
-                float boxSize;
-            };
-        }
-    }
+			  protected:
+				virtual void DeleteBuffers();
+				virtual void DeleteArrays();
+
+				virtual bool InitializeGeometry();
+				virtual bool InitializeVBO();
+				virtual bool InitializeVBA();
+
+				Media::Shaders::GLSLProgram* shader;
+				Media::Images::Texture* texture;
+				float boxSize;
+			};
+		}
+	}
 }
 
 #endif	/* BOX_HPP */

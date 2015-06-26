@@ -14,36 +14,33 @@
 #include <string>
 #include "NGE/Media/Images/Image.hpp"
 
-namespace NGE
-{
-    namespace Media
-    {
-        namespace Images
-        {
-            class PngImage : public Image
-            {
-              public:
-                PngImage();
-                virtual ~PngImage();
+namespace NGE {
+	namespace Media {
+		namespace Images {
 
-                bool Load(const std::string& fileName, bool suppressError = false);
-                void Unload();
+			class PngImage : public Image {
+			  public:
+				PngImage();
+				virtual ~PngImage();
 
-                unsigned int GetWidth() const;
-                unsigned int GetHeight() const;
-                unsigned int GetBitsPerPixel() const;
-                const unsigned char* GetImageData() const;
+				bool Load(const std::string& fileName, bool suppressError = false);
+				void Unload();
 
-              protected:
-                unsigned int width;
-                unsigned int height;
-                unsigned int bitsPerPixel;
-                unsigned int bytesPerPixel;
+				unsigned int GetWidth() const;
+				unsigned int GetHeight() const;
+				unsigned int GetBitsPerPixel() const;
+				const unsigned char* GetImageData() const;
 
-                std::vector<unsigned char> imageData;
-            };
-        }
-    }
+			  protected:
+				unsigned int width;
+				unsigned int height;
+				unsigned int bitsPerPixel;
+				unsigned int bytesPerPixel;
+
+				std::vector<unsigned char> imageData;
+			};
+		}
+	}
 }
 
 #endif

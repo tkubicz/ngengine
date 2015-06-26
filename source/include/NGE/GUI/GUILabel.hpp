@@ -11,22 +11,20 @@
 #include "NGE/GUI/GUIAlphaElement.hpp"
 #include "NGE/Parsers/pugixml.hpp"
 
-namespace NGE
-{
-    namespace GUI
-    {
-        class GUILabel : public GUIAlphaElement
-        {
-          public:
-            GUILabel(const char* labelString = NULL, const char* callbackString = NULL);
-            
-            virtual bool LoadXMLSettings(const pugi::xml_node& node);
-            virtual const Math::vec4i& GetWindowBounds();
-            
-            virtual void Update(float dt);
-            virtual void Render();
-        };
-    }
+namespace NGE {
+	namespace GUI {
+
+		class GUILabel : public GUIAlphaElement {
+		  public:
+			GUILabel(const char* labelString = NULL, const char* callbackString = NULL);
+
+			virtual bool LoadXMLSettings(const pugi::xml_node& node);
+			virtual const Math::vec4i& GetWindowBounds();
+
+			virtual void Update(float dt);
+			virtual void Render();
+		};
+	}
 }
 
 #endif	/* GUILABEL_HPP */

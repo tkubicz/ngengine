@@ -10,19 +10,17 @@
 
 #include "NGE/Media/Fonts/FreeTypeFont.hpp"
 
-namespace NGE
-{
-    namespace GUI
-    {
-        class GUIFont
-        {
-        public:
-            GUIFont(const std::string& path = NULL);
-            ~GUIFont();
-            
-            Media::Fonts::FreeTypeFont* GetFont();
-        };
-    }
+namespace NGE {
+	namespace GUI {
+
+		class GUIFont {
+		  public:
+			GUIFont(const std::string& path = NULL);
+			~GUIFont();
+
+			Media::Fonts::FreeTypeFont* GetFont();
+		};
+	}
 }
 
 #endif	/* GUIFONT_HPP */
