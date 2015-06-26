@@ -3,36 +3,34 @@
 
 #include "NGE/Events/MouseEvent.hpp"
 #include "NGE/Events/KeyboardEvent.hpp"
-#include "NGE/Windows/Window.hpp"
+#include "NGE/Windows/AbstractWindow.hpp"
 
-namespace NGE
-{
-    namespace Windows
-    {
-        class Application
-        {
-        public:
-            Application();
-            virtual ~Application();
+namespace NGE {
+	namespace Windows {
 
-            virtual bool Init();
-            virtual void Prepare(float dt);
-            virtual void Render();
-            virtual void Shutdown();
+		class Application {
+		  public:
+			Application();
+			virtual ~Application();
 
-            virtual void OnKeyPressed(Events::KeyboardEvent& event);
-            virtual void OnMouse(Events::MouseEvent& event);
-            virtual void OnMouseDrag(int x, int y);
+			virtual bool Init();
+			virtual void Prepare(float dt);
+			virtual void Render();
+			virtual void Shutdown();
 
-            virtual void OnResize(int width, int height);
-            
-            void SetWindow(Window* window);
-            Window* GetWindow();
-            
-            
-        protected:
-            Window* window;
-        };
-    }
+			virtual void OnKeyPressed(Events::KeyboardEvent& event);
+			virtual void OnMouse(Events::MouseEvent& event);
+			virtual void OnMouseDrag(int x, int y);
+
+			virtual void OnResize(int width, int height);
+
+			void SetWindow(AbstractWindow* window);
+			AbstractWindow* GetWindow();
+
+
+		  protected:
+			AbstractWindow* window;
+		};
+	}
 }
 #endif

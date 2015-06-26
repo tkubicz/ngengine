@@ -16,8 +16,7 @@ Application::Application() { }
 
 Application::~Application() { }
 
-bool Application::Init()
-{
+bool Application::Init() {
 	return true;
 }
 
@@ -33,30 +32,27 @@ void Application::OnMouse(NGE::Events::MouseEvent& event) { }
 
 void Application::OnMouseDrag(int x, int y) { }
 
-void Application::OnResize(int width, int height)
-{
-    window->SetSize(Math::vec2i(width, height));
-    glViewport(0, 0, width, height);
+void Application::OnResize(int width, int height) {
+	window->SetSize(Math::vec2i(width, height));
+	glViewport(0, 0, width, height);
 
-    Rendering::Renderer::GetInstance().GetMatrixStack().SetMatrixMode(PROJECTION_MATRIX);
-    Rendering::Renderer::GetInstance().GetMatrixStack().Identity();
+	Rendering::Renderer::GetInstance().GetMatrixStack().SetMatrixMode(PROJECTION_MATRIX);
+	Rendering::Renderer::GetInstance().GetMatrixStack().Identity();
 
-    Rendering::Renderer::GetInstance().SetDimensions(Math::vec2i(width, height));
+	Rendering::Renderer::GetInstance().SetDimensions(Math::vec2i(width, height));
 
-    Math::mat4f perspective;
-    perspective.SetPerspectiveProjection(52.0f, float(width) / float(height), 0.1f, 4000.0f);
-    Rendering::Renderer::GetInstance().GetMatrixStack().Multiple(perspective);
+	Math::mat4f perspective;
+	perspective.SetPerspectiveProjection(52.0f, float(width) / float(height), 0.1f, 4000.0f);
+	Rendering::Renderer::GetInstance().GetMatrixStack().Multiple(perspective);
 
-    Rendering::Renderer::GetInstance().GetMatrixStack().SetMatrixMode(MODELVIEW_MATRIX);
-    Rendering::Renderer::GetInstance().GetMatrixStack().Identity();
+	Rendering::Renderer::GetInstance().GetMatrixStack().SetMatrixMode(MODELVIEW_MATRIX);
+	Rendering::Renderer::GetInstance().GetMatrixStack().Identity();
 }
 
-void Application::SetWindow(Window* window)
-{
-    this->window = window;
+void Application::SetWindow(AbstractWindow* window) {
+	this->window = window;
 }
 
-Window* Application::GetWindow()
-{
-    return window;
+AbstractWindow* Application::GetWindow() {
+	return window;
 }

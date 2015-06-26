@@ -11,7 +11,7 @@
 #include "NGE/Core/Core.hpp"
 #include "NGE/Parsers/pugixml.hpp"
 #include "NGE/Windows/Application.hpp"
-#include "NGE/Windows/Window.hpp"
+#include "NGE/Windows/AbstractWindow.hpp"
 
 namespace NGE
 {
@@ -23,7 +23,7 @@ namespace NGE
          * systems. It is based on GLFWWindow class, which was used to use old
          * GLFW2 library.
          */
-        class GLFW3Window : public Windows::Window
+        class GLFW3Window : public Windows::AbstractWindow
         {
           public:
             GLFW3Window();
