@@ -11,6 +11,7 @@ using namespace NGE::Rendering;
 
 Renderer::Renderer() { }
 
+
 Renderer::Renderer(const Renderer&) { }
 
 Renderer::~Renderer() { }
