@@ -86,8 +86,10 @@ include_directories (${CMAKE_CURRENT_SOURCE_DIR}/source/src/NGE/)
 
 if (ANDROID)
 	set (EXTRA_LIBS ${EXTRA_LIBS} log)
-	set (EXTRA_LIBS ${EXTRA_LIBS} GLESv3)
 	set (EXTRA_LIBS ${EXTRA_LIBS} android)
+	set (EXTRA_LIBS ${EXTRA_LIBS} GLESv3)
+	set (EXTRA_LIBS ${EXTRA_LIBS} GLESv2)
+	set (EXTRA_LIBS ${EXTRA_LIBS} EGL)
 	set (EXTRA_LIBS ${EXTRA_LIBS} z)
 endif()
 
@@ -182,9 +184,13 @@ add_library(nge SHARED
 
 	source/src/NGE/Rendering/Camera/Camera.cpp
 	source/src/NGE/Rendering/Renderer.cpp
+
+	source/src/NGE/ThirdPart/android_native_app_glue.cpp
+
 	source/src/NGE/Tools/Logger.cpp
 	source/src/NGE/Tools/Random.cpp
 	source/src/NGE/Tools/Timing.cpp
+
 	source/src/NGE/Windows/Application.cpp
 	source/src/NGE/Windows/D3DWindow.cpp
 	source/src/NGE/Windows/GLFW3Window.cpp

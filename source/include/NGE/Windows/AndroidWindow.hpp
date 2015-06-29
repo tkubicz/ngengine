@@ -9,9 +9,11 @@
 #define ANDROIDWINDOW_HPP
 
 #include <string>
-#include "NGE/Windows/Window.hpp"
+#include "NGE/Windows/AbstractWindow.hpp"
 #include "NGE/Math/Vector2.hpp"
-#include "NGE/ThirdPart/android_native_app_glue.h"
+#include "NGE/ThirdPart/android_native_app_glue.hpp"
+
+#include <EGL/egl.h>
 
 namespace NGE {
 	namespace Windows {
@@ -19,7 +21,7 @@ namespace NGE {
 		/** 
 		 * Class that creates an Android application window
 		 */
-		class AndroidWindow : public Windows::Window {
+		class AndroidWindow : public Windows::AbstractWindow {
 		  public:
 			AndroidWindow();
 
@@ -65,8 +67,17 @@ namespace NGE {
 			virtual bool IsMouseCursorEnable();
 			virtual Math::vec2i GetMousePosition() const;
 
+			void setState(android_app* state) {
+				this->state = state;
+			}
+
 		  private:
-			struct android_app* androidApplication;
+			android_app* state;
+			EGLDisplay eglDisplay;
+			EGLContext eglContext;
+			EGLSurface eglSurface;
+			int width, height;
+			bool initialized;
 			bool isRunning;
 		};
 	}
