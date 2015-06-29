@@ -5,8 +5,8 @@
  * Created on 7 styczeń 2013, 00:58
  */
 
-#ifndef WINDOW_HPP
-#define	WINDOW_HPP
+#ifndef ABSTRACTWINDOW_HPP
+#define	ABSTRACTWINDOW_HPP
 
 #include <string>
 
@@ -66,5 +66,5 @@ namespace NGE {
 	}
 }
 
-#endif	/* WINDOW_HPP */
+#endif	/* ABSTRACTWINDOW_HPP */
 

@@ -16,6 +16,8 @@
 namespace NGE {
 	namespace Windows {
 
+		class GLFWwindow;
+
 		/**
 		 * Class that implements GLFW3 window managment under diffrent operation
 		 * systems. It is based on GLFWWindow class, which was used to use old

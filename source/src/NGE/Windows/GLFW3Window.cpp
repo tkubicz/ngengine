@@ -7,7 +7,6 @@
 #include <sstream>
 #include <cmath>
 
-
 using namespace NGE::Windows;
 
 Application* GLFW3Window::app = NULL;

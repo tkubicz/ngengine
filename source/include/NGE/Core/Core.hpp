@@ -16,4 +16,9 @@
 #include <GLFW/glfw3.h>
 #endif
 
+/** 
+ * Include Logger - it's accessable from any part of the code.
+ */
+#include "NGE/Tools/Logger.hpp"
+
 #endif	/* CORE_HPP */
