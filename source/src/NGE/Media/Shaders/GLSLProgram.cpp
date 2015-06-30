@@ -8,6 +8,7 @@ using namespace NGE::Media::Shaders;
 GLSLProgram::GLSLProgram(const string& vertexShader, const string& fragmentShader) {
 	this->vertexShader.filename = vertexShader;
 	this->fragmentShader.filename = fragmentShader;
+	this->xmlShader = false;
 }
 
 GLSLProgram::GLSLProgram(const pugi::xml_node& node) {
@@ -19,9 +20,9 @@ GLSLProgram::GLSLProgram(const pugi::xml_node& node) {
 bool GLSLProgram::SetShader(const string& vertexShaderPath, const string& fragmentShaderPath) {
 	this->vertexShader.filename = vertexShaderPath;
 	this->fragmentShader.filename = vertexShaderPath;
-	xmlShader = false;
+	this->xmlShader = false;
 
-	// TODO: Spradzi� czy to powinien by� bool, czy nie
+	// TODO: Check if this method realy should be boolean.
 	return true;
 }
 
@@ -76,17 +77,34 @@ void GLSLProgram::Unload() {
 }
 
 bool GLSLProgram::Initialize(bool autoBindAttribs) {
+	programId = -1;
 	programId = glCreateProgram();
+	if (programId == -1) {
+		Tools::Logger::WriteErrorLog("GLSL Shader --> Could not create program");
+		return false;
+	}
+
 	vertexShader.id = glCreateShader(GL_VERTEX_SHADER);
+	if (vertexShader.id == -1) {
+		Tools::Logger::WriteErrorLog("GLSL Shader --> Could not create vertex shader");
+		return false;
+	}
+
 	fragmentShader.id = glCreateShader(GL_FRAGMENT_SHADER);
+	if (fragmentShader.id == -1) {
+		Tools::Logger::WriteErrorLog("GLSL Shader --> Could not create fragment shader");
+		return false;
+	}
 
 	if (!xmlShader) {
 		vertexShader.source = ReadFile(vertexShader.filename);
 		fragmentShader.source = ReadFile(fragmentShader.filename);
 	}
 
-	if (vertexShader.source.empty() || fragmentShader.source.empty())
+	if (vertexShader.source.empty() || fragmentShader.source.empty()) {
+		Tools::Logger::WriteErrorLog("GLSL Shader --> Shader source code could not be empty");
 		return false;
+	}
 
 	const GLchar* temp = static_cast<const GLchar*> (vertexShader.source.c_str());
 	glShaderSource(vertexShader.id, 1, (const GLchar**) &temp, NULL);

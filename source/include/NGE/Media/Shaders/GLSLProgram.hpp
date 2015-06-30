@@ -34,6 +34,11 @@ namespace NGE {
 					unsigned int id;
 					string filename;
 					string source;
+
+					GLSLShader() {
+						id = -1;
+						filename = source = "";
+					}
 				};
 
 				struct UniformVariable {
