@@ -13,15 +13,7 @@ bool AndroidWindow::Create() {
 	eglContext = EGL_NO_CONTEXT;
 	eglSurface = EGL_NO_SURFACE;
 	width = height = 0;
-}
 
-bool AndroidWindow::Create(int width, int height, int bpp, bool fullscreen, const std::string& title, int fsaa, int openglMajor, int openglMinor) { }
-
-bool AndroidWindow::CreateSlave(bool visible) {
-	return false;
-}
-
-bool AndroidWindow::Init() {
 	// Initialize OpenGL ES and EGL
 
 	// Here we specify the attributes of the desired configuration.
@@ -42,7 +34,7 @@ bool AndroidWindow::Init() {
 
 	eglDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
 	eglInitialize(eglDisplay, NULL, NULL);
-	
+
 	Tools::Logger::WriteInfoLog("eglDisplay initialized");
 
 	// Here the application chooses the configuration it desires. We pick
@@ -77,6 +69,17 @@ bool AndroidWindow::Init() {
 	return true;
 }
 
+bool AndroidWindow::Create(int width, int height, int bpp, bool fullscreen, const std::string& title, int fsaa, int openglMajor, int openglMinor) { }
+
+bool AndroidWindow::CreateSlave(bool visible) {
+	return false;
+}
+
+bool AndroidWindow::Init() {
+	state->onAppCmd = AndroidWindow::handleCmd;
+	state->userData = static_cast<void*> (this);
+}
+
 void AndroidWindow::Destroy() {
 	initialized = false;
 
@@ -100,7 +103,20 @@ void AndroidWindow::SetMainWindowContext() { }
 
 void AndroidWindow::SetSlaveWindowContext() { }
 
-void AndroidWindow::ProcessEvents() { }
+void AndroidWindow::ProcessEvents() {
+	int events;
+	struct android_poll_source* source;
+	int ident = ALooper_pollAll(0, 0, &events, (void**) &source);
+	if (ident >= 0) {
+		if (source) {
+			source->process(state, source);
+		}
+
+		if (state->destroyRequested) {
+			//closing = true;
+		}
+	}
+}
 
 void AndroidWindow::SetInputCallbacks() { }
 

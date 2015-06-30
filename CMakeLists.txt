@@ -185,8 +185,6 @@ add_library(nge SHARED
 	source/src/NGE/Rendering/Camera/Camera.cpp
 	source/src/NGE/Rendering/Renderer.cpp
 
-	source/src/NGE/ThirdPart/android_native_app_glue.cpp
-
 	source/src/NGE/Tools/Logger.cpp
 	source/src/NGE/Tools/Random.cpp
 	source/src/NGE/Tools/Timing.cpp

@@ -36,7 +36,6 @@ namespace NGE {
 			virtual void Destroy();
 
 			virtual void SetMainWindowContext();
-			;
 			virtual void SetSlaveWindowContext();
 
 			virtual void ProcessEvents();

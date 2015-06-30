@@ -9,9 +9,9 @@
 #define ANDROIDWINDOW_HPP
 
 #include <string>
+#include "NGE/ThirdPart/android_native_app_glue.h"
 #include "NGE/Windows/AbstractWindow.hpp"
 #include "NGE/Math/Vector2.hpp"
-#include "NGE/ThirdPart/android_native_app_glue.hpp"
 
 #include <EGL/egl.h>
 
@@ -69,6 +69,49 @@ namespace NGE {
 
 			void setState(android_app* state) {
 				this->state = state;
+			}
+
+			static void handleCmd(struct android_app* app, int32_t cmd) {
+				switch (cmd) {
+					case APP_CMD_INIT_WINDOW:
+					{
+						AndroidWindow* window = static_cast<AndroidWindow*> (app->userData);
+						if (window != nullptr) {
+							window->Create();
+						}
+						break;
+					}
+
+					case APP_CMD_DESTROY:
+					{
+						AndroidWindow* window = static_cast<AndroidWindow*> (app->userData);
+						if (window != nullptr) {
+							window->Destroy();
+						}
+						break;
+					}
+
+					case APP_CMD_TERM_WINDOW:
+					{
+						AndroidWindow* window = static_cast<AndroidWindow*> (app->userData);
+						if (window != nullptr) {
+							window->Destroy();
+						}
+						break;
+					}
+
+					case APP_CMD_RESUME:
+					{
+						// TODO: Set paused to false
+						break;
+					}
+
+					case APP_CMD_PAUSE:
+					{
+						// TODO: Set paused to true
+						break;
+					}
+				}
 			}
 
 		  private:
