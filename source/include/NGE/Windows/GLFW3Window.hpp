@@ -13,10 +13,10 @@
 #include "NGE/Windows/Application.hpp"
 #include "NGE/Windows/AbstractWindow.hpp"
 
+class GLFWwindow;
+
 namespace NGE {
 	namespace Windows {
-
-		class GLFWwindow;
 
 		/**
 		 * Class that implements GLFW3 window managment under diffrent operation

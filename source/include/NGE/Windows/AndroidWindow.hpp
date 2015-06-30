@@ -8,12 +8,12 @@
 #ifndef ANDROIDWINDOW_HPP
 #define ANDROIDWINDOW_HPP
 
+#ifdef ANDROID
+
 #include <string>
-#include "NGE/ThirdPart/android_native_app_glue.h"
+#include "NGE/Core/Core.hpp"
 #include "NGE/Windows/AbstractWindow.hpp"
 #include "NGE/Math/Vector2.hpp"
-
-#include <EGL/egl.h>
 
 namespace NGE {
 	namespace Windows {
@@ -125,5 +125,7 @@ namespace NGE {
 		};
 	}
 }
+
+#endif /* ANDROID */
 
 #endif /* ANDROIDWINDOW_HPP */
