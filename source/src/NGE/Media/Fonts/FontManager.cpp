@@ -4,14 +4,14 @@
 
 using namespace NGE::Media::Fonts;
 
-void FontManager::Deinitialize() {
+void FontManager::deinitialize() {
 #ifdef NGE_USE_FREETYPE
 	for (std::map<std::string, FreeTypeFont*>::iterator i = fonts.begin(); i != fonts.end(); ++i)
 		delete i->second;
 #endif
 }
 
-bool FontManager::LoadFont(const pugi::xml_node& node) {
+bool FontManager::loadFont(const pugi::xml_node& node) {
 	if (node.empty() || std::string(node.name()) != "FreeTypeFont") {
 		Tools::Logger::WriteErrorLog("FontManager --> Need FreeTypeFont node");
 		return false;
@@ -28,7 +28,7 @@ bool FontManager::LoadFont(const pugi::xml_node& node) {
 		return true;
 	else {
 		FreeTypeFont* font = new FreeTypeFont();
-		std::vector<std::string> paths = MediaManager::getInstance().getMediaPathManager().GetPaths("font");
+		std::vector<std::string> paths = MediaManager::getInstance().getMediaPathManager().getPaths("font");
 
 		for (std::vector<std::string>::iterator i = paths.begin(); i != paths.end(); ++i) {
 			if (font->LoadXMLSettings(node, *i)) {
@@ -76,7 +76,7 @@ FreeTypeFont* FontManager::GetFont(const pugi::xml_node& node) {
 }
 #endif
 
-int FontManager::GetFontCount() {
+int FontManager::getFontCount() {
 #ifdef NGE_USE_FREETYPE
 	return fonts.size();
 #else

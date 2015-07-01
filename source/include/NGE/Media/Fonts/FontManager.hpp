@@ -19,16 +19,16 @@ namespace NGE {
 
 			class FontManager {
 			  public:
-				void Initialize();
-				void Deinitialize();
+				void initialize();
+				void deinitialize();
 
-				bool LoadFont(const pugi::xml_node& node);
+				bool loadFont(const pugi::xml_node& node);
 #ifdef NGE_USE_FREETYPE
 				FreeTypeFont* GetFont(const std::string& name);
 				FreeTypeFont* GetFont(const pugi::xml_node& node);
 #endif
 
-				int GetFontCount();
+				int getFontCount();
 
 			  private:
 #ifdef NGE_USE_FREETYPE

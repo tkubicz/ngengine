@@ -24,29 +24,29 @@ namespace NGE {
 				Texture& operator=(const Texture& copy);
 				~Texture();
 
-				bool LoadXMLSettings(const pugi::xml_node& node, const std::string& path);
+				bool loadXMLSettings(const pugi::xml_node& node, const std::string& path);
 
-				bool Load2DImage(const Image& image, GLuint clampS = GL_REPEAT, GLuint clampT = GL_REPEAT,
+				bool load2DImage(const Image& image, GLuint clampS = GL_REPEAT, GLuint clampT = GL_REPEAT,
 						GLuint magFilter = GL_LINEAR, GLuint minFilter = GL_LINEAR_MIPMAP_LINEAR,
 						GLuint internalFormat = GL_RGB, GLuint format = GL_RGB, bool mipmap = true);
 
-				bool LoadCubemap(const Image& positiveX, const Image& negativeX, const Image& positiveY, const Image& negativeY,
+				bool loadCubemap(const Image& positiveX, const Image& negativeX, const Image& positiveY, const Image& negativeY,
 						const Image& positiveZ, const Image& negativeZ, GLuint clampS = GL_CLAMP_TO_EDGE, GLuint clampT = GL_CLAMP_TO_EDGE,
 						GLuint magFilter = GL_LINEAR, GLuint minFilter = GL_LINEAR, GLuint internalFormat = GL_RGB, GLuint format = GL_RGB);
 
-				const bool Activate(int unit = -1);
-				const bool Deactivate();
+				const bool activate(int unit = -1);
+				const bool deactivate();
 
-				void SetID(GLuint textureID);
-				void SetTarget(GLuint target);
+				void setID(GLuint textureID);
+				void setTarget(GLuint target);
 
-				const GLuint GetID() const;
-				const GLuint GetTarget() const;
-				const GLuint GetHeight() const;
-				const GLuint GetWidth() const;
-				const GLuint GetSizeInBytes() const;
+				const GLuint getID() const;
+				const GLuint getTarget() const;
+				const GLuint getHeight() const;
+				const GLuint getWidth() const;
+				const GLuint getSizeInBytes() const;
 
-				void Destroy();
+				void destroy();
 
 			  protected:
 				GLuint height, width;
@@ -56,20 +56,20 @@ namespace NGE {
 				GLuint target, id;
 				int currentUnit;
 
-				int GetValidWrapMode(int clamp);
-				int GetValidWrapMode(const std::string& clamp);
+				int getValidWrapMode(int clamp);
+				int getValidWrapMode(const std::string& clamp);
 
-				int GetValidMagFilter(int filter);
-				int GetValidMagFilter(const std::string& filter);
+				int getValidMagFilter(int filter);
+				int getValidMagFilter(const std::string& filter);
 
-				int GetValidMinFilter(int filter);
-				int GetValidMinFilter(const std::string& filter);
+				int getValidMinFilter(int filter);
+				int getValidMinFilter(const std::string& filter);
 
-				int GetValidCubeMap(int type);
-				int GetValidCubeMap(const std::string& type);
+				int getValidCubeMap(int type);
+				int getValidCubeMap(const std::string& type);
 
-				int GetValidFormat(int type);
-				int GetValidFormat(const std::string& type);
+				int getValidFormat(int type);
+				int getValidFormat(const std::string& type);
 			};
 		}
 	}

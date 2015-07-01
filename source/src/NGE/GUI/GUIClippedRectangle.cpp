@@ -97,17 +97,17 @@ void GUIClippedRectangle::EnableBackgroundColor(bool enable) {
 
 void GUIClippedRectangle::SetTextureRectangle(float x, float y, float z, float w) {
 	if (x > 1.0f || y > 1.0f || z > 1.0f || w > 1.0f) {
-		if (texture->GetID()) {
-			x = Math::MathUtils::Clamp(x, 0.0f, (float) texture->GetWidth());
-			y = Math::MathUtils::Clamp(y, 0.0f, (float) texture->GetHeight());
-			z = Math::MathUtils::Clamp(z, 0.0f, (float) texture->GetWidth());
-			w = Math::MathUtils::Clamp(w, 0.0f, (float) texture->GetHeight());
+		if (texture->getID()) {
+			x = Math::MathUtils::Clamp(x, 0.0f, (float) texture->getWidth());
+			y = Math::MathUtils::Clamp(y, 0.0f, (float) texture->getHeight());
+			z = Math::MathUtils::Clamp(z, 0.0f, (float) texture->getWidth());
+			w = Math::MathUtils::Clamp(w, 0.0f, (float) texture->getHeight());
 
-			x /= texture->GetWidth();
-			z /= texture->GetWidth();
+			x /= texture->getWidth();
+			z /= texture->getWidth();
 
-			w /= texture->GetHeight();
-			y /= texture->GetHeight();
+			w /= texture->getHeight();
+			y /= texture->getHeight();
 		}
 	}
 
@@ -166,8 +166,8 @@ void GUIClippedRectangle::RenderClippedBounds() {
 		shader->sendUniform4x4("modelview_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX));
 		shader->sendUniform4x4("projection_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(PROJECTION_MATRIX));
 
-		if (drawBackground && texture && texture->GetID()) {
-			texture->Activate();
+		if (drawBackground && texture && texture->getID()) {
+			texture->activate();
 			shader->sendUniform("texture0", 0);
 			shader->sendUniform("guiType", 1);
 		} else
@@ -216,7 +216,7 @@ bool GUIClippedRectangle::LoadXMLClippedRectangleInfo(const pugi::xml_node& node
 		return false;
 
 	if (!node.child("Texture2D").empty()) {
-		texture = Media::MediaManager::getInstance().getTextureManager().GetTexture(node.child("Texture2D"));
+		texture = Media::MediaManager::getInstance().getTextureManager().getTexture(node.child("Texture2D"));
 	}
 
 	if (!node.child("TextureRectangle").empty()) {

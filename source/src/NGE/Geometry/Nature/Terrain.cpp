@@ -319,7 +319,7 @@ bool Terrain::LoadXMLSettings(const pugi::xml_node& node) {
 	if (!node.child("Textures").empty()) {
 		for (pugi::xml_node texNode : node.child("Textures").children()) {
 			if (std::string(texNode.name()) == "Texture2D") {
-				Media::Images::Texture* tex = Media::MediaManager::getInstance().getTextureManager().GetTexture(texNode);
+				Media::Images::Texture* tex = Media::MediaManager::getInstance().getTextureManager().getTexture(texNode);
 				if (tex != nullptr)
 					textures.push_back(tex);
 			}
@@ -362,7 +362,7 @@ void Terrain::Render() {
 	shader->sendUniform3x3("normal_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX).GetNormalMatrix());
 
 	for (short i = 0; i < textures.size(); ++i) {
-		textures[i]->Activate(i);
+		textures[i]->activate(i);
 		shader->sendUniform("texture" + to_string(i), i);
 	}
 

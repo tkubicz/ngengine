@@ -6,7 +6,7 @@
 
 using namespace NGE::Media;
 
-bool MediaPathManager::LoadXMLSettings(const pugi::xml_node& node) {
+bool MediaPathManager::loadXMLSettings(const pugi::xml_node& node) {
 	for (pugi::xml_node path = node.child("MediaPath"); path; path = path.next_sibling("MediaPath")) {
 		if (path.attribute("type").empty() || path.attribute("path").empty())
 			continue;
@@ -41,13 +41,13 @@ bool MediaPathManager::LoadXMLSettings(const pugi::xml_node& node) {
 // TODO: Zmodyfikować kod tak, by zwracać wskaźnik, a nie referencję z uwagi
 // na brak możliwości zwrócenia pustej referencji.
 
-std::vector<std::string>& MediaPathManager::GetPaths(std::string key) {
+std::vector<std::string>& MediaPathManager::getPaths(std::string key) {
 	std::map<std::string, std::vector<std::string> >::iterator i = mediaPaths.find(key);
 	if (i != mediaPaths.end())
 		return i->second;
 }
 
-int MediaPathManager::GetMediaPathCount() {
+int MediaPathManager::getMediaPathCount() {
 	int count = 0;
 	for (std::map<std::string, std::vector<std::string> >::iterator i = mediaPaths.begin(); i != mediaPaths.end(); ++i)
 		count += i->second.size();

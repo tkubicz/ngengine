@@ -24,7 +24,7 @@ bool TargaImage::IsUncompressedTarga(const TargaHeader& header) {
 	return (header.imageTypeCode == TFT_RGB || header.imageTypeCode == TFT_GRAYSCALE);
 }
 
-bool TargaImage::Load(const std::string& filename, bool suppressError) {
+bool TargaImage::load(const std::string& filename, bool suppressError) {
 	ifstream fileIn(filename.c_str(), std::ios::binary);
 
 	if (!fileIn.is_open()) {
@@ -77,7 +77,7 @@ bool TargaImage::Load(const std::string& filename, bool suppressError) {
 	return result;
 }
 
-void TargaImage::Unload() {
+void TargaImage::unload() {
 	imageData.clear();
 }
 
@@ -151,19 +151,19 @@ bool TargaImage::LoadUncompressedTarga(ifstream& fileIn) {
 	return true;
 }
 
-unsigned int TargaImage::GetWidth() const {
+unsigned int TargaImage::getWidth() const {
 	return width;
 }
 
-unsigned int TargaImage::GetHeight() const {
+unsigned int TargaImage::getHeight() const {
 	return height;
 }
 
-unsigned int TargaImage::GetBitsPerPixel() const {
+unsigned int TargaImage::getBitsPerPixel() const {
 	return bitsPerPixel;
 }
 
-const unsigned char* TargaImage::GetImageData() const {
+const unsigned char* TargaImage::getImageData() const {
 	return &imageData[0];
 }
 

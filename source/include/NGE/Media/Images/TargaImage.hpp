@@ -27,13 +27,13 @@ namespace NGE {
 				TargaImage();
 				virtual ~TargaImage();
 
-				bool Load(const std::string& filename, bool suppressError = false);
-				void Unload();
+				bool load(const std::string& filename, bool suppressError = false);
+				void unload();
 
-				unsigned int GetWidth() const;
-				unsigned int GetHeight() const;
-				unsigned int GetBitsPerPixel() const;
-				const unsigned char* GetImageData() const;
+				unsigned int getWidth() const;
+				unsigned int getHeight() const;
+				unsigned int getBitsPerPixel() const;
+				const unsigned char* getImageData() const;
 
 			  private:
 

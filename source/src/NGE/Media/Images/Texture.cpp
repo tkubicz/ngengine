@@ -18,7 +18,7 @@ Texture::Texture(const Texture& copy) {
 
 Texture& Texture::operator=(const Texture& copy) {
 	if (this != &copy) {
-		SetID(copy.id);
+		setID(copy.id);
 
 		currentUnit = copy.currentUnit;
 		target = copy.target;
@@ -30,10 +30,10 @@ Texture& Texture::operator=(const Texture& copy) {
 }
 
 Texture::~Texture() {
-	Destroy();
+	destroy();
 }
 
-bool Texture::LoadXMLSettings(const pugi::xml_node& node, const std::string& path) {
+bool Texture::loadXMLSettings(const pugi::xml_node& node, const std::string& path) {
 	std::string textureType(node.name());
 
 	std::string name = node.attribute("name").as_string();
@@ -45,15 +45,15 @@ bool Texture::LoadXMLSettings(const pugi::xml_node& node, const std::string& pat
 	pugi::xml_node wrapNode = node.child("Wrap");
 	GLuint wrapS = 0, wrapT = 0;
 	if (!wrapNode.empty() && !wrapNode.attribute("s").empty() && !wrapNode.attribute("t").empty()) {
-		wrapS = GetValidWrapMode(wrapNode.attribute("s").as_string());
-		wrapT = GetValidWrapMode(wrapNode.attribute("t").as_string());
+		wrapS = getValidWrapMode(wrapNode.attribute("s").as_string());
+		wrapT = getValidWrapMode(wrapNode.attribute("t").as_string());
 	}
 
 	pugi::xml_node filterNode = node.child("Filter");
 	GLuint magFilter = 0, minFilter = 0;
 	if (!filterNode.empty() && !filterNode.attribute("min").empty() && !filterNode.attribute("mag").empty()) {
-		magFilter = GetValidMagFilter(filterNode.attribute("mag").as_string());
-		minFilter = GetValidMinFilter(filterNode.attribute("min").as_string());
+		magFilter = getValidMagFilter(filterNode.attribute("mag").as_string());
+		minFilter = getValidMinFilter(filterNode.attribute("min").as_string());
 	}
 
 	std::string type = node.attribute("type").as_string();
@@ -61,8 +61,8 @@ bool Texture::LoadXMLSettings(const pugi::xml_node& node, const std::string& pat
 	pugi::xml_node formatNode = node.child("Format");
 	GLuint internalFormat = 0, format = 0;
 	if (!formatNode.empty() && !formatNode.attribute("internal").empty() && !formatNode.attribute("format").empty()) {
-		internalFormat = GetValidFormat(formatNode.attribute("internal").as_string());
-		format = GetValidFormat(formatNode.attribute("format").as_string());
+		internalFormat = getValidFormat(formatNode.attribute("internal").as_string());
+		format = getValidFormat(formatNode.attribute("format").as_string());
 	}
 
 	if (textureType == "Texture2D") {
@@ -77,13 +77,13 @@ bool Texture::LoadXMLSettings(const pugi::xml_node& node, const std::string& pat
 			Tools::Logger::WriteErrorLog("Currently only targa (type=\"tga\") image files are supported");
 			return false;
 		} else {
-			if (!image.Load(path + file, true))
+			if (!image.load(path + file, true))
 				return false;
 		}
 
 		bool mipmap = node.attribute("mipmap").empty() ? false : node.attribute("mipmap").as_bool();
 
-		return Load2DImage(image, wrapS, wrapT, magFilter, minFilter, internalFormat, format, mipmap);
+		return load2DImage(image, wrapS, wrapT, magFilter, minFilter, internalFormat, format, mipmap);
 	} else if (textureType == "TextureCubeMap") {
 		if (type != "tga") {
 			Tools::Logger::WriteErrorLog("Currently only targa (type=\"tga\") image files are supported");
@@ -101,28 +101,28 @@ bool Texture::LoadXMLSettings(const pugi::xml_node& node, const std::string& pat
 				}
 
 				if (target == "positive_x") {
-					if (!positiveX.Load(path + file, true))
+					if (!positiveX.load(path + file, true))
 						return false;
 				} else if (target == "positive_y") {
-					if (!positiveY.Load(path + file, true))
+					if (!positiveY.load(path + file, true))
 						return false;
 				} else if (target == "positive_z") {
-					if (!positiveZ.Load(path + file, true))
+					if (!positiveZ.load(path + file, true))
 						return false;
 				} else if (target == "negative_x") {
-					if (!negativeX.Load(path + file, true))
+					if (!negativeX.load(path + file, true))
 						return false;
 				} else if (target == "negative_y") {
-					if (!negativeY.Load(path + file, true))
+					if (!negativeY.load(path + file, true))
 						return false;
 				} else if (target == "negative_z") {
-					if (!negativeZ.Load(path + file, true))
+					if (!negativeZ.load(path + file, true))
 						return false;
 				} else
 					return false;
 			}
 
-			return LoadCubemap(positiveX, negativeX, positiveY, negativeY, positiveZ, negativeZ, wrapS, wrapT, magFilter, minFilter, internalFormat, format);
+			return loadCubemap(positiveX, negativeX, positiveY, negativeY, positiveZ, negativeZ, wrapS, wrapT, magFilter, minFilter, internalFormat, format);
 		}
 	} else {
 		Tools::Logger::WriteErrorLog("Texture --> \"" + textureType + "\" is not supported type");
@@ -132,22 +132,22 @@ bool Texture::LoadXMLSettings(const pugi::xml_node& node, const std::string& pat
 	return true;
 }
 
-bool Texture::Load2DImage(const Image& image, GLuint clampS, GLuint clampT, GLuint magFilter, GLuint minFilter, GLuint internalFormat, GLuint format, bool mipmap) {
-	Destroy();
+bool Texture::load2DImage(const Image& image, GLuint clampS, GLuint clampT, GLuint magFilter, GLuint minFilter, GLuint internalFormat, GLuint format, bool mipmap) {
+	destroy();
 	this->target = GL_TEXTURE_2D;
 
 	glGenTextures(1, &id);
 	glBindTexture(GL_TEXTURE_2D, id);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GetValidMagFilter(magFilter));
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GetValidMinFilter(minFilter));
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GetValidWrapMode(clampS));
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GetValidWrapMode(clampT));
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, getValidMagFilter(magFilter));
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, getValidMinFilter(minFilter));
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, getValidWrapMode(clampS));
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, getValidWrapMode(clampT));
 
-	height = image.GetHeight();
-	width = image.GetWidth();
+	height = image.getHeight();
+	width = image.getWidth();
 
-	internalFormat = GetValidFormat(internalFormat);
-	format = GetValidFormat(format);
+	internalFormat = getValidFormat(internalFormat);
+	format = getValidFormat(format);
 
 	sizeInBytes = height * width;
 
@@ -159,50 +159,50 @@ bool Texture::Load2DImage(const Image& image, GLuint clampS, GLuint clampT, GLui
 	if (mipmap) {
 		// TODO: Fix that on android!
 #ifndef ANDROID
-		gluBuild2DMipmaps(target, internalFormat, image.GetWidth(), image.GetHeight(), format, GL_UNSIGNED_BYTE, image.GetImageData());
+		gluBuild2DMipmaps(target, internalFormat, image.getWidth(), image.getHeight(), format, GL_UNSIGNED_BYTE, image.getImageData());
 #endif
 	} else
-		glTexImage2D(target, 0, internalFormat, image.GetWidth(), image.GetHeight(), 0, format, GL_UNSIGNED_BYTE, image.GetImageData());
+		glTexImage2D(target, 0, internalFormat, image.getWidth(), image.getHeight(), 0, format, GL_UNSIGNED_BYTE, image.getImageData());
 
 	return true;
 }
 
-bool Texture::LoadCubemap(const Image& positiveX, const Image& negativeX, const Image& positiveY, const Image& negativeY, const Image& positiveZ, const Image& negativeZ,
+bool Texture::loadCubemap(const Image& positiveX, const Image& negativeX, const Image& positiveY, const Image& negativeY, const Image& positiveZ, const Image& negativeZ,
 		GLuint clampS, GLuint clampT, GLuint magFilter, GLuint minFilter, GLuint internalFormat, GLuint format) {
-	Destroy();
+	destroy();
 	this->target = GL_TEXTURE_CUBE_MAP;
 
 	glGenTextures(1, &id);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, id);
 
-	internalFormat = GetValidFormat(internalFormat);
-	format = GetValidFormat(format);
+	internalFormat = getValidFormat(internalFormat);
+	format = getValidFormat(format);
 
-	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, internalFormat, positiveX.GetWidth(), positiveX.GetHeight(), 0, format, GL_UNSIGNED_BYTE, positiveX.GetImageData());
-	glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, internalFormat, negativeX.GetWidth(), negativeX.GetHeight(), 0, format, GL_UNSIGNED_BYTE, negativeX.GetImageData());
+	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, internalFormat, positiveX.getWidth(), positiveX.getHeight(), 0, format, GL_UNSIGNED_BYTE, positiveX.getImageData());
+	glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, internalFormat, negativeX.getWidth(), negativeX.getHeight(), 0, format, GL_UNSIGNED_BYTE, negativeX.getImageData());
 
-	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, internalFormat, positiveY.GetWidth(), positiveY.GetHeight(), 0, format, GL_UNSIGNED_BYTE, positiveY.GetImageData());
-	glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, internalFormat, negativeY.GetWidth(), negativeY.GetHeight(), 0, format, GL_UNSIGNED_BYTE, negativeY.GetImageData());
+	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, internalFormat, positiveY.getWidth(), positiveY.getHeight(), 0, format, GL_UNSIGNED_BYTE, positiveY.getImageData());
+	glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, internalFormat, negativeY.getWidth(), negativeY.getHeight(), 0, format, GL_UNSIGNED_BYTE, negativeY.getImageData());
 
-	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, internalFormat, positiveZ.GetWidth(), positiveZ.GetHeight(), 0, format, GL_UNSIGNED_BYTE, positiveZ.GetImageData());
-	glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, internalFormat, negativeZ.GetWidth(), negativeZ.GetHeight(), 0, format, GL_UNSIGNED_BYTE, negativeZ.GetImageData());
+	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, internalFormat, positiveZ.getWidth(), positiveZ.getHeight(), 0, format, GL_UNSIGNED_BYTE, positiveZ.getImageData());
+	glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, internalFormat, negativeZ.getWidth(), negativeZ.getHeight(), 0, format, GL_UNSIGNED_BYTE, negativeZ.getImageData());
 
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GetValidMinFilter(minFilter));
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GetValidMagFilter(magFilter));
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GetValidWrapMode(clampS));
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GetValidWrapMode(clampT));
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, getValidMinFilter(minFilter));
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, getValidMagFilter(magFilter));
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, getValidWrapMode(clampS));
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, getValidWrapMode(clampT));
 
-	sizeInBytes = positiveX.GetWidth() * positiveX.GetHeight() +
-			negativeX.GetWidth() * negativeY.GetHeight() +
-			positiveY.GetWidth() * positiveY.GetHeight() +
-			negativeY.GetWidth() * negativeY.GetHeight() +
-			positiveZ.GetWidth() * negativeZ.GetHeight() +
-			negativeZ.GetWidth() * negativeZ.GetHeight();
+	sizeInBytes = positiveX.getWidth() * positiveX.getHeight() +
+			negativeX.getWidth() * negativeY.getHeight() +
+			positiveY.getWidth() * positiveY.getHeight() +
+			negativeY.getWidth() * negativeY.getHeight() +
+			positiveZ.getWidth() * negativeZ.getHeight() +
+			negativeZ.getWidth() * negativeZ.getHeight();
 
 	return true;
 }
 
-const bool Texture::Activate(int unit) {
+const bool Texture::activate(int unit) {
 	if (!id)
 		return false;
 
@@ -216,7 +216,7 @@ const bool Texture::Activate(int unit) {
 	return true;
 }
 
-const bool Texture::Deactivate() {
+const bool Texture::deactivate() {
 	if (id > 0) {
 		if (currentUnit > -1)
 			glActiveTexture(GL_TEXTURE0 + currentUnit);
@@ -228,7 +228,7 @@ const bool Texture::Deactivate() {
 	return false;
 }
 
-void Texture::SetID(GLuint textureID) {
+void Texture::setID(GLuint textureID) {
 	//static int unknown = 1;
 
 	if (!textureID) {
@@ -241,40 +241,40 @@ void Texture::SetID(GLuint textureID) {
 
 	// TODO: Fix that on android!
 #ifndef ANDROID
-	Activate();
+	activate();
 	glGetTexLevelParameteriv(target, 0, GL_TEXTURE_WIDTH, &info);
 	width = info;
 	glGetTexLevelParameteriv(target, 0, GL_TEXTURE_HEIGHT, &info);
 	height = info;
-	Deactivate();
+	deactivate();
 #endif
 }
 
-const GLuint Texture::GetID() const {
+const GLuint Texture::getID() const {
 	return id;
 }
 
-void Texture::SetTarget(GLuint target) {
+void Texture::setTarget(GLuint target) {
 	this->target = target;
 }
 
-const GLuint Texture::GetTarget() const {
+const GLuint Texture::getTarget() const {
 	return target;
 }
 
-const GLuint Texture::GetWidth() const {
+const GLuint Texture::getWidth() const {
 	return width;
 }
 
-const GLuint Texture::GetHeight() const {
+const GLuint Texture::getHeight() const {
 	return height;
 }
 
-const GLuint Texture::GetSizeInBytes() const {
+const GLuint Texture::getSizeInBytes() const {
 	return sizeInBytes;
 }
 
-void Texture::Destroy() {
+void Texture::destroy() {
 	glDeleteTextures(1, &id);
 
 	height = 0;
@@ -282,7 +282,7 @@ void Texture::Destroy() {
 	id = 0;
 }
 
-int Texture::GetValidWrapMode(int clamp) {
+int Texture::getValidWrapMode(int clamp) {
 	switch (clamp) {
 			// TODO: Fix that on android!
 #ifndef ANDROID
@@ -302,7 +302,7 @@ int Texture::GetValidWrapMode(int clamp) {
 	}
 }
 
-int Texture::GetValidWrapMode(const std::string& clamp) {
+int Texture::getValidWrapMode(const std::string& clamp) {
 	if (clamp == "CLAMP") {
 #ifndef ANDROID
 		return GL_CLAMP;
@@ -319,18 +319,18 @@ int Texture::GetValidWrapMode(const std::string& clamp) {
 		return GL_REPEAT;
 }
 
-int Texture::GetValidMagFilter(int filter) {
+int Texture::getValidMagFilter(int filter) {
 	return (filter == GL_NEAREST) ? GL_NEAREST : GL_LINEAR;
 }
 
-int Texture::GetValidMagFilter(const std::string& filter) {
+int Texture::getValidMagFilter(const std::string& filter) {
 	if (filter == "NEAREST")
 		return GL_NEAREST;
 	else
 		return GL_LINEAR;
 }
 
-int Texture::GetValidMinFilter(int filter) {
+int Texture::getValidMinFilter(int filter) {
 	switch (filter) {
 		case GL_NEAREST:
 			return GL_NEAREST;
@@ -347,7 +347,7 @@ int Texture::GetValidMinFilter(int filter) {
 	}
 }
 
-int Texture::GetValidMinFilter(const std::string& filter) {
+int Texture::getValidMinFilter(const std::string& filter) {
 	if (filter == "NEAREST")
 		return GL_NEAREST;
 	else if (filter == "LINEAR_MIPMAP_LINEAR")
@@ -362,7 +362,7 @@ int Texture::GetValidMinFilter(const std::string& filter) {
 		return GL_LINEAR;
 }
 
-int Texture::GetValidCubeMap(int type) {
+int Texture::getValidCubeMap(int type) {
 	switch (type) {
 		case GL_TEXTURE_CUBE_MAP_POSITIVE_X:
 			return GL_TEXTURE_CUBE_MAP_POSITIVE_X;
@@ -382,7 +382,7 @@ int Texture::GetValidCubeMap(int type) {
 	}
 }
 
-int Texture::GetValidCubeMap(const std::string& type) {
+int Texture::getValidCubeMap(const std::string& type) {
 	if (type == "POSITIVE_X")
 		return GL_TEXTURE_CUBE_MAP_POSITIVE_X;
 	else if (type == "POSITIVE_Y")
@@ -401,7 +401,7 @@ int Texture::GetValidCubeMap(const std::string& type) {
 	}
 }
 
-int Texture::GetValidFormat(int type) {
+int Texture::getValidFormat(int type) {
 	switch (type) {
 		case GL_DEPTH_COMPONENT:
 			return GL_DEPTH_COMPONENT;
@@ -421,7 +421,7 @@ int Texture::GetValidFormat(int type) {
 	}
 }
 
-int Texture::GetValidFormat(const std::string& type) {
+int Texture::getValidFormat(const std::string& type) {
 	if (type == "DEPTH_COMPONENT")
 		return GL_DEPTH_COMPONENT;
 	else if (type == "DEPTH_STENCIL")

@@ -19,7 +19,7 @@ bool ShaderManager::loadProgram(const std::string& programName, const std::strin
 		return true;
 	else {
 		GLSLProgram program;
-		std::vector<std::string> paths = NGE::Media::MediaManager::getInstance().getMediaPathManager().GetPaths("shader");
+		std::vector<std::string> paths = NGE::Media::MediaManager::getInstance().getMediaPathManager().getPaths("shader");
 
 		for (std::vector<std::string>::iterator i = paths.begin(); i != paths.end(); ++i) {
 			pugi::xml_document shaderDoc;

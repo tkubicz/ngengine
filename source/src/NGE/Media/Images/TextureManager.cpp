@@ -4,25 +4,25 @@
 
 using namespace NGE::Media::Images;
 
-void TextureManager::Deinitialize() {
+void TextureManager::deinitialize() {
 	for (std::map<std::string, Texture*>::iterator i = textures.begin(); i != textures.end(); ++i) {
-		(i->second)->Destroy();
+		(i->second)->destroy();
 		delete i->second;
 	}
 }
 
-bool TextureManager::AddTexture(const std::string& name, Texture* texture) {
+bool TextureManager::addTexture(const std::string& name, Texture* texture) {
 	std::map<std::string, Texture*>::iterator it = textures.find(name);
 	if (it != textures.end())
 		return true;
 	else {
 		textures.insert(std::make_pair(name, texture));
-		Tools::Logger::WriteInfoLog("TextureManager --> New texture added: " + name + " (" + to_string(texture->GetSizeInBytes() / 1024) + " kB)");
+		Tools::Logger::WriteInfoLog("TextureManager --> New texture added: " + name + " (" + to_string(texture->getSizeInBytes() / 1024) + " kB)");
 		return true;
 	}
 }
 
-bool TextureManager::LoadTexture(const pugi::xml_node& node) {
+bool TextureManager::loadTexture(const pugi::xml_node& node) {
 	if (node.empty() || (std::string(node.name()) != "Texture2D" && std::string(node.name()) != "TextureCubeMap")) {
 		Tools::Logger::WriteErrorLog("TextureManager --> Need \"Texture2D\" or \"TextureCubeMap\" node");
 		return false;
@@ -39,12 +39,12 @@ bool TextureManager::LoadTexture(const pugi::xml_node& node) {
 		return true;
 	else {
 		Texture* texture = new Texture();
-		std::vector<std::string> paths = NGE::Media::MediaManager::getInstance().getMediaPathManager().GetPaths("texture");
+		std::vector<std::string> paths = NGE::Media::MediaManager::getInstance().getMediaPathManager().getPaths("texture");
 
 		for (std::vector<std::string>::iterator i = paths.begin(); i != paths.end(); ++i) {
-			if (texture->LoadXMLSettings(node, *i)) {
+			if (texture->loadXMLSettings(node, *i)) {
 				textures.insert(std::make_pair(name, texture));
-				Tools::Logger::WriteInfoLog("TextureManager --> New texture added: " + name + " (" + to_string(texture->GetSizeInBytes() / 1024) + " kB)");
+				Tools::Logger::WriteInfoLog("TextureManager --> New texture added: " + name + " (" + to_string(texture->getSizeInBytes() / 1024) + " kB)");
 				return true;
 			}
 		}
@@ -54,7 +54,7 @@ bool TextureManager::LoadTexture(const pugi::xml_node& node) {
 	}
 }
 
-Texture* TextureManager::GetTexture(const std::string& name) {
+Texture* TextureManager::getTexture(const std::string& name) {
 	std::map<std::string, Texture*>::iterator it = textures.find(name);
 	if (it != textures.end()) {
 		return (it->second);
@@ -64,7 +64,7 @@ Texture* TextureManager::GetTexture(const std::string& name) {
 	return NULL;
 }
 
-Texture* TextureManager::GetTexture(const pugi::xml_node& node) {
+Texture* TextureManager::getTexture(const pugi::xml_node& node) {
 	if (std::string(node.name()) != "Texture2D" && std::string(node.name()) != "TextureCubeMap") {
 		Tools::Logger::WriteErrorLog("TextureManager --> Need \"Texture2D\" or \"TextureCubeMap\" node");
 		return NULL;
@@ -73,13 +73,13 @@ Texture* TextureManager::GetTexture(const pugi::xml_node& node) {
 	std::string name = node.attribute("name").as_string();
 
 	if (name.length() > 0) {
-		if (LoadTexture(node))
-			return GetTexture(name);
+		if (loadTexture(node))
+			return getTexture(name);
 	}
 
 	return NULL;
 }
 
-int TextureManager::GetTextureCount() {
+int TextureManager::getTextureCount() {
 	return textures.size();
 }

@@ -11,7 +11,7 @@ JpegImage::JpegImage() {
 
 JpegImage::~JpegImage() { }
 
-bool JpegImage::Load(const std::string& filename, bool suppressError) {
+bool JpegImage::load(const std::string& filename, bool suppressError) {
 	//std::ifstream fileIn(filename.c_str(), std::ios::binary);
 	FILE* fileIn = fopen(filename.c_str(), "rb");
 
@@ -60,27 +60,27 @@ bool JpegImage::Load(const std::string& filename, bool suppressError) {
 	return true;
 }
 
-void JpegImage::Unload() {
+void JpegImage::unload() {
 	imageData.clear();
 }
 
-unsigned int JpegImage::GetWidth() const {
+unsigned int JpegImage::getWidth() const {
 	return width;
 }
 
-unsigned int JpegImage::GetHeight() const {
+unsigned int JpegImage::getHeight() const {
 	return height;
 }
 
-unsigned int JpegImage::GetBitsPerPixel() const {
+unsigned int JpegImage::getBitsPerPixel() const {
 	return bitsPerPixel;
 }
 
-const unsigned char* JpegImage::GetImageData() const {
+const unsigned char* JpegImage::getImageData() const {
 	return &imageData[0];
 }
 
-void JpegImage::FlipImageVertically() {
+void JpegImage::flipImageVertically() {
 	std::vector<unsigned char> flippedData;
 	flippedData.reserve(imageData.size());
 

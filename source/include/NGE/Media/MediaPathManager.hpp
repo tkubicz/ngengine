@@ -19,14 +19,14 @@ namespace NGE {
 
 		class MediaPathManager {
 		  public:
-			bool LoadXMLSettings(const pugi::xml_node& node);
+			bool loadXMLSettings(const pugi::xml_node& node);
 
-			std::vector<std::string>& GetPaths(std::string key);
+			std::vector<std::string>& getPaths(std::string key);
 
-			void SetPaths(const std::string& key, std::vector<std::string>& paths);
-			void SetPath(const std::string& key, const std::string& path);
+			void setPaths(const std::string& key, std::vector<std::string>& paths);
+			void setPath(const std::string& key, const std::string& path);
 
-			int GetMediaPathCount();
+			int getMediaPathCount();
 
 		  private:
 			std::map<std::string, std::vector<std::string> > mediaPaths;

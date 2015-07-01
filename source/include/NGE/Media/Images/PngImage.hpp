@@ -23,13 +23,13 @@ namespace NGE {
 				PngImage();
 				virtual ~PngImage();
 
-				bool Load(const std::string& fileName, bool suppressError = false);
-				void Unload();
+				bool load(const std::string& fileName, bool suppressError = false);
+				void unload();
 
-				unsigned int GetWidth() const;
-				unsigned int GetHeight() const;
-				unsigned int GetBitsPerPixel() const;
-				const unsigned char* GetImageData() const;
+				unsigned int getWidth() const;
+				unsigned int getHeight() const;
+				unsigned int getBitsPerPixel() const;
+				const unsigned char* getImageData() const;
 
 			  protected:
 				unsigned int width;

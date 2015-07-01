@@ -16,13 +16,13 @@ namespace NGE {
 
 			class Image {
 			  public:
-				virtual bool Load(const std::string& filename, bool suppressError = false) = 0;
-				virtual void Unload() = 0;
+				virtual bool load(const std::string& filename, bool suppressError = false) = 0;
+				virtual void unload() = 0;
 
-				virtual unsigned int GetWidth() const = 0;
-				virtual unsigned int GetHeight() const = 0;
-				virtual unsigned int GetBitsPerPixel() const = 0;
-				virtual const unsigned char* GetImageData() const = 0;
+				virtual unsigned int getWidth() const = 0;
+				virtual unsigned int getHeight() const = 0;
+				virtual unsigned int getBitsPerPixel() const = 0;
+				virtual const unsigned char* getImageData() const = 0;
 			};
 		}
 	}

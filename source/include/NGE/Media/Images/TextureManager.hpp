@@ -20,16 +20,16 @@ namespace NGE {
 
 			class TextureManager {
 			  public:
-				void Initialize();
-				void Deinitialize();
+				void initialize();
+				void deinitialize();
 
-				bool AddTexture(const std::string& name, Texture* texture);
+				bool addTexture(const std::string& name, Texture* texture);
 
-				bool LoadTexture(const pugi::xml_node& node);
-				Texture* GetTexture(const std::string& name);
-				Texture* GetTexture(const pugi::xml_node& node);
+				bool loadTexture(const pugi::xml_node& node);
+				Texture* getTexture(const std::string& name);
+				Texture* getTexture(const pugi::xml_node& node);
 
-				int GetTextureCount();
+				int getTextureCount();
 
 			  private:
 				std::map<std::string, Texture*> textures;

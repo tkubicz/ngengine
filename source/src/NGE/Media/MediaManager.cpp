@@ -11,8 +11,8 @@ void MediaManager::initialize() { }
 
 void MediaManager::deinitialize() {
 	shaderManager.deinitialize();
-	textureManager.Deinitialize();
-	fontManager.Deinitialize();
+	textureManager.deinitialize();
+	fontManager.deinitialize();
 }
 
 MediaPathManager& MediaManager::getMediaPathManager() {

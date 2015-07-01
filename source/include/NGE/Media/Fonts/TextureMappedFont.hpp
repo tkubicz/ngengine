@@ -23,19 +23,20 @@ namespace NGE {
 			class TextureMappedFont {
 			  public:
 				TextureMappedFont(float fontSize = 16.0f, Media::Images::Texture* texture = NULL, Media::Shaders::GLSLProgram* shader = NULL);
-				bool Initialize();
 
-				void PrintString(const std::string& str, const Math::vec2f& position);
-				void PrintString(const std::string& str, float x, float y);
+				bool initialize();
 
-				void PrintString(const std::string& str, const Math::vec2f& position, const Math::vec4f& color);
-				void PrintString(const std::string& str, float x, float y, const Math::vec4f& color);
+				void printString(const std::string& str, const Math::vec2f& position);
+				void printString(const std::string& str, float x, float y);
+
+				void printString(const std::string& str, const Math::vec2f& position, const Math::vec4f& color);
+				void printString(const std::string& str, float x, float y, const Math::vec4f& color);
 
 				// TODO: Load XML Settings
-				bool LoadXMLSettings(const pugi::xml_node& node);
+				bool loadXMLSettings(const pugi::xml_node& node);
 
-				void SetTexture(Media::Images::Texture* texture);
-				void SetShader(Media::Shaders::GLSLProgram* shader);
+				void setTexture(Media::Images::Texture* texture);
+				void setShader(Media::Shaders::GLSLProgram* shader);
 
 			  protected:
 				Media::Images::Texture* texture;

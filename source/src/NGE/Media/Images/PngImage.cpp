@@ -10,7 +10,7 @@ PngImage::PngImage() {
 
 PngImage::~PngImage() { }
 
-bool PngImage::Load(const std::string& fileName, bool suppressError) {
+bool PngImage::load(const std::string& fileName, bool suppressError) {
 	FILE* fileIn = fopen(fileName.c_str(), "rb");
 
 	if (!fileIn) {
@@ -121,23 +121,23 @@ bool PngImage::Load(const std::string& fileName, bool suppressError) {
 	return true;
 }
 
-void PngImage::Unload() {
+void PngImage::unload() {
 	imageData.clear();
 }
 
-unsigned int PngImage::GetWidth() const {
+unsigned int PngImage::getWidth() const {
 	return width;
 }
 
-unsigned int PngImage::GetHeight() const {
+unsigned int PngImage::getHeight() const {
 	return height;
 }
 
-unsigned int PngImage::GetBitsPerPixel() const {
+unsigned int PngImage::getBitsPerPixel() const {
 	return bitsPerPixel;
 }
 
-const unsigned char* PngImage::GetImageData() const {
+const unsigned char* PngImage::getImageData() const {
 	return &imageData[0];
 }
 

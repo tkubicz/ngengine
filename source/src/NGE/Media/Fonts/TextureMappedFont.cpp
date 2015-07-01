@@ -11,7 +11,7 @@ TextureMappedFont::TextureMappedFont(float fontSize, NGE::Media::Images::Texture
 	defaultColor = Math::vec4f(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
-bool TextureMappedFont::Initialize() {
+bool TextureMappedFont::initialize() {
 	if (texture == NULL) {
 		Tools::Logger::WriteErrorLog("Font texture is not initialized");
 		return false;
@@ -42,19 +42,19 @@ bool TextureMappedFont::Initialize() {
 	return true;
 }
 
-void TextureMappedFont::PrintString(const std::string& str, const NGE::Math::vec2f& position) {
-	PrintString(str, position.x, position.y, defaultColor);
+void TextureMappedFont::printString(const std::string& str, const NGE::Math::vec2f& position) {
+	printString(str, position.x, position.y, defaultColor);
 }
 
-void TextureMappedFont::PrintString(const std::string& str, float x, float y) {
-	PrintString(str, x, y, defaultColor);
+void TextureMappedFont::printString(const std::string& str, float x, float y) {
+	printString(str, x, y, defaultColor);
 }
 
-void TextureMappedFont::PrintString(const std::string& str, const NGE::Math::vec2f& position, const NGE::Math::vec4f& color) {
-	PrintString(str, position.x, position.y, color);
+void TextureMappedFont::printString(const std::string& str, const NGE::Math::vec2f& position, const NGE::Math::vec4f& color) {
+	printString(str, position.x, position.y, color);
 }
 
-void TextureMappedFont::PrintString(const std::string& str, float x, float y, const NGE::Math::vec4f& color) {
+void TextureMappedFont::printString(const std::string& str, float x, float y, const NGE::Math::vec4f& color) {
 	shader->bindShader();
 	float texCoords[8];
 
@@ -63,7 +63,7 @@ void TextureMappedFont::PrintString(const std::string& str, float x, float y, co
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	texture->Activate();
+	texture->activate();
 	shader->autoEnableVertexAttribArray();
 
 	Rendering::Renderer::GetInstance().GetMatrixStack().PushMatrix();
@@ -117,10 +117,10 @@ void TextureMappedFont::PrintString(const std::string& str, float x, float y, co
 	glEnable(GL_DEPTH_TEST);
 }
 
-void TextureMappedFont::SetShader(NGE::Media::Shaders::GLSLProgram* shader) {
+void TextureMappedFont::setShader(NGE::Media::Shaders::GLSLProgram* shader) {
 	this->shader = shader;
 }
 
-void TextureMappedFont::SetTexture(NGE::Media::Images::Texture* texture) {
+void TextureMappedFont::setTexture(NGE::Media::Images::Texture* texture) {
 	this->texture = texture;
 }
