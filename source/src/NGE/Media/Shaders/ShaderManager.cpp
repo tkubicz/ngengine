@@ -8,7 +8,7 @@ using namespace NGE::Media::Shaders;
 
 void ShaderManager::Deinitialize() {
 	for (std::map<std::string, GLSLProgram>::iterator it = ShaderManager::programs.begin(); it != ShaderManager::programs.end(); ++it)
-		it->second.Unload();
+		it->second.unload();
 
 	ShaderManager::programs.clear();
 }
@@ -31,7 +31,7 @@ bool ShaderManager::LoadProgram(const std::string& programName, const std::strin
 				continue;
 
 			for (pugi::xml_node node = shaderDoc.child("Shader"); node; node = node.next_sibling("Shader")) {
-				if (node.attribute("name").as_string() == programName && program.LoadXMLSettings(node)) {
+				if (node.attribute("name").as_string() == programName && program.loadXMLSettings(node)) {
 					ShaderManager::programs.insert(std::make_pair(programName, program));
 					Tools::Logger::WriteInfoLog("ShaderManager --> New shader program added: " + programName);
 					return true;

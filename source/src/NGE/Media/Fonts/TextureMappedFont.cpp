@@ -55,7 +55,7 @@ void TextureMappedFont::PrintString(const std::string& str, const NGE::Math::vec
 }
 
 void TextureMappedFont::PrintString(const std::string& str, float x, float y, const NGE::Math::vec4f& color) {
-	shader->BindShader();
+	shader->bindShader();
 	float texCoords[8];
 
 	glDisable(GL_CULL_FACE);
@@ -64,7 +64,7 @@ void TextureMappedFont::PrintString(const std::string& str, float x, float y, co
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	texture->Activate();
-	shader->AutoEnableVertexAttribArray();
+	shader->autoEnableVertexAttribArray();
 
 	Rendering::Renderer::GetInstance().GetMatrixStack().PushMatrix();
 	Rendering::Renderer::GetInstance().GetMatrixStack().Identity();
@@ -96,10 +96,10 @@ void TextureMappedFont::PrintString(const std::string& str, float x, float y, co
 		glBindBuffer(GL_ARRAY_BUFFER, texCoordBuffer);
 		glVertexAttribPointer((GLint) 1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-		shader->SendUniform4x4("modelview_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX));
-		shader->SendUniform4x4("projection_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(PROJECTION_MATRIX));
-		shader->SendUniform("texture0", 0);
-		shader->SendUniform("color", color);
+		shader->sendUniform4x4("modelview_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX));
+		shader->sendUniform4x4("projection_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(PROJECTION_MATRIX));
+		shader->sendUniform("texture0", 0);
+		shader->sendUniform("color", color);
 
 		// TODO: Fix that!
 #ifndef ANDROID
@@ -110,7 +110,7 @@ void TextureMappedFont::PrintString(const std::string& str, float x, float y, co
 	}
 	Rendering::Renderer::GetInstance().GetMatrixStack().PopMatrix();
 
-	shader->AutoDisableVertexAttribArray();
+	shader->autoDisableVertexAttribArray();
 
 	glDisable(GL_BLEND);
 	glEnable(GL_CULL_FACE);

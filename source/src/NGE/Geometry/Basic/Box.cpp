@@ -143,18 +143,18 @@ void Box::Render() {
 	if (shader == NULL)
 		return;
 
-	shader->BindShader();
+	shader->bindShader();
 
 	//texture->Activate();
 
-	shader->SendUniform4x4("modelview_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX));
-	shader->SendUniform4x4("projection_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(PROJECTION_MATRIX));
-	shader->SendUniform("in_color", Math::vec4f(0.55f, 0.26f, 0.27f));
+	shader->sendUniform4x4("modelview_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX));
+	shader->sendUniform4x4("projection_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(PROJECTION_MATRIX));
+	shader->sendUniform("in_color", Math::vec4f(0.55f, 0.26f, 0.27f));
 	//shader->SendUniform("texture0", 0);
 
 	glBindVertexArray(vertexArray);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
-	shader->UnbindShader();
+	shader->unbindShader();
 }

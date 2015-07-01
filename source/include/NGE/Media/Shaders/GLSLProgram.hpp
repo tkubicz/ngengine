@@ -53,44 +53,44 @@ namespace NGE {
 
 				virtual ~GLSLProgram() { }
 
-				bool SetShader(const string& vertexShaderPath, const string& fragmentShaderPath);
-				bool LoadXMLSettings(const pugi::xml_node& node);
+				bool setShader(const string& vertexShaderPath, const string& fragmentShaderPath);
+				bool loadXMLSettings(const pugi::xml_node& node);
 
-				void Unload();
-				bool Initialize(bool autoBindAttribs = false);
-				void LinkProgram();
+				void unload();
+				bool initialize(bool bindAttribs = false);
+				void linkProgram();
 
-				GLuint GetUniformLocation(const string& name);
-				GLuint GetAttribLocation(const string& name);
+				GLuint getUniformLocation(const string& name);
+				GLuint getAttribLocation(const string& name);
 
-				void SendUniform(const string& name, const int id);
-				void SendUniform(const string& name, const unsigned int id);
-				void SendUniform(const string& name, const float red, const float green, const float blue, const float alpha);
-				void SendUniform(const string& name, const Math::vec4f& vec);
-				void SendUniform(const string& name, const float x, const float y, const float z);
-				void SendUniform(const string& name, const Math::vec3f& vec);
-				void SendUniform(const string& name, const float scalar);
-				void SendUniformArray4(const string& name, const int size, const float* array);
-				void SendUniformArray2(const string& name, const int size, const float* array);
-				void SendUniform4x4(const string& name, const float* matrix, bool transpose = false);
-				void SendUniform3x3(const string& name, const float* matrix, bool transpose = false);
+				void sendUniform(const string& name, const int id);
+				void sendUniform(const string& name, const unsigned int id);
+				void sendUniform(const string& name, const float red, const float green, const float blue, const float alpha);
+				void sendUniform(const string& name, const Math::vec4f& vec);
+				void sendUniform(const string& name, const float x, const float y, const float z);
+				void sendUniform(const string& name, const Math::vec3f& vec);
+				void sendUniform(const string& name, const float scalar);
+				void sendUniformArray4(const string& name, const int size, const float* array);
+				void sendUniformArray2(const string& name, const int size, const float* array);
+				void sendUniform4x4(const string& name, const float* matrix, bool transpose = false);
+				void sendUniform3x3(const string& name, const float* matrix, bool transpose = false);
 
-				void AutoBindAttribs();
-				void BindAttrib(unsigned int index, const string& attribName);
+				void autoBindAttribs();
+				void bindAttrib(unsigned int index, const string& attribName);
 
-				void AutoEnableVertexAttribArray();
-				void AutoDisableVertexAttribArray();
+				void autoEnableVertexAttribArray();
+				void autoDisableVertexAttribArray();
 
-				void BindShader();
-				void UnbindShader();
+				void bindShader();
+				void unbindShader();
 
-				const std::string& GetName();
+				const std::string& getName();
 
 			  private:
-				string ReadFile(const string& filename);
-				bool CompileShader(const GLSLShader& shader);
-				void OutputShaderLog(unsigned int shaderId);
-				void OutputProgramLog(unsigned int programId);
+				string readFile(const string& filename);
+				bool compileShader(const GLSLShader& shader);
+				void outputShaderLog(unsigned int shaderId);
+				void outputProgramLog(unsigned int programId);
 
 				GLSLShader vertexShader;
 				GLSLShader fragmentShader;

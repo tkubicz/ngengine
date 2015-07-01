@@ -12,12 +12,12 @@ GLSLProgram::GLSLProgram(const string& vertexShader, const string& fragmentShade
 }
 
 GLSLProgram::GLSLProgram(const pugi::xml_node& node) {
-	if (!LoadXMLSettings(node)) {
+	if (!loadXMLSettings(node)) {
 		Tools::Logger::WriteErrorLog("Could not load xml settings for " + boost::lexical_cast<string>(node.name()));
 	}
 }
 
-bool GLSLProgram::SetShader(const string& vertexShaderPath, const string& fragmentShaderPath) {
+bool GLSLProgram::setShader(const string& vertexShaderPath, const string& fragmentShaderPath) {
 	this->vertexShader.filename = vertexShaderPath;
 	this->fragmentShader.filename = vertexShaderPath;
 	this->xmlShader = false;
@@ -26,7 +26,7 @@ bool GLSLProgram::SetShader(const string& vertexShaderPath, const string& fragme
 	return true;
 }
 
-bool GLSLProgram::LoadXMLSettings(const pugi::xml_node& node) {
+bool GLSLProgram::loadXMLSettings(const pugi::xml_node& node) {
 	bool link = false, autobind = false;
 
 	name = node.attribute("name").as_string();
@@ -62,12 +62,12 @@ bool GLSLProgram::LoadXMLSettings(const pugi::xml_node& node) {
 	xmlShader = true;
 
 	if (link)
-		Initialize(autobind);
+		initialize(autobind);
 
 	return true;
 }
 
-void GLSLProgram::Unload() {
+void GLSLProgram::unload() {
 	glDetachShader(programId, vertexShader.id);
 	glDetachShader(programId, fragmentShader.id);
 
@@ -76,7 +76,7 @@ void GLSLProgram::Unload() {
 	glDeleteShader(programId);
 }
 
-bool GLSLProgram::Initialize(bool autoBindAttribs) {
+bool GLSLProgram::initialize(bool bindAttribs) {
 	programId = -1;
 	programId = glCreateProgram();
 	if (programId == -1) {
@@ -97,8 +97,8 @@ bool GLSLProgram::Initialize(bool autoBindAttribs) {
 	}
 
 	if (!xmlShader) {
-		vertexShader.source = ReadFile(vertexShader.filename);
-		fragmentShader.source = ReadFile(fragmentShader.filename);
+		vertexShader.source = readFile(vertexShader.filename);
+		fragmentShader.source = readFile(fragmentShader.filename);
 	}
 
 	if (vertexShader.source.empty() || fragmentShader.source.empty()) {
@@ -112,7 +112,7 @@ bool GLSLProgram::Initialize(bool autoBindAttribs) {
 	temp = static_cast<const GLchar*> (fragmentShader.source.c_str());
 	glShaderSource(fragmentShader.id, 1, (const GLchar**) &temp, NULL);
 
-	if (!CompileShader(vertexShader) || !CompileShader(fragmentShader)) {
+	if (!compileShader(vertexShader) || !compileShader(fragmentShader)) {
 		Tools::Logger::WriteErrorLog("GLSL Shader --> Could not compile the shaders, they are invalid");
 		return false;
 	}
@@ -120,18 +120,18 @@ bool GLSLProgram::Initialize(bool autoBindAttribs) {
 	glAttachShader(programId, vertexShader.id);
 	glAttachShader(programId, fragmentShader.id);
 
-	if (autoBindAttribs)
-		AutoBindAttribs();
+	if (bindAttribs)
+		autoBindAttribs();
 
 	return true;
 }
 
-void GLSLProgram::LinkProgram() {
+void GLSLProgram::linkProgram() {
 	glLinkProgram(programId);
-	OutputProgramLog(programId);
+	outputProgramLog(programId);
 }
 
-GLuint GLSLProgram::GetUniformLocation(const string& name) {
+GLuint GLSLProgram::getUniformLocation(const string& name) {
 	map<string, GLuint>::iterator i = uniformMap.find(name);
 	if (i == uniformMap.end()) {
 		GLuint location = glGetUniformLocation(programId, name.c_str());
@@ -142,7 +142,7 @@ GLuint GLSLProgram::GetUniformLocation(const string& name) {
 	return (*i).second;
 }
 
-GLuint GLSLProgram::GetAttribLocation(const string& name) {
+GLuint GLSLProgram::getAttribLocation(const string& name) {
 	map<string, GLuint>::iterator i = attribMap.find(name);
 	if (i == attribMap.end()) {
 		GLuint location = glGetAttribLocation(programId, name.c_str());
@@ -153,98 +153,98 @@ GLuint GLSLProgram::GetAttribLocation(const string& name) {
 	return (*i).second;
 }
 
-void GLSLProgram::SendUniform(const string& name, const int id) {
-	GLuint location = GetUniformLocation(name);
+void GLSLProgram::sendUniform(const string& name, const int id) {
+	GLuint location = getUniformLocation(name);
 	glUniform1i(location, id);
 }
 
-void GLSLProgram::SendUniform(const string& name, const unsigned int id) {
-	GLuint location = GetUniformLocation(name);
+void GLSLProgram::sendUniform(const string& name, const unsigned int id) {
+	GLuint location = getUniformLocation(name);
 	glUniform1i(location, id);
 }
 
-void GLSLProgram::SendUniform(const string& name, const float red, const float green, const float blue, const float alpha) {
-	GLuint location = GetUniformLocation(name);
+void GLSLProgram::sendUniform(const string& name, const float red, const float green, const float blue, const float alpha) {
+	GLuint location = getUniformLocation(name);
 	glUniform4f(location, red, green, blue, alpha);
 }
 
-void GLSLProgram::SendUniform(const string& name, const NGE::Math::vec4f& vec) {
-	SendUniform(name, vec.x, vec.y, vec.z, vec.w);
+void GLSLProgram::sendUniform(const string& name, const NGE::Math::vec4f& vec) {
+	sendUniform(name, vec.x, vec.y, vec.z, vec.w);
 }
 
-void GLSLProgram::SendUniform(const string& name, const float x, const float y, const float z) {
-	GLuint location = GetUniformLocation(name);
+void GLSLProgram::sendUniform(const string& name, const float x, const float y, const float z) {
+	GLuint location = getUniformLocation(name);
 	glUniform3f(location, x, y, z);
 }
 
-void GLSLProgram::SendUniform(const string& name, const NGE::Math::vec3f& vec) {
-	GLuint location = GetUniformLocation(name);
+void GLSLProgram::sendUniform(const string& name, const NGE::Math::vec3f& vec) {
+	GLuint location = getUniformLocation(name);
 	glUniform3f(location, vec.x, vec.y, vec.z);
 }
 
-void GLSLProgram::SendUniform(const string& name, const float scalar) {
-	GLuint location = GetUniformLocation(name);
+void GLSLProgram::sendUniform(const string& name, const float scalar) {
+	GLuint location = getUniformLocation(name);
 	glUniform1f(location, scalar);
 }
 
-void GLSLProgram::SendUniformArray4(const string& name, const int size, const float* array) {
-	GLuint location = GetUniformLocation(name);
+void GLSLProgram::sendUniformArray4(const string& name, const int size, const float* array) {
+	GLuint location = getUniformLocation(name);
 	glUniform4fv(location, size, array);
 }
 
-void GLSLProgram::SendUniformArray2(const string& name, const int size, const float* array) {
-	GLuint location = GetUniformLocation(name);
+void GLSLProgram::sendUniformArray2(const string& name, const int size, const float* array) {
+	GLuint location = getUniformLocation(name);
 	glUniform2fv(location, size, array);
 }
 
-void GLSLProgram::SendUniform3x3(const string& name, const float* matrix, bool transpose) {
-	GLuint location = GetUniformLocation(name);
+void GLSLProgram::sendUniform3x3(const string& name, const float* matrix, bool transpose) {
+	GLuint location = getUniformLocation(name);
 	glUniformMatrix3fv(location, 1, transpose, matrix);
 }
 
-void GLSLProgram::SendUniform4x4(const string& name, const float* matrix, bool transpose) {
-	GLuint location = GetUniformLocation(name);
+void GLSLProgram::sendUniform4x4(const string& name, const float* matrix, bool transpose) {
+	GLuint location = getUniformLocation(name);
 	glUniformMatrix4fv(location, 1, transpose, matrix);
 }
 
-void GLSLProgram::AutoBindAttribs() {
+void GLSLProgram::autoBindAttribs() {
 	if (attribMap.size() <= 0)
 		return;
 
 	for (map<string, GLuint>::iterator i = attribMap.begin(); i != attribMap.end(); ++i)
-		BindAttrib(i->second, i->first);
+		bindAttrib(i->second, i->first);
 
-	LinkProgram();
+	linkProgram();
 }
 
-void GLSLProgram::BindAttrib(unsigned int index, const string& attribName) {
+void GLSLProgram::bindAttrib(unsigned int index, const string& attribName) {
 	glBindAttribLocation(programId, index, attribName.c_str());
 }
 
-void GLSLProgram::AutoEnableVertexAttribArray() {
+void GLSLProgram::autoEnableVertexAttribArray() {
 	for (map<string, GLuint>::iterator i = attribMap.begin(); i != attribMap.end(); ++i)
 		glEnableVertexAttribArray(i->second);
 }
 
-void GLSLProgram::AutoDisableVertexAttribArray() {
+void GLSLProgram::autoDisableVertexAttribArray() {
 	for (map<string, GLuint>::iterator i = attribMap.begin(); i != attribMap.end(); ++i)
 		glDisableVertexAttribArray(i->second);
 }
 
-void GLSLProgram::BindShader() {
+void GLSLProgram::bindShader() {
 	glUseProgram(programId);
-	OutputProgramLog(programId);
+	outputProgramLog(programId);
 }
 
-void GLSLProgram::UnbindShader() {
+void GLSLProgram::unbindShader() {
 	glUseProgram(0);
 }
 
-const std::string& GLSLProgram::GetName() {
+const std::string& GLSLProgram::getName() {
 	return name;
 }
 
-string GLSLProgram::ReadFile(const string& filename) {
+string GLSLProgram::readFile(const string& filename) {
 	ifstream fileIn(filename.c_str());
 
 	if (!fileIn.good()) {
@@ -256,21 +256,21 @@ string GLSLProgram::ReadFile(const string& filename) {
 	return stringBuffer;
 }
 
-bool GLSLProgram::CompileShader(const GLSLShader& shader) {
+bool GLSLProgram::compileShader(const GLSLShader& shader) {
 	glCompileShader(shader.id);
 	GLint result = 0xDEADBEEF;
 	glGetShaderiv(shader.id, GL_COMPILE_STATUS, &result);
 
 	if (!result) {
 		Tools::Logger::WriteErrorLog("Could not compile shader: " + to_string(shader.id));
-		OutputShaderLog(shader.id);
+		outputShaderLog(shader.id);
 		return false;
 	}
 
 	return true;
 }
 
-void GLSLProgram::OutputShaderLog(unsigned int shaderId) {
+void GLSLProgram::outputShaderLog(unsigned int shaderId) {
 	vector<char> infoLog;
 	GLint infoLen;
 	glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &infoLen);
@@ -284,7 +284,7 @@ void GLSLProgram::OutputShaderLog(unsigned int shaderId) {
 	Tools::Logger::WriteErrorLog(ss.str());
 }
 
-void GLSLProgram::OutputProgramLog(unsigned int programId) {
+void GLSLProgram::outputProgramLog(unsigned int programId) {
 	vector<char> infoLog;
 	GLint infoLen;
 	GLint result;

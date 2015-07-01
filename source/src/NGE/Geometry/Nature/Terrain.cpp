@@ -355,41 +355,41 @@ void Terrain::Render() {
 
 	Rendering::Renderer::GetInstance().GetMatrixStack().Multiple(localToWorldMatrix);
 
-	shader->BindShader();
+	shader->bindShader();
 
-	shader->SendUniform4x4("modelview_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX));
-	shader->SendUniform4x4("projection_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(PROJECTION_MATRIX));
-	shader->SendUniform3x3("normal_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX).GetNormalMatrix());
+	shader->sendUniform4x4("modelview_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX));
+	shader->sendUniform4x4("projection_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(PROJECTION_MATRIX));
+	shader->sendUniform3x3("normal_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX).GetNormalMatrix());
 
 	for (short i = 0; i < textures.size(); ++i) {
 		textures[i]->Activate(i);
-		shader->SendUniform("texture" + to_string(i), i);
+		shader->sendUniform("texture" + to_string(i), i);
 	}
 
 	//shader->SendUniform("texture0", 0);
 
-	shader->SendUniform("material0.ambient", material0.GetAmbientColor());
-	shader->SendUniform("material0.diffuse", material0.GetDiffuseColor());
-	shader->SendUniform("material0.specular", material0.GetSpecularColor());
-	shader->SendUniform("material0.emissive", material0.GetEmissiveColor());
-	shader->SendUniform("material0.shininess", material0.GetShininess());
+	shader->sendUniform("material0.ambient", material0.GetAmbientColor());
+	shader->sendUniform("material0.diffuse", material0.GetDiffuseColor());
+	shader->sendUniform("material0.specular", material0.GetSpecularColor());
+	shader->sendUniform("material0.emissive", material0.GetEmissiveColor());
+	shader->sendUniform("material0.shininess", material0.GetShininess());
 
-	shader->SendUniform("light0.ambient", light0.GetAmbient());
-	shader->SendUniform("light0.diffuse", light0.GetDiffuse());
-	shader->SendUniform("light0.specular", light0.GetSpecular());
-	shader->SendUniform("light0.constant_attenuation", light0.GetConstantAttenuation());
-	shader->SendUniform("light0.linear_attenuation", light0.GetLinearAttenuation());
-	shader->SendUniform("light0.quadratic_attenuation", light0.GetQuadraticAttenuation());
-	shader->SendUniform("light0.position", light0.GetPosition());
-	shader->SendUniform("light0.spot_cut_off", light0.GetSpotCutOff());
-	shader->SendUniform("light0.spot_direction", light0.GetSpotDirection());
-	shader->SendUniform("light0.spot_exponenet", light0.GetSpotExponenet());
+	shader->sendUniform("light0.ambient", light0.GetAmbient());
+	shader->sendUniform("light0.diffuse", light0.GetDiffuse());
+	shader->sendUniform("light0.specular", light0.GetSpecular());
+	shader->sendUniform("light0.constant_attenuation", light0.GetConstantAttenuation());
+	shader->sendUniform("light0.linear_attenuation", light0.GetLinearAttenuation());
+	shader->sendUniform("light0.quadratic_attenuation", light0.GetQuadraticAttenuation());
+	shader->sendUniform("light0.position", light0.GetPosition());
+	shader->sendUniform("light0.spot_cut_off", light0.GetSpotCutOff());
+	shader->sendUniform("light0.spot_direction", light0.GetSpotDirection());
+	shader->sendUniform("light0.spot_exponenet", light0.GetSpotExponenet());
 
 	glBindVertexArray(vertexArray);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
-	shader->UnbindShader();
+	shader->unbindShader();
 
 	if (wireframe) {
 		// Fix that, it is not working in opengl es.
@@ -431,16 +431,16 @@ void Terrain::GenerateDebug() {
 }
 
 void Terrain::RenderNormals() {
-	debugShader->BindShader();
-	debugShader->SendUniform4x4("modelview_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX));
-	debugShader->SendUniform4x4("projection_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(PROJECTION_MATRIX));
-	debugShader->SendUniform("color", Math::vec4f(1.0f, 1.0f, 0.0f, 1.0f));
+	debugShader->bindShader();
+	debugShader->sendUniform4x4("modelview_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX));
+	debugShader->sendUniform4x4("projection_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(PROJECTION_MATRIX));
+	debugShader->sendUniform("color", Math::vec4f(1.0f, 1.0f, 0.0f, 1.0f));
 
 	glBindVertexArray(normalVertexArray);
 	glDrawArrays(GL_LINES, 0, normalVertices.size());
 	glBindVertexArray(0);
 
-	debugShader->UnbindShader();
+	debugShader->unbindShader();
 }
 
 void Terrain::SetWireframe(bool value) {

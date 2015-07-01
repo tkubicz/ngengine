@@ -162,19 +162,19 @@ void GUIClippedRectangle::RenderClippedBounds() {
 
 		Rendering::Renderer::GetInstance().GetMatrixStack().PushMatrix();
 
-		shader->BindShader();
-		shader->SendUniform4x4("modelview_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX));
-		shader->SendUniform4x4("projection_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(PROJECTION_MATRIX));
+		shader->bindShader();
+		shader->sendUniform4x4("modelview_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX));
+		shader->sendUniform4x4("projection_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(PROJECTION_MATRIX));
 
 		if (drawBackground && texture && texture->GetID()) {
 			texture->Activate();
-			shader->SendUniform("texture0", 0);
-			shader->SendUniform("guiType", 1);
+			shader->sendUniform("texture0", 0);
+			shader->sendUniform("guiType", 1);
 		} else
-			shader->SendUniform("guiType", 0);
+			shader->sendUniform("guiType", 0);
 
 		if (drawBackground) {
-			shader->SendUniform("color", backgroundColor);
+			shader->sendUniform("color", backgroundColor);
 
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -190,8 +190,8 @@ void GUIClippedRectangle::RenderClippedBounds() {
 		}
 
 		if (drawBounds) {
-			shader->SendUniform("color", bordersColor);
-			shader->SendUniform("guiType", 0);
+			shader->sendUniform("color", bordersColor);
+			shader->sendUniform("guiType", 0);
 
 			glEnableVertexAttribArray(0);
 
@@ -203,7 +203,7 @@ void GUIClippedRectangle::RenderClippedBounds() {
 			glDisableVertexAttribArray(0);
 		}
 
-		shader->UnbindShader();
+		shader->unbindShader();
 		Rendering::Renderer::GetInstance().GetMatrixStack().PopMatrix();
 
 		glEnable(GL_CULL_FACE);

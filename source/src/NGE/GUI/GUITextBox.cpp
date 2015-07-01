@@ -110,26 +110,26 @@ void GUITextBox::Render() {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	shader->BindShader();
-	shader->AutoEnableVertexAttribArray();
+	shader->bindShader();
+	shader->autoEnableVertexAttribArray();
 
-	shader->SendUniform("guiType", 0);
+	shader->sendUniform("guiType", 0);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 	glVertexAttribPointer((GLint) 0, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-	shader->SendUniform("color", color);
+	shader->sendUniform("color", color);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-	shader->SendUniform("color", color);
+	shader->sendUniform("color", color);
 	glDrawArrays(GL_LINE_LOOP, 4, 4);
 
 	if (blinkerOn && blinkerTimer > 0.5f) {
-		shader->SendUniform("color", Math::vec4f(0, 0, 1, 1));
+		shader->sendUniform("color", Math::vec4f(0, 0, 1, 1));
 		glDrawArrays(GL_LINES, 8, 2);
 	}
 
-	shader->AutoDisableVertexAttribArray();
+	shader->autoDisableVertexAttribArray();
 
 	glDisable(GL_BLEND);
 

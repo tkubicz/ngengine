@@ -168,14 +168,14 @@ template <typename T> void Frustum<T>::InitialiseVBA() {
 }
 
 template <typename T> void Frustum<T>::Render() {
-	shader->BindShader();
+	shader->bindShader();
 
 	Rendering::Renderer::GetInstance().GetMatrixStack().PushMatrix();
 	//Rendering::Renderer::GetInstance().GetMatrixStack().Scale(15.0f, 15.0f, 15.0f);
 
-	shader->SendUniform4x4("modelview_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX));
-	shader->SendUniform4x4("projection_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(PROJECTION_MATRIX));
-	shader->SendUniform("color", Math::vec4f(0.0f, 0.0f, 1.f));
+	shader->sendUniform4x4("modelview_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX));
+	shader->sendUniform4x4("projection_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(PROJECTION_MATRIX));
+	shader->sendUniform("color", Math::vec4f(0.0f, 0.0f, 1.f));
 
 	glBindVertexArray(vertexArray);
 	// TODO: Fix that, change GL_QUADS to something else. GL_QUADS is depricated.
@@ -183,12 +183,12 @@ template <typename T> void Frustum<T>::Render() {
 	glDrawArrays(GL_QUADS, 0, 24);
 #endif
 
-	shader->SendUniform("color", Math::vec4f(1.0f, 0.0f, 0.f));
+	shader->sendUniform("color", Math::vec4f(1.0f, 0.0f, 0.f));
 	glDrawArrays(GL_LINES, 24, 36);
 
 	glBindVertexArray(0);
 
 	Rendering::Renderer::GetInstance().GetMatrixStack().PopMatrix();
 
-	shader->UnbindShader();
+	shader->unbindShader();
 }

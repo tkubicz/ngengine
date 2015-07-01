@@ -217,12 +217,12 @@ void Sphere::Render() {
 		return;
 	}
 
-	shader->BindShader();
+	shader->bindShader();
 	texture->Activate();
 
-	shader->SendUniform4x4("modelview_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX));
-	shader->SendUniform4x4("projection_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(PROJECTION_MATRIX));
-	shader->SendUniform("texture0", 0);
+	shader->sendUniform4x4("modelview_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX));
+	shader->sendUniform4x4("projection_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(PROJECTION_MATRIX));
+	shader->sendUniform("texture0", 0);
 
 	//int verticesPerStrip = (slices + 1) * 2;
 	//int start = 0;
@@ -236,7 +236,7 @@ void Sphere::Render() {
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
-	shader->UnbindShader();
+	shader->unbindShader();
 	texture->Deactivate();
 }
 
