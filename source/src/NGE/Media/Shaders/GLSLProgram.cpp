@@ -6,9 +6,7 @@
 using namespace NGE::Media::Shaders;
 
 GLSLProgram::GLSLProgram(const string& vertexShader, const string& fragmentShader) {
-	this->vertexShader.filename = vertexShader;
-	this->fragmentShader.filename = fragmentShader;
-	this->xmlShader = false;
+	setShader(vertexShader, fragmentShader);
 }
 
 GLSLProgram::GLSLProgram(const pugi::xml_node& node) {
@@ -17,12 +15,25 @@ GLSLProgram::GLSLProgram(const pugi::xml_node& node) {
 	}
 }
 
+bool GLSLProgram::setShaderSource(const string vertexShaderSource, const string fragmentShaderSource) {
+
+	vertexShader.source = vertexShaderSource;
+	fragmentShader.source = fragmentShaderSource;
+
+	this->xmlShader = false;
+	this->fileShader = false;
+
+	// TODO: Check if this method really should be boolean.
+	return true;
+}
+
 bool GLSLProgram::setShader(const string& vertexShaderPath, const string& fragmentShaderPath) {
 	this->vertexShader.filename = vertexShaderPath;
 	this->fragmentShader.filename = vertexShaderPath;
 	this->xmlShader = false;
+	this->fileShader = true;
 
-	// TODO: Check if this method realy should be boolean.
+	// TODO: Check if this method really should be boolean.
 	return true;
 }
 
@@ -77,26 +88,25 @@ void GLSLProgram::unload() {
 }
 
 bool GLSLProgram::initialize(bool bindAttribs) {
-	programId = -1;
 	programId = glCreateProgram();
-	if (programId == -1) {
+	if (programId == 0) {
 		Tools::Logger::WriteErrorLog("GLSL Shader --> Could not create program");
 		return false;
 	}
 
 	vertexShader.id = glCreateShader(GL_VERTEX_SHADER);
-	if (vertexShader.id == -1) {
+	if (vertexShader.id == 0) {
 		Tools::Logger::WriteErrorLog("GLSL Shader --> Could not create vertex shader");
 		return false;
 	}
 
 	fragmentShader.id = glCreateShader(GL_FRAGMENT_SHADER);
-	if (fragmentShader.id == -1) {
+	if (fragmentShader.id == 0) {
 		Tools::Logger::WriteErrorLog("GLSL Shader --> Could not create fragment shader");
 		return false;
 	}
 
-	if (!xmlShader) {
+	if (!xmlShader && fileShader) {
 		vertexShader.source = readFile(vertexShader.filename);
 		fragmentShader.source = readFile(fragmentShader.filename);
 	}

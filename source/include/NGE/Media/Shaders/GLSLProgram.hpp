@@ -30,21 +30,18 @@ namespace NGE {
 			class GLSLProgram {
 			  public:
 
-				struct GLSLShader {
+				class GLSLShader {
+				  public:
 					unsigned int id;
-					string filename;
-					string source;
-
-					GLSLShader() {
-						id = -1;
-						filename = source = "";
-					}
+					std::string filename;
+					std::string source;
 				};
 
-				struct UniformVariable {
+				class UniformVariable {
+				  public:
 					unsigned int index;
-					string name;
-					string type;
+					std::string name;
+					std::string type;
 				};
 
 				GLSLProgram() : xmlShader(false) { }
@@ -53,6 +50,7 @@ namespace NGE {
 
 				virtual ~GLSLProgram() { }
 
+				bool setShaderSource(const string vertexShaderSource, const string fragmentShaderSource);
 				bool setShader(const string& vertexShaderPath, const string& fragmentShaderPath);
 				bool loadXMLSettings(const pugi::xml_node& node);
 
@@ -87,6 +85,7 @@ namespace NGE {
 				const std::string& getName();
 
 			  private:
+
 				string readFile(const string& filename);
 				bool compileShader(const GLSLShader& shader);
 				void outputShaderLog(unsigned int shaderId);
@@ -98,6 +97,7 @@ namespace NGE {
 
 				unsigned int programId;
 				bool xmlShader;
+				bool fileShader;
 				std::string name;
 
 				map<string, GLuint> uniformMap;
