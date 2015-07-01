@@ -19,14 +19,14 @@ namespace NGE {
 
 			class ShaderManager {
 			  public:
-				void Initialize();
-				void Deinitialize();
+				void initialize();
+				void deinitialize();
 
-				bool LoadProgram(const std::string& programName, const std::string& fileName);
-				GLSLProgram* GetProgram(const std::string& name);
-				GLSLProgram* GetProgram(const pugi::xml_node& node);
+				bool loadProgram(const std::string& programName, const std::string& fileName);
+				GLSLProgram* getProgram(const std::string& name);
+				GLSLProgram* getProgram(const pugi::xml_node& node);
 
-				int GetProgramCount();
+				int getProgramCount();
 
 			  private:
 				std::map<std::string, GLSLProgram> programs;

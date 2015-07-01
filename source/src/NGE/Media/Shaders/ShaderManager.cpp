@@ -6,14 +6,14 @@
 
 using namespace NGE::Media::Shaders;
 
-void ShaderManager::Deinitialize() {
+void ShaderManager::deinitialize() {
 	for (std::map<std::string, GLSLProgram>::iterator it = ShaderManager::programs.begin(); it != ShaderManager::programs.end(); ++it)
 		it->second.unload();
 
 	ShaderManager::programs.clear();
 }
 
-bool ShaderManager::LoadProgram(const std::string& programName, const std::string& fileName) {
+bool ShaderManager::loadProgram(const std::string& programName, const std::string& fileName) {
 	std::map<std::string, GLSLProgram>::iterator it = ShaderManager::programs.find(programName);
 	if (it != ShaderManager::programs.end())
 		return true;
@@ -44,7 +44,7 @@ bool ShaderManager::LoadProgram(const std::string& programName, const std::strin
 	}
 }
 
-GLSLProgram* ShaderManager::GetProgram(const std::string& name) {
+GLSLProgram* ShaderManager::getProgram(const std::string& name) {
 	std::map<std::string, GLSLProgram>::iterator it = ShaderManager::programs.find(name);
 	if (it != ShaderManager::programs.end()) {
 		return &(it->second);
@@ -54,7 +54,7 @@ GLSLProgram* ShaderManager::GetProgram(const std::string& name) {
 	return NULL;
 }
 
-GLSLProgram* ShaderManager::GetProgram(const pugi::xml_node& node) {
+GLSLProgram* ShaderManager::getProgram(const pugi::xml_node& node) {
 	if (string(node.name()) != "Shader") {
 		Tools::Logger::WriteErrorLog("ShaderManager --> Need Shader node");
 		return NULL;
@@ -64,13 +64,13 @@ GLSLProgram* ShaderManager::GetProgram(const pugi::xml_node& node) {
 	std::string shaderFile = node.attribute("fileName").as_string();
 
 	if (shaderName.length() > 0 && shaderFile.length() > 0) {
-		if (Media::MediaManager::GetInstance().GetShaderManager().LoadProgram(shaderName, shaderFile))
-			return GetProgram(shaderName);
+		if (Media::MediaManager::GetInstance().GetShaderManager().loadProgram(shaderName, shaderFile))
+			return getProgram(shaderName);
 	}
 
 	return NULL;
 }
 
-int ShaderManager::GetProgramCount() {
+int ShaderManager::getProgramCount() {
 	return programs.size();
 }

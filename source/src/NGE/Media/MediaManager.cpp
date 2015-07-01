@@ -10,7 +10,7 @@ MediaManager::~MediaManager() { }
 void MediaManager::Initialize() { }
 
 void MediaManager::Deinitialize() {
-	shaderManager.Deinitialize();
+	shaderManager.deinitialize();
 	textureManager.Deinitialize();
 	fontManager.Deinitialize();
 }
