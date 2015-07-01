@@ -39,7 +39,7 @@ bool TextureManager::LoadTexture(const pugi::xml_node& node) {
 		return true;
 	else {
 		Texture* texture = new Texture();
-		std::vector<std::string> paths = NGE::Media::MediaManager::GetInstance().GetMediaPathManager().GetPaths("texture");
+		std::vector<std::string> paths = NGE::Media::MediaManager::getInstance().getMediaPathManager().GetPaths("texture");
 
 		for (std::vector<std::string>::iterator i = paths.begin(); i != paths.end(); ++i) {
 			if (texture->LoadXMLSettings(node, *i)) {

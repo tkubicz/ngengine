@@ -56,7 +56,7 @@ bool GUIText::LoadXMLSettings(const pugi::xml_node& node) {
 	}
 
 #ifdef NGE_USE_FREETYPE
-	SetFont(Media::MediaManager::GetInstance().GetFontManager().GetFont(node.child("FreeTypeFont")));
+	SetFont(Media::MediaManager::getInstance().getFontManager().GetFont(node.child("FreeTypeFont")));
 #endif
 	SetString(node.attribute("string").as_string());
 	SetHeightScale(node.attribute("hScale").as_float());

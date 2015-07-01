@@ -23,18 +23,18 @@ namespace NGE {
 			MediaManager& operator=(const MediaManager&);
 			~MediaManager();
 
-			static MediaManager& GetInstance() {
+			static MediaManager& getInstance() {
 				static MediaManager instance;
 				return instance;
 			}
 
-			void Initialize();
-			void Deinitialize();
+			void initialize();
+			void deinitialize();
 
-			MediaPathManager& GetMediaPathManager();
-			Shaders::ShaderManager& GetShaderManager();
-			Images::TextureManager& GetTextureManager();
-			Fonts::FontManager& GetFontManager();
+			MediaPathManager& getMediaPathManager();
+			Shaders::ShaderManager& getShaderManager();
+			Images::TextureManager& getTextureManager();
+			Fonts::FontManager& getFontManager();
 
 		  private:
 			MediaPathManager mediaPathManager;

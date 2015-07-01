@@ -7,26 +7,26 @@ MediaManager::MediaManager(const MediaManager&) { }
 
 MediaManager::~MediaManager() { }
 
-void MediaManager::Initialize() { }
+void MediaManager::initialize() { }
 
-void MediaManager::Deinitialize() {
+void MediaManager::deinitialize() {
 	shaderManager.deinitialize();
 	textureManager.Deinitialize();
 	fontManager.Deinitialize();
 }
 
-MediaPathManager& MediaManager::GetMediaPathManager() {
+MediaPathManager& MediaManager::getMediaPathManager() {
 	return mediaPathManager;
 }
 
-Shaders::ShaderManager& MediaManager::GetShaderManager() {
+Shaders::ShaderManager& MediaManager::getShaderManager() {
 	return shaderManager;
 }
 
-Images::TextureManager& MediaManager::GetTextureManager() {
+Images::TextureManager& MediaManager::getTextureManager() {
 	return textureManager;
 }
 
-Fonts::FontManager& MediaManager::GetFontManager() {
+Fonts::FontManager& MediaManager::getFontManager() {
 	return fontManager;
 }

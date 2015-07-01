@@ -216,7 +216,7 @@ bool GUIClippedRectangle::LoadXMLClippedRectangleInfo(const pugi::xml_node& node
 		return false;
 
 	if (!node.child("Texture2D").empty()) {
-		texture = Media::MediaManager::GetInstance().GetTextureManager().GetTexture(node.child("Texture2D"));
+		texture = Media::MediaManager::getInstance().getTextureManager().GetTexture(node.child("Texture2D"));
 	}
 
 	if (!node.child("TextureRectangle").empty()) {
@@ -254,7 +254,7 @@ bool GUIClippedRectangle::LoadXMLClippedRectangleInfo(const pugi::xml_node& node
 	}
 
 	if (!node.child("Shader").empty()) {
-		shader = Media::MediaManager::GetInstance().GetShaderManager().getProgram(node.child("Shader"));
+		shader = Media::MediaManager::getInstance().getShaderManager().getProgram(node.child("Shader"));
 	}
 
 	if (!node.attribute("drawBackground").empty())

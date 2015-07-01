@@ -19,7 +19,7 @@ bool ShaderManager::loadProgram(const std::string& programName, const std::strin
 		return true;
 	else {
 		GLSLProgram program;
-		std::vector<std::string> paths = NGE::Media::MediaManager::GetInstance().GetMediaPathManager().GetPaths("shader");
+		std::vector<std::string> paths = NGE::Media::MediaManager::getInstance().getMediaPathManager().GetPaths("shader");
 
 		for (std::vector<std::string>::iterator i = paths.begin(); i != paths.end(); ++i) {
 			pugi::xml_document shaderDoc;
@@ -64,7 +64,7 @@ GLSLProgram* ShaderManager::getProgram(const pugi::xml_node& node) {
 	std::string shaderFile = node.attribute("fileName").as_string();
 
 	if (shaderName.length() > 0 && shaderFile.length() > 0) {
-		if (Media::MediaManager::GetInstance().GetShaderManager().loadProgram(shaderName, shaderFile))
+		if (Media::MediaManager::getInstance().getShaderManager().loadProgram(shaderName, shaderFile))
 			return getProgram(shaderName);
 	}
 

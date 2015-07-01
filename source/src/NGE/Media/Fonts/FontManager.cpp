@@ -28,7 +28,7 @@ bool FontManager::LoadFont(const pugi::xml_node& node) {
 		return true;
 	else {
 		FreeTypeFont* font = new FreeTypeFont();
-		std::vector<std::string> paths = MediaManager::GetInstance().GetMediaPathManager().GetPaths("font");
+		std::vector<std::string> paths = MediaManager::getInstance().getMediaPathManager().GetPaths("font");
 
 		for (std::vector<std::string>::iterator i = paths.begin(); i != paths.end(); ++i) {
 			if (font->LoadXMLSettings(node, *i)) {
