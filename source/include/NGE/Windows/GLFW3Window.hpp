@@ -65,7 +65,7 @@ namespace NGE {
 			bool GetVSync();
 			void SetVSync(bool vsync);
 
-			void SetApplication(Application* app);
+			virtual void SetApplication(Application* app);
 
 			virtual void EnableMouseCursor(bool value);
 			virtual bool IsMouseCursorEnable();

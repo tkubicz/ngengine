@@ -4,8 +4,11 @@
 
 using namespace NGE::Windows;
 
+Application* AndroidWindow::app = NULL;
+
 AndroidWindow::AndroidWindow() {
 	isRunning = true;
+	isPaused = true;
 }
 
 bool AndroidWindow::Create() {
@@ -20,7 +23,7 @@ bool AndroidWindow::Create() {
 	// Below, we select an EGLConfig with at least 8 bits per colour
 	// component compatible with on-screen windows.
 	const EGLint attribs[] = {
-		EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT ,
+		EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
 		EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
 		EGL_BLUE_SIZE, 8,
 		EGL_GREEN_SIZE, 8,
@@ -65,7 +68,8 @@ bool AndroidWindow::Create() {
 	eglQuerySurface(eglDisplay, eglSurface, EGL_HEIGHT, &height);
 
 	initialized = true;
-
+	isPaused = false;
+	
 	return true;
 }
 
@@ -114,7 +118,7 @@ void AndroidWindow::ProcessEvents() {
 		}
 
 		if (state->destroyRequested) {
-			//closing = true;
+			isRunning = false;
 		}
 	}
 }
@@ -125,7 +129,18 @@ bool AndroidWindow::LoadXMLSettings(pugi::xml_node& windowNode) {
 	return true;
 }
 
-bool AndroidWindow::IsRunning() { }
+bool AndroidWindow::IsRunning() {
+	return isRunning;
+}
+
+void AndroidWindow::SetPaused(bool value) {
+	Tools::Logger::WriteInfoLog("SetPaused with value: " + to_string(value));
+	isPaused = value;
+}
+
+bool AndroidWindow::IsPaused() {
+	return isPaused;
+}
 
 void AndroidWindow::SwapBuffers() {
 	eglSwapBuffers(eglDisplay, eglSurface);
@@ -170,6 +185,11 @@ bool AndroidWindow::GetVSync() {
 }
 
 void AndroidWindow::SetVSync(bool vsync) { }
+
+void AndroidWindow::SetApplication(Application* app) {
+	this->app = app;
+	app->SetWindow(this);
+}
 
 void AndroidWindow::EnableMouseCursor(bool) { }
 

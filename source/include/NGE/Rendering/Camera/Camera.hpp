@@ -46,6 +46,8 @@ namespace NGE {
 				const Math::vec3f& GetUpDirection() const;
 
 				void RotateAroundPoint(const Math::vec3f& center, float angle, float x, float y, float z);
+				
+				Math::mat4f getViewMatrix();
 
 			  private:
 				void ProcessKeyboardEvents();

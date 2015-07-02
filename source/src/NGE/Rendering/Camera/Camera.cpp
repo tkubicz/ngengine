@@ -193,3 +193,7 @@ void Camera::SetViewByMouse() {
 	if (mouseLocked)
 		mouseLockedPosition = mousePosition;
 }
+
+NGE::Math::mat4f Camera::getViewMatrix() {
+	return viewMatrix;
+}

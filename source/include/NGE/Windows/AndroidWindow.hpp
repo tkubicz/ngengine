@@ -12,8 +12,8 @@
 
 #include <string>
 #include "NGE/Core/Core.hpp"
+#include "NGE/Windows/Application.hpp"
 #include "NGE/Windows/AbstractWindow.hpp"
-#include "NGE/Math/Vector2.hpp"
 
 namespace NGE {
 	namespace Windows {
@@ -42,6 +42,10 @@ namespace NGE {
 			virtual bool LoadXMLSettings(pugi::xml_node& windowNode);
 
 			virtual bool IsRunning();
+
+			bool IsPaused();
+			void SetPaused(bool value);
+
 			virtual void SwapBuffers();
 
 			virtual void SetWindowTitle(const std::string& title);
@@ -63,6 +67,8 @@ namespace NGE {
 			virtual bool GetVSync();
 			virtual void SetVSync(bool vsync);
 
+			virtual void SetApplication(Application* app);
+
 			virtual void EnableMouseCursor(bool);
 			virtual bool IsMouseCursorEnable();
 			virtual Math::vec2i GetMousePosition() const;
@@ -78,6 +84,12 @@ namespace NGE {
 						AndroidWindow* window = static_cast<AndroidWindow*> (app->userData);
 						if (window != nullptr) {
 							window->Create();
+							AndroidWindow::app->OnResize(ANativeWindow_getWidth(app->window), ANativeWindow_getHeight(app->window));
+							if (!AndroidWindow::app->Init()) {
+								NGE::Tools::Logger::WriteErrorLog("Could not initialize application");
+								return;
+							}
+							window->SetPaused(false);
 						}
 						break;
 					}
@@ -100,15 +112,31 @@ namespace NGE {
 						break;
 					}
 
+					case APP_CMD_WINDOW_RESIZED:
+					{
+						AndroidWindow* window = static_cast<AndroidWindow*> (app->userData);
+						if (window != nullptr) {
+							//Tools::Logger::WriteInfoLog("Width: " + ANativeWindow_getWidth(app->window));
+							//Tools::Logger::WriteInfoLog("Height: " + to_string(ANativeWindow_getHeight(app->window)));
+						}
+						break;
+					}
+
 					case APP_CMD_RESUME:
 					{
-						// TODO: Set paused to false
+						AndroidWindow* window = static_cast<AndroidWindow*> (app->userData);
+						if (window != nullptr) {
+							window->SetPaused(false);
+						}
 						break;
 					}
 
 					case APP_CMD_PAUSE:
 					{
-						// TODO: Set paused to true
+						AndroidWindow* window = static_cast<AndroidWindow*> (app->userData);
+						if (window != nullptr) {
+							window->SetPaused(true);
+						}
 						break;
 					}
 				}
@@ -122,6 +150,9 @@ namespace NGE {
 			int width, height;
 			bool initialized;
 			bool isRunning;
+			bool isPaused;
+
+			static Application* app;
 		};
 	}
 }

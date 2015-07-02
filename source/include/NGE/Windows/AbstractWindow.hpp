@@ -16,6 +16,8 @@
 namespace NGE {
 	namespace Windows {
 
+		class Application;
+		
 		class AbstractWindow {
 		  public:
 			virtual bool Create() = 0;
@@ -58,6 +60,8 @@ namespace NGE {
 
 			virtual bool GetVSync() = 0;
 			virtual void SetVSync(bool vsync) = 0;
+
+			virtual void SetApplication(Application* app) = 0;
 
 			virtual void EnableMouseCursor(bool) = 0;
 			virtual bool IsMouseCursorEnable() = 0;
