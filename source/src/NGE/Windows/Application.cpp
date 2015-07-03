@@ -33,6 +33,9 @@ void Application::OnMouse(NGE::Events::MouseEvent& event) { }
 void Application::OnMouseDrag(int x, int y) { }
 
 void Application::OnResize(int width, int height) {
+	
+	Tools::Logger::WriteInfoLog("Application::OnResize - width/height: " + to_string(width) + "/" + to_string(height));
+	
 	window->SetSize(Math::vec2i(width, height));
 	glViewport(0, 0, width, height);
 
@@ -43,6 +46,9 @@ void Application::OnResize(int width, int height) {
 
 	Math::mat4f perspective;
 	perspective.SetPerspectiveProjection(52.0f, float(width) / float(height), 0.1f, 4000.0f);
+	
+	Tools::Logger::WriteInfoLog("Application::OnResize - perspeciveProjectionMatrix: " + to_string(perspective));
+	
 	Rendering::Renderer::GetInstance().GetMatrixStack().Multiple(perspective);
 
 	Rendering::Renderer::GetInstance().GetMatrixStack().SetMatrixMode(MODELVIEW_MATRIX);

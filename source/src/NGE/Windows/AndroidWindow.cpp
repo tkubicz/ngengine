@@ -69,7 +69,7 @@ bool AndroidWindow::Create() {
 
 	initialized = true;
 	isPaused = false;
-	
+
 	return true;
 }
 
@@ -153,20 +153,24 @@ std::string AndroidWindow::GetWindowTitle() const {
 }
 
 int AndroidWindow::GetWidth() const {
-	return 1;
+	return width;
 }
 
 int AndroidWindow::GetHeight() const {
-	return 1;
+	return height;
 }
 
 NGE::Math::vec2i AndroidWindow::GetSize() const {
-	return Math::vec2i(1, 1);
+	return Math::vec2i(width, height);
 }
 
-void AndroidWindow::SetWidth(const int width) { }
+void AndroidWindow::SetWidth(const int width) {
+	this->width = width;
+}
 
-void AndroidWindow::SetHeight(const int height) { }
+void AndroidWindow::SetHeight(const int height) {
+	this->height = height;
+}
 
 void AndroidWindow::SetSize(const Math::vec2i& size) { }
 

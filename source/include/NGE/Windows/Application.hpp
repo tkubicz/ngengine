@@ -27,7 +27,6 @@ namespace NGE {
 			void SetWindow(AbstractWindow* window);
 			AbstractWindow* GetWindow();
 
-
 		  protected:
 			AbstractWindow* window;
 		};
