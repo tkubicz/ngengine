@@ -82,6 +82,7 @@ bool AndroidWindow::CreateSlave(bool visible) {
 bool AndroidWindow::Init() {
 	Tools::Logger::WriteInfoLog("AndroidWindow init invoked");
 	state->onAppCmd = AndroidWindow::handleCmd;
+    state->onInputEvent = AndroidWindow::handleInput;
 	state->userData = static_cast<void*> (this);
 }
 
