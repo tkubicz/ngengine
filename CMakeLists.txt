@@ -96,8 +96,10 @@ endif()
 add_library(nge SHARED
 	source/src/NGE/Appearance/Light.cpp
 	source/src/NGE/Appearance/Scene/SceneNode.cpp
+
 	source/src/NGE/Events/KeyboardEvent.cpp
 	source/src/NGE/Events/MouseEvent.cpp
+    source/src/NGE/Events/TouchEvent.cpp
 
 	source/src/NGE/Geometry/Basic/Box.cpp
 	source/src/NGE/Geometry/Basic/Floor.cpp
