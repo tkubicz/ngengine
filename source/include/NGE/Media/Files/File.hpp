@@ -14,31 +14,39 @@
 #include <android/asset_manager.h>
 
 namespace NGE {
-    namespace Media {
-        namespace Files {
+	namespace Media {
+		namespace Files {
 
-            class File {
-              private:
-                std::string filename;
-                static AAssetManager* assetManager;
-                AAsset* asset;
+			class File {
+			  private:
+				std::string name;
+				unsigned int length;
 
-              public:
-                explicit File(std::string name);
-                virtual ~File();
+				static AAssetManager* assetManager;
+				AAsset* asset;
 
-                bool Open();
-                void Read(void* buffer, const unsigned int bytesToRead, size_t& bytesRead);
-                void Close();
+			  public:
+				File();
+				explicit File(std::string name);
+				virtual ~File();
 
-                unsigned int Length() const;
+				bool Open();
+				void Close();
 
-                static const size_t READ_FAILED = 0xFFFFFFFF;
+				void Read(void* buffer, size_t& bytesRead);
+				void Read(void* buffer, const unsigned int bytesToRead, size_t& bytesRead);
 
-                static void SetAssetManager(AAssetManager* assetManager);
-            };
-        }
-    }
+				unsigned int GetLength() const;
+
+				void SetName(const std::string& name);
+				std::string GetName() const;
+
+				static const size_t READ_FAILED = 0xFFFFFFFF;
+
+				static void SetAssetManager(AAssetManager* assetManager);
+			};
+		}
+	}
 }
 
 #endif  /* ANDROID */
