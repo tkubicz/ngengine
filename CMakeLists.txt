@@ -63,23 +63,18 @@ if (NOT ANDROID)
 	endif()
 
 	# Find OpenGL
-	find_package (OpenGL)
-	if (OpenGL_FOUND)
-		message(STATUS "OpenGL found")
-	endif(OpenGL_FOUND)
+	find_package (OpenGL REQUIRED)
 
 	# Find GLFW
-	find_package (GLFW)
-	if (GLFW_FOUND)
-		message(STATUS "GLFW found")
-	endif (GLFW_FOUND)
+	find_package (GLFW REQUIRED)
 
 	# Find GLEW
-	find_package (GLEW)
-	if (GLEW_FOUND)
-		message(STATUS "GLEW found")
-	endif(GLEW_FOUND)
+	find_package (GLEW REQUIRED)
 endif()
+
+# Any System
+# Find zlib
+find_package (ZLIB REQUIRED)
 
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/source/include/)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/source/src/NGE/)
