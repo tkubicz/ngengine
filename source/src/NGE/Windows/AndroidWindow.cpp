@@ -1,6 +1,7 @@
 #ifdef ANDROID
 #include "NGE/Core/Core.hpp"
 #include "NGE/Windows/AndroidWindow.hpp"
+#include "NGE/Media/Files/File.hpp"
 
 using namespace NGE::Windows;
 
@@ -84,6 +85,12 @@ bool AndroidWindow::Init() {
 	state->onAppCmd = AndroidWindow::handleCmd;
     state->onInputEvent = AndroidWindow::handleInput;
 	state->userData = static_cast<void*> (this);
+	
+	if (state->activity->assetManager == nullptr) {
+		Tools::Logger::WriteErrorLog("AssetManager is null");
+	} else {
+		Media::Files::File::SetAssetManager(state->activity->assetManager);
+	}
 }
 
 void AndroidWindow::Destroy() {

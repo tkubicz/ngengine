@@ -33,7 +33,7 @@ bool TargaImage::load(const std::string& filename, bool suppressError) {
 		return false;
 	}
 
-	// Przeczytanie pierwszych 12 bajtów pliku
+	// Read first 12 bytes of the file.
 	fileIn.read(reinterpret_cast<char*> (&header), sizeof (TargaHeader));
 
 	if (!IsImageTypeSupported(header)) {
@@ -53,13 +53,13 @@ bool TargaImage::load(const std::string& filename, bool suppressError) {
 		return false;
 	}
 
-	// Obliczenie wielkości obrazka
+	// Calculate image size.
 	unsigned int imageSize = width * height * bytesPerPixel;
 
-	// Zalokowanie pamięci
+	// Allocate the memory.
 	imageData.resize(imageSize);
 
-	// Pominięcie id jeżeli istnieje
+	// Skip ID if exists.
 	if (header.idLength > 0) {
 		fileIn.ignore(header.idLength);
 	}

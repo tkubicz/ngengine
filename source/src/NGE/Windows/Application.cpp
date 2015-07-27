@@ -17,7 +17,7 @@ Application::Application() { }
 Application::~Application() { }
 
 bool Application::Init() {
-	return true;
+    return true;
 }
 
 void Application::Prepare(float dt) { }
@@ -32,33 +32,35 @@ void Application::OnMouse(NGE::Events::MouseEvent& event) { }
 
 void Application::OnMouseDrag(int x, int y) { }
 
+void Application::OnTouch(Events::TouchEvent& event) { }
+
 void Application::OnResize(int width, int height) {
-	
-	Tools::Logger::WriteInfoLog("Application::OnResize - width/height: " + to_string(width) + "/" + to_string(height));
-	
-	window->SetSize(Math::vec2i(width, height));
-	glViewport(0, 0, width, height);
 
-	Rendering::Renderer::GetInstance().GetMatrixStack().SetMatrixMode(PROJECTION_MATRIX);
-	Rendering::Renderer::GetInstance().GetMatrixStack().Identity();
+    Tools::Logger::WriteInfoLog("Application::OnResize - width/height: " + to_string(width) + "/" + to_string(height));
 
-	Rendering::Renderer::GetInstance().SetDimensions(Math::vec2i(width, height));
+    window->SetSize(Math::vec2i(width, height));
+    glViewport(0, 0, width, height);
 
-	Math::mat4f perspective;
-	perspective.SetPerspectiveProjection(52.0f, float(width) / float(height), 0.1f, 4000.0f);
-	
-	Tools::Logger::WriteInfoLog("Application::OnResize - perspeciveProjectionMatrix: " + to_string(perspective));
-	
-	Rendering::Renderer::GetInstance().GetMatrixStack().Multiple(perspective);
+    Rendering::Renderer::GetInstance().GetMatrixStack().SetMatrixMode(PROJECTION_MATRIX);
+    Rendering::Renderer::GetInstance().GetMatrixStack().Identity();
 
-	Rendering::Renderer::GetInstance().GetMatrixStack().SetMatrixMode(MODELVIEW_MATRIX);
-	Rendering::Renderer::GetInstance().GetMatrixStack().Identity();
+    Rendering::Renderer::GetInstance().SetDimensions(Math::vec2i(width, height));
+
+    Math::mat4f perspective;
+    perspective.SetPerspectiveProjection(52.0f, float(width) / float(height), 0.1f, 4000.0f);
+
+    Tools::Logger::WriteInfoLog("Application::OnResize - perspeciveProjectionMatrix: " + to_string(perspective));
+
+    Rendering::Renderer::GetInstance().GetMatrixStack().Multiple(perspective);
+
+    Rendering::Renderer::GetInstance().GetMatrixStack().SetMatrixMode(MODELVIEW_MATRIX);
+    Rendering::Renderer::GetInstance().GetMatrixStack().Identity();
 }
 
 void Application::SetWindow(AbstractWindow* window) {
-	this->window = window;
+    this->window = window;
 }
 
 AbstractWindow* Application::GetWindow() {
-	return window;
+    return window;
 }

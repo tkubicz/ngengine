@@ -189,8 +189,10 @@ namespace NGE {
                     touchEvent.setYPosition(AMotionEvent_getY(event, 0));
 
                     handled = 1;
-                    
-                    Tools::Logger::WriteInfoLog("Touch detected: x = " + to_string(touchEvent.getXPosition()) + ", y = " + to_string(touchEvent.getYPosition()));
+
+                    Tools::Logger::WriteInfoLog("Touch detected: event = " + to_string(touchEvent.getType()) + ", x = " + to_string(touchEvent.getXPosition()) + ", y = " + to_string(touchEvent.getYPosition()));
+
+                    AndroidWindow::app->OnTouch(touchEvent);
 
                     /*if (action == AMOTION_EVENT_ACTION_DOWN) {
                         // Send event

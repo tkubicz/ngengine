@@ -144,6 +144,8 @@ add_library(nge SHARED
 	source/src/NGE/Math/MathUtils.cpp
 	source/src/NGE/Math/NumberConverter.cpp
 
+    source/src/NGE/Media/Files/File.cpp
+
 	source/src/NGE/Media/Fonts/FontManager.cpp
 	source/src/NGE/Media/Fonts/FreeTypeFont.cpp
 	source/src/NGE/Media/Fonts/TextureMappedFont.cpp

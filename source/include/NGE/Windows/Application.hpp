@@ -3,6 +3,7 @@
 
 #include "NGE/Events/MouseEvent.hpp"
 #include "NGE/Events/KeyboardEvent.hpp"
+#include "NGE/Events/TouchEvent.hpp"
 #include "NGE/Windows/AbstractWindow.hpp"
 
 namespace NGE {
@@ -21,6 +22,7 @@ namespace NGE {
 			virtual void OnKeyPressed(Events::KeyboardEvent& event);
 			virtual void OnMouse(Events::MouseEvent& event);
 			virtual void OnMouseDrag(int x, int y);
+            virtual void OnTouch(Events::TouchEvent& event);
 
 			virtual void OnResize(int width, int height);
 
