@@ -8,6 +8,8 @@
 #ifndef CORE_HPP
 #define	CORE_HPP
 
+//#define ANDROID
+
 #ifdef ANDROID
 #include <EGL/egl.h>
 #include <GLES3/gl3.h>
