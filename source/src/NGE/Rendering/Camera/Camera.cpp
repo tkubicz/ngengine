@@ -56,7 +56,7 @@ void Camera::Look() {
 void Camera::SetTouchInput(Events::TouchEvent& event) {
     int y = event.getYPosition();
     int x = event.getXPosition();
-    Tools::Logger::WriteInfoLog("SetTouchInput: x=" + to_string(x) + ", y=" + to_string(y));
+    log_info("SetTouchInput: x=" + to_string(x) + ", y=" + to_string(y));
     if (y < 900 && x > 270 && x < 810) {
         activeKeys[0] = (event.getType() == 1 || event.getType() == 3) ? true : false;
     }

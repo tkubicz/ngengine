@@ -17,7 +17,7 @@ bool TextureManager::addTexture(const std::string& name, Texture* texture) {
 		return true;
 	else {
 		textures.insert(std::make_pair(name, texture));
-		Tools::Logger::WriteInfoLog("TextureManager --> New texture added: " + name + " (" + to_string(texture->getSizeInBytes() / 1024) + " kB)");
+		log_info("TextureManager --> New texture added: " + name + " (" + to_string(texture->getSizeInBytes() / 1024) + " kB)");
 		return true;
 	}
 }
@@ -44,7 +44,7 @@ bool TextureManager::loadTexture(const pugi::xml_node& node) {
 		for (std::vector<std::string>::iterator i = paths.begin(); i != paths.end(); ++i) {
 			if (texture->loadXMLSettings(node, *i)) {
 				textures.insert(std::make_pair(name, texture));
-				Tools::Logger::WriteInfoLog("TextureManager --> New texture added: " + name + " (" + to_string(texture->getSizeInBytes() / 1024) + " kB)");
+				log_info("TextureManager --> New texture added: " + name + " (" + to_string(texture->getSizeInBytes() / 1024) + " kB)");
 				return true;
 			}
 		}

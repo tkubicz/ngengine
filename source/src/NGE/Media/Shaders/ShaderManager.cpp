@@ -33,7 +33,7 @@ bool ShaderManager::loadProgram(const std::string& programName, const std::strin
 			for (pugi::xml_node node = shaderDoc.child("Shader"); node; node = node.next_sibling("Shader")) {
 				if (node.attribute("name").as_string() == programName && program.loadXMLSettings(node)) {
 					ShaderManager::programs.insert(std::make_pair(programName, program));
-					Tools::Logger::WriteInfoLog("ShaderManager --> New shader program added: " + programName);
+					log_info("ShaderManager --> New shader program added: " + programName);
 					return true;
 				}
 			}

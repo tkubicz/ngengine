@@ -36,7 +36,7 @@ void Application::OnTouch(Events::TouchEvent& event) { }
 
 void Application::OnResize(int width, int height) {
 
-    Tools::Logger::WriteInfoLog("Application::OnResize - width/height: " + to_string(width) + "/" + to_string(height));
+    log_info("Application::OnResize - width/height: " + to_string(width) + "/" + to_string(height));
 
     window->SetSize(Math::vec2i(width, height));
     glViewport(0, 0, width, height);
@@ -49,7 +49,7 @@ void Application::OnResize(int width, int height) {
     Math::mat4f perspective;
     perspective.SetPerspectiveProjection(52.0f, float(width) / float(height), 0.1f, 4000.0f);
 
-    Tools::Logger::WriteInfoLog("Application::OnResize - perspeciveProjectionMatrix: " + to_string(perspective));
+    log_info("Application::OnResize - perspeciveProjectionMatrix: " + to_string(perspective));
 
     Rendering::Renderer::GetInstance().GetMatrixStack().Multiple(perspective);
 

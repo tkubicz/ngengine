@@ -33,7 +33,7 @@ bool FontManager::loadFont(const pugi::xml_node& node) {
 		for (std::vector<std::string>::iterator i = paths.begin(); i != paths.end(); ++i) {
 			if (font->LoadXMLSettings(node, *i)) {
 				fonts.insert(std::make_pair(name, font));
-				Tools::Logger::WriteInfoLog("FontManager --> New font added: " + name + " (" + font->GetFontName() + ")");
+				log_info("FontManager --> New font added: " + name + " (" + font->GetFontName() + ")");
 				return true;
 			}
 		}
