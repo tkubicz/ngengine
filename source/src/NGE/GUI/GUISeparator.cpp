@@ -54,7 +54,7 @@ const NGE::Math::vec3f& GUISeparator::GetColor() {
 
 bool GUISeparator::LoadXMLSettings(const pugi::xml_node& node) {
 	if (string(node.name()) != "Separator") {
-		Tools::Logger::WriteErrorLog("Need Separator node");
+		log_error("Need Separator node");
 		return false;
 	}
 
@@ -62,7 +62,7 @@ bool GUISeparator::LoadXMLSettings(const pugi::xml_node& node) {
 	shader = Media::MediaManager::getInstance().getShaderManager().getProgram(node.child("Shader"));
 
 	if (shader == NULL) {
-		Tools::Logger::WriteErrorLog("Could not load shader for separator");
+		log_error("Could not load shader for separator");
 		return false;
 	}
 

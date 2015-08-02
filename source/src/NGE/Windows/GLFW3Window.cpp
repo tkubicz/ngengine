@@ -123,7 +123,7 @@ void GLFW3Window::SetInputCallbacks() {
 
 bool GLFW3Window::LoadXMLSettings(pugi::xml_node& windowNode) {
 	if (windowNode.attribute("name").empty()) {
-		Tools::Logger::WriteErrorLog("Name attribute cannot be empty");
+		log_error("Name attribute cannot be empty");
 		return false;
 	} else
 		this->title = windowNode.attribute("name").as_string();

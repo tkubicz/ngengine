@@ -53,12 +53,12 @@ GUIRectangle* GUIRectangle::GetParent() {
 
 bool GUIRectangle::LoadXMLSettings(const pugi::xml_node& node) {
 	if (!node) {
-		Tools::Logger::WriteErrorLog("Could not load xml settings file for '" + to_string(callbackString) + "' gui element");
+		log_error("Could not load xml settings file for '" + to_string(callbackString) + "' gui element");
 		return false;
 	}
 
 	if (node.attribute("callbackString").empty() && node.attribute("name").empty()) {
-		Tools::Logger::WriteErrorLog("Need <callbackString> or <name> attribute, check " + to_string(node.name()) + ", line " + to_string(node.offset_debug()));
+		log_error("Need <callbackString> or <name> attribute, check " + to_string(node.name()) + ", line " + to_string(node.offset_debug()));
 		return false;
 	} else if (!node.attribute("callbackString").empty())
 		SetCallbackString(node.attribute("callbackString").as_string());

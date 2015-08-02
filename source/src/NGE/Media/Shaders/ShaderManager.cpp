@@ -39,7 +39,7 @@ bool ShaderManager::loadProgram(const std::string& programName, const std::strin
 			}
 		}
 
-		Tools::Logger::WriteErrorLog(std::string("ShaderManager --> Could not load program: ") + programName + string(" (") + fileName + std::string(")"));
+		log_error(std::string("ShaderManager --> Could not load program: ") + programName + string(" (") + fileName + std::string(")"));
 		return false;
 	}
 }
@@ -50,13 +50,13 @@ GLSLProgram* ShaderManager::getProgram(const std::string& name) {
 		return &(it->second);
 	}
 
-	Tools::Logger::WriteErrorLog("ShaderManager --> Could not find program: " + name);
+	log_error("ShaderManager --> Could not find program: " + name);
 	return NULL;
 }
 
 GLSLProgram* ShaderManager::getProgram(const pugi::xml_node& node) {
 	if (string(node.name()) != "Shader") {
-		Tools::Logger::WriteErrorLog("ShaderManager --> Need Shader node");
+		log_error("ShaderManager --> Need Shader node");
 		return NULL;
 	}
 

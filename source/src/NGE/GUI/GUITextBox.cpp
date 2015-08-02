@@ -31,7 +31,7 @@ GUITextBox::~GUITextBox() {
 
 bool GUITextBox::LoadXMLSettings(const pugi::xml_node& node) {
 	if (std::string(node.name()) != "TextBox") {
-		Tools::Logger::WriteErrorLog("Need TextBox node");
+		log_error("Need TextBox node");
 		return false;
 	}
 
@@ -46,7 +46,7 @@ bool GUITextBox::LoadXMLSettings(const pugi::xml_node& node) {
 
 	shader = Media::MediaManager::getInstance().getShaderManager().getProgram(node.child("Shader"));
 	if (!shader) {
-		Tools::Logger::WriteErrorLog("Could not load shader");
+		log_error("Could not load shader");
 		return false;
 	}
 

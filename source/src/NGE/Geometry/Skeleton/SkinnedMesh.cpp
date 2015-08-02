@@ -24,7 +24,7 @@ void SkinnedMesh::LoadMesh(const std::string& filename) {
 
 	std::ifstream ifile(filename.c_str(), std::ios::in);
 	if (!ifile.is_open()) {
-		Tools::Logger::WriteErrorLog("SkinnedMesh --> Could not open file: " + filename);
+		log_error("SkinnedMesh --> Could not open file: " + filename);
 		return;
 	}
 

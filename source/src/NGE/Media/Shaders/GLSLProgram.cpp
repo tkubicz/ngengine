@@ -11,7 +11,7 @@ GLSLProgram::GLSLProgram(const string& vertexShader, const string& fragmentShade
 
 GLSLProgram::GLSLProgram(const pugi::xml_node& node) {
 	if (!loadXMLSettings(node)) {
-		Tools::Logger::WriteErrorLog("Could not load xml settings for " + boost::lexical_cast<string>(node.name()));
+		log_error("Could not load xml settings for " + boost::lexical_cast<string>(node.name()));
 	}
 }
 
@@ -42,7 +42,7 @@ bool GLSLProgram::loadXMLSettings(const pugi::xml_node& node) {
 
 	name = node.attribute("name").as_string();
 	if (name.length() == 0) {
-		Tools::Logger::WriteErrorLog("Shader attribute name is not valid");
+		log_error("Shader attribute name is not valid");
 		return false;
 	}
 
@@ -51,7 +51,7 @@ bool GLSLProgram::loadXMLSettings(const pugi::xml_node& node) {
 
 	pugi::xml_node vertexShaderNode = node.child("VertexShader");
 	if (vertexShaderNode.empty() || vertexShaderNode.child("Raw").empty()) {
-		Tools::Logger::WriteErrorLog("<VertexShader> node not found in " + name);
+		log_error("<VertexShader> node not found in " + name);
 		return false;
 	} else {
 		for (pugi::xml_node attrib = vertexShaderNode.child("Attrib"); attrib; attrib = attrib.next_sibling("Attrib"))
@@ -63,7 +63,7 @@ bool GLSLProgram::loadXMLSettings(const pugi::xml_node& node) {
 
 	pugi::xml_node fragmentShaderNode = node.child("FragmentShader");
 	if (fragmentShaderNode.empty() || fragmentShaderNode.child("Raw").empty()) {
-		Tools::Logger::WriteErrorLog("<FragmentShader> node not found in " + name);
+		log_error("<FragmentShader> node not found in " + name);
 		return false;
 	} else {
 		// TODO: Odczytanie zmiennych uniform
@@ -90,19 +90,19 @@ void GLSLProgram::unload() {
 bool GLSLProgram::initialize(bool bindAttribs) {
 	programId = glCreateProgram();
 	if (programId == 0) {
-		Tools::Logger::WriteErrorLog("GLSL Shader --> Could not create program");
+		log_error("GLSL Shader --> Could not create program");
 		return false;
 	}
 
 	vertexShader.id = glCreateShader(GL_VERTEX_SHADER);
 	if (vertexShader.id == 0) {
-		Tools::Logger::WriteErrorLog("GLSL Shader --> Could not create vertex shader");
+		log_error("GLSL Shader --> Could not create vertex shader");
 		return false;
 	}
 
 	fragmentShader.id = glCreateShader(GL_FRAGMENT_SHADER);
 	if (fragmentShader.id == 0) {
-		Tools::Logger::WriteErrorLog("GLSL Shader --> Could not create fragment shader");
+		log_error("GLSL Shader --> Could not create fragment shader");
 		return false;
 	}
 
@@ -112,7 +112,7 @@ bool GLSLProgram::initialize(bool bindAttribs) {
 	}
 
 	if (vertexShader.source.empty() || fragmentShader.source.empty()) {
-		Tools::Logger::WriteErrorLog("GLSL Shader --> Shader source code could not be empty");
+		log_error("GLSL Shader --> Shader source code could not be empty");
 		return false;
 	}
 
@@ -123,7 +123,7 @@ bool GLSLProgram::initialize(bool bindAttribs) {
 	glShaderSource(fragmentShader.id, 1, (const GLchar**) &temp, NULL);
 
 	if (!compileShader(vertexShader) || !compileShader(fragmentShader)) {
-		Tools::Logger::WriteErrorLog("GLSL Shader --> Could not compile the shaders, they are invalid");
+		log_error("GLSL Shader --> Could not compile the shaders, they are invalid");
 		return false;
 	}
 
@@ -258,7 +258,7 @@ string GLSLProgram::readFile(const string& filename) {
 	ifstream fileIn(filename.c_str());
 
 	if (!fileIn.good()) {
-		Tools::Logger::WriteErrorLog("Could not load shader: " + to_string(filename));
+		log_error("Could not load shader: " + to_string(filename));
 		return string();
 	}
 
@@ -272,7 +272,7 @@ bool GLSLProgram::compileShader(const GLSLShader& shader) {
 	glGetShaderiv(shader.id, GL_COMPILE_STATUS, &result);
 
 	if (!result) {
-		Tools::Logger::WriteErrorLog("Could not compile shader: " + to_string(shader.id));
+		log_error("Could not compile shader: " + to_string(shader.id));
 		outputShaderLog(shader.id);
 		return false;
 	}
@@ -291,7 +291,7 @@ void GLSLProgram::outputShaderLog(unsigned int shaderId) {
 	glGetShaderInfoLog(shaderId, infoLog.size(), &infoLen, &infoLog[0]);
 	ss << string(infoLog.begin(), infoLog.end()) << std::endl;
 
-	Tools::Logger::WriteErrorLog(ss.str());
+	log_error(ss.str());
 }
 
 void GLSLProgram::outputProgramLog(unsigned int programId) {
@@ -311,5 +311,5 @@ void GLSLProgram::outputProgramLog(unsigned int programId) {
 	glGetProgramInfoLog(programId, infoLog.size(), &infoLen, &infoLog[0]);
 	ss << string(infoLog.begin(), infoLog.end()) << std::endl;
 
-	Tools::Logger::WriteErrorLog(ss.str());
+	log_error(ss.str());
 }

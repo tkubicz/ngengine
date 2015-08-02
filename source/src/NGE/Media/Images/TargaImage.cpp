@@ -29,7 +29,7 @@ bool TargaImage::load(const std::string& filename, bool suppressError) {
 
 	if (!fileIn.is_open()) {
 		if (!suppressError)
-			Tools::Logger::WriteErrorLog("Could not open the targa image file for reading: " + filename);
+			log_error("Could not open the targa image file for reading: " + filename);
 		return false;
 	}
 
@@ -37,7 +37,7 @@ bool TargaImage::load(const std::string& filename, bool suppressError) {
 	fileIn.read(reinterpret_cast<char*> (&header), sizeof (TargaHeader));
 
 	if (!IsImageTypeSupported(header)) {
-		Tools::Logger::WriteErrorLog("This is not supported image type");
+		log_error("This is not supported image type");
 		return false;
 	}
 
@@ -49,7 +49,7 @@ bool TargaImage::load(const std::string& filename, bool suppressError) {
 
 	// RGB = 3, RGBA = 4
 	if (bytesPerPixel < 3) {
-		Tools::Logger::WriteErrorLog("Color depth not supported: " + to_string(bytesPerPixel));
+		log_error("Color depth not supported: " + to_string(bytesPerPixel));
 		return false;
 	}
 
