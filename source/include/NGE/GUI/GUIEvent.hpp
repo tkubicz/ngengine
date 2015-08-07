@@ -11,23 +11,23 @@
 #include <string>
 
 namespace NGE {
-	namespace GUI {
-		class GUIRectangle;
+    namespace GUI {
+        class GUIRectangle;
 
-		class GUIEvent {
-		  public:
-			GUIEvent(GUIRectangle* element);
-			GUIEvent(const GUIEvent& copy);
-			GUIEvent& operator=(const GUIEvent& copy);
+        class GUIEvent {
+          public:
+            GUIEvent(GUIRectangle* element);
+            GUIEvent(const GUIEvent& copy);
+            GUIEvent& operator=(const GUIEvent& copy);
 
-			GUIRectangle* GetEventSource();
-			const std::string& GetCallbackString();
+            GUIRectangle* GetEventSource();
+            const std::string& GetCallbackString();
 
-		  private:
-			GUIRectangle* eventSource;
-			std::string callbackString;
-		};
-	}
+          private:
+            GUIRectangle* eventSource;
+            std::string callbackString;
+        };
+    }
 }
 
 #endif	/* GUIEVENT_HPP */
