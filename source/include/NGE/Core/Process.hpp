@@ -8,6 +8,8 @@
 #ifndef PROCESS_HPP
 #define	PROCESS_HPP
 
+#include <memory>
+
 namespace NGE {
 	namespace Core {
 		class Process;
