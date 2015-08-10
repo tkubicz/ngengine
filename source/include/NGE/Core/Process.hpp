@@ -9,6 +9,7 @@
 #define	PROCESS_HPP
 
 #include "NGE/Core/Core.hpp"
+#include "NGE/Core/ProcessManager.hpp"
 #include <memory>
 
 namespace NGE {
@@ -31,7 +32,7 @@ namespace NGE {
          * the child will get an OnAbort() call on it, event though its status is @link State::RUNNING.
          */
         class Process {
-            //friend class ProcessManager;
+            friend class ProcessManager;
 
           public:
 
