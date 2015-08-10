@@ -9,7 +9,6 @@
 #define	PROCESS_HPP
 
 #include "NGE/Core/Core.hpp"
-#include "NGE/Core/ProcessManager.hpp"
 #include <memory>
 
 namespace NGE {
@@ -236,4 +235,3 @@ namespace NGE {
 }
 
 #endif	/* PROCESS_HPP */
-

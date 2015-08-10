@@ -98,6 +98,7 @@ add_library(nge SHARED
 	source/src/NGE/Appearance/Scene/SceneNode.cpp
 
 	source/src/NGE/Core/Process.cpp
+	source/src/NGE/Core/ProcessManager.cpp
 
 	source/src/NGE/Events/KeyboardEvent.cpp
 	source/src/NGE/Events/MouseEvent.cpp
