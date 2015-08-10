@@ -212,6 +212,11 @@ if(${BUILD_TESTS})
 
 	set (EXTRA_LIBS ${EXTRA_LIBS} ${Boost_LIBRARIES})
 	set (EXTRA_LIBS ${EXTRA_LIBS} nge)
+    set (EXTRA_LIBS ${EXTRA_LIBS} GL)
+    set (EXTRA_LIBS ${EXTRA_LIBS} GLU)
+    set (EXTRA_LIBS ${EXTRA_LIBS} GLEW)
+    set (EXTRA_LIBS ${EXTRA_LIBS} glfw)
+    set (EXTRA_LIBS ${EXTRA_LIBS} z)
 
 	add_executable(ProcessTest
     	test/ProcessTest.cpp
