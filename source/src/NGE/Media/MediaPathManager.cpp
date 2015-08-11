@@ -25,13 +25,13 @@ bool MediaPathManager::loadXMLSettings(const pugi::xml_node& node) {
 			}
 			if (addNew) {
 				i->second.push_back(strPath);
-				Tools::Logger::WriteInfoLog("MediaPathManager --> New media path added - type: " + i->first + ", path: " + strPath);
+				log_info("MediaPathManager --> New media path added - type: " + i->first + ", path: " + strPath);
 			}
 		} else {
 			std::vector<std::string> paths;
 			paths.push_back(strPath);
 			mediaPaths.insert(std::make_pair(strType, paths));
-			Tools::Logger::WriteInfoLog("MediaPathManager --> New media path type registered - type: " + strType + ", path: " + strPath);
+			log_info("MediaPathManager --> New media path type registered - type: " + strType + ", path: " + strPath);
 		}
 	}
 

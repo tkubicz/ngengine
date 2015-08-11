@@ -4,26 +4,26 @@
 using namespace NGE::GUI;
 
 GUIEvent::GUIEvent(GUIRectangle* element) {
-	callbackString = element ? element->GetCallbackString() : "Uknown";
-	eventSource = element;
+    callbackString = element ? element->GetCallbackString() : "Uknown";
+    eventSource = element;
 }
 
 GUIEvent::GUIEvent(const GUIEvent& copy) {
-	this->operator=(copy);
+    this->operator=(copy);
 }
 
 GUIEvent& GUIEvent::operator=(const GUIEvent& copy) {
-	if (this != &copy) {
-		callbackString = copy.callbackString;
-		eventSource = copy.eventSource;
-	}
-	return *this;
+    if (this != &copy) {
+        callbackString = copy.callbackString;
+        eventSource = copy.eventSource;
+    }
+    return *this;
 }
 
 GUIRectangle* GUIEvent::GetEventSource() {
-	return eventSource;
+    return eventSource;
 }
 
 const std::string& GUIEvent::GetCallbackString() {
-	return callbackString;
+    return callbackString;
 }

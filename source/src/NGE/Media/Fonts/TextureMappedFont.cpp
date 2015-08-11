@@ -13,7 +13,7 @@ TextureMappedFont::TextureMappedFont(float fontSize, NGE::Media::Images::Texture
 
 bool TextureMappedFont::initialize() {
 	if (texture == NULL) {
-		Tools::Logger::WriteErrorLog("Font texture is not initialized");
+		log_error("Font texture is not initialized");
 		return false;
 	}
 

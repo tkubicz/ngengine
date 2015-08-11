@@ -19,6 +19,11 @@ set(CMAKE_MODULE_PATH
 
 set (CMAKE_BUILD_TYPE Debug)
 
+# By default we are going to buld tests
+if (NOT DEFINED BUILD_TESTS)
+	set (BUILD_TESTS true)
+endif()
+
 if(CMAKE_COMPILER_IS_GNUCXX)
 	if (NOT ANDROID)
     	add_definitions(-g -std=c++11 -Wall -DUSE_GLFW)
@@ -56,7 +61,7 @@ endif()
 
 if (NOT ANDROID)
 # Find boost
-	find_package (Boost 1.53.0 REQUIRED)
+	find_package (Boost 1.53.0 REQUIRED COMPONENTS unit_test_framework)
 	if (Boost_FOUND)
 		include_directories (${Boost_INCLUDE_DIRS})
 		MESSAGE(STATUS "Boost indluce:" ${Boost_INCLUDE_DIRS})
@@ -91,6 +96,9 @@ endif()
 add_library(nge SHARED
 	source/src/NGE/Appearance/Light.cpp
 	source/src/NGE/Appearance/Scene/SceneNode.cpp
+
+	source/src/NGE/Core/Process.cpp
+	source/src/NGE/Core/ProcessManager.cpp
 
 	source/src/NGE/Events/KeyboardEvent.cpp
 	source/src/NGE/Events/MouseEvent.cpp
@@ -200,3 +208,24 @@ endif()
 
 install (TARGETS nge DESTINATION bin)
 install (DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/source/include/ DESTINATION include)
+
+if(${BUILD_TESTS})
+
+	set (EXTRA_LIBS ${EXTRA_LIBS} ${Boost_LIBRARIES})
+	set (EXTRA_LIBS ${EXTRA_LIBS} nge)
+    set (EXTRA_LIBS ${EXTRA_LIBS} GL)
+    set (EXTRA_LIBS ${EXTRA_LIBS} GLU)
+    set (EXTRA_LIBS ${EXTRA_LIBS} GLEW)
+    set (EXTRA_LIBS ${EXTRA_LIBS} glfw)
+    set (EXTRA_LIBS ${EXTRA_LIBS} z)
+
+	add_executable(ProcessTest
+    	test/ProcessTest.cpp
+	)
+	target_link_libraries(ProcessTest ${EXTRA_LIBS})
+
+	enable_testing()
+
+	add_test(ProcessTestRunner ProcessTest)
+
+endif()

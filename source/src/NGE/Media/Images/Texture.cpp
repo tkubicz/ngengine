@@ -38,7 +38,7 @@ bool Texture::loadXMLSettings(const pugi::xml_node& node, const std::string& pat
 
 	std::string name = node.attribute("name").as_string();
 	if (name.length() == 0) {
-		Tools::Logger::WriteErrorLog("Texture2D attribute name is not valid");
+		log_error("Texture2D attribute name is not valid");
 		return false;
 	}
 
@@ -68,13 +68,13 @@ bool Texture::loadXMLSettings(const pugi::xml_node& node, const std::string& pat
 	if (textureType == "Texture2D") {
 		std::string file = node.attribute("file").as_string();
 		if (file.length() == 0) {
-			Tools::Logger::WriteErrorLog("Texture2D attribute file is not valid");
+			log_error("Texture2D attribute file is not valid");
 			return false;
 		}
 
 		TargaImage image;
 		if (type != "tga") {
-			Tools::Logger::WriteErrorLog("Currently only targa (type=\"tga\") image files are supported");
+			log_error("Currently only targa (type=\"tga\") image files are supported");
 			return false;
 		} else {
 			if (!image.load(path + file, true))
@@ -86,7 +86,7 @@ bool Texture::loadXMLSettings(const pugi::xml_node& node, const std::string& pat
 		return load2DImage(image, wrapS, wrapT, magFilter, minFilter, internalFormat, format, mipmap);
 	} else if (textureType == "TextureCubeMap") {
 		if (type != "tga") {
-			Tools::Logger::WriteErrorLog("Currently only targa (type=\"tga\") image files are supported");
+			log_error("Currently only targa (type=\"tga\") image files are supported");
 			return false;
 		} else {
 			TargaImage positiveX, negativeX, positiveY, negativeY, positiveZ, negativeZ;
@@ -96,7 +96,7 @@ bool Texture::loadXMLSettings(const pugi::xml_node& node, const std::string& pat
 				std::string target = texture.attribute("target").as_string();
 
 				if (file.length() == 0) {
-					Tools::Logger::WriteErrorLog("Texture attribute file is not valid");
+					log_error("Texture attribute file is not valid");
 					return false;
 				}
 
@@ -125,7 +125,7 @@ bool Texture::loadXMLSettings(const pugi::xml_node& node, const std::string& pat
 			return loadCubemap(positiveX, negativeX, positiveY, negativeY, positiveZ, negativeZ, wrapS, wrapT, magFilter, minFilter, internalFormat, format);
 		}
 	} else {
-		Tools::Logger::WriteErrorLog("Texture --> \"" + textureType + "\" is not supported type");
+		log_error("Texture --> \"" + textureType + "\" is not supported type");
 		return false;
 	}
 
@@ -232,7 +232,7 @@ void Texture::setID(GLuint textureID) {
 	//static int unknown = 1;
 
 	if (!textureID) {
-		Tools::Logger::WriteErrorLog("Invalid textureID, Texture::SetID(GLuint textureID)");
+		log_error("Invalid textureID, Texture::SetID(GLuint textureID)");
 		return;
 	}
 
@@ -377,7 +377,7 @@ int Texture::getValidCubeMap(int type) {
 		case GL_TEXTURE_CUBE_MAP_NEGATIVE_Z:
 			return GL_TEXTURE_CUBE_MAP_NEGATIVE_Z;
 		default:
-			Tools::Logger::WriteErrorLog("Texture --> \"" + to_string(type) + "\" is not a valid cube map type");
+			log_error("Texture --> \"" + to_string(type) + "\" is not a valid cube map type");
 			return -1;
 	}
 }
@@ -396,7 +396,7 @@ int Texture::getValidCubeMap(const std::string& type) {
 	else if (type == "NEGATIVE_Z")
 		return GL_TEXTURE_CUBE_MAP_NEGATIVE_Z;
 	else {
-		Tools::Logger::WriteErrorLog("Texture --> \"" + to_string(type) + "\" is not a valid cube map type");
+		log_error("Texture --> \"" + to_string(type) + "\" is not a valid cube map type");
 		return -1;
 	}
 }
@@ -416,7 +416,7 @@ int Texture::getValidFormat(int type) {
 		case GL_RGBA:
 			return GL_RGBA;
 		default:
-			Tools::Logger::WriteErrorLog("Texture --> \"" + to_string(type) + "\" is not valid internal format");
+			log_error("Texture --> \"" + to_string(type) + "\" is not valid internal format");
 			return -1;
 	}
 }
@@ -435,7 +435,7 @@ int Texture::getValidFormat(const std::string& type) {
 	else if (type == "RGBA")
 		return GL_RGBA;
 	else {
-		Tools::Logger::WriteErrorLog("Texture --> \"" + to_string(type) + "\" is not valid internal format");
+		log_error("Texture --> \"" + to_string(type) + "\" is not valid internal format");
 		return -1;
 	}
 }

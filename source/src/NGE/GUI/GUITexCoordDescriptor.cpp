@@ -54,7 +54,7 @@ void GUITexCoordDescriptior::SetType(WidgetTypes type) {
 
 void GUITexCoordDescriptior::SetType(const std::string& type) {
 	if (type.length() == 0) {
-		Tools::Logger::WriteErrorLog("NULL GUITexCoordDescriptor type");
+		log_error("NULL GUITexCoordDescriptor type");
 		return;
 	}
 
@@ -81,7 +81,7 @@ void GUITexCoordDescriptior::SetType(const std::string& type) {
 	else if (type == "LABEL")
 		widgetType = LABEL;
 	else {
-		Tools::Logger::WriteErrorLog("Unknown GUITexCoordDescriptor type -> " + type);
+		log_error("Unknown GUITexCoordDescriptor type -> " + type);
 		widgetType = UNKNOWN;
 	}
 }

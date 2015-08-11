@@ -107,7 +107,7 @@ unsigned int WaterTexture::Initialize(float waterPlaneLength, NGE::Media::Shader
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthMirrorTexture);
 
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-		Tools::Logger::WriteErrorLog("WaterTexture --> GL_FRAMEBUFFER_COMPLETE error 0x" + to_string(glCheckFramebufferStatus(GL_FRAMEBUFFER)));
+		log_error("WaterTexture --> GL_FRAMEBUFFER_COMPLETE error 0x" + to_string(glCheckFramebufferStatus(GL_FRAMEBUFFER)));
 		return false;
 	}
 

@@ -13,13 +13,13 @@ void FontManager::deinitialize() {
 
 bool FontManager::loadFont(const pugi::xml_node& node) {
 	if (node.empty() || std::string(node.name()) != "FreeTypeFont") {
-		Tools::Logger::WriteErrorLog("FontManager --> Need FreeTypeFont node");
+		log_error("FontManager --> Need FreeTypeFont node");
 		return false;
 	}
 
 	std::string name = node.attribute("name").as_string();
 	if (name.length() == 0) {
-		Tools::Logger::WriteErrorLog("FontManager --> Could not find name attribute");
+		log_error("FontManager --> Could not find name attribute");
 		return false;
 	}
 #ifdef NGE_USE_FREETYPE  
@@ -33,13 +33,13 @@ bool FontManager::loadFont(const pugi::xml_node& node) {
 		for (std::vector<std::string>::iterator i = paths.begin(); i != paths.end(); ++i) {
 			if (font->LoadXMLSettings(node, *i)) {
 				fonts.insert(std::make_pair(name, font));
-				Tools::Logger::WriteInfoLog("FontManager --> New font added: " + name + " (" + font->GetFontName() + ")");
+				log_info("FontManager --> New font added: " + name + " (" + font->GetFontName() + ")");
 				return true;
 			}
 		}
 
 		delete font;
-		Tools::Logger::WriteErrorLog(std::string("FontManager --> Could not load font: ") + name);
+		log_error(std::string("FontManager --> Could not load font: ") + name);
 		return false;
 	}
 #else
@@ -55,13 +55,13 @@ FreeTypeFont* FontManager::GetFont(const std::string& name) {
 		return (it->second);
 	}
 
-	Tools::Logger::WriteErrorLog("FontManager --> Could not find font: " + name);
+	log_error("FontManager --> Could not find font: " + name);
 	return NULL;
 }
 
 FreeTypeFont* FontManager::GetFont(const pugi::xml_node& node) {
 	if (std::string(node.name()) != "FreeTypeFont") {
-		Tools::Logger::WriteErrorLog("FontManager --> Need FreeTypeFont node");
+		log_error("FontManager --> Need FreeTypeFont node");
 		return NULL;
 	}
 
