@@ -1,5 +1,7 @@
 # **NGEngine** #
 
+[![build status](https://ci.gitlab.com/projects/6667/status.png?ref=master)](https://ci.gitlab.com/projects/6667?ref=master)
+
 Author: Tymoteusz Kubicz <tymoteusz.kubicz@gmail.com>
 
 Project page: http://redmine.lynxware.eu/projects/nge/
