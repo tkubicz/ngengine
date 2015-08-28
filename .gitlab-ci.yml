@@ -1,0 +1,21 @@
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  script:
+    - mkdir build/
+    - cd build
+    - cmake ..
+    - make
+
+test:
+  stage: test
+  script:
+    - mkdir build/
+    - cd build
+    - cmake ..
+    - make
+    - ctest -V
