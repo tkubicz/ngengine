@@ -10,13 +10,13 @@ class Foo {
   public:
 
 	int bar(int x, float y, bool z) {
-		std::cout << "bar: " << x << " " << y << " " << z << std::endl;
+		//std::cout << "bar: " << x << " " << y << " " << z << std::endl;
 		return x;
 	}
 };
 
 int baz(int x, float y, bool z) {
-	std::cout << "bar: " << x << " " << y << " " << z << std::endl;
+	//std::cout << "bar: " << x << " " << y << " " << z << std::endl;
 	return x;
 }
 
