@@ -218,14 +218,27 @@ if(${BUILD_TESTS})
     set (EXTRA_LIBS ${EXTRA_LIBS} GLEW)
     set (EXTRA_LIBS ${EXTRA_LIBS} glfw)
     set (EXTRA_LIBS ${EXTRA_LIBS} z)
+	set (EXTRA_LIBS ${EXTRA_LIBS} pthread)
 
 	add_executable(ProcessTest
     	test/ProcessTest.cpp
 	)
 	target_link_libraries(ProcessTest ${EXTRA_LIBS})
 
+	add_executable(DelegateTest
+		test/DelegateTest.cpp
+	)
+	target_link_libraries(DelegateTest ${EXTRA_LIBS})
+
+	add_executable(ConcurrentQueueTest
+		test/ConcurrentQueueTest.cpp
+	)
+	target_link_libraries(ConcurrentQueueTest ${EXTRA_LIBS})
+
 	enable_testing()
 
 	add_test(ProcessTestRunner ProcessTest)
+	add_test(DelegateTestRunner DelegateTest)
+	add_test(ConcurrentQueueTestRunner ConcurrentQueueTest)
 
 endif()
