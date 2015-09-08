@@ -42,19 +42,21 @@ namespace NGE {
 
 			/**
 			 * Registers a delegate function that will get called when the event type is triggered.
+			 * @param eventDelegateId Identifier of the delegate. It is needed to identify the delegate.
 			 * @param eventDelegate Delegate function that will be called.
 			 * @param type Event type.
 			 * @return True if successfuly registered, otherwise false.
 			 */
-			virtual bool AddListener(const EventListenerDelegate& eventDelegate, const EventType& type) = 0;
+			virtual bool AddListener(const std::string& eventDelelgateId, const EventListenerDelegate& eventDelegate, const EventType& type) = 0;
 
 			/**
 			 * Removes a delegate/event type pairing from the internal tables.
+			 * @param eventDelegateId Identifier of the delegate. It is needed to identify the delegate.
 			 * @param eventDelegate Delegate function to remove.
 			 * @param type Event type.
 			 * @return True if successfuly removed, false if the pairing was not found.
 			 */
-			virtual bool RemoveListener(const EventListenerDelegate& eventDelegate, const EventType& type) = 0;
+			virtual bool RemoveListener(const std::string& eventDelelgateId, const EventListenerDelegate& eventDelegate, const EventType& type) = 0;
 
 			/**
 			 * Execute event now. This bypasses the queue entirely and immediately calls all delegate

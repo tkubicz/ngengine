@@ -21,8 +21,8 @@ namespace NGE {
 				NUM_QUEUES = 2
 			};
 
-			typedef std::list<EventListenerDelegate> EventListenerList;
-			typedef std::map<EventType, EventListenerList> EventListenerMap;
+			typedef std::map<std::string, EventListenerDelegate> EventDelegateMap;
+			typedef std::map<EventType, EventDelegateMap> EventListenerMap;
 			typedef std::list<IEventDataPtr> EventQueue;
 
 			EventListenerMap eventListeners;
@@ -38,8 +38,8 @@ namespace NGE {
 			virtual ~EventManager();
 
 
-			virtual bool AddListener(const EventListenerDelegate& eventDelegate, const EventType& type);
-			virtual bool RemoveListener(const EventListenerDelegate& eventDelegate, const EventType& type);
+			virtual bool AddListener(const std::string& eventDelelgateId, const EventListenerDelegate& eventDelegate, const EventType& type);
+			virtual bool RemoveListener(const std::string& eventDelegateId, const EventListenerDelegate& eventDelegate, const EventType& type);
 
 			virtual bool TriggerEvent(const IEventDataPtr& event) const;
 			virtual bool QueueEvent(const IEventDataPtr& event);
