@@ -8,6 +8,8 @@
 #ifndef IEVENTDATA_HPP
 #define	IEVENTDATA_HPP
 
+#include <memory>
+
 namespace NGE {
 	namespace Events {
 

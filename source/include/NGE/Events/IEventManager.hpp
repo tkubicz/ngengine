@@ -31,6 +31,7 @@ namespace NGE {
 		 * pointed-to objects (so long as there are no other references).
 		 */
 		class IEventManager {
+		  public:
 
 			enum constants {
 				INFINITE = 0xffffffff
@@ -65,18 +66,18 @@ namespace NGE {
 
 			/**
 			 * Execute event. This uses the queue and will call the delegate function on the next call
-			 * to Tick(), assuming there's enough time.
+			 * to Update(), assuming there's enough time.
 			 * @param event Event to be executed.
 			 * @return True if everything went ok, otherwise false.
 			 */
-			virtual bool QueueEvent(const IEventDataPtr& event) const = 0;
+			virtual bool QueueEvent(const IEventDataPtr& event) = 0;
 
 			/**
 			 * Execute event in thread-safe manner.
 			 * @param event Event to be executed.
 			 * @return True if everything went ok, otherwise false.
 			 */
-			virtual bool ThreadSafeQueueEvent(const IEventDataPtr& event) const = 0;
+			virtual bool ThreadSafeQueueEvent(const IEventDataPtr& event) = 0;
 
 			/**
 			 * Find the next available instance of the named event type and remove it from the processing
@@ -92,7 +93,7 @@ namespace NGE {
 			 * Allow for processing of any queued messages, optionally specify a processing time limit so
 			 * that the event processing does not take too long. Note the danger of using this artificial
 			 * limiter is that all messages may not in fact get processed.
-			 * @param maxMillis
+			 * @param maxMillis Maximum time for processing events in milliseconds.
 			 * @return True if all messages ready for processing were completed, false otherwise (e.g. timeout).
 			 */
 			virtual bool Update(unsigned long maxMillis = INFINITE) = 0;
