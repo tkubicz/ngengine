@@ -8,13 +8,14 @@
 #ifndef IEVENTMANAGER_HPP
 #define	IEVENTMANAGER_HPP
 
-#include "IEventData.hpp"
-
+#include "NGE/Events/IEventData.hpp"
+#include "NGE/Core/ConcurrentQueue.hpp"
 
 namespace NGE {
 	namespace Events {
 
 		typedef std::function<void(IEventDataPtr) > EventListenerDelegate;
+		typedef Core::ConcurrentQueue<IEventDataPtr> ThreadSafeEventQueue;
 
 		/**
 		 * This is the object which maintains the list of registered events and their listeners.
@@ -61,6 +62,48 @@ namespace NGE {
 			 * @return True if event was executed successfuly, otherwise false.
 			 */
 			virtual bool TriggerEvent(const IEventDataPtr& event) const = 0;
+
+			/**
+			 * Execute event. This uses the queue and will call the delegate function on the next call
+			 * to Tick(), assuming there's enough time.
+			 * @param event Event to be executed.
+			 * @return True if everything went ok, otherwise false.
+			 */
+			virtual bool QueueEvent(const IEventDataPtr& event) const = 0;
+
+			/**
+			 * Execute event in thread-safe manner.
+			 * @param event Event to be executed.
+			 * @return True if everything went ok, otherwise false.
+			 */
+			virtual bool ThreadSafeQueueEvent(const IEventDataPtr& event) const = 0;
+
+			/**
+			 * Find the next available instance of the named event type and remove it from the processing
+			 * queue. This may be done up to the point that it is actively being processed. For example, is
+			 * safe to happen during event processing itself.
+			 * @param type Event type.
+			 * @param allOfType If true, then all events of that type are cleard from the input queue.
+			 * @return True if the event was found and removed, otherwise false.
+			 */
+			virtual bool AbortEvent(const EventType& type, bool allOfType = false) = 0;
+
+			/**
+			 * Allow for processing of any queued messages, optionally specify a processing time limit so
+			 * that the event processing does not take too long. Note the danger of using this artificial
+			 * limiter is that all messages may not in fact get processed.
+			 * @param maxMillis
+			 * @return True if all messages ready for processing were completed, false otherwise (e.g. timeout).
+			 */
+			virtual bool Update(unsigned long maxMillis = INFINITE) = 0;
+
+			/**
+			 * Getter for the main global event manager. This is the event manager that is used by the majority of
+			 * the engine, though you are free to define own as long as you instantiate it with setAsGlobal set to false.
+			 * It is not valid to have more that one global event manager.
+			 * @return Pointer to global event manager.
+			 */
+			static IEventManager* Get();
 		};
 	}
 }
