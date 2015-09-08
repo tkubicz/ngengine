@@ -16,11 +16,12 @@ bool EventManager::AddListener(const EventListenerDelegate& eventDelegate, const
 	// This will find or create the entry.
 	EventListenerList& eventListenerList = eventListeners[type];
 	for (auto it = eventListenerList.begin(); it != eventListenerList.end(); ++it) {
-		if (eventDelegate == (*it)) {
-			// TODO: This should be warning, not info.
-			log_info("Events --> Attempting to double-register a delegate");
-			return false;
-		}
+		// TODO:
+		//		if (eventDelegate == (*it)) {
+		//			// TODO: This should be warning, not info.
+		//			log_info("Events --> Attempting to double-register a delegate");
+		//			return false;
+		//		}
 	}
 
 	eventListenerList.push_back(eventDelegate);
