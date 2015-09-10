@@ -100,6 +100,8 @@ add_library(nge SHARED
 	source/src/NGE/Core/Process.cpp
 	source/src/NGE/Core/ProcessManager.cpp
 
+	source/src/NGE/Events/EventManager.cpp
+	source/src/NGE/Events/IEventManager.cpp
 	source/src/NGE/Events/KeyboardEvent.cpp
 	source/src/NGE/Events/MouseEvent.cpp
     source/src/NGE/Events/TouchEvent.cpp
@@ -209,23 +211,4 @@ endif()
 install (TARGETS nge DESTINATION bin)
 install (DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/source/include/ DESTINATION include)
 
-if(${BUILD_TESTS})
-
-	set (EXTRA_LIBS ${EXTRA_LIBS} ${Boost_LIBRARIES})
-	set (EXTRA_LIBS ${EXTRA_LIBS} nge)
-    set (EXTRA_LIBS ${EXTRA_LIBS} GL)
-    set (EXTRA_LIBS ${EXTRA_LIBS} GLU)
-    set (EXTRA_LIBS ${EXTRA_LIBS} GLEW)
-    set (EXTRA_LIBS ${EXTRA_LIBS} glfw)
-    set (EXTRA_LIBS ${EXTRA_LIBS} z)
-
-	add_executable(ProcessTest
-    	test/ProcessTest.cpp
-	)
-	target_link_libraries(ProcessTest ${EXTRA_LIBS})
-
-	enable_testing()
-
-	add_test(ProcessTestRunner ProcessTest)
-
-endif()
+include(${CMAKE_CURRENT_SOURCE_DIR}/test/CMakeLists.txt)
