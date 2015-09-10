@@ -10,6 +10,7 @@ if(${BUILD_TESTS})
     set (EXTRA_LIBS ${EXTRA_LIBS} glfw)
     set (EXTRA_LIBS ${EXTRA_LIBS} z)
 	set (EXTRA_LIBS ${EXTRA_LIBS} pthread)
+	set (EXTRA_LIBS ${EXTRA_LIBS} lua${LUA_VERSION})
 
 	add_executable(ProcessTest
     	test/ProcessTest.cpp
@@ -32,11 +33,17 @@ if(${BUILD_TESTS})
 	target_link_libraries(EventManagerTest ${EXTRA_LIBS})
 
 
+	add_executable(SeleneTest
+		test/SeleneTest.cpp
+	)
+	target_link_libraries(SeleneTest ${EXTRA_LIBS})
+
 	enable_testing()
 
 	add_test(ProcessTestRunner ProcessTest)
 	add_test(DelegateTestRunner DelegateTest)
 	add_test(ConcurrentQueueTestRunner ConcurrentQueueTest)
 	add_test(EventManagerTestRunner EventManagerTest)
+	add_test(SeleneTestRunner SeleneTest)
 
 endif()
