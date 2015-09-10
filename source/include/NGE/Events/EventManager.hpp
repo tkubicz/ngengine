@@ -39,7 +39,7 @@ namespace NGE {
 
 
 			virtual bool AddListener(const std::string& eventDelelgateId, const EventListenerDelegate& eventDelegate, const EventType& type);
-			virtual bool RemoveListener(const std::string& eventDelegateId, const EventListenerDelegate& eventDelegate, const EventType& type);
+			virtual bool RemoveListener(const std::string& eventDelegateId, const EventType& type);
 
 			virtual bool TriggerEvent(const IEventDataPtr& event) const;
 			virtual bool QueueEvent(const IEventDataPtr& event);
