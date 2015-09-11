@@ -27,9 +27,10 @@ NGE depends on various third party libraries that you need for compilation. On d
 * zlib1g-dev
 * lua5.2
 * liblua5.2-dev
+
 Example usage on ubuntu:
 ```sh
-$ apt-get -y install g++ git cmake libglew-dev libglfw3-dev libboost-dev libboost-test-dev zlib1g-dev lua5.2 liblua5.2-dev libxrandr-dev libxcursor-dev
+$ sudo apt-get -y install g++ git cmake libglew-dev libglfw3-dev libboost-dev libboost-test-dev zlib1g-dev lua5.2 liblua5.2-dev libxrandr-dev libxcursor-dev
 ```
 
 ### Build
