@@ -9,17 +9,15 @@
 #define	ISCRIPTMANAGER_HPP
 
 namespace NGE {
-    namespace Scripting {
+	namespace Scripting {
 
-        class IScriptManager {
-          public:
-
-            virtual ~IScriptManager() { }
-            virtual bool Init() = 0;
-            virtual void ExecuteFile(const std::string& resource) = 0;
-            virtual void ExecuteString(const std::string& str) = 0;
-        };
-    }
+		class IScriptManager {
+		  public:
+			virtual bool Init() = 0;
+			virtual void ExecuteFile(const std::string& resource) = 0;
+			virtual void ExecuteString(const std::string& str) = 0;
+		};
+	}
 }
 
 #endif	/* ISCRIPTMANAGER_HPP */

@@ -91,6 +91,16 @@ BOOST_AUTO_TEST_CASE(RunningArbitraryCode) {
 	BOOST_CHECK_EQUAL(val, 5);
 }
 
+BOOST_AUTO_TEST_CASE(RunningErrorCode) {
+	State state;
+	bool result = state("x = this is test");
+	
+	std::string message = state.Read<std::string>(-1);
+	std::cout << message << std::endl;
+	
+	BOOST_CHECK_EQUAL(result, false);
+}
+
 struct Bar {
 	int x;
 
