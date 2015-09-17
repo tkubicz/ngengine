@@ -32,11 +32,15 @@ if(${BUILD_TESTS})
 	)
 	target_link_libraries(EventManagerTest ${EXTRA_LIBS})
 
-
 	add_executable(SeleneTest
 		test/SeleneTest.cpp
 	)
 	target_link_libraries(SeleneTest ${EXTRA_LIBS})
+
+	add_executable(LuaScriptManagerTest
+		test/LuaScriptManagerTest.cpp
+	)
+	target_link_libraries(LuaScriptManagerTest ${EXTRA_LIBS})
 
 	enable_testing()
 
@@ -45,5 +49,6 @@ if(${BUILD_TESTS})
 	add_test(ConcurrentQueueTestRunner ConcurrentQueueTest)
 	add_test(EventManagerTestRunner EventManagerTest)
 	add_test(SeleneTestRunner SeleneTest)
+	add_test(LuaScriptManagerRunner LuaScriptManagerTest)
 
 endif()

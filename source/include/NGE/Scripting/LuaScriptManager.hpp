@@ -16,7 +16,7 @@ namespace NGE {
 
 		class LuaScriptManager : public IScriptManager {
 		  private:
-			sel::State* luaState;
+			std::shared_ptr<sel::State> luaState;
 			std::string lastError;
 
 		  public:
@@ -27,10 +27,21 @@ namespace NGE {
 			}
 
 			virtual bool Init();
-			virtual void ExecuteFile(const std::string& resource);
-			virtual void ExecuteString(const std::string& str);
+			virtual bool ExecuteFile(const std::string& path);
+			virtual bool ExecuteString(const std::string& str);
 
+			std::string GetLastError();
+			std::weak_ptr<sel::State> GetLuaState();
 
+		  private:
+			/**
+			 * LuaScriptManager constructor is private, use GetInstance() method
+			 * to get object.
+			 */
+			explicit LuaScriptManager();
+			virtual ~LuaScriptManager();
+
+			void SetError();
 		};
 	}
 }

@@ -173,3 +173,30 @@ BOOST_AUTO_TEST_CASE(RegisteringObjectInstances) {
 	result = state["foo"]["double_add"](3);
 	BOOST_CHECK_EQUAL(result, 14);
 }
+
+BOOST_AUTO_TEST_CASE(GetFunctionFromLua) {
+	State state;
+	bool loadResult = state.Load("../test/data/function.lua");
+	BOOST_CHECK(loadResult);
+	
+	sel::function<int(int, int)> addFunc = state["add"];
+	std::function<int(int, int)> addFunc2 = state["add"];
+	
+	state["test"];
+	
+	BOOST_CHECK_EQUAL(addFunc(1, 2), 3);
+	BOOST_CHECK_EQUAL(addFunc2(5, 3), 8);
+}
+
+BOOST_AUTO_TEST_CASE(SelectorTest) {
+	State state;
+	bool loadResult = state.Load("../test/data/function.lua");
+	BOOST_CHECK(loadResult);
+	
+	sel::Selector selector = state["add"];
+	
+	typedef std::function<int(int, int)> AddFunc;
+	AddFunc add = (AddFunc) selector;
+	
+	BOOST_CHECK_EQUAL(add(5, 5), 10);
+}

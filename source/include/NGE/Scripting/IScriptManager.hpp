@@ -14,8 +14,8 @@ namespace NGE {
 		class IScriptManager {
 		  public:
 			virtual bool Init() = 0;
-			virtual void ExecuteFile(const std::string& resource) = 0;
-			virtual void ExecuteString(const std::string& str) = 0;
+			virtual bool ExecuteFile(const std::string& resource) = 0;
+			virtual bool ExecuteString(const std::string& str) = 0;
 		};
 	}
 }

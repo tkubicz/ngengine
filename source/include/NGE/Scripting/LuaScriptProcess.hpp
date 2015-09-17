@@ -9,6 +9,7 @@
 #define	LUASCRIPTPROCESS_HPP
 
 #include "NGE/Core/Process.hpp"
+#include "NGE/ThirdPart/selene.h"
 
 namespace NGE {
 	namespace Scripting {
@@ -16,19 +17,24 @@ namespace NGE {
 		class LuaScriptProcess : public NGE::Core::Process {
 		  private:
 			unsigned long int frequency, time;
-			
+			sel::Selector scriptInitFunction, scriptUpdateFunction;
+			sel::Selector scriptSuccessFunction, scriptFailFunction;
+			sel::Selector scriptSelf;
+
 		  public:
+			LuaScriptProcess();
+
 			static void RegisterScriptClass();
-			
+
 		  protected:
 			virtual void OnInit();
 			virtual void OnUpdate(unsigned int deltaTime);
 			virtual void OnSuccess();
 			virtual void OnFail();
 			virtual void OnAbort();
-			
+
 		  private:
-			
+
 		};
 	}
 }
