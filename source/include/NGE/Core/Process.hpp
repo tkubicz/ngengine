@@ -76,7 +76,7 @@ namespace NGE {
             /**
              * Default constructor.
              */
-            Process(void);
+            Process();
 
             /**
              * Destructor.

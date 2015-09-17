@@ -42,6 +42,11 @@ if(${BUILD_TESTS})
 	)
 	target_link_libraries(LuaScriptManagerTest ${EXTRA_LIBS})
 
+	add_executable(LuaScriptProcessTest
+		test/LuaScriptProcessTest.cpp
+	)
+	target_link_libraries(LuaScriptProcessTest ${EXTRA_LIBS})
+
 	enable_testing()
 
 	add_test(ProcessTestRunner ProcessTest)
@@ -50,5 +55,6 @@ if(${BUILD_TESTS})
 	add_test(EventManagerTestRunner EventManagerTest)
 	add_test(SeleneTestRunner SeleneTest)
 	add_test(LuaScriptManagerRunner LuaScriptManagerTest)
+	add_test(LuaScriptProcessRunner LuaScriptProcessTest)
 
 endif()
