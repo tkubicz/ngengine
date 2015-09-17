@@ -8,27 +8,39 @@
 
 using namespace sel;
 
-class TestClass {
-  public:
-	int value;
+namespace NGE {
+	namespace Process {
 
-	int printValue() {
-		return value;
+		class TestClass {
+		  public:
+			enum TestEnum {
+				TEST_VAL_1,
+				TEST_VAL_2
+			};
+			
+			int value;
+			
+			std::shared_ptr<int> testPointer;
+
+			int printValue() {
+				return value;
+			}
+		};
+
+		class Inherited : public TestClass {
+		  public:
+
+			void setValue(int v) {
+				value = v;
+			}
+		};
 	}
-};
-
-class Inherited : public TestClass {
-  public:
-
-	void setValue(int v) {
-		value = v;
-	}
-};
+}
 
 BOOST_AUTO_TEST_CASE(Test) {
 	// Create lua context and load standard library.
 	State state{true};
 
-	state["ScriptProcess"].SetClass<TestClass>("print", &TestClass::printValue);
-	state["AnotherProcess"].SetClass<Inherited>("set", &Inherited::setValue);
+	state["ScriptProcess"].SetClass<NGE::Process::TestClass>("print", &NGE::Process::TestClass::printValue);
+	state["AnotherProcess"].SetClass<NGE::Process::Inherited>("set", &NGE::Process::Inherited::setValue);
 }
