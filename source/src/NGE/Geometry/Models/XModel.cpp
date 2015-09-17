@@ -19,7 +19,7 @@ bool XModel::Initialise(const std::string& filename) {
 	file.open(filename.c_str(), std::ios::in);
 
 	if (!file) {
-		log_error("XModel -> Failed to open file " + filename + ".");
+		nge_log_error("XModel -> Failed to open file " + filename + ".");
 		return false;
 	}
 
@@ -66,7 +66,7 @@ bool XModel::Parse() {
 
 	// Check file header.
 	if (strncmp(p, "xof ", 4) != 0) {
-		log_error("XModel -> Header mismatch. File is not an XFile.");
+		nge_log_error("XModel -> Header mismatch. File is not an XFile.");
 		return false;
 	}
 
@@ -96,7 +96,7 @@ bool XModel::Parse() {
 	}
 		// Unsupported format
 	else {
-		log_error("XModel -> Unsupported xfile format.");
+		nge_log_error("XModel -> Unsupported xfile format.");
 		return false;
 	}
 
@@ -106,7 +106,7 @@ bool XModel::Parse() {
 			+ (unsigned int) (p[15] - 48);
 
 	if (binaryFloatSize != 32 && binaryFloatSize != 64) {
-		log_error("XModel -> Unknown float size specified in xfile header.");
+		nge_log_error("XModel -> Unknown float size specified in xfile header.");
 		return false;
 	}
 
@@ -155,7 +155,7 @@ bool XModel::Parse() {
 			p1 += 2;
 
 			if (ofs >= MSZIP_BLOCK) {
-				log_error("XFile -> Invalid offset to next MSZIP compressed block.");
+				nge_log_error("XFile -> Invalid offset to next MSZIP compressed block.");
 				return false;
 			}
 
@@ -167,7 +167,7 @@ bool XModel::Parse() {
 			p1 += 2;
 
 			if (magic != MSZIP_MAGIC) {
-				log_error("XFile -> Unsupported compressed format, expected MSZIP header.");
+				nge_log_error("XFile -> Unsupported compressed format, expected MSZIP header.");
 				return false;
 			}
 
@@ -194,7 +194,7 @@ bool XModel::Parse() {
 			// Decompress the data.
 			int ret = ::inflate(&stream, Z_SYNC_FLUSH);
 			if (ret != Z_OK && ret != Z_STREAM_END) {
-				log_error("XFile -> Failed to decompress MSZIP-compressed data.");
+				nge_log_error("XFile -> Failed to decompress MSZIP-compressed data.");
 				return false;
 			}
 
@@ -214,7 +214,7 @@ bool XModel::Parse() {
 		end = out;
 
 		// TODO: Release compressed data.
-		log_info("XFile -> Successfully decompressed MSZIP-compressed file.");
+		nge_log_info("XFile -> Successfully decompressed MSZIP-compressed file.");
 	} else {
 		// Start reading here.
 		ReadUntilEndOfLine();
@@ -266,10 +266,10 @@ void XModel::ParseFile() {
 			scene->globalMaterials.push_back(material);
 		} else if (objectName == "}") {
 			// Whatever?
-			log_info("XModel -> Found \'}\' in dataObject.");
+			nge_log_info("XModel -> Found \'}\' in dataObject.");
 		} else {
 			// Unknown format
-			log_info("XModel -> Unknown data object in x file: \'" + objectName + "\'.");
+			nge_log_info("XModel -> Unknown data object in x file: \'" + objectName + "\'.");
 			ParseUnknownDataObject();
 		}
 	}
@@ -292,7 +292,7 @@ void XModel::ParseDataObjectTemplate() {
 			break;
 
 		if (s.length() == 0)
-			log_error("XModel -> Unexcepted end of file reached while parsing template definition.");
+			nge_log_error("XModel -> Unexcepted end of file reached while parsing template definition.");
 	}
 }
 
@@ -336,7 +336,7 @@ void XModel::ParseDataObjectFrame(Node* parent) {
 	while (running) {
 		std::string objectName = GetNextToken();
 		if (objectName.size() == 0) {
-			log_error("XModel -> Unexcepted end of file reached while parsing frame.");
+			nge_log_error("XModel -> Unexcepted end of file reached while parsing frame.");
 			return;
 		}
 
@@ -353,7 +353,7 @@ void XModel::ParseDataObjectFrame(Node* parent) {
 			node->meshes.push_back(mesh);
 			ParseDataObjectMesh(mesh);
 		} else {
-			log_info("XModel ->  Unknown data object in frame in x file.");
+			nge_log_info("XModel ->  Unknown data object in frame in x file.");
 			ParseUnknownDataObject();
 		}
 	}
@@ -404,7 +404,7 @@ void XModel::ParseDataObjectMesh(Mesh* mesh) {
 	for (unsigned int i = 0; i < numPosFaces; ++i) {
 		unsigned int numIndices = ReadInt();
 		if (numIndices < 3) {
-			log_error("XModel -> Invalid index count for face.");
+			nge_log_error("XModel -> Invalid index count for face.");
 			return;
 		}
 
@@ -421,7 +421,7 @@ void XModel::ParseDataObjectMesh(Mesh* mesh) {
 		std::string objectName = GetNextToken();
 
 		if (objectName.size() == 0) {
-			log_error("XModel -> Unexpected end of file while parsing mesh structure.");
+			nge_log_error("XModel -> Unexpected end of file while parsing mesh structure.");
 			return;
 		} else if (objectName == "}")
 			// Mesh finished.
@@ -442,7 +442,7 @@ void XModel::ParseDataObjectMesh(Mesh* mesh) {
 		else if (objectName == "SkinWeights")
 			ParseDataObjectSkinWeights(mesh);
 		else {
-			log_info("XModel -> Unknown data object in mesh in x file.");
+			nge_log_info("XModel -> Unknown data object in mesh in x file.");
 			ParseUnknownDataObject();
 		}
 	}
@@ -462,7 +462,7 @@ void XModel::ParseDataObjectMeshNormals(Mesh* mesh) {
 	// Read normal indices.
 	unsigned int numFaces = ReadInt();
 	if (numFaces != mesh->posFaces.size()) {
-		log_error("XModel -> Normal face count does not match vertex face count.");
+		nge_log_error("XModel -> Normal face count does not match vertex face count.");
 		return;
 	}
 
@@ -484,7 +484,7 @@ void XModel::ParseDataObjectMeshTextureCoords(Mesh* mesh) {
 	ReadHeadOfDataObject();
 	// TODO: Change this to variable of maximum textures
 	if (mesh->numTextures + 1 > 8) {
-		log_error("XModel -> Too many sets of texture coordinates.");
+		nge_log_error("XModel -> Too many sets of texture coordinates.");
 		return;
 	}
 
@@ -492,7 +492,7 @@ void XModel::ParseDataObjectMeshTextureCoords(Mesh* mesh) {
 
 	unsigned int numCoords = ReadInt();
 	if (numCoords != mesh->positions.size()) {
-		log_error("XModel -> Texture coord count does not match vertex count.");
+		nge_log_error("XModel -> Texture coord count does not match vertex count.");
 		return;
 	}
 
@@ -507,7 +507,7 @@ void XModel::ParseDataObjectMeshVertexColors(Mesh* mesh) {
 	ReadHeadOfDataObject();
 	// TODO: Change this to variable of macimum color sets.
 	if (mesh->numColorSets + 1 > 8) {
-		log_error("XModel -> Too many color sets.");
+		nge_log_error("XModel -> Too many color sets.");
 		return;
 	}
 
@@ -515,7 +515,7 @@ void XModel::ParseDataObjectMeshVertexColors(Mesh* mesh) {
 
 	unsigned int numColors = ReadInt();
 	if (numColors != mesh->positions.size()) {
-		log_error("XModel -> Vertex color count does not match vertex count.");
+		nge_log_error("XModel -> Vertex color count does not match vertex count.");
 		return;
 	}
 
@@ -523,7 +523,7 @@ void XModel::ParseDataObjectMeshVertexColors(Mesh* mesh) {
 	for (unsigned int i = 0; i < numColors; ++i) {
 		unsigned int index = ReadInt();
 		if (index >= mesh->positions.size()) {
-			log_error("XModel -> Vertex color index out of bounds.");
+			nge_log_error("XModel -> Vertex color index out of bounds.");
 			return;
 		}
 
@@ -551,7 +551,7 @@ void XModel::ParseDataObjectMeshMaterialList(Mesh* mesh) {
 	// Some models have a material index count of 1... to be able to read them
 	// we replicate this single material index on every face.
 	if (numMatIndices != mesh->posFaces.size() && numMatIndices != 1) {
-		log_error("XModel -> Per-Face material index count does not match face count.");
+		nge_log_error("XModel -> Per-Face material index count does not match face count.");
 		return;
 	}
 
@@ -575,7 +575,7 @@ void XModel::ParseDataObjectMeshMaterialList(Mesh* mesh) {
 	while (running) {
 		std::string objectName = GetNextToken();
 		if (objectName.size() == 0) {
-			log_error("XModel -> Unexpected end of file while parsing mesh material list.");
+			nge_log_error("XModel -> Unexpected end of file while parsing mesh material list.");
 			return;
 		} else if (objectName == "}")
 			// Material list finished.
@@ -595,7 +595,7 @@ void XModel::ParseDataObjectMeshMaterialList(Mesh* mesh) {
 		} else if (objectName == ";") {
 			// Ignore
 		} else {
-			log_info("XModel -> Unknown data object in material list in x file.");
+			nge_log_info("XModel -> Unknown data object in material list in x file.");
 			ParseUnknownDataObject();
 		}
 	}
@@ -677,7 +677,7 @@ void XModel::ParseDataObjectMaterial(Material* material) {
 	while (running) {
 		std::string objectName = GetNextToken();
 		if (objectName.size() == 0) {
-			log_error("XModel -> Unexpected end of file while parsing mesh material.");
+			nge_log_error("XModel -> Unexpected end of file while parsing mesh material.");
 			return;
 		} else if (objectName == "}")
 			// Material finished.
@@ -693,7 +693,7 @@ void XModel::ParseDataObjectMaterial(Material* material) {
 			ParseDataObjectTextureFilename(texname);
 			material->textures.push_back(TexEntry(texname, true));
 		} else {
-			log_info("XModel -> Unknown data object in material in x file.");
+			nge_log_info("XModel -> Unknown data object in material in x file.");
 			ParseUnknownDataObject();
 		}
 	}
@@ -717,7 +717,7 @@ void XModel::ParseDataObjectAnimationSet() {
 	while (running) {
 		std::string objectName = GetNextToken();
 		if (objectName.length() == 0) {
-			log_error("XModel -> Unexpected end of file while parsing animation set.");
+			nge_log_error("XModel -> Unexpected end of file while parsing animation set.");
 			return;
 		} else if (objectName == "}")
 			// Animation set finished.
@@ -725,7 +725,7 @@ void XModel::ParseDataObjectAnimationSet() {
 		else if (objectName == "Animation")
 			ParseDataObjectAnimation(anim);
 		else {
-			log_info("XModel -> Unknown data object in animation set in x file.");
+			nge_log_info("XModel -> Unknown data object in animation set in x file.");
 			ParseUnknownDataObject();
 		}
 	}
@@ -740,7 +740,7 @@ void XModel::ParseDataObjectAnimation(Animation* anim) {
 	while (running) {
 		std::string objectName = GetNextToken();
 		if (objectName.length() == 0) {
-			log_error("XModel -> Unexpected end of file while parsing animation.");
+			nge_log_error("XModel -> Unexpected end of file while parsing animation.");
 			return;
 		} else if (objectName == "}")
 			// Animation finished.
@@ -755,7 +755,7 @@ void XModel::ParseDataObjectAnimation(Animation* anim) {
 			boneAnim->boneName = GetNextToken();
 			CheckForClosingBrace();
 		} else {
-			log_info("XModel -> Unknown data object in animation in x file.");
+			nge_log_info("XModel -> Unknown data object in animation in x file.");
 			ParseUnknownDataObject();
 		}
 	}
@@ -780,7 +780,7 @@ void XModel::ParseDataObjectAnimationKey(AnimBone* animBone) {
 			{
 				// Read count.
 				if (ReadInt() != 4) {
-					log_error("XModel -> Invalid number of arguments for quaternion key in animation.");
+					nge_log_error("XModel -> Invalid number of arguments for quaternion key in animation.");
 					return;
 				}
 
@@ -806,7 +806,7 @@ void XModel::ParseDataObjectAnimationKey(AnimBone* animBone) {
 			{
 				// Read count.
 				if (ReadInt() != 3) {
-					log_error("XModel -> Invalid number of arguments for vector key in animation.");
+					nge_log_error("XModel -> Invalid number of arguments for vector key in animation.");
 					break;
 				}
 
@@ -829,7 +829,7 @@ void XModel::ParseDataObjectAnimationKey(AnimBone* animBone) {
 			{
 				// Read count.
 				if (ReadInt() != 16) {
-					log_error("XModel -> Invalid number of arguments for matrix key in animation.");
+					nge_log_error("XModel -> Invalid number of arguments for matrix key in animation.");
 					break;
 				}
 
@@ -859,7 +859,7 @@ void XModel::ParseDataObjectAnimationKey(AnimBone* animBone) {
 			}
 
 			default:
-				log_error("XModel -> Unknown key type in animation.");
+				nge_log_error("XModel -> Unknown key type in animation.");
 				break;
 		}
 
@@ -876,7 +876,7 @@ void XModel::ParseDataObjectTextureFilename(std::string& name) {
 
 	// FIX: some files (e.g. AnimationTest.x) have "" as texture file name
 	if (!name.length()) {
-		log_info("XModel -> Length of texture file name is zero. Skipping this texture.");
+		nge_log_info("XModel -> Length of texture file name is zero. Skipping this texture.");
 	}
 
 	// Some exporters write double backslash paths out. We simply replace them if we find any.
@@ -890,7 +890,7 @@ void XModel::ParseUnknownDataObject() {
 	while (running) {
 		std::string t = GetNextToken();
 		if (t.length() == 0) {
-			log_error("XModel -> Unexpected end of file while parsing unknown segment.");
+			nge_log_error("XModel -> Unexpected end of file while parsing unknown segment.");
 			return;
 		}
 
@@ -905,7 +905,7 @@ void XModel::ParseUnknownDataObject() {
 		std::string t = GetNextToken();
 
 		if (t.length() == 0) {
-			log_error("XModel -> Unexpected end of file while parsing unknown segment.");
+			nge_log_error("XModel -> Unexpected end of file while parsing unknown segment.");
 			return;
 		}
 
@@ -1080,7 +1080,7 @@ void XModel::ReadHeadOfDataObject(std::string* poName) {
 			*poName = nameOrBrace;
 
 		if (GetNextToken() != "{")
-			log_error("XModel -> Opening brace excepted.");
+			nge_log_error("XModel -> Opening brace excepted.");
 	}
 }
 
@@ -1109,7 +1109,7 @@ void XModel::FindNextNoneWhiteSpace() {
 
 void XModel::CheckForClosingBrace() {
 	if (GetNextToken() != "}")
-		log_error("XModel -> Closing brace expected.");
+		nge_log_error("XModel -> Closing brace expected.");
 }
 
 void XModel::CheckForSemicolon() {
@@ -1117,7 +1117,7 @@ void XModel::CheckForSemicolon() {
 		return;
 
 	if (GetNextToken() != ";")
-		log_error("XModel -> Semicolon excepted.");
+		nge_log_error("XModel -> Semicolon excepted.");
 }
 
 void XModel::CheckForSeparator() {
@@ -1126,7 +1126,7 @@ void XModel::CheckForSeparator() {
 
 	std::string token = GetNextToken();
 	if (token != "," && token != ";")
-		log_error("XModel -> Separator character (\';\' or \',\') expected.");
+		nge_log_error("XModel -> Separator character (\';\' or \',\') expected.");
 }
 
 void XModel::TestForSeparator() {
@@ -1150,12 +1150,12 @@ void XModel::GetNextTokenAsString(std::string& string) {
 
 	FindNextNoneWhiteSpace();
 	if (p >= end) {
-		log_error("XModel -> Unexpected end of file while parsing string.");
+		nge_log_error("XModel -> Unexpected end of file while parsing string.");
 		return;
 	}
 
 	if (*p != '"') {
-		log_error("XModel -> Expected quotation mark.");
+		nge_log_error("XModel -> Expected quotation mark.");
 		return;
 	}
 
@@ -1165,12 +1165,12 @@ void XModel::GetNextTokenAsString(std::string& string) {
 		string.append(p++, 1);
 
 	if (p >= end - 1) {
-		log_error("XModel -> Unexpected end of file while parsing string.");
+		nge_log_error("XModel -> Unexpected end of file while parsing string.");
 		return;
 	}
 
 	if (p[1] != ';' || p[0] != '"') {
-		log_error("XModel -> Expected quotation mark and semicolon at the end of a string.");
+		nge_log_error("XModel -> Expected quotation mark and semicolon at the end of a string.");
 		return;
 	}
 
@@ -1223,7 +1223,7 @@ unsigned int XModel::ReadInt() {
 
 		// At least one digit expected.
 		if (!isdigit(*p)) {
-			log_error("XModel -> Number expected.");
+			nge_log_error("XModel -> Number expected.");
 			return 0;
 		}
 

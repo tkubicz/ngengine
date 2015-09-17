@@ -11,7 +11,7 @@ EventManager::~EventManager() {
 }
 
 bool EventManager::AddListener(const std::string& eventDelelgateId, const EventListenerDelegate& eventDelegate, const EventType& type) {
-	log_info("Events --> Attempting to add delegate function for event type: " + to_string(type));
+	nge_log_info("Events --> Attempting to add delegate function for event type: " + nge_to_string(type));
 
 	// This will find or create the entry.
 	EventDelegateMap& eventListenerMap = eventListeners[type];
@@ -21,10 +21,10 @@ bool EventManager::AddListener(const std::string& eventDelelgateId, const EventL
 	auto findIt = eventListenerMap.find(eventDelelgateId);
 	if (findIt == eventListenerMap.end()) {
 		eventListenerMap.insert(std::make_pair(eventDelelgateId, eventDelegate));
-		log_info("Events --> Successfully added delegate for event type: " + to_string(type));
+		nge_log_info("Events --> Successfully added delegate for event type: " + nge_to_string(type));
 		success = true;
 	} else {
-		log_info("Events --> Attempting to double-register a delegate");
+		nge_log_info("Events --> Attempting to double-register a delegate");
 		success = false;
 	}
 
@@ -32,7 +32,7 @@ bool EventManager::AddListener(const std::string& eventDelelgateId, const EventL
 }
 
 bool EventManager::RemoveListener(const std::string& eventDelelgateId, const EventType& type) {
-	log_info("Events --> Attempting to remove delegate function from event type: " + to_string(type));
+	nge_log_info("Events --> Attempting to remove delegate function from event type: " + nge_to_string(type));
 	bool success = false;
 
 	auto findIt = eventListeners.find(type);
@@ -42,7 +42,7 @@ bool EventManager::RemoveListener(const std::string& eventDelelgateId, const Eve
 		if (findListenerIt != listeners.end()) {
 			listeners.erase(findListenerIt);
 			success = true;
-			log_info("Events --> Successfully removed delegate function - delegateId: " + eventDelelgateId + " for event type: " + to_string(type));
+			nge_log_info("Events --> Successfully removed delegate function - delegateId: " + eventDelelgateId + " for event type: " + nge_to_string(type));
 		}
 	}
 
@@ -50,7 +50,7 @@ bool EventManager::RemoveListener(const std::string& eventDelelgateId, const Eve
 }
 
 bool EventManager::TriggerEvent(const IEventDataPtr& event) const {
-	log_info("Events --> Attempting to trigger event: " + to_string(event->GetName()));
+	nge_log_info("Events --> Attempting to trigger event: " + nge_to_string(event->GetName()));
 	bool processed = false;
 
 	auto findIt = eventListeners.find(event->GetEventType());
@@ -58,7 +58,7 @@ bool EventManager::TriggerEvent(const IEventDataPtr& event) const {
 		const EventDelegateMap& listeners = findIt->second;
 		for (auto it = listeners.begin(); it != listeners.end(); ++it) {
 			EventListenerDelegate listener = it->second;
-			log_info("Events --> Sending event " + to_string(event->GetName()) + " to delegate");
+			nge_log_info("Events --> Sending event " + nge_to_string(event->GetName()) + " to delegate");
 			// Call the delegate.
 			listener(event);
 			processed = true;
@@ -74,19 +74,19 @@ bool EventManager::QueueEvent(const IEventDataPtr& event) {
 	}
 
 	if (!event) {
-		log_error("Events --> Invalid event in QueueEvent()");
+		nge_log_error("Events --> Invalid event in QueueEvent()");
 		return false;
 	}
 
-	log_info("Events --> Attempting to queue event: " + to_string(event->GetName()));
+	nge_log_info("Events --> Attempting to queue event: " + nge_to_string(event->GetName()));
 
 	auto findIt = eventListeners.find(event->GetEventType());
 	if (findIt != eventListeners.end()) {
 		queues[activeQueue].push_back(event);
-		log_info("Events --> Successfully queued event: " + to_string(event->GetName()));
+		nge_log_info("Events --> Successfully queued event: " + nge_to_string(event->GetName()));
 		return true;
 	} else {
-		log_info("Events --> Skipping event sience there are no delegates registered to receive it: " + to_string(event->GetName()));
+		nge_log_info("Events --> Skipping event sience there are no delegates registered to receive it: " + nge_to_string(event->GetName()));
 		return false;
 	}
 }
@@ -140,7 +140,7 @@ bool EventManager::Update(unsigned long maxMillis) {
 		currMs = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
 		if (maxMillis != IEventManager::INFINITE) {
 			if (currMs >= maxMs) {
-				log_error("Events --> A realtime process is spamming the event manager");
+				nge_log_error("Events --> A realtime process is spamming the event manager");
 			}
 		}
 	}
@@ -150,14 +150,14 @@ bool EventManager::Update(unsigned long maxMillis) {
 	activeQueue = (activeQueue + 1) % NUM_QUEUES;
 	queues[activeQueue].clear();
 
-	log_info("EventLoop --> Processing Event Queue " + to_string(queueToProcess) + "; " + to_string(queues[queueToProcess].size()) + " events to process");
+	nge_log_info("EventLoop --> Processing Event Queue " + nge_to_string(queueToProcess) + "; " + nge_to_string(queues[queueToProcess].size()) + " events to process");
 
 	// Process the queue.
 	while (!queues[queueToProcess].empty()) {
 		// Pop the fron of the queue.
 		IEventDataPtr event = queues[queueToProcess].front();
 		queues[queueToProcess].pop_front();
-		log_info("EventLoop --> Processing Event " + to_string(event->GetName()));
+		nge_log_info("EventLoop --> Processing Event " + nge_to_string(event->GetName()));
 
 		const EventType& eventType = event->GetEventType();
 
@@ -165,12 +165,12 @@ bool EventManager::Update(unsigned long maxMillis) {
 		auto findIt = eventListeners.find(eventType);
 		if (findIt != eventListeners.end()) {
 			const EventDelegateMap& eventListeners = findIt->second;
-			log_info("EventLoop --> Found " + to_string(eventListeners.size()) + " delegates");
+			nge_log_info("EventLoop --> Found " + nge_to_string(eventListeners.size()) + " delegates");
 
 			// Call each listener.
 			for (auto it = eventListeners.begin(); it != eventListeners.end(); ++it) {
 				EventListenerDelegate listener = it->second;
-				log_info("EventLoop --> Sending event " + to_string(event->GetName()) + " to delegate");
+				nge_log_info("EventLoop --> Sending event " + nge_to_string(event->GetName()) + " to delegate");
 				listener(event);
 			}
 		}
@@ -178,7 +178,7 @@ bool EventManager::Update(unsigned long maxMillis) {
 		// Check to see if time ran out.
 		currMs = ((maxMillis == IEventManager::INFINITE) ? (IEventManager::INFINITE) : (currMs + maxMillis));
 		if (maxMillis != IEventManager::INFINITE && currMs >= maxMs) {
-			log_info("EventLoop --> Aborting event processing - time ran out");
+			nge_log_info("EventLoop --> Aborting event processing - time ran out");
 			break;
 		}
 	}

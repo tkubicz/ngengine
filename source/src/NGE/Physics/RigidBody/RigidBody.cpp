@@ -107,7 +107,7 @@ void RigidBody::Integrate(float duration) {
 
 void RigidBody::SetMass(const float mass) {
 	if (mass == 0.0f) {
-		log_error("RigidBody --> Mass cannot equals zero");
+		nge_log_error("RigidBody --> Mass cannot equals zero");
 		return;
 	}
 

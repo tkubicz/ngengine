@@ -40,7 +40,7 @@ float Terrain::GetHeightValue(const unsigned char* data, unsigned char numBytes)
 			break;
 
 		default:
-			log_error("Terrain --> Height filed with non standard pixel size");
+			nge_log_error("Terrain --> Height filed with non standard pixel size");
 			break;
 	}
 
@@ -88,7 +88,7 @@ void Terrain::GenerateVertices(const vector<float> heights) {
 
 void Terrain::GenerateIndices() {
 	if (terrainHeight < 2 || terrainWidth < 2) {
-		log_error("Terrain --> Terrain hasn't been loaded, or is of incorrect size");
+		nge_log_error("Terrain --> Terrain hasn't been loaded, or is of incorrect size");
 		return;
 	}
 
@@ -117,7 +117,7 @@ void Terrain::GenerateIndices() {
 
 void Terrain::GenerateTexCoords() {
 	if (terrainHeight < 2 || terrainWidth < 2) {
-		log_error("Terrain --> Terrain hasn't been loaded, or is of incorrect size");
+		nge_log_error("Terrain --> Terrain hasn't been loaded, or is of incorrect size");
 		return;
 	}
 
@@ -188,7 +188,7 @@ bool Terrain::LoadHeightmap(const std::string& rawFile, int bitsPerPixel, int wi
 	std::ifstream fileIn(rawFile.c_str(), std::ios::binary);
 
 	if (!fileIn.is_open()) {
-		log_error("Terrain --> Could not open file: [" + rawFile + "]");
+		nge_log_error("Terrain --> Could not open file: [" + rawFile + "]");
 		return false;
 	}
 
@@ -202,8 +202,8 @@ bool Terrain::LoadHeightmap(const std::string& rawFile, int bitsPerPixel, int wi
 	terrainHeight = height;
 
 	if (stringBuffer.size() != expectedFileSize) {
-		log_error("Terrain --> Expected file size: [" + to_string(expectedFileSize) + " bytes] differs from actual file size: ["
-				+ to_string(stringBuffer.size()) + " bytes]");
+		nge_log_error("Terrain --> Expected file size: [" + nge_to_string(expectedFileSize) + " bytes] differs from actual file size: ["
+				+ nge_to_string(stringBuffer.size()) + " bytes]");
 		return false;
 	}
 
@@ -268,24 +268,24 @@ bool Terrain::LoadHeightmap(const std::string& rawFile, int bitsPerPixel, int wi
 
 bool Terrain::LoadXMLSettings(const pugi::xml_node& node) {
 	if (std::string(node.name()) != "Terrain") {
-		log_error("Terrain --> Need a \"Terrain\" node");
+		nge_log_error("Terrain --> Need a \"Terrain\" node");
 		return false;
 	}
 
 	if (node.attribute("width").empty()) {
-		log_error("Terrain --> Need a \"width\" attribute");
+		nge_log_error("Terrain --> Need a \"width\" attribute");
 		return false;
 	} else
 		terrainWidth = node.attribute("width").as_int();
 
 	if (node.attribute("height").empty()) {
-		log_error("Terrain --> Need a \"height\" attribute");
+		nge_log_error("Terrain --> Need a \"height\" attribute");
 		return false;
 	} else
 		terrainHeight = node.attribute("height").as_int();
 
 	if (node.attribute("bpp").empty()) {
-		log_error("Terrain --> Need a \"bpp\" attribute");
+		nge_log_error("Terrain --> Need a \"bpp\" attribute");
 		return false;
 	} else
 		bpp = node.attribute("bpp").as_int();
@@ -300,7 +300,7 @@ bool Terrain::LoadXMLSettings(const pugi::xml_node& node) {
 		debug = node.attribute("debug").as_bool();
 
 	if (node.attribute("file").empty()) {
-		log_error("Terrain --> Need a \"file\" attribute");
+		nge_log_error("Terrain --> Need a \"file\" attribute");
 		return false;
 	} else {
 		if (!LoadHeightmap(node.attribute("file").as_string(), bpp, terrainWidth, terrainHeight))
@@ -308,7 +308,7 @@ bool Terrain::LoadXMLSettings(const pugi::xml_node& node) {
 	}
 
 	if (node.child("Shader").empty()) {
-		log_error("Terrain --> Need a \"Shader\" child node");
+		nge_log_error("Terrain --> Need a \"Shader\" child node");
 		return false;
 	} else {
 		shader = Media::MediaManager::getInstance().getShaderManager().getProgram(node.child("Shader"));
@@ -363,7 +363,7 @@ void Terrain::Render() {
 
 	for (short i = 0; i < textures.size(); ++i) {
 		textures[i]->activate(i);
-		shader->sendUniform("texture" + to_string(i), i);
+		shader->sendUniform("texture" + nge_to_string(i), i);
 	}
 
 	//shader->SendUniform("texture0", 0);
@@ -459,7 +459,7 @@ float Terrain::GetHeightAt(const NGE::Math::vec3f& position) {
 	float height = -FLT_MAX;
 
 	if (terrainWidth < 2 || terrainHeight < 2) {
-		log_error("Terrain --> Terrain hasn't been loaded, or is of incorrect size");
+		nge_log_error("Terrain --> Terrain hasn't been loaded, or is of incorrect size");
 
 	}
 

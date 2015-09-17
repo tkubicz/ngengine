@@ -230,7 +230,7 @@ void ObjFileParser::GetFace() {
 	}
 
 	if (indices->empty()) {
-		log_error("ObjFileParser --> Ignoring empty face.");
+		nge_log_error("ObjFileParser --> Ignoring empty face.");
 		dataIt = SkipLine<DataArrayIt>(dataIt, dataItEnd, line);
 		return;
 	}
@@ -293,7 +293,7 @@ void ObjFileParser::GetMaterialDesc() {
 	if (it == model->materialMap.end()) {
 		// Not found, use default material.
 		model->currentMaterial = model->defaultMaterial;
-		log_error("ObjFileParser --> Failed to locate material " + name + ", skipping.");
+		nge_log_error("ObjFileParser --> Failed to locate material " + name + ", skipping.");
 	} else {
 		// Found, using detected material.
 		model->currentMaterial = (*it).second;
@@ -335,7 +335,7 @@ void ObjFileParser::GetMaterialLib() {
 	file.open(matName.c_str(), std::ios::in);
 
 	if (!file) {
-		log_error("ObjFileParser --> Failed to open " + matName + ".");
+		nge_log_error("ObjFileParser --> Failed to open " + matName + ".");
 		dataIt = SkipLine<DataArrayIt>(dataIt, dataItEnd, line);
 		return;
 	}
@@ -367,7 +367,7 @@ void ObjFileParser::GetNewMaterial() {
 	std::map<std::string, Obj::Material*>::iterator it = model->materialMap.find(mat);
 	if (it == model->materialMap.end()) {
 		// Show warning, if material was not found.
-		log_info("ObjFileParser --> Unsupported material requested: " + mat);
+		nge_log_info("ObjFileParser --> Unsupported material requested: " + mat);
 		model->currentMaterial = model->defaultMaterial;
 	} else {
 		// Set new material
@@ -469,7 +469,7 @@ void ObjFileParser::GetObjectName() {
 
 void ObjFileParser::CreateObject(const std::string& objectName) {
 	if (model == nullptr) {
-		log_error("ObjFileParser --> Model pointer is null.");
+		nge_log_error("ObjFileParser --> Model pointer is null.");
 		return;
 	}
 
@@ -487,7 +487,7 @@ void ObjFileParser::CreateObject(const std::string& objectName) {
 
 void ObjFileParser::CreateMesh() {
 	if (model == nullptr) {
-		log_error("ObjFileParser --> Model pointer is null.");
+		nge_log_error("ObjFileParser --> Model pointer is null.");
 		return;
 	}
 
@@ -497,7 +497,7 @@ void ObjFileParser::CreateMesh() {
 	if (nullptr != model->current) {
 		model->current->meshes.push_back(meshId);
 	} else {
-		log_error("ObjFileParser --> No object detected to attach a new mesh instance.");
+		nge_log_error("ObjFileParser --> No object detected to attach a new mesh instance.");
 	}
 }
 
@@ -520,5 +520,5 @@ bool ObjFileParser::NeedsNewMesh(const std::string& materialName) {
 
 void ObjFileParser::ReportErrorTokenInFace() {
 	dataIt = SkipLine<DataArrayIt>(dataIt, dataItEnd, line);
-	log_error("ObjFileParser --> Not supported token in face description detected.");
+	nge_log_error("ObjFileParser --> Not supported token in face description detected.");
 }

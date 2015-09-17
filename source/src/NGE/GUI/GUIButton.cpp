@@ -20,7 +20,7 @@ GUIButton::GUIButton(const char* callback) : GUIAlphaElement(callback), GUIClipp
 
 bool GUIButton::LoadXMLSettings(const pugi::xml_node& node) {
 	if (std::string(node.name()) != "Button") {
-		log_error("Need a Button node");
+		nge_log_error("Need a Button node");
 		return false;
 	}
 

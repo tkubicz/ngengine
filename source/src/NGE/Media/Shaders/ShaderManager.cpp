@@ -33,13 +33,13 @@ bool ShaderManager::loadProgram(const std::string& programName, const std::strin
 			for (pugi::xml_node node = shaderDoc.child("Shader"); node; node = node.next_sibling("Shader")) {
 				if (node.attribute("name").as_string() == programName && program.loadXMLSettings(node)) {
 					ShaderManager::programs.insert(std::make_pair(programName, program));
-					log_info("ShaderManager --> New shader program added: " + programName);
+					nge_log_info("ShaderManager --> New shader program added: " + programName);
 					return true;
 				}
 			}
 		}
 
-		log_error(std::string("ShaderManager --> Could not load program: ") + programName + string(" (") + fileName + std::string(")"));
+		nge_log_error(std::string("ShaderManager --> Could not load program: ") + programName + string(" (") + fileName + std::string(")"));
 		return false;
 	}
 }
@@ -50,13 +50,13 @@ GLSLProgram* ShaderManager::getProgram(const std::string& name) {
 		return &(it->second);
 	}
 
-	log_error("ShaderManager --> Could not find program: " + name);
+	nge_log_error("ShaderManager --> Could not find program: " + name);
 	return NULL;
 }
 
 GLSLProgram* ShaderManager::getProgram(const pugi::xml_node& node) {
 	if (string(node.name()) != "Shader") {
-		log_error("ShaderManager --> Need Shader node");
+		nge_log_error("ShaderManager --> Need Shader node");
 		return NULL;
 	}
 

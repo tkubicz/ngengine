@@ -17,9 +17,9 @@ namespace NGE {
 		class LuaScriptProcess : public NGE::Core::Process {
 		  private:
 			unsigned long int frequency, time;
-			sel::Selector scriptInitFunction, scriptUpdateFunction;
-			sel::Selector scriptSuccessFunction, scriptFailFunction;
-			sel::Selector scriptSelf;
+			std::function<void()> scriptInitFunction, scriptUpdateFunction;
+			std::function<void()> scriptSuccessFunction, scriptFailFunction;
+			std::function<void()> scriptSelf;
 
 		  public:
 			LuaScriptProcess();

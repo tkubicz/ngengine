@@ -26,7 +26,7 @@ bool GLFW3Window::Create() {
 
 	window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
 	if (!window) {
-		log_error("GLFW3Window --> Could not create GLFW3 window.");
+		nge_log_error("GLFW3Window --> Could not create GLFW3 window.");
 		return false;
 	}
 
@@ -42,7 +42,7 @@ bool GLFW3Window::Create(int width, int height, int bpp, bool fullscreen, const 
 
 	window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
 	if (!window) {
-		log_error("GLFW3Window --> Could not create GLFW3 window.");
+		nge_log_error("GLFW3Window --> Could not create GLFW3 window.");
 		return false;
 	}
 
@@ -73,10 +73,10 @@ bool GLFW3Window::CreateSlave(bool visible) {
 	slaveWindow = glfwCreateWindow(width, height, title.c_str(), 0, window);
 
 	if (!slaveWindow) {
-		log_error("GLFW3Window --> Could not create GLFW3 slave window.");
+		nge_log_error("GLFW3Window --> Could not create GLFW3 slave window.");
 		return false;
 	} else {
-		log_info("GLFW3Window --> Slave window created.");
+		nge_log_info("GLFW3Window --> Slave window created.");
 		return true;
 	}
 }
@@ -123,7 +123,7 @@ void GLFW3Window::SetInputCallbacks() {
 
 bool GLFW3Window::LoadXMLSettings(pugi::xml_node& windowNode) {
 	if (windowNode.attribute("name").empty()) {
-		log_error("Name attribute cannot be empty");
+		nge_log_error("Name attribute cannot be empty");
 		return false;
 	} else
 		this->title = windowNode.attribute("name").as_string();

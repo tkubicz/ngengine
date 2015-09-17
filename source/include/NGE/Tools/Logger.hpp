@@ -12,9 +12,9 @@
 #include <vector>
 #include <boost/lexical_cast.hpp>
 
-#define to_string(x) boost::lexical_cast<std::string>(x)
-#define log_info(x) NGE::Tools::Logger::WriteInfoLog(x)
-#define log_error(x) NGE::Tools::Logger::WriteErrorLog(x)
+#define nge_to_string(x) boost::lexical_cast<std::string>(x)
+#define nge_log_info(x) NGE::Tools::Logger::WriteInfoLog(x)
+#define nge_log_error(x) NGE::Tools::Logger::WriteErrorLog(x)
 
 #ifdef ANDROID
 #include <android/log.h>

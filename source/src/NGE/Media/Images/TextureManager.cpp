@@ -17,20 +17,20 @@ bool TextureManager::addTexture(const std::string& name, Texture* texture) {
 		return true;
 	else {
 		textures.insert(std::make_pair(name, texture));
-		log_info("TextureManager --> New texture added: " + name + " (" + to_string(texture->getSizeInBytes() / 1024) + " kB)");
+		nge_log_info("TextureManager --> New texture added: " + name + " (" + nge_to_string(texture->getSizeInBytes() / 1024) + " kB)");
 		return true;
 	}
 }
 
 bool TextureManager::loadTexture(const pugi::xml_node& node) {
 	if (node.empty() || (std::string(node.name()) != "Texture2D" && std::string(node.name()) != "TextureCubeMap")) {
-		log_error("TextureManager --> Need \"Texture2D\" or \"TextureCubeMap\" node");
+		nge_log_error("TextureManager --> Need \"Texture2D\" or \"TextureCubeMap\" node");
 		return false;
 	}
 
 	std::string name = node.attribute("name").as_string();
 	if (name.length() == 0) {
-		log_error("TextureManager --> Could not find name attribute");
+		nge_log_error("TextureManager --> Could not find name attribute");
 		return false;
 	}
 
@@ -44,12 +44,12 @@ bool TextureManager::loadTexture(const pugi::xml_node& node) {
 		for (std::vector<std::string>::iterator i = paths.begin(); i != paths.end(); ++i) {
 			if (texture->loadXMLSettings(node, *i)) {
 				textures.insert(std::make_pair(name, texture));
-				log_info("TextureManager --> New texture added: " + name + " (" + to_string(texture->getSizeInBytes() / 1024) + " kB)");
+				nge_log_info("TextureManager --> New texture added: " + name + " (" + nge_to_string(texture->getSizeInBytes() / 1024) + " kB)");
 				return true;
 			}
 		}
 
-		log_error("TextureManager --> Could not load texture: " + name);
+		nge_log_error("TextureManager --> Could not load texture: " + name);
 		return false;
 	}
 }
@@ -60,13 +60,13 @@ Texture* TextureManager::getTexture(const std::string& name) {
 		return (it->second);
 	}
 
-	log_error("TextureManager --> Could not find texture: " + name);
+	nge_log_error("TextureManager --> Could not find texture: " + name);
 	return NULL;
 }
 
 Texture* TextureManager::getTexture(const pugi::xml_node& node) {
 	if (std::string(node.name()) != "Texture2D" && std::string(node.name()) != "TextureCubeMap") {
-		log_error("TextureManager --> Need \"Texture2D\" or \"TextureCubeMap\" node");
+		nge_log_error("TextureManager --> Need \"Texture2D\" or \"TextureCubeMap\" node");
 		return NULL;
 	}
 

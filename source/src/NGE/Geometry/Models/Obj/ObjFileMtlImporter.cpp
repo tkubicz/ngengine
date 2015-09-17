@@ -6,7 +6,7 @@ using namespace NGE::Geometry::Models::Obj;
 ObjFileMtlImporter::ObjFileMtlImporter(std::vector<char>& buffer, const std::string& absPath, Obj::Model* model) :
 dataIt(buffer.begin()), dataItEnd(buffer.end()), model(model), line(0) {
 	if (model == nullptr) {
-		log_error("ObjFileMtlImporter --> Model pointer is null.");
+		nge_log_error("ObjFileMtlImporter --> Model pointer is null.");
 		return;
 	}
 
@@ -115,7 +115,7 @@ void ObjFileMtlImporter::Load() {
 
 void ObjFileMtlImporter::GetColorRGBA(Math::vec3f* color) {
 	if (color == nullptr) {
-		log_error("ObjFileMtlImporter --> color pointer is null.");
+		nge_log_error("ObjFileMtlImporter --> color pointer is null.");
 		return;
 	}
 

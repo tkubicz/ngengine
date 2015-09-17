@@ -98,7 +98,7 @@ namespace NGE {
 					break;
 
 				default:
-					log_error("Invalid MatrixMode parameter");
+					nge_log_error("Invalid MatrixMode parameter");
 					break;
 			}
 		}
@@ -133,7 +133,7 @@ namespace NGE {
 					return textureStack.top();
 
 				default:
-					log_error("Invalid MatrixMode parameter");
+					nge_log_error("Invalid MatrixMode parameter");
 					break;
 			}
 

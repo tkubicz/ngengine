@@ -12,7 +12,7 @@ LuaScriptManager::~LuaScriptManager() {
 bool LuaScriptManager::Init() {
 	luaState = std::make_shared<sel::State>(true);
 	if (luaState == nullptr) {
-		log_error("LuaScriptManager --> Could not initialize lua state");
+		nge_log_error("LuaScriptManager --> Could not initialize lua state");
 		return false;
 	}
 	return true;
@@ -52,7 +52,7 @@ void LuaScriptManager::SetError() {
 		lastError = "Unknown Lua error";
 	}
 
-	log_error("LuaScriptManager --> " + lastError);
+	nge_log_error("LuaScriptManager --> " + lastError);
 }
 
 std::string LuaScriptManager::GetLastError() {

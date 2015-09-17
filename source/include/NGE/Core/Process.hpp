@@ -201,7 +201,7 @@ namespace NGE {
                 state = SUCCEEDED;
             }
             else {
-                log_info("Attempting to success process that isn't running");
+                nge_log_info("Attempting to success process that isn't running");
             }
         }
 
@@ -210,7 +210,7 @@ namespace NGE {
                 state = FAILED;
             }
             else {
-                log_info("Attempting to fail process that isn't running");
+                nge_log_info("Attempting to fail process that isn't running");
             }
         }
 
@@ -219,7 +219,7 @@ namespace NGE {
                 state = PAUSED;
             }
             else {
-                log_info("Attempting to pause a process that isn't running");
+                nge_log_info("Attempting to pause a process that isn't running");
             }
         }
 
@@ -228,7 +228,7 @@ namespace NGE {
                 state = RUNNING;
             }
             else {
-                log_info("Attempting to unpause a process that isn't paused");
+                nge_log_info("Attempting to unpause a process that isn't paused");
             }
         }
     }
