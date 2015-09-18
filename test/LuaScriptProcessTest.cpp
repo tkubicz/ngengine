@@ -5,6 +5,7 @@
 #include <boost/test/unit_test.hpp>
 #include "NGE/ThirdPart/selene.h"
 #include "NGE/Scripting/LuaScriptProcess.hpp"
+#include "NGE/Core/Process.hpp"
 
 using namespace sel;
 
@@ -43,4 +44,5 @@ BOOST_AUTO_TEST_CASE(Test) {
 
 	state["ScriptProcess"].SetClass<NGE::Process::TestClass>("print", &NGE::Process::TestClass::printValue);
 	state["AnotherProcess"].SetClass<NGE::Process::Inherited>("set", &NGE::Process::Inherited::setValue);
+	//state["Process"].SetClass<NGE::Scripting::LuaScriptProcess>("OnInit", &NGE::Scripting::LuaScriptProcess::OnInit);
 }

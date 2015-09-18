@@ -7,7 +7,7 @@ LuaScriptProcess::LuaScriptProcess() {
 }
 
 void LuaScriptProcess::OnInit() {
-	Process::OnInit();
+	NGE::Core::Process::OnInit();
 }
 
 void LuaScriptProcess::OnUpdate(unsigned int deltaTime) {
@@ -23,20 +23,18 @@ void LuaScriptProcess::OnFail() {
 }
 
 void LuaScriptProcess::OnAbort() {
-
 }
 
 void LuaScriptProcess::RegisterScriptClass() {
 	LuaScriptManager& scriptManager = LuaScriptManager::GetInstance();
 	std::weak_ptr<sel::State> luaState = scriptManager.GetLuaState();
-//	(*luaState.lock())["ScriptProcess"].SetClass<Process>(
-//			"Success", &LuaScriptProcess::Success,
-//			"Fail", &LuaScriptProcess::Fail,
-//			"Pause", &LuaScriptProcess::Pause,
-//			"UnPause", &LuaScriptProcess::UnPause,
-//			"IsAlive", &LuaScriptProcess::IsAlive,
-//			"IsDead", &LuaScriptProcess::IsDead,
-//			"IsPaused", &LuaScriptProcess::IsPaused,
-//			"AttachChild", &LuaScriptProcess::AttachChild);
+	(*luaState.lock())["Process"].SetClass<LuaScriptProcess>("Succeed", &NGE::Scripting::LuaScriptProcess::Succeed,
+			"Fail", &NGE::Scripting::LuaScriptProcess::Fail,
+			"Pause", &NGE::Scripting::LuaScriptProcess::Pause,
+			"UnPause", &NGE::Scripting::LuaScriptProcess::UnPause,
+			"IsAlive", &NGE::Scripting::LuaScriptProcess::IsAlive,
+			"IsDead", &NGE::Scripting::LuaScriptProcess::IsDead,
+			"IsRemoved", &NGE::Scripting::LuaScriptProcess::IsRemoved,
+			"IsPaused", &NGE::Scripting::LuaScriptProcess::IsPaused,
+			"AttachChild", &NGE::Scripting::LuaScriptProcess::ScriptAttachChild);
 }
-
