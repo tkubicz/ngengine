@@ -34,43 +34,20 @@ namespace NGE {
 			virtual void OnAbort() override;
 
 		  public:
-			
-			void ScriptAttachChild(NGE::Core::Process* child) {}
+
+			void ScriptAttachChild(NGE::Core::Process* child) { }
 
 			// Methods belowe are here because selene (at least for now) could not
 			// create classes without implementation in current class.
 
-			virtual void Succeed() override {
-				NGE::Core::Process::Succeed();
-			}
-
-			virtual void Fail() override {
-				NGE::Core::Process::Fail();
-			}
-
-			virtual void Pause() override {
-				NGE::Core::Process::Pause();
-			}
-
-			virtual void UnPause() override {
-				NGE::Core::Process::UnPause();
-			}
-
-			virtual bool IsAlive() const override {
-				return NGE::Core::Process::IsAlive();
-			}
-
-			virtual bool IsDead() const override {
-				return NGE::Core::Process::IsDead();
-			}
-
-			virtual bool IsRemoved() const override {
-				return NGE::Core::Process::IsRemoved();
-			}
-
-			virtual bool IsPaused() const override {
-				return NGE::Core::Process::IsPaused();
-			}
+			virtual void Succeed() override;
+			virtual void Fail() override;
+			virtual void Pause() override;
+			virtual void UnPause() override;
+			virtual bool IsAlive() const override;
+			virtual bool IsDead() const override;
+			virtual bool IsRemoved() const override;
+			virtual bool IsPaused() const override;
 		};
 	}
 }

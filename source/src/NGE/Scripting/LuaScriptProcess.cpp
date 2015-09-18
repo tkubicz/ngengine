@@ -38,3 +38,35 @@ void LuaScriptProcess::RegisterScriptClass() {
 			"IsPaused", &NGE::Scripting::LuaScriptProcess::IsPaused,
 			"AttachChild", &NGE::Scripting::LuaScriptProcess::ScriptAttachChild);
 }
+
+void LuaScriptProcess::Succeed() {
+	NGE::Core::Process::Succeed();
+}
+
+void LuaScriptProcess::Fail() {
+	NGE::Core::Process::Fail();
+}
+
+void LuaScriptProcess::Pause() {
+	NGE::Core::Process::Pause();
+}
+
+void LuaScriptProcess::UnPause() {
+	NGE::Core::Process::UnPause();
+}
+
+bool LuaScriptProcess::IsAlive() const {
+	return NGE::Core::Process::IsAlive();
+}
+
+bool LuaScriptProcess::IsDead() const {
+	return NGE::Core::Process::IsDead();
+}
+
+bool LuaScriptProcess::IsRemoved() const {
+	return NGE::Core::Process::IsRemoved();
+}
+
+bool LuaScriptProcess::IsPaused() const {
+	return NGE::Core::Process::IsPaused();
+}
