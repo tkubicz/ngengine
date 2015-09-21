@@ -94,10 +94,10 @@ BOOST_AUTO_TEST_CASE(RunningArbitraryCode) {
 BOOST_AUTO_TEST_CASE(RunningErrorCode) {
 	State state;
 	bool result = state("x = this is test");
-	
+
 	std::string message = state.Read<std::string>(-1);
 	std::cout << message << std::endl;
-	
+
 	BOOST_CHECK_EQUAL(result, false);
 }
 
@@ -129,11 +129,11 @@ BOOST_AUTO_TEST_CASE(RegisteringClassMemberVariables) {
 	state["Bar"].SetClass<Bar, int>("x", &Bar::x);
 
 	state("bar = Bar.new(4)");
-	
+
 	state("x = bar:x()");
 	int result = state["x"];
 	BOOST_CHECK_EQUAL(result, 4);
-	
+
 	state("bar:set_x(-4)");
 	state("y = bar:x()");
 	result = state["y"];
@@ -163,13 +163,13 @@ BOOST_AUTO_TEST_CASE(RegisteringObjectInstances) {
 	state["foo"].SetObj(foo,
 			"double_add", &Foo::DoubleAdd,
 			"x", &Foo::x);
-	
+
 	int result = state["foo"]["x"]();
 	BOOST_CHECK_EQUAL(result, 2);
-	
+
 	state["foo"]["set_x"](4);
 	BOOST_CHECK_EQUAL(foo.x, 4);
-	
+
 	result = state["foo"]["double_add"](3);
 	BOOST_CHECK_EQUAL(result, 14);
 }
@@ -178,12 +178,12 @@ BOOST_AUTO_TEST_CASE(GetFunctionFromLua) {
 	State state;
 	bool loadResult = state.Load("../test/data/function.lua");
 	BOOST_CHECK(loadResult);
-	
-	sel::function<int(int, int)> addFunc = state["add"];
-	std::function<int(int, int)> addFunc2 = state["add"];
-	
+
+	sel::function<int(int, int) > addFunc = state["add"];
+	std::function<int(int, int) > addFunc2 = state["add"];
+
 	state["test"];
-	
+
 	BOOST_CHECK_EQUAL(addFunc(1, 2), 3);
 	BOOST_CHECK_EQUAL(addFunc2(5, 3), 8);
 }
@@ -192,11 +192,68 @@ BOOST_AUTO_TEST_CASE(SelectorTest) {
 	State state;
 	bool loadResult = state.Load("../test/data/function.lua");
 	BOOST_CHECK(loadResult);
-	
+
 	sel::Selector selector = state["add"];
-	
-	typedef std::function<int(int, int)> AddFunc;
+
+	typedef std::function<int(int, int) > AddFunc;
 	AddFunc add = (AddFunc) selector;
-	
+
 	BOOST_CHECK_EQUAL(add(5, 5), 10);
+}
+
+class TestObject {
+  protected:
+	int x, y;
+
+  public:
+
+	TestObject(int x, int y) : x(x), y(y) {
+	}
+
+	virtual int add() {
+		return x + y;
+	}
+
+	virtual int substract() {
+		return x - y;
+	}
+
+	int getx() {
+		return x;
+	}
+
+	int gety() {
+		return y;
+	}
+};
+
+class SecondObject : public TestObject {
+  public:
+
+	SecondObject(int x, int y) : TestObject(x, y) {
+	}
+
+	virtual int add() override {
+		return TestObject::add();
+	}
+
+	virtual int substract() override {
+		return TestObject::substract();
+	}
+};
+
+BOOST_AUTO_TEST_CASE(ObjTest) {
+	State state{true};
+	state["TestObject"].SetClass<SecondObject, int, int>("add", &SecondObject::add,
+			"sub", &SecondObject::substract);
+
+	state("test = TestObject.new(2, 7)");
+
+	SecondObject* test = state["test"];
+	BOOST_CHECK(test != nullptr);
+
+	BOOST_CHECK(test->getx() == 2 && test->gety() == 7);
+
+	int result = test->add();
+	BOOST_CHECK_EQUAL(9, result);
 }

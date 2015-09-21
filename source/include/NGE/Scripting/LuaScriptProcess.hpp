@@ -16,15 +16,19 @@ namespace NGE {
 
 		class LuaScriptProcess : public NGE::Core::Process {
 		  private:
-			unsigned long int frequency, time;
-			std::function<void() > scriptInitFunction, scriptUpdateFunction;
+			lua_Number frequency, time;
+			std::function<void() > scriptInitFunction;
+			std::function<void(lua_Number) > scriptUpdateFunction;
 			std::function<void() > scriptSuccessFunction, scriptFailFunction;
 			std::function<void() > scriptSelf;
 
 		  public:
 			LuaScriptProcess();
 
+			bool BuildProcessFromScript(const std::string& name);
+			
 			static void RegisterScriptClass();
+			static void CreateFromScript(const std::string className, const std::string variableName);
 
 		  protected:
 			virtual void OnInit() override;
@@ -48,6 +52,9 @@ namespace NGE {
 			virtual bool IsDead() const override;
 			virtual bool IsRemoved() const override;
 			virtual bool IsPaused() const override;
+
+			unsigned long int GetFrequency() const;
+			unsigned long int GetTime() const;
 		};
 	}
 }

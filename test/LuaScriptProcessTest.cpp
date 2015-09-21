@@ -5,9 +5,12 @@
 #include <boost/test/unit_test.hpp>
 #include "NGE/ThirdPart/selene.h"
 #include "NGE/Scripting/LuaScriptProcess.hpp"
+#include "NGE/Scripting/LuaScriptManager.hpp"
 #include "NGE/Core/Process.hpp"
+#include "NGE/Tools/Logger.hpp"
 
 using namespace sel;
+using namespace NGE::Scripting;
 
 namespace NGE {
 	namespace Process {
@@ -45,4 +48,27 @@ BOOST_AUTO_TEST_CASE(Test) {
 	state["ScriptProcess"].SetClass<NGE::Process::TestClass>("print", &NGE::Process::TestClass::printValue);
 	state["AnotherProcess"].SetClass<NGE::Process::Inherited>("set", &NGE::Process::Inherited::setValue);
 	//state["Process"].SetClass<NGE::Scripting::LuaScriptProcess>("OnInit", &NGE::Scripting::LuaScriptProcess::OnInit);
+}
+
+BOOST_AUTO_TEST_CASE(TestRegisterClass) {
+	LuaScriptProcess luaProcess;
+	LuaScriptManager& luaManager = LuaScriptManager::GetInstance();
+	BOOST_CHECK(luaManager.Init());
+	
+	NGE::Tools::Logger::Initialize("output.txt", true);
+	
+	luaProcess.RegisterScriptClass();
+	
+	(*luaManager.GetLuaState().lock()).Load("../test/data/script_process.lua");
+	
+	//LuaScriptProcess* fromLua = (*luaManager.GetLuaState().lock())["proc"];
+	//BOOST_CHECK(fromLua != nullptr);
+	
+	//std::cout << "state: " << fromLua->GetState() << std::endl;
+}
+
+BOOST_AUTO_TEST_CASE(TestLuaNumber) {
+	LuaScriptProcess luaProcess;
+	LuaScriptManager& luaManager = LuaScriptManager::GetInstance();
+	BOOST_CHECK(luaManager.Init());
 }

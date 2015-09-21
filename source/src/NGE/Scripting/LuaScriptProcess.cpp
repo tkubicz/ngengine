@@ -1,21 +1,35 @@
 #include "NGE/Scripting/LuaScriptProcess.hpp"
 #include "NGE/Scripting/LuaScriptManager.hpp"
+#include "NGE/Scripting/LuaScriptEventListener.hpp"
 using namespace NGE::Scripting;
 
 LuaScriptProcess::LuaScriptProcess() {
-
+	frequency = 10;
+	time = 0;
 }
 
 void LuaScriptProcess::OnInit() {
 	NGE::Core::Process::OnInit();
+	if (scriptInitFunction) {
+		scriptInitFunction();
+	} else {
+		Fail();
+	}
 }
 
 void LuaScriptProcess::OnUpdate(unsigned int deltaTime) {
-
+	time += deltaTime;
+	if (time >= frequency) {
+		if (scriptUpdateFunction) {
+			scriptUpdateFunction(time);
+		}
+	}
 }
 
 void LuaScriptProcess::OnSuccess() {
-
+	if (scriptSuccessFunction) {
+		scriptSuccessFunction();
+	}
 }
 
 void LuaScriptProcess::OnFail() {
@@ -25,10 +39,22 @@ void LuaScriptProcess::OnFail() {
 void LuaScriptProcess::OnAbort() {
 }
 
+bool LuaScriptProcess::BuildProcessFromScript(const std::string& name) {
+	LuaScriptManager& scriptManager = LuaScriptManager::GetInstance();
+	std::weak_ptr<sel::State> luaState = scriptManager.GetLuaState();
+
+	scriptInitFunction = (*luaState.lock())["process"]["OnInit"];
+	scriptUpdateFunction = (*luaState.lock())["process"]["OnUpdate"];
+	scriptSuccessFunction = (std::function<void() >) (*luaState.lock())["process"]["OnSuccess"];
+
+	return true;
+}
+
 void LuaScriptProcess::RegisterScriptClass() {
 	LuaScriptManager& scriptManager = LuaScriptManager::GetInstance();
 	std::weak_ptr<sel::State> luaState = scriptManager.GetLuaState();
-	(*luaState.lock())["Process"].SetClass<LuaScriptProcess>("Succeed", &NGE::Scripting::LuaScriptProcess::Succeed,
+
+	(*luaState.lock())["ScriptProcess"].SetClass<LuaScriptProcess>("Succeed", &NGE::Scripting::LuaScriptProcess::Succeed,
 			"Fail", &NGE::Scripting::LuaScriptProcess::Fail,
 			"Pause", &NGE::Scripting::LuaScriptProcess::Pause,
 			"UnPause", &NGE::Scripting::LuaScriptProcess::UnPause,
@@ -37,6 +63,35 @@ void LuaScriptProcess::RegisterScriptClass() {
 			"IsRemoved", &NGE::Scripting::LuaScriptProcess::IsRemoved,
 			"IsPaused", &NGE::Scripting::LuaScriptProcess::IsPaused,
 			"AttachChild", &NGE::Scripting::LuaScriptProcess::ScriptAttachChild);
+
+	(*luaState.lock())["CreateProcess"] = &NGE::Scripting::LuaScriptProcess::CreateFromScript;
+}
+
+void LuaScriptProcess::CreateFromScript(const std::string className, const std::string variableName) {
+	LuaScriptManager& scriptManager = LuaScriptManager::GetInstance();
+	std::weak_ptr<sel::State> luaState = scriptManager.GetLuaState();
+
+	nge_log_info("Script class name: " + nge_to_string(className));
+
+	//LuaScriptProcess* process = (*luaState.lock())[name.c_str()];
+	LuaScriptProcess* process = new LuaScriptProcess();
+
+	process->scriptInitFunction = (*luaState.lock())[className.c_str()]["OnInit"];
+	process->scriptSuccessFunction = (*luaState.lock())[className.c_str()]["OnSuccess"];
+	
+	return 
+	
+	//	if (process == nullptr) {
+	//		nge_log_error("LuaScriptProcess --> process is null");
+	//	} else {
+	//		nge_log_info("LuaScriptProcess --> it seems to work");
+	//		nge_log_info("LuaScriptProcess --> frequency: " + nge_to_string(process->GetFrequency()));
+	//		
+	//		process->OnInit();
+	//		
+	//		//process->BuildProcessFromScript("test");
+	//		//process->OnUpdate(10);
+	//	}
 }
 
 void LuaScriptProcess::Succeed() {
@@ -70,3 +125,12 @@ bool LuaScriptProcess::IsRemoved() const {
 bool LuaScriptProcess::IsPaused() const {
 	return NGE::Core::Process::IsPaused();
 }
+
+unsigned long int LuaScriptProcess::GetFrequency() const {
+	return frequency;
+}
+
+unsigned long int LuaScriptProcess::GetTime() const {
+	return time;
+}
+

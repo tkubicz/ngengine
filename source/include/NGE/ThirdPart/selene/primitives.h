@@ -15,362 +15,389 @@ extern "C" {
  */
 
 namespace sel {
-namespace detail {
+	namespace detail {
 
-template <typename T>
-struct is_primitive {
-    static constexpr bool value = false;
-};
-template <>
-struct is_primitive<int> {
-    static constexpr bool value = true;
-};
-template <>
-struct is_primitive<unsigned int> {
-    static constexpr bool value = true;
-};
-template <>
-struct is_primitive<bool> {
-    static constexpr bool value = true;
-};
-template <>
-struct is_primitive<lua_Number> {
-    static constexpr bool result = true;
-};
-template <>
-struct is_primitive<std::string> {
-    static constexpr bool value = true;
-};
+		template <typename T>
+		struct is_primitive {
+			static constexpr bool value = false;
+		};
 
-/* getters */
-template <typename T>
-inline T* _get(_id<T*>, lua_State *l, const int index) {
-    auto t = lua_topointer(l, index);
-    return (T*)(t);
-}
+		template <>
+		struct is_primitive<int> {
+			static constexpr bool value = true;
+		};
 
-inline bool _get(_id<bool>, lua_State *l, const int index) {
-    return lua_toboolean(l, index) != 0;
-}
+		template <>
+		struct is_primitive<unsigned int> {
+			static constexpr bool value = true;
+		};
 
-inline int _get(_id<int>, lua_State *l, const int index) {
-    return static_cast<int>(lua_tointeger(l, index));
-}
+		template <>
+		struct is_primitive<bool> {
+			static constexpr bool value = true;
+		};
 
-inline unsigned int _get(_id<unsigned int>, lua_State *l, const int index) {
+		template <>
+		struct is_primitive<lua_Number> {
+			static constexpr bool result = true;
+		};
+
+		template <>
+		struct is_primitive<std::string> {
+			static constexpr bool value = true;
+		};
+
+		/* getters */
+		template <typename T>
+		inline T* _get(_id<T*>, lua_State *l, const int index) {
+			auto t = lua_topointer(l, index);
+			return (T*) (t);
+		}
+
+		inline bool _get(_id<bool>, lua_State *l, const int index) {
+			return lua_toboolean(l, index) != 0;
+		}
+
+		inline int _get(_id<int>, lua_State *l, const int index) {
+			return static_cast<int> (lua_tointeger(l, index));
+		}
+
+		inline unsigned int _get(_id<unsigned int>, lua_State *l, const int index) {
 #if LUA_VERSION_NUM >= 502 && LUA_VERSION_NUM < 503
-    return lua_tounsigned(l, index);
+			return lua_tounsigned(l, index);
 #else
-    return static_cast<unsigned>(lua_tointeger(l, index));
+			return static_cast<unsigned> (lua_tointeger(l, index));
 #endif
-}
+		}
 
-inline lua_Number _get(_id<lua_Number>, lua_State *l, const int index) {
-    return lua_tonumber(l, index);
-}
+		inline lua_Number _get(_id<lua_Number>, lua_State *l, const int index) {
+			return lua_tonumber(l, index);
+		}
 
-inline std::string _get(_id<std::string>, lua_State *l, const int index) {
-    size_t size;
-    const char *buff = lua_tolstring(l, index, &size);
-    return std::string{buff, size};
-}
+		inline std::string _get(_id<std::string>, lua_State *l, const int index) {
+			size_t size;
+			const char *buff = lua_tolstring(l, index, &size);
+			return std::string{buff, size};
+		}
 
-template <typename T>
-inline T* _check_get(_id<T*>, lua_State *l, const int index) {
-    return (T *)lua_topointer(l, index);
-};
+		template <typename T>
+		inline T* _check_get(_id<T*>, lua_State *l, const int index) {
+			return (T *) lua_topointer(l, index);
+		};
 
-template <typename T>
-inline T& _check_get(_id<T&>, lua_State *l, const int index) {
-    static_assert(!is_primitive<T>::value,
-                  "Reference types must not be primitives.");
-    return *(T *)lua_topointer(l, index);
-};
+		template <typename T>
+		inline T& _check_get(_id<T&>, lua_State *l, const int index) {
+			static_assert(!is_primitive<T>::value,
+					"Reference types must not be primitives.");
+			return *(T *) lua_topointer(l, index);
+		};
 
-template <typename T>
-inline T _check_get(_id<T&&>, lua_State *l, const int index) {
-    return _check_get(_id<T>{}, l, index);
-};
+		template <typename T>
+		inline T _check_get(_id<T&&>, lua_State *l, const int index) {
+			return _check_get(_id<T>{}, l, index);
+		};
 
-
-inline int _check_get(_id<int>, lua_State *l, const int index) {
+		inline int _check_get(_id<int>, lua_State *l, const int index) {
 #if LUA_VERSION_NUM >= 503
-    return static_cast<int>(luaL_checkinteger(l, index));
+			return static_cast<int> (luaL_checkinteger(l, index));
 #else
-    return luaL_checkint(l, index);
+			return luaL_checkint(l, index);
 #endif
-};
+		};
 
-inline unsigned int _check_get(_id<unsigned int>, lua_State *l, const int index) {
+		inline unsigned int _check_get(_id<unsigned int>, lua_State *l, const int index) {
 #if LUA_VERSION_NUM >= 503
-    return static_cast<unsigned>(luaL_checkinteger(l, index));
+			return static_cast<unsigned> (luaL_checkinteger(l, index));
 #elif LUA_VERSION_NUM >= 502
-    return luaL_checkunsigned(l, index);
+			return luaL_checkunsigned(l, index);
 #else
-    return static_cast<unsigned>(luaL_checkint(l, index));
+			return static_cast<unsigned> (luaL_checkint(l, index));
 #endif
-}
+		}
 
-inline lua_Number _check_get(_id<lua_Number>, lua_State *l, const int index) {
-    return luaL_checknumber(l, index);
-}
+		inline lua_Number _check_get(_id<lua_Number>, lua_State *l, const int index) {
+			return luaL_checknumber(l, index);
+		}
 
-inline bool _check_get(_id<bool>, lua_State *l, const int index) {
-    return lua_toboolean(l, index) != 0;
-}
+		inline bool _check_get(_id<bool>, lua_State *l, const int index) {
+			return lua_toboolean(l, index) != 0;
+		}
 
-inline std::string _check_get(_id<std::string>, lua_State *l, const int index) {
-    size_t size;
-    const char *buff = luaL_checklstring(l, index, &size);
-    return std::string{buff, size};
-}
+		inline std::string _check_get(_id<std::string>, lua_State *l, const int index) {
+			size_t size;
+			const char *buff = luaL_checklstring(l, index, &size);
+			return std::string{buff, size};
+		}
 
-// Worker type-trait struct to _pop_n
-// Popping multiple elements returns a tuple
-template <std::size_t S, typename... Ts> // First template argument denotes
-                                         // the sizeof(Ts...)
-struct _pop_n_impl {
-    using type =  std::tuple<Ts...>;
+		// Worker type-trait struct to _pop_n
+		// Popping multiple elements returns a tuple
 
-    template <std::size_t... N>
-    static type worker(lua_State *l,
-                       _indices<N...>) {
-        return std::make_tuple(_get(_id<Ts>{}, l, N + 1)...);
-    }
+		template <std::size_t S, typename... Ts> // First template argument denotes
+		// the sizeof(Ts...)
+		struct _pop_n_impl {
+			using type = std::tuple<Ts...>;
 
-    static type apply(lua_State *l) {
-        auto ret = worker(l, typename _indices_builder<S>::type());
-        lua_pop(l, S);
-        return ret;
-    }
-};
+			template <std::size_t... N>
+			static type worker(lua_State *l,
+					_indices<N...>) {
+				return std::make_tuple(_get(_id<Ts>{}, l, N + 1)...);
+			}
 
-// Popping nothing returns void
-template <typename... Ts>
-struct _pop_n_impl<0, Ts...> {
-    using type = void;
-    static type apply(lua_State *) {}
-};
+			static type apply(lua_State *l) {
+				auto ret = worker(l, typename _indices_builder<S>::type());
+				lua_pop(l, S);
+				return ret;
+			}
+		};
 
-// Popping one element returns an unboxed value
-template <typename T>
-struct _pop_n_impl<1, T> {
-    using type = T;
-    static type apply(lua_State *l) {
-        T ret = _get(_id<T>{}, l, -1);
-        lua_pop(l, 1);
-        return ret;
-    }
-};
+		// Popping nothing returns void
 
-template <typename... T>
-typename _pop_n_impl<sizeof...(T), T...>::type _pop_n(lua_State *l) {
-    return _pop_n_impl<sizeof...(T), T...>::apply(l);
-}
+		template <typename... Ts>
+		struct _pop_n_impl < 0, Ts...> {
+			using type = void;
 
-template <std::size_t S, typename... Ts>
-struct _pop_n_reset_impl {
-    using type =  std::tuple<Ts...>;
+			static type apply(lua_State *) { }
+		};
 
-    template <std::size_t... N>
-    static type worker(lua_State *l,
-                       _indices<N...>) {
-        return std::make_tuple(_get(_id<Ts>{}, l, N + 1)...);
-    }
+		// Popping one element returns an unboxed value
 
-    static type apply(lua_State *l) {
-        auto ret = worker(l, typename _indices_builder<S>::type());
-        lua_settop(l, 0);
-        return ret;
-    }
-};
+		template <typename T>
+		struct _pop_n_impl<1, T> {
+			using type = T;
 
-// Popping nothing returns void
-template <typename... Ts>
-struct _pop_n_reset_impl<0, Ts...> {
-    using type = void;
-    static type apply(lua_State *l) {
-        lua_settop(l, 0);
-    }
-};
+			static type apply(lua_State *l) {
+				T ret = _get(_id<T>{}, l, -1);
+				lua_pop(l, 1);
+				return ret;
+			}
+		};
 
-// Popping one element returns an unboxed value
-template <typename T>
-struct _pop_n_reset_impl<1, T> {
-    using type = T;
-    static type apply(lua_State *l) {
-        T ret = _get(_id<T>{}, l, -1);
-        lua_settop(l, 0);
-        return ret;
-    }
-};
+		template <typename... T>
+		typename _pop_n_impl<sizeof...(T), T...>::type _pop_n(lua_State *l) {
+			return _pop_n_impl<sizeof...(T), T...>::apply(l);
+		}
 
-template <typename... T>
-typename _pop_n_reset_impl<sizeof...(T), T...>::type
-_pop_n_reset(lua_State *l) {
-    return _pop_n_reset_impl<sizeof...(T), T...>::apply(l);
-}
+		template <std::size_t S, typename... Ts>
+		struct _pop_n_reset_impl {
+			using type = std::tuple<Ts...>;
 
-template <typename T>
-T _pop(_id<T> t, lua_State *l) {
-    T ret =  _get(t, l, -1);
-    lua_pop(l, 1);
-    return ret;
-}
+			template <std::size_t... N>
+			static type worker(lua_State *l,
+					_indices<N...>) {
+				return std::make_tuple(_get(_id<Ts>{}, l, N + 1)...);
+			}
 
-/* Setters */
+			static type apply(lua_State *l) {
+				auto ret = worker(l, typename _indices_builder<S>::type());
+				lua_settop(l, 0);
+				return ret;
+			}
+		};
 
-inline void _push(lua_State *) {}
+		// Popping nothing returns void
 
-template <typename T>
-inline void _push(lua_State *l, MetatableRegistry &m, T* t) {
-  if(t == nullptr) {
-    lua_pushnil(l);
-  }
-  else {
-    lua_pushlightuserdata(l, t);
-    if (const std::string* metatable = m.Find(typeid(T))) {
-      luaL_setmetatable(l, metatable->c_str());
-    }
-  }
-}
+		template <typename... Ts>
+		struct _pop_n_reset_impl < 0, Ts...> {
+			using type = void;
 
-template <typename T>
-inline void _push(lua_State *l, MetatableRegistry &m, T& t) {
-    lua_pushlightuserdata(l, &t);
-    if (const std::string* metatable = m.Find(typeid(T))) {
-        luaL_setmetatable(l, metatable->c_str());
-    }
-}
+			static type apply(lua_State *l) {
+				lua_settop(l, 0);
+			}
+		};
 
-inline void _push(lua_State *l, MetatableRegistry &, bool b) {
-    lua_pushboolean(l, b);
-}
+		// Popping one element returns an unboxed value
 
-inline void _push(lua_State *l, MetatableRegistry &, int i) {
-    lua_pushinteger(l, i);
-}
+		template <typename T>
+		struct _pop_n_reset_impl<1, T> {
+			using type = T;
 
-inline void _push(lua_State *l, MetatableRegistry &, unsigned int u) {
+			static type apply(lua_State *l) {
+				T ret = _get(_id<T>{}, l, -1);
+				lua_settop(l, 0);
+				return ret;
+			}
+		};
+
+		template <typename... T>
+		typename _pop_n_reset_impl<sizeof...(T), T...>::type
+		_pop_n_reset(lua_State *l) {
+			return _pop_n_reset_impl<sizeof...(T), T...>::apply(l);
+		}
+
+		template <typename T>
+		T _pop(_id<T> t, lua_State *l) {
+			T ret = _get(t, l, -1);
+			lua_pop(l, 1);
+			return ret;
+		}
+
+		/* Setters */
+
+		inline void _push(lua_State *) { }
+
+		template <typename T>
+		inline void _push(lua_State *l, MetatableRegistry &m, T* t) {
+			if (t == nullptr) {
+				lua_pushnil(l);
+			} else {
+				lua_pushlightuserdata(l, t);
+				if (const std::string * metatable = m.Find(typeid (T))) {
+					luaL_setmetatable(l, metatable->c_str());
+				}
+			}
+		}
+
+		template <typename T>
+		inline void _push(lua_State *l, MetatableRegistry &m, T& t) {
+			lua_pushlightuserdata(l, &t);
+			if (const std::string * metatable = m.Find(typeid (T))) {
+				luaL_setmetatable(l, metatable->c_str());
+			}
+		}
+
+		inline void _push(lua_State *l, MetatableRegistry &, bool b) {
+			lua_pushboolean(l, b);
+		}
+
+		inline void _push(lua_State *l, MetatableRegistry &, int i) {
+			lua_pushinteger(l, i);
+		}
+
+		inline void _push(lua_State *l, MetatableRegistry &, unsigned int u) {
 #if LUA_VERSION_NUM >= 503
-  lua_pushinteger(l, (lua_Integer)u);
+			lua_pushinteger(l, (lua_Integer) u);
 #elif LUA_VERSION_NUM >= 502
-    lua_pushunsigned(l, u);
+			lua_pushunsigned(l, u);
 #else
-    lua_pushinteger(l, static_cast<int>(u));
+			lua_pushinteger(l, static_cast<int> (u));
 #endif
-}
+		}
 
-inline void _push(lua_State *l, MetatableRegistry &, lua_Number f) {
-    lua_pushnumber(l, f);
-}
+		inline void _push(lua_State *l, MetatableRegistry &, long i) {
+			lua_pushinteger(l, i);
+		}
 
-inline void _push(lua_State *l, MetatableRegistry &, const std::string &s) {
-    lua_pushlstring(l, s.c_str(), s.size());
-}
+		inline void _push(lua_State *l, MetatableRegistry &, unsigned long i) {
+			lua_pushinteger(l, i);
+		}
 
-inline void _push(lua_State *l, MetatableRegistry &, const char *s) {
-    lua_pushstring(l, s);
-}
+		inline void _push(lua_State *l, MetatableRegistry &, lua_Number f) {
+			lua_pushnumber(l, f);
+		}
 
-template <typename T>
-inline void _push(lua_State *l, T* t) {
-  if(t == nullptr) {
-    lua_pushnil(l);
-  }
-  else {
-    lua_pushlightuserdata(l, t);
-  }
-}
+		inline void _push(lua_State *l, MetatableRegistry &, const std::string &s) {
+			lua_pushlstring(l, s.c_str(), s.size());
+		}
 
-template <typename T>
-inline void _push(lua_State *l, T& t) {
-    lua_pushlightuserdata(l, &t);
-}
+		inline void _push(lua_State *l, MetatableRegistry &, const char *s) {
+			lua_pushstring(l, s);
+		}
 
-inline void _push(lua_State *l, bool b) {
-    lua_pushboolean(l, b);
-}
+		template <typename T>
+		inline void _push(lua_State *l, T* t) {
+			if (t == nullptr) {
+				lua_pushnil(l);
+			} else {
+				lua_pushlightuserdata(l, t);
+			}
+		}
 
-inline void _push(lua_State *l, int i) {
-    lua_pushinteger(l, i);
-}
+		template <typename T>
+		inline void _push(lua_State *l, T& t) {
+			lua_pushlightuserdata(l, &t);
+		}
 
-inline void _push(lua_State *l, unsigned int u) {
+		inline void _push(lua_State *l, bool b) {
+			lua_pushboolean(l, b);
+		}
+
+		inline void _push(lua_State *l, int i) {
+			lua_pushinteger(l, i);
+		}
+
+		inline void _push(lua_State *l, unsigned int u) {
 #if LUA_VERSION_NUM >= 503
-  lua_pushinteger(l, (lua_Integer)u);
+			lua_pushinteger(l, (lua_Integer) u);
 #elif LUA_VERSION_NUM >= 502
-    lua_pushunsigned(l, u);
+			lua_pushunsigned(l, u);
 #else
-    lua_pushinteger(l, static_cast<int>(u));
+			lua_pushinteger(l, static_cast<int> (u));
 #endif
-}
+		}
 
-inline void _push(lua_State *l, lua_Number f) {
-    lua_pushnumber(l, f);
-}
+		inline void push(lua_State *l, long i) {
+			lua_pushinteger(l, i);
+		}
 
-inline void _push(lua_State *l, const std::string &s) {
-    lua_pushlstring(l, s.c_str(), s.size());
-}
+		inline void push(lua_State *l, unsigned long i) {
+			lua_pushinteger(l, i);
+		}
 
-inline void _push(lua_State *l, const char *s) {
-    lua_pushstring(l, s);
-}
+		inline void _push(lua_State *l, lua_Number f) {
+			lua_pushnumber(l, f);
+		}
 
-template <typename T>
-inline void _set(lua_State *l, T &&value, const int index) {
-    _push(l, std::forward<T>(value));
-    lua_replace(l, index);
-}
+		inline void _push(lua_State *l, const std::string &s) {
+			lua_pushlstring(l, s.c_str(), s.size());
+		}
 
-inline void _push_n(lua_State *, MetatableRegistry &) {}
+		inline void _push(lua_State *l, const char *s) {
+			lua_pushstring(l, s);
+		}
 
-template <typename T, typename... Rest>
-inline void _push_n(lua_State *l, MetatableRegistry &m, T value, Rest... rest) {
-    _push(l, m, std::forward<T>(value));
-    _push_n(l, m, rest...);
-}
+		template <typename T>
+		inline void _set(lua_State *l, T &&value, const int index) {
+			_push(l, std::forward<T>(value));
+			lua_replace(l, index);
+		}
 
-template <typename... T, std::size_t... N>
-inline void _push_dispatcher(lua_State *l,
-                             MetatableRegistry &m,
-                             const std::tuple<T...> &values,
-                             _indices<N...>) {
-    _push_n(l, m, std::get<N>(values)...);
-}
+		inline void _push_n(lua_State *, MetatableRegistry &) { }
 
-inline void _push(lua_State *, MetatableRegistry &, std::tuple<>) {}
+		template <typename T, typename... Rest>
+		inline void _push_n(lua_State *l, MetatableRegistry &m, T value, Rest... rest) {
+			_push(l, m, std::forward<T>(value));
+			_push_n(l, m, rest...);
+		}
 
-template <typename... T>
-inline void _push(lua_State *l, MetatableRegistry &m, const std::tuple<T...> &values) {
-    constexpr int num_values = sizeof...(T);
-    _push_dispatcher(l, m, values,
-                     typename _indices_builder<num_values>::type());
-}
+		template <typename... T, std::size_t... N>
+		inline void _push_dispatcher(lua_State *l,
+				MetatableRegistry &m,
+				const std::tuple<T...> &values,
+				_indices<N...>) {
+			_push_n(l, m, std::get<N>(values)...);
+		}
 
-inline void _push_n(lua_State *) {}
+		inline void _push(lua_State *, MetatableRegistry &, std::tuple<>) { }
 
-template <typename T, typename... Rest>
-inline void _push_n(lua_State *l, T value, Rest... rest) {
-    _push(l, std::forward<T>(value));
-    _push_n(l, rest...);
-}
+		template <typename... T>
+		inline void _push(lua_State *l, MetatableRegistry &m, const std::tuple<T...> &values) {
+			constexpr int num_values = sizeof...(T);
+			_push_dispatcher(l, m, values,
+					typename _indices_builder<num_values>::type());
+		}
 
-template <typename... T, std::size_t... N>
-inline void _push_dispatcher(lua_State *l,
-                             const std::tuple<T...> &values,
-                             _indices<N...>) {
-    _push_n(l, std::get<N>(values)...);
-}
+		inline void _push_n(lua_State *) { }
 
-inline void _push(lua_State *, std::tuple<>) {}
+		template <typename T, typename... Rest>
+		inline void _push_n(lua_State *l, T value, Rest... rest) {
+			_push(l, std::forward<T>(value));
+			_push_n(l, rest...);
+		}
 
-template <typename... T>
-inline void _push(lua_State *l, const std::tuple<T...> &values) {
-    constexpr int num_values = sizeof...(T);
-    _push_dispatcher(l, values,
-                     typename _indices_builder<num_values>::type());
-}
-}
+		template <typename... T, std::size_t... N>
+		inline void _push_dispatcher(lua_State *l,
+				const std::tuple<T...> &values,
+				_indices<N...>) {
+			_push_n(l, std::get<N>(values)...);
+		}
+
+		inline void _push(lua_State *, std::tuple<>) { }
+
+		template <typename... T>
+		inline void _push(lua_State *l, const std::tuple<T...> &values) {
+			constexpr int num_values = sizeof...(T);
+			_push_dispatcher(l, values,
+					typename _indices_builder<num_values>::type());
+		}
+	}
 }
