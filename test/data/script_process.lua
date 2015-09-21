@@ -77,6 +77,10 @@ function SubClass:OnSuccess()
 	print("SubClass OnSuccess()")
 end
 
+function SubClass:OnUpdate(delta)
+	print(delta)
+end
+
 local i = ScriptProcess.new()
 local j = SubClass.new()
 
@@ -89,11 +93,10 @@ j.OnSuccess()
 j:SetValue(10)
 print(j:GetValue())
 
-p = CreateProcess("SubClass", "p")
+CreateProcess("SubClass", "p")
 
 p:OnInit()
 p:OnSuccess()
-
--- p:OnInit()
+p:OnInit()
 
 print("Script loaded")

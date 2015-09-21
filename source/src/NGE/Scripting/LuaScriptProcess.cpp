@@ -70,29 +70,21 @@ void LuaScriptProcess::RegisterScriptClass() {
 void LuaScriptProcess::CreateFromScript(const std::string className, const std::string variableName) {
 	LuaScriptManager& scriptManager = LuaScriptManager::GetInstance();
 	std::weak_ptr<sel::State> luaState = scriptManager.GetLuaState();
-
 	nge_log_info("Script class name: " + nge_to_string(className));
 
-	//LuaScriptProcess* process = (*luaState.lock())[name.c_str()];
 	LuaScriptProcess* process = new LuaScriptProcess();
 
 	process->scriptInitFunction = (*luaState.lock())[className.c_str()]["OnInit"];
 	process->scriptSuccessFunction = (*luaState.lock())[className.c_str()]["OnSuccess"];
+	process->scriptUpdateFunction = (*luaState.lock())[className.c_str()]["OnUpdate"];
 	
-	return 
+	(*luaState.lock())[variableName.c_str()].SetObj(*process);
 	
-	//	if (process == nullptr) {
-	//		nge_log_error("LuaScriptProcess --> process is null");
-	//	} else {
-	//		nge_log_info("LuaScriptProcess --> it seems to work");
-	//		nge_log_info("LuaScriptProcess --> frequency: " + nge_to_string(process->GetFrequency()));
-	//		
-	//		process->OnInit();
-	//		
-	//		//process->BuildProcessFromScript("test");
-	//		//process->OnUpdate(10);
-	//	}
-}
+	std::string newClass = variableName + " = " + className + ":class()";
+	(*luaState.lock())(newClass.c_str());
+	
+	process->OnUpdate(10);
+}	
 
 void LuaScriptProcess::Succeed() {
 	NGE::Core::Process::Succeed();
