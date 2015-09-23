@@ -9,12 +9,6 @@ LuaScriptProcess::LuaScriptProcess() {
 }
 
 void LuaScriptProcess::OnInit() {
-	NGE::Core::Process::OnInit();
-	if (scriptInitFunction) {
-		scriptInitFunction();
-	} else {
-		Fail();
-	}
 }
 
 void LuaScriptProcess::OnUpdate(unsigned int deltaTime) {
@@ -62,29 +56,19 @@ void LuaScriptProcess::RegisterScriptClass() {
 			"IsDead", &NGE::Scripting::LuaScriptProcess::IsDead,
 			"IsRemoved", &NGE::Scripting::LuaScriptProcess::IsRemoved,
 			"IsPaused", &NGE::Scripting::LuaScriptProcess::IsPaused,
+			"OnInit", &NGE::Scripting::LuaScriptProcess::OnInit,
 			"AttachChild", &NGE::Scripting::LuaScriptProcess::ScriptAttachChild);
 
 	(*luaState.lock())["CreateProcess"] = &NGE::Scripting::LuaScriptProcess::CreateFromScript;
 }
 
-void LuaScriptProcess::CreateFromScript(const std::string className, const std::string variableName) {
+void LuaScriptProcess::CreateFromScript(void* self, const std::string name) {
 	LuaScriptManager& scriptManager = LuaScriptManager::GetInstance();
 	std::weak_ptr<sel::State> luaState = scriptManager.GetLuaState();
-	nge_log_info("Script class name: " + nge_to_string(className));
-
-	LuaScriptProcess* process = new LuaScriptProcess();
-
-	process->scriptInitFunction = (*luaState.lock())[className.c_str()]["OnInit"];
-	process->scriptSuccessFunction = (*luaState.lock())[className.c_str()]["OnSuccess"];
-	process->scriptUpdateFunction = (*luaState.lock())[className.c_str()]["OnUpdate"];
 	
-	(*luaState.lock())[variableName.c_str()].SetObj(*process);
-	
-	std::string newClass = variableName + " = " + className + ":class()";
-	(*luaState.lock())(newClass.c_str());
-	
-	process->OnUpdate(10);
-}	
+	//std::function<void()> fun = (*luaState.lock())[name.c_str()]["OnInit"];
+	//fun();
+}
 
 void LuaScriptProcess::Succeed() {
 	NGE::Core::Process::Succeed();

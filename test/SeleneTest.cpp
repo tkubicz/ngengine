@@ -4,6 +4,7 @@
 #include <iostream>
 #include <boost/test/unit_test.hpp>
 #include "NGE/ThirdPart/selene.h"
+#include "NGE/Core/Delegate.hpp"
 
 using namespace sel;
 
@@ -210,6 +211,9 @@ class TestObject {
 	TestObject(int x, int y) : x(x), y(y) {
 	}
 
+	virtual ~TestObject() {
+	}
+
 	virtual int add() {
 		return x + y;
 	}
@@ -256,4 +260,43 @@ BOOST_AUTO_TEST_CASE(ObjTest) {
 
 	int result = test->add();
 	BOOST_CHECK_EQUAL(9, result);
+}
+
+int some_function(int val) {
+	return val + 1;
+}
+
+BOOST_AUTO_TEST_CASE(LibTest) {
+	State state{true};
+	state.Load("../test/data/lib.lua");
+
+	SecondObject obj(1, 2);
+
+	std::function<int() > func = NGE::Core::make_delegate(obj, &SecondObject::add);
+
+	state("TestClass = createClass({test_val = 20})");
+	state["TestClass"]["func"] = func;
+	state("function TestClass:get_val() return self.test_val end");
+	state("test = TestClass()");
+
+	int result = state["test"]["func"](10);
+	BOOST_CHECK_EQUAL(3, result);
+
+	state("print(test:get_val())");
+
+	state.Load("../test/data/lib2.lua");
+}
+
+BOOST_AUTO_TEST_CASE(ClosureBaseObjectTest) {
+	State state{true};
+	state.Load("../test/data/closureBaseObject.lua");
+	
+	int res = state["test"]["public_field"];
+	BOOST_CHECK_EQUAL(3, res);
+	
+	SecondObject obj(3, 4);
+	
+	std::function<int() > func = NGE::Core::make_delegate(obj, &SecondObject::add);
+	state["test"]["foo"] = func;
+	state("print(test.foo())");
 }

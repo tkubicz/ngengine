@@ -1,16 +1,16 @@
 print("Loading script")
 
 function ScriptProcess:OnInit()
-	print("ScriptProcess OnInit()")
+	print("ScriptProcess:OnInit()")
 end
 
 function ScriptProcess:OnSuccess()
-	print("ScriptProcess OnSuccess()")
+	print("ScriptProcess:OnSuccess()")
 end
 
-function inheritsFrom( baseClass )
+function inheritsFrom( baseClass, body )
 
-    local new_class = {}
+    local new_class = body or {}
     local class_mt = { __index = new_class }
 
     function new_class:new()
@@ -55,48 +55,18 @@ function inheritsFrom( baseClass )
     return new_class
 end
 
-SubClass = inheritsFrom(ScriptProcess)
-
-function SubClass:SetValue(value) 
-	self.value = value
-end
-
-function SubClass:GetValue()
-	if self.value ~= nil then
-		return self.value
-	else
-		return 0
-	end
-end
+SubClass = inheritsFrom(ScriptProcess, {frequency = 100})
 
 function SubClass:OnInit()
-	print("SubClass OnInit()")
+    print("SubClass:OnInit()")
+    self.frequency = 15
 end
 
-function SubClass:OnSuccess()
-	print("SubClass OnSuccess()")
-end
+local subclass = SubClass.new()
 
-function SubClass:OnUpdate(delta)
-	print(delta)
-end
+subclass:OnInit()
+subclass:OnSuccess()
 
-local i = ScriptProcess.new()
-local j = SubClass.new()
-
-i:OnInit()
-i.OnSuccess()
-
-j:OnInit()
-j.OnSuccess()
-
-j:SetValue(10)
-print(j:GetValue())
-
-CreateProcess("SubClass", "p")
-
-p:OnInit()
-p:OnSuccess()
-p:OnInit()
+CreateProcess("SubClass")
 
 print("Script loaded")

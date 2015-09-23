@@ -26,9 +26,9 @@ namespace NGE {
 			LuaScriptProcess();
 
 			bool BuildProcessFromScript(const std::string& name);
-			
+
 			static void RegisterScriptClass();
-			static void CreateFromScript(const std::string className, const std::string variableName);
+			static void CreateFromScript(void* self, const std::string name);
 
 		  protected:
 			virtual void OnInit() override;

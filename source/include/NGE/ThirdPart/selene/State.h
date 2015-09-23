@@ -129,6 +129,10 @@ public:
     void InteractiveDebug() {
         luaL_dostring(_l, "debug.debug()");
     }
+	
+	lua_State* GetState() {
+		return _l;
+	}
 
     friend std::ostream &operator<<(std::ostream &os, const State &state);
 };
