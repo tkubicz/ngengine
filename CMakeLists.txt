@@ -205,6 +205,8 @@ add_library(nge SHARED
 	source/src/NGE/Rendering/Camera/Camera.cpp
 	source/src/NGE/Rendering/Renderer.cpp
 
+	source/src/NGE/Scripting/LuaScriptEvent.cpp
+	source/src/NGE/Scripting/LuaScriptExports.cpp
 	source/src/NGE/Scripting/LuaScriptManager.cpp
 	source/src/NGE/Scripting/LuaScriptProcess.cpp
 
