@@ -68,7 +68,14 @@ BOOST_AUTO_TEST_CASE(TestRegisterClass) {
 }
 
 BOOST_AUTO_TEST_CASE(TestLuaNumber) {
+    NGE::Tools::Logger::Initialize("output.txt", true);
 	LuaScriptProcess luaProcess;
 	LuaScriptManager& luaManager = LuaScriptManager::GetInstance();
 	BOOST_CHECK(luaManager.Init());
+    
+    luaProcess.RegisterScriptClass();
+    
+    (*luaManager.GetLuaState().lock()).Load("../test/data/lib.lua");
+    
+    auto proc = (*luaManager.GetLuaState().lock())["proc"];
 }

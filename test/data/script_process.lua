@@ -67,6 +67,6 @@ local subclass = SubClass.new()
 subclass:OnInit()
 subclass:OnSuccess()
 
-CreateProcess("SubClass")
+-- CreateProcess("SubClass")
 
 print("Script loaded")

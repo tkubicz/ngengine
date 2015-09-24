@@ -29,21 +29,25 @@ function createClass(body, ...)
 	return cls
 end
 
-BaseClass = createClass()
-function BaseClass:_init(val) self.value = val end
-function BaseClass:get_value() return self.value end
-base = BaseClass(5)
+Process = createClass()
+function Process:OnInit()
+	print("Process:OnInit()")
+end
 
-AnotherClass = createClass({frequency = 1000, time = 10}, BaseClass)
+function Process:OnSuccess()
+	print("Process:OnSuccess()")
+end
 
-function AnotherClass:_init(frequency, time) self.frequency, self.time = frequency, time end
-function AnotherClass:get_frequency() return self.frequency end
+CreateProcess("Process", "proc")
 
-local another = AnotherClass(25, 20)
-print(another:get_frequency())
+ActorProcess = createClass({}, Process)
+function ActorProcess:OnInit()
+	print("ActorProcess:OnInit()")
+end
 
-local another2 = AnotherClass(50, 55)
-print(another2:get_frequency())
+CreateProcess("ActorProcess", "actor")
 
-YetAnotherClass = createClass(nil,BaseClass)
-local yetAnother = YetAnotherClass
+actor:OnInit()
+actor:OnSuccess()
+
+proc:AttachChild("actor")
