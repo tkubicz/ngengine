@@ -56,6 +56,12 @@ BOOST_AUTO_TEST_CASE(CreateEventManager) {
 	EventManager eventManager("Event Manager", true);
 }
 
+BOOST_AUTO_TEST_CASE(CreateGlobalEventManager) {
+    EventManager eventManager("EventManager", true);
+    IEventManager* globalEventManager = IEventManager::Get();
+    BOOST_CHECK_EQUAL(&eventManager, globalEventManager);
+}
+
 BOOST_AUTO_TEST_CASE(AddNewListener) {
 	EventManager eventManager("Event Manager", true);
 	TestDelegateClass delegateClass;
