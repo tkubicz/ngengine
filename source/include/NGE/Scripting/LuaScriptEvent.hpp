@@ -27,7 +27,7 @@ namespace NGE {
 
           public:
 
-            LuaScriptEvent() : eventDataIsValid(false) { }
+            LuaScriptEvent();
 
             /**
              * Method used to register an event type in the script engine. It creates table EventType
