@@ -22,7 +22,7 @@ namespace NGE {
             std::function<void(NGE::Events::IEventDataPtr) > scriptCallbackFunction;
 
           public:
-            explicit LuaScriptEventListener(const std::string& eventDelelgateId, const NGE::Events::EventType& eventType, const std::function<void() > scriptCallbackFunction);
+            explicit LuaScriptEventListener(const std::string& eventDelelgateId, const NGE::Events::EventType& eventType, std::function<void(NGE::Events::IEventDataPtr) > scriptCallbackFunction);
             virtual ~LuaScriptEventListener();
 
             NGE::Events::EventListenerDelegate GetDelegate();

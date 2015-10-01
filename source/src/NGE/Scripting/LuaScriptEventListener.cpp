@@ -1,7 +1,7 @@
 #include "NGE/Scripting/LuaScriptEventListener.hpp"
 using namespace NGE::Scripting;
 
-LuaScriptEventListener::LuaScriptEventListener(const std::string& eventDelelgateId, const NGE::Events::EventType& eventType, const std::function<void()() > scriptCallbackFunction) {
+LuaScriptEventListener::LuaScriptEventListener(const std::string& eventDelelgateId, const NGE::Events::EventType& eventType, std::function<void(NGE::Events::IEventDataPtr)> scriptCallbackFunction) {
     this->eventDelegateId = eventDelelgateId;
     this->eventType = eventType;
     this->scriptCallbackFunction = scriptCallbackFunction;
@@ -15,7 +15,7 @@ LuaScriptEventListener::~LuaScriptEventListener() {
 }
 
 NGE::Events::EventListenerDelegate LuaScriptEventListener::GetDelegate() {
-    return NGE::Core::make_delegate(*this, &LuaScriptEventListener::ScriptEventDelegate);
+    //return NGE::Core::make_delegate(*this, &LuaScriptEventListener::ScriptEventDelegate);
 }
 
 void LuaScriptEventListener::ScriptEventDelegate(NGE::Events::IEventDataPtr eventPtr) {
