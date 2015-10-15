@@ -34,7 +34,8 @@ namespace NGE {
 			virtual ~LuaScriptEventListener();
 
 			NGE::Events::EventListenerDelegate GetDelegate();
-
+			std::string GetDelegateId() const;
+			
 			void ScriptEventDelegate(NGE::Events::IEventDataPtr eventPtr);
 		};
 	}
