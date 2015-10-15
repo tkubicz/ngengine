@@ -13,22 +13,23 @@
 #include "LuaScriptEventListener.hpp"
 
 namespace NGE {
-    namespace Scripting {
+	namespace Scripting {
 
-        class LuaScriptEventListenerManager {
-          private:
-            typedef std::set<LuaScriptEventListener*> ScriptEventListenerSet;
-            ScriptEventListenerSet listeners;
+		class LuaScriptEventListenerManager {
+		  private:
+			typedef std::set<LuaScriptEventListener*> ScriptEventListenerSet;
+			ScriptEventListenerSet listeners;
 
-          public:
-            LuaScriptEventListenerManager();
-            ~LuaScriptEventListenerManager();
+		  public:
+			LuaScriptEventListenerManager();
+			~LuaScriptEventListenerManager();
 
-            void AddListener(LuaScriptEventListener* listener);
-            void DestroyListener(LuaScriptEventListener* listener);
+			void AddListener(LuaScriptEventListener* listener);
+			void DestroyListener(LuaScriptEventListener* listener);
 
-        };
-    }
+			unsigned long int GetListenersSize();
+		};
+	}
 }
 
 #endif	/* LUASCRIPTEVENTLISTENERMANAGER_HPP */

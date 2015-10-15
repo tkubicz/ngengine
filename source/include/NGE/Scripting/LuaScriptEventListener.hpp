@@ -13,23 +13,31 @@
 #include "NGE/Events/IEventManager.hpp"
 
 namespace NGE {
-    namespace Scripting {
+	namespace Scripting {
 
-        class LuaScriptEventListener {
-          private:
-            std::string eventDelegateId;
-            NGE::Events::EventType eventType;
-            std::function<void(NGE::Events::IEventDataPtr) > scriptCallbackFunction;
+		/**
+		 * This is a C++ listnere proxy for script event listeners. It pairs a single event
+		 * type with a Lua callback function. Note that this event can be defined in C++ or Lua.
+		 * It may also be sent from C++ or Lua.
+		 * 
+		 * The Lua callback function should take in table with the event data. The return value
+		 * is ignored.
+		 */
+		class LuaScriptEventListener {
+		  private:
+			std::string eventDelegateId;
+			NGE::Events::EventType eventType;
+			std::function<void(NGE::Events::IEventDataPtr) > scriptCallbackFunction;
 
-          public:
-            explicit LuaScriptEventListener(const std::string& eventDelelgateId, const NGE::Events::EventType& eventType, std::function<void(NGE::Events::IEventDataPtr) > scriptCallbackFunction);
-            virtual ~LuaScriptEventListener();
+		  public:
+			explicit LuaScriptEventListener(const std::string& eventDelelgateId, const NGE::Events::EventType& eventType, std::function<void(NGE::Events::IEventDataPtr) > scriptCallbackFunction);
+			virtual ~LuaScriptEventListener();
 
-            NGE::Events::EventListenerDelegate GetDelegate();
+			NGE::Events::EventListenerDelegate GetDelegate();
 
-            void ScriptEventDelegate(NGE::Events::IEventDataPtr eventPtr);
-        };
-    }
+			void ScriptEventDelegate(NGE::Events::IEventDataPtr eventPtr);
+		};
+	}
 }
 
 #endif	/* LUASCRIPTEVENTLISTENER_HPP */

@@ -16,6 +16,7 @@ LuaScriptEventListener::~LuaScriptEventListener() {
 
 NGE::Events::EventListenerDelegate LuaScriptEventListener::GetDelegate() {
     //return NGE::Core::make_delegate(*this, &LuaScriptEventListener::ScriptEventDelegate);
+	return NULL;
 }
 
 void LuaScriptEventListener::ScriptEventDelegate(NGE::Events::IEventDataPtr eventPtr) {

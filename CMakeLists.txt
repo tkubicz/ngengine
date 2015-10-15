@@ -207,6 +207,7 @@ add_library(nge SHARED
 
 	source/src/NGE/Scripting/LuaScriptEvent.cpp
     source/src/NGE/Scripting/LuaScriptEventListener.cpp
+	source/src/NGE/Scripting/LuaScriptEventListenerManager.cpp
 	source/src/NGE/Scripting/LuaScriptExports.cpp
 	source/src/NGE/Scripting/LuaScriptManager.cpp
 	source/src/NGE/Scripting/LuaScriptProcess.cpp
