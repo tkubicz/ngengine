@@ -25,7 +25,7 @@ namespace NGE {
 			typedef std::map<EventType, EventDelegateMap> EventListenerMap;
 			typedef std::list<IEventDataPtr> EventQueue;
 
-			EventListenerMap eventListeners;
+			EventListenerMap eventListenersMap;
 			EventQueue queues[NUM_QUEUES];
 
 			/** Index of actively processing queue. Events enque to the opossing queue. */
