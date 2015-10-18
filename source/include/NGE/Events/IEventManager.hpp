@@ -9,12 +9,12 @@
 #define	IEVENTMANAGER_HPP
 
 #include "NGE/Events/IEventData.hpp"
+#include "NGE/Events/EventDelegate.hpp"
 #include "NGE/Core/ConcurrentQueue.hpp"
 
 namespace NGE {
 	namespace Events {
 
-		typedef std::function<void(IEventDataPtr) > EventListenerDelegate;
 		typedef Core::ConcurrentQueue<IEventDataPtr> ThreadSafeEventQueue;
 
 		/**
