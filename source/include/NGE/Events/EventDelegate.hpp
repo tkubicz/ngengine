@@ -20,6 +20,7 @@ namespace NGE {
             EventListenerDelegate eventListenerDelegate;
 
           public:
+            EventDelegate() {}
             EventDelegate(std::string eventDelgateId, EventListenerDelegate eventDelegate);
 
             std::string GetEventDelegateId() const;
