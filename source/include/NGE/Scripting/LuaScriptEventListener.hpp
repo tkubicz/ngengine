@@ -30,12 +30,16 @@ namespace NGE {
             NGE::Events::EventDelegate scriptDelegate;
 
           public:
-            explicit LuaScriptEventListener(const NGE::Events::EventDelegate& delegate, NGE::Events::EventType& eventType);
+            explicit LuaScriptEventListener(const NGE::Events::EventDelegate& scriptDelegate, const NGE::Events::EventType& eventType);
             virtual ~LuaScriptEventListener();
 
             NGE::Events::EventListenerDelegate GetDelegate();
             std::string GetDelegateId() const;
 
+			NGE::Events::EventDelegate GetEventDelegate() const {
+				return scriptDelegate;
+			}
+			
             void ScriptEventDelegate(NGE::Events::IEventDataPtr eventPtr);
         };
     }

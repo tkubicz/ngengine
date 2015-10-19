@@ -42,10 +42,10 @@ void testCallbackFunc(IEventDataPtr event) {
 
 BOOST_AUTO_TEST_CASE(AddListenerTest) {
 	TestEvent event;
-	std::string name = "test";
 	std::function<void(IEventDataPtr) > func = testCallbackFunc;
+	EventDelegate scriptDelegate("test", func);
 
-	LuaScriptEventListener* listener = new LuaScriptEventListener(name, event.GetEventType(), func);
+	LuaScriptEventListener* listener = new LuaScriptEventListener(scriptDelegate, event.GetEventType());
 	LuaScriptEventListenerManager manager;
 	manager.AddListener(listener);
 
@@ -54,10 +54,10 @@ BOOST_AUTO_TEST_CASE(AddListenerTest) {
 
 BOOST_AUTO_TEST_CASE(DestroyListenerTest) {
 	TestEvent event;
-	std::string name = "test";
 	std::function<void(IEventDataPtr) > func = testCallbackFunc;
+	EventDelegate scriptDelegate("test", func);
 
-	LuaScriptEventListener* listener = new LuaScriptEventListener(name, event.GetEventType(), func);
+	LuaScriptEventListener* listener = new LuaScriptEventListener(scriptDelegate, event.GetEventType());
 	LuaScriptEventListenerManager manager;
 	manager.AddListener(listener);
 
@@ -70,12 +70,14 @@ BOOST_AUTO_TEST_CASE(DestroyListenerTest) {
 
 BOOST_AUTO_TEST_CASE(DestructorTest) {
 	TestEvent event;
-	std::string name = "test";
 	std::function<void(IEventDataPtr) > func = testCallbackFunc;
+	EventDelegate scriptDelegate1("test1", func);
+	EventDelegate scriptDelegate2("test2", func);
+	EventDelegate scriptDelegate3("test3", func);
 
-	LuaScriptEventListener* listener1 = new LuaScriptEventListener(name, event.GetEventType(), func);
-	LuaScriptEventListener* listener2 = new LuaScriptEventListener(name, event.GetEventType(), func);
-	LuaScriptEventListener* listener3 = new LuaScriptEventListener(name, event.GetEventType(), func);
+	LuaScriptEventListener* listener1 = new LuaScriptEventListener(scriptDelegate1, event.GetEventType());
+	LuaScriptEventListener* listener2 = new LuaScriptEventListener(scriptDelegate2, event.GetEventType());
+	LuaScriptEventListener* listener3 = new LuaScriptEventListener(scriptDelegate3, event.GetEventType());
 	LuaScriptEventListenerManager* manager = new LuaScriptEventListenerManager();
 
 	BOOST_CHECK(listener1 != nullptr);

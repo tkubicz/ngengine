@@ -71,12 +71,14 @@ const EventType TestEvent::eventType(0x1f357e69);
 const EventType OtherEvent::eventType(0x1f55845);
 
 BOOST_AUTO_TEST_CASE(CreateEventListenerTest) {
-	LuaScriptEventListener* listener = new LuaScriptEventListener("test-id", 0x12345, callbackFunc);
+	EventDelegate delegate("test-delegate", callbackFunc);
+	LuaScriptEventListener* listener = new LuaScriptEventListener(delegate, 0x12345);
 	BOOST_CHECK(listener != nullptr);
 }
 
 BOOST_AUTO_TEST_CASE(TestScriptEventDelegate) {
-	LuaScriptEventListener* listener = new LuaScriptEventListener("test-id", 0x12345, callbackFunc);
+	EventDelegate delegate("test-delegate", callbackFunc);
+	LuaScriptEventListener* listener = new LuaScriptEventListener(delegate, 0x12345);
 	TestEvent event;
 	callbackFuncCounter = 0;
 
@@ -87,34 +89,39 @@ BOOST_AUTO_TEST_CASE(TestScriptEventDelegate) {
 BOOST_AUTO_TEST_CASE(AddListenerToEventManager) {
 	EventManager manager("manager", false);
 	OtherEvent event(10);
-	LuaScriptEventListener listener("callbackFunc", event.GetEventType(), otherEventCallback);
-	manager.AddListener(listener.GetDelegateId(), listener.GetDelegate(), event.GetEventType());
+	EventDelegate delegate1("callbackFunc", otherEventCallback);
+	EventDelegate delegate2("anotherFunc", otherEventCallback);
+	EventDelegate delegate3("otherFunc", otherEventCallback);
+
+	LuaScriptEventListener listener(delegate1, event.GetEventType());
+
+	manager.AddListener(listener.GetEventDelegate(), event.GetEventType());
 	manager.TriggerEvent(event.Copy());
 
-	LuaScriptEventListener listener2("anotherFunc", event.GetEventType(), otherEventCallback);
-	manager.AddListener(listener2.GetDelegateId(), listener2.GetDelegate(), event.GetEventType());
+	LuaScriptEventListener listener2(delegate2, event.GetEventType());
+	manager.AddListener(listener2.GetEventDelegate(), event.GetEventType());
 	manager.TriggerEvent(event.Copy());
 
-	manager.RemoveListener("anotherFunc", event.GetEventType());
-	manager.RemoveListener("callbackFunc", event.GetEventType());
+	manager.RemoveListener(delegate2, event.GetEventType());
+	manager.RemoveListener(delegate1, event.GetEventType());
 
-	manager.AddListener("otherId", otherEventCallback, event.GetEventType());
+	manager.AddListener(delegate3, event.GetEventType());
 	manager.TriggerEvent(std::make_shared<OtherEvent>(20));
 }
 
 BOOST_AUTO_TEST_CASE(DestroyEventListenerTest) {
 	callbackFuncCounter = 0;
-	std::string delegateId = "delegate-id";
 	EventManager manager("global-manager", false);
-
+	EventDelegate delegate("delegate-id", callbackFunc);
 	TestEvent event;
-	manager.AddListener(delegateId, callbackFunc, event.GetEventType());
+
+	manager.AddListener(delegate, event.GetEventType());
 	manager.TriggerEvent(event.Copy());
 	BOOST_CHECK_EQUAL(1, callbackFuncCounter);
-	manager.RemoveListener(delegateId, event.GetEventType());
+	manager.RemoveListener(delegate, event.GetEventType());
 
-	LuaScriptEventListener listener(delegateId, event.GetEventType(), callbackFunc);
-	manager.AddListener(listener.GetDelegateId(), listener.GetDelegate(), event.GetEventType());
+	LuaScriptEventListener listener(delegate, event.GetEventType());
+	manager.AddListener(listener.GetEventDelegate(), event.GetEventType());
 	manager.TriggerEvent(event.Copy());
 	BOOST_CHECK_EQUAL(2, callbackFuncCounter);
 }
