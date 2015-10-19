@@ -21,6 +21,9 @@ if(${BUILD_TESTS})
 	add_executable(ConcurrentQueueTest test/ConcurrentQueueTest.cpp)
 	target_link_libraries(ConcurrentQueueTest ${EXTRA_LIBS})
 
+	add_executable(EventDelegateTest test/Events/EventDelegateTest.cpp)
+	target_link_libraries(EventDelegateTest ${EXTRA_LIBS})
+
 	add_executable(EventManagerTest test/EventManagerTest.cpp)
 	target_link_libraries(EventManagerTest ${EXTRA_LIBS})
 
@@ -50,6 +53,7 @@ if(${BUILD_TESTS})
 	add_test(ProcessTestRunner						ProcessTest)
 	add_test(DelegateTestRunner						DelegateTest)
 	add_test(ConcurrentQueueTestRunner				ConcurrentQueueTest)
+	add_test(EventDelegateTestRunner				EventDelegateTest)
 	add_test(EventManagerTestRunner					EventManagerTest)
 	add_test(SeleneTestRunner						SeleneTest)
 	add_test(LuaScriptManagerRunner					LuaScriptManagerTest)

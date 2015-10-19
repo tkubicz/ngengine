@@ -11,27 +11,26 @@
 #include "NGE/Events/IEventData.hpp"
 
 namespace NGE {
-    namespace Events {
-        typedef std::function<void(IEventDataPtr) > EventListenerDelegate;
+	namespace Events {
+		typedef std::function<void(IEventDataPtr) > EventListenerDelegate;
 
-        class EventDelegate {
-          private:
-            std::string eventDelegateId;
-            EventListenerDelegate eventListenerDelegate;
+		class EventDelegate {
+		  private:
+			std::string eventDelegateId;
+			EventListenerDelegate eventListenerDelegate;
 
-          public:
-            EventDelegate() {}
-            EventDelegate(std::string eventDelgateId, EventListenerDelegate eventDelegate);
+		  public:
 
-            std::string GetEventDelegateId() const;
+			EventDelegate() { }
+			EventDelegate(const std::string& eventDelgateId, EventListenerDelegate eventListenerDelegate);
 
-            void SetEventDelegateId(std::string eventDelegateId);
+			std::string GetEventDelegateId() const;
+			void SetEventDelegateId(std::string eventDelegateId);
 
-            EventListenerDelegate GetEventListenerDelegate() const;
-
-            void SetEventListenerDelegate(EventListenerDelegate eventListenerDelegate);
-        };
-    }
+			EventListenerDelegate GetEventListenerDelegate() const;
+			void SetEventListenerDelegate(EventListenerDelegate eventListenerDelegate);
+		};
+	}
 }
 
 #endif	/* EVENTDELEGATE_HPP */
