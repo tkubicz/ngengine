@@ -1,6 +1,6 @@
 # **NGEngine** #
 
-[![build status](https://ci.gitlab.com/projects/6667/status.png?ref=master)](https://ci.gitlab.com/projects/6667?ref=master)
+[![build status](https://gitlab.com/ci/projects/6667/status.png?ref=master)](https://gitlab.com/ci/projects/6667?ref=master)
 
 Author: Tymoteusz Kubicz <tymoteusz.kubicz@gmail.com>
 
