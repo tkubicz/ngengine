@@ -1,16 +1,15 @@
 #include "NGE/Scripting/LuaScriptEventListener.hpp"
 using namespace NGE::Scripting;
 
-LuaScriptEventListener::LuaScriptEventListener(const std::string& eventDelelgateId, const NGE::Events::EventType& eventType, std::function<void(NGE::Events::IEventDataPtr) > scriptCallbackFunction) {
-	this->eventDelegateId = eventDelelgateId;
+LuaScriptEventListener::LuaScriptEventListener(const NGE::Events::EventDelegate& scriptDelegate, const NGE::Events::EventType& eventType) {
+	this->scriptDelegate = scriptDelegate;
 	this->eventType = eventType;
-	this->scriptCallbackFunction = scriptCallbackFunction;
 }
 
 LuaScriptEventListener::~LuaScriptEventListener() {
 	NGE::Events::IEventManager* eventManage = NGE::Events::IEventManager::Get();
 	if (eventManage) {
-		eventManage->RemoveListener(eventDelegateId, eventType);
+		eventManage->RemoveListener(scriptDelegate, eventType);
 	}
 }
 
@@ -19,13 +18,13 @@ NGE::Events::EventListenerDelegate LuaScriptEventListener::GetDelegate() {
 }
 
 std::string LuaScriptEventListener::GetDelegateId() const {
-	return eventDelegateId;
+	return scriptDelegate.GetEventDelegateId();
 }
 
 void LuaScriptEventListener::ScriptEventDelegate(NGE::Events::IEventDataPtr eventPtr) {
-	if (scriptCallbackFunction) {
+	if (scriptDelegate.GetEventListenerDelegate() != nullptr) {
 		// Call the Lua function.
-		scriptCallbackFunction(eventPtr);
+		scriptDelegate.GetEventListenerDelegate()(eventPtr);
 	}
 }
 

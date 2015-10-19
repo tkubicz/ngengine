@@ -9,12 +9,12 @@
 #define	IEVENTMANAGER_HPP
 
 #include "NGE/Events/IEventData.hpp"
+#include "NGE/Events/EventDelegate.hpp"
 #include "NGE/Core/ConcurrentQueue.hpp"
 
 namespace NGE {
 	namespace Events {
 
-		typedef std::function<void(IEventDataPtr) > EventListenerDelegate;
 		typedef Core::ConcurrentQueue<IEventDataPtr> ThreadSafeEventQueue;
 
 		/**
@@ -47,7 +47,7 @@ namespace NGE {
 			 * @param type Event type.
 			 * @return True if successfuly registered, otherwise false.
 			 */
-			virtual bool AddListener(const std::string& eventDelelgateId, const EventListenerDelegate& eventDelegate, const EventType& type) = 0;
+			virtual bool AddListener(const EventDelegate& delegate, const EventType& type) = 0;
 
 			/**
 			 * Removes a delegate/event type pairing from the internal tables.
@@ -55,7 +55,7 @@ namespace NGE {
 			 * @param type Event type.
 			 * @return True if successfuly removed, false if the pairing was not found.
 			 */
-			virtual bool RemoveListener(const std::string& eventDelelgateId, const EventType& type) = 0;
+			virtual bool RemoveListener(const EventDelegate& delegate, const EventType& type) = 0;
 
 			/**
 			 * Execute event now. This bypasses the queue entirely and immediately calls all delegate

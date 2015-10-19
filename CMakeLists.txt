@@ -111,6 +111,7 @@ add_library(nge SHARED
 	source/src/NGE/Core/Process.cpp
 	source/src/NGE/Core/ProcessManager.cpp
 
+	source/src/NGE/Events/EventDelegate.cpp
 	source/src/NGE/Events/EventManager.cpp
 	source/src/NGE/Events/IEventManager.cpp
 	source/src/NGE/Events/KeyboardEvent.cpp

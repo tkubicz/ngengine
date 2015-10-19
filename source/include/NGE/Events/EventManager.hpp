@@ -13,42 +13,42 @@
 #include "NGE/Events/IEventManager.hpp"
 
 namespace NGE {
-	namespace Events {
+    namespace Events {
 
-		class EventManager : public IEventManager {
+        class EventManager : public IEventManager {
 
-			enum constants {
-				NUM_QUEUES = 2
-			};
+            enum constants {
+                NUM_QUEUES = 2
+            };
 
-			typedef std::map<std::string, EventListenerDelegate> EventDelegateMap;
-			typedef std::map<EventType, EventDelegateMap> EventListenerMap;
-			typedef std::list<IEventDataPtr> EventQueue;
+            typedef std::map<std::string, EventListenerDelegate> EventDelegateMap;
+            typedef std::map<EventType, EventDelegateMap> EventListenerMap;
+            typedef std::list<IEventDataPtr> EventQueue;
 
-			EventListenerMap eventListenersMap;
-			EventQueue queues[NUM_QUEUES];
+            EventListenerMap eventListenersMap;
+            EventQueue queues[NUM_QUEUES];
 
-			/** Index of actively processing queue. Events enque to the opossing queue. */
-			int activeQueue;
+            /** Index of actively processing queue. Events enque to the opossing queue. */
+            int activeQueue;
 
-			ThreadSafeEventQueue realtimeEventQueue;
+            ThreadSafeEventQueue realtimeEventQueue;
 
-		  public:
-			explicit EventManager(const std::string& name, bool setAsGlobal);
-			virtual ~EventManager();
+          public:
+            explicit EventManager(const std::string& name, bool setAsGlobal);
+            virtual ~EventManager();
 
 
-			virtual bool AddListener(const std::string& eventDelelgateId, const EventListenerDelegate& eventDelegate, const EventType& type);
-			virtual bool RemoveListener(const std::string& eventDelegateId, const EventType& type);
+            virtual bool AddListener(const EventDelegate& delegate, const EventType& type);
+            virtual bool RemoveListener(const EventDelegate& delegate, const EventType& type);
 
-			virtual bool TriggerEvent(const IEventDataPtr& event) const;
-			virtual bool QueueEvent(const IEventDataPtr& event);
-			virtual bool ThreadSafeQueueEvent(const IEventDataPtr& event);
-			virtual bool AbortEvent(const EventType& type, bool allOfType);
+            virtual bool TriggerEvent(const IEventDataPtr& event) const;
+            virtual bool QueueEvent(const IEventDataPtr& event);
+            virtual bool ThreadSafeQueueEvent(const IEventDataPtr& event);
+            virtual bool AbortEvent(const EventType& type, bool allOfType);
 
-			virtual bool Update(unsigned long maxMillis);
-		};
-	}
+            virtual bool Update(unsigned long maxMillis);
+        };
+    }
 }
 
 #endif	/* EVENTMANAGER_HPP */
