@@ -26,7 +26,7 @@ void Skeleton::LoadSkeleton(const std::string& filename) {
 	std::ifstream ifile(filename.c_str(), std::ios::in);
 
 	if (!ifile.is_open()) {
-		log_error("Skeleton --> Could not open file: " + filename);
+		nge_log_error("Skeleton --> Could not open file: " + filename);
 		return;
 	}
 

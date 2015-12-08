@@ -13,12 +13,12 @@ GUIFrame::~GUIFrame() {
 
 bool GUIFrame::LoadXMLSettings(const pugi::xml_node& node) {
 	if (string(node.name()) != "Panel") {
-		log_error("Need a Frame node");
+		nge_log_error("Need a Frame node");
 		return false;
 	}
 
 	if (node.attribute("name").empty() && node.attribute("callbackString").empty()) {
-		log_error("Need 'name' or 'callbackString' attribute");
+		nge_log_error("Need 'name' or 'callbackString' attribute");
 		return false;
 	}
 

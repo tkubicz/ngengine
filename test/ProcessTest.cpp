@@ -35,11 +35,11 @@ BOOST_AUTO_TEST_CASE(Success) {
     TestProcessWrapper process;
     process.OnInit();
 
-    process.Success();
+    process.Succeed();
     BOOST_CHECK_EQUAL(Process::SUCCEEDED, process.GetState());
 
     process.SetState(Process::FAILED);
-    process.Success();
+    process.Succeed();
     BOOST_CHECK_EQUAL(Process::FAILED, process.GetState());
 }
 

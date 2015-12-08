@@ -51,7 +51,7 @@ GUIText& GUIText::operator=(const char* text) {
 
 bool GUIText::LoadXMLSettings(const pugi::xml_node& node) {
 	if (node.empty() || string(node.name()) != "Text") {
-		log_error("Need a Text node");
+		nge_log_error("Need a Text node");
 		return false;
 	}
 

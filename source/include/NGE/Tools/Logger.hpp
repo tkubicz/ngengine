@@ -12,9 +12,9 @@
 #include <vector>
 #include <boost/lexical_cast.hpp>
 
-#define to_string(x) boost::lexical_cast<std::string>(x)
-#define log_info(x) NGE::Tools::Logger::WriteInfoLog(x)
-#define log_error(x) NGE::Tools::Logger::WriteErrorLog(x)
+#define nge_to_string(x) boost::lexical_cast<std::string>(x)
+#define nge_log_info(x) NGE::Tools::Logger::WriteInfoLog(x)
+#define nge_log_error(x) NGE::Tools::Logger::WriteErrorLog(x)
 
 #ifdef ANDROID
 #include <android/log.h>
@@ -26,26 +26,27 @@
 #endif
 
 namespace NGE {
-	namespace Tools {
+    namespace Tools {
 
-		class Logger {
-		  protected:
-			static std::vector<std::string> logStrings;
-			static std::string logPath;
-			static bool showOutput;
+        class Logger {
+          protected:
+            // TODO: Change it to list. Vector is not needed here.
+            static std::vector<std::string> logStrings;
+            static std::string logPath;
+            static bool showOutput;
 
-			static void ShowOutput();
+            static void ShowOutput();
 
-		  public:
-			static void Initialize(const std::string &filename = "", bool output = false);
-			static void Flush();
+          public:
+            static void Initialize(const std::string &filename = "", bool output = false);
+            static void Flush();
 
-			static void WriteImmidiatleInfoLog(const std::string &info);
-			static void WriteFatalErrorLog(const std::string &error);
-			static void WriteErrorLog(const std::string &error);
-			static void WriteInfoLog(const std::string &info);
-		};
-	}
+            static void WriteImmidiatleInfoLog(const std::string &info);
+            static void WriteFatalErrorLog(const std::string &error);
+            static void WriteErrorLog(const std::string &error);
+            static void WriteInfoLog(const std::string &info);
+        };
+    }
 }
 
 #endif	/* LOGGER_HPP */

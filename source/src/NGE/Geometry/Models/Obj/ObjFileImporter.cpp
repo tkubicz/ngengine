@@ -34,7 +34,7 @@ void ObjFileImporter::InternReadFile(const std::string& fileName, Appearance::Sc
 	file.open(fileName.c_str(), std::ios::in);
 
 	if (!file) {
-		log_error("ObjFileImporter --> Failed to open " + fileName + ".");
+		nge_log_error("ObjFileImporter --> Failed to open " + fileName + ".");
 		return;
 	}
 
@@ -42,7 +42,7 @@ void ObjFileImporter::InternReadFile(const std::string& fileName, Appearance::Sc
 	file.seekg(0, std::ios::end);
 	std::streampos length = file.tellg();
 	if (static_cast<std::size_t> (length) < 16) {
-		log_error("ObjFileImporter --> OBJ-file is too small.");
+		nge_log_error("ObjFileImporter --> OBJ-file is too small.");
 		return;
 	}
 
@@ -80,7 +80,7 @@ void ObjFileImporter::CreateDataFromFile(const Obj::Model* model, Appearance::Sc
 		scene->GetRootNode()->SetName(model->modelName);
 	} else {
 		// This is an error, so break down the application.
-		log_error("ObjFileImporter --> Error while creating data from file.");
+		nge_log_error("ObjFileImporter --> Error while creating data from file.");
 		return;
 	}
 

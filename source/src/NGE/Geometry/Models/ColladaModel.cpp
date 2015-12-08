@@ -6,7 +6,7 @@ bool ColladaModel::Initialize(const std::string& filename) {
 	fileParseResult = colladaFile.load_file(filename.c_str());
 
 	if (fileParseResult.status != pugi::status_ok) {
-		log_error("ColladaModel -> Could not load file: " + filename);
+		nge_log_error("ColladaModel -> Could not load file: " + filename);
 		return false;
 	}
 
@@ -17,7 +17,7 @@ bool ColladaModel::Initialize(const std::string& filename) {
 bool ColladaModel::LoadAsset() {
 	// Check if the file is open.
 	if (fileParseResult.status != pugi::status_ok) {
-		log_error("ColladaModel -> File was not opened properly.");
+		nge_log_error("ColladaModel -> File was not opened properly.");
 		return false;
 	}
 
@@ -27,7 +27,7 @@ bool ColladaModel::LoadAsset() {
 
 	// If assetNode is empty we have not to do here.
 	if (assetNode == NULL || assetNode.empty()) {
-		log_info("ColladaModel --> Could not load information from \"asset\" node");
+		nge_log_info("ColladaModel --> Could not load information from \"asset\" node");
 		return true;
 	}
 
@@ -81,7 +81,7 @@ bool ColladaModel::LoadAsset() {
 	else if (upAxis == "Z_UP")
 		asset.upAxis = Z_UP;
 	else
-		log_error("ColladaModel -> up_axis value is wrong: " + upAxis);
+		nge_log_error("ColladaModel -> up_axis value is wrong: " + upAxis);
 
 	return true;
 }

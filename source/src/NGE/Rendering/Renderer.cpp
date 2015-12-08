@@ -29,11 +29,11 @@ void Renderer::GetRendererInformation() {
 	glGetIntegerv(GL_MAJOR_VERSION, &major);
 	glGetIntegerv(GL_MINOR_VERSION, &minor);
 
-	log_info("Renderer --> OpenGL Information:\n\t GL Vendor: " + to_string(vendor) +
-			"\n\t GL Renderer: " + to_string(renderer) +
-			"\n\t GL Version (string): " + to_string(version) +
-			"\n\t GL Version (integer): " + to_string(major) + "." + to_string(minor) +
-			"\n\t GLSL Version: " + to_string(glslVersion));
+	nge_log_info("Renderer --> OpenGL Information:\n\t GL Vendor: " + nge_to_string(vendor) +
+			"\n\t GL Renderer: " + nge_to_string(renderer) +
+			"\n\t GL Version (string): " + nge_to_string(version) +
+			"\n\t GL Version (integer): " + nge_to_string(major) + "." + nge_to_string(minor) +
+			"\n\t GLSL Version: " + nge_to_string(glslVersion));
 }
 
 NGE::Math::Vector3<float> Renderer::GetScreenCoords(const NGE::Math::Vector3<float>& worldPosition) {

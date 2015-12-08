@@ -210,10 +210,10 @@ void Sphere::Update(float deltaTime) { }
 
 void Sphere::Render() {
 	if (shader == NULL) {
-		log_error("Sphere --> Shader is NULL");
+		nge_log_error("Sphere --> Shader is NULL");
 		return;
 	} else if (texture == NULL) {
-		log_error("Sphere --> Texture is NULL");
+		nge_log_error("Sphere --> Texture is NULL");
 		return;
 	}
 

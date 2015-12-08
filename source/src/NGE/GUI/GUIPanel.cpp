@@ -22,7 +22,7 @@ GUIPanel::~GUIPanel() {
 
 bool GUIPanel::LoadXMLSettings(const pugi::xml_node& node) {
 	if (node.empty() || std::string(node.name()) != "Panel") {
-		log_error("Need a Panel node in the xml file");
+		nge_log_error("Need a Panel node in the xml file");
 		return false;
 	}
 
@@ -372,7 +372,7 @@ bool GUIPanel::AddWidget(GUIRectangle* widget) {
 	if (widget) {
 		for (size_t i = 0; i < elements.size(); ++i) {
 			if (elements[i]->GetCallbackString() == widget->GetCallbackString()) {
-				log_error("Panel already has a child with callbackString = " + widget->GetCallbackString());
+				nge_log_error("Panel already has a child with callbackString = " + widget->GetCallbackString());
 				return false;
 			}
 		}

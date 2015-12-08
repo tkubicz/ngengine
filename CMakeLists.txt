@@ -24,6 +24,10 @@ if (NOT DEFINED BUILD_TESTS)
 	set (BUILD_TESTS true)
 endif()
 
+if (NOT DEFINED LUA_VERSION)
+	set (LUA_VERSION 5.2)
+endif()
+
 if(CMAKE_COMPILER_IS_GNUCXX)
 	if (NOT ANDROID)
     	add_definitions(-g -std=c++11 -Wall -DUSE_GLFW)
@@ -63,8 +67,8 @@ if (NOT ANDROID)
 # Find boost
 	find_package (Boost 1.53.0 REQUIRED COMPONENTS unit_test_framework)
 	if (Boost_FOUND)
-		include_directories (${Boost_INCLUDE_DIRS})
-		MESSAGE(STATUS "Boost indluce:" ${Boost_INCLUDE_DIRS})
+		include_directories(${Boost_INCLUDE_DIRS})
+		message(STATUS "Boost include dir:" ${Boost_INCLUDE_DIRS})
 	endif()
 
 	# Find OpenGL
@@ -80,6 +84,13 @@ endif()
 # Any System
 # Find zlib
 find_package (ZLIB REQUIRED)
+
+# Find lua
+find_package (Lua ${LUA_VERSION} EXACT REQUIRED)
+if (LUA_FOUND)
+	message(STATUS "Lua include dir:" ${LUA_INCLUDE_DIR})
+	include_directories(${LUA_INCLUDE_DIR})
+endif()
 
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/source/include/)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/source/src/NGE/)
@@ -100,6 +111,7 @@ add_library(nge SHARED
 	source/src/NGE/Core/Process.cpp
 	source/src/NGE/Core/ProcessManager.cpp
 
+	source/src/NGE/Events/EventDelegate.cpp
 	source/src/NGE/Events/EventManager.cpp
 	source/src/NGE/Events/IEventManager.cpp
 	source/src/NGE/Events/KeyboardEvent.cpp
@@ -193,6 +205,13 @@ add_library(nge SHARED
 
 	source/src/NGE/Rendering/Camera/Camera.cpp
 	source/src/NGE/Rendering/Renderer.cpp
+
+	source/src/NGE/Scripting/LuaScriptEvent.cpp
+    source/src/NGE/Scripting/LuaScriptEventListener.cpp
+	source/src/NGE/Scripting/LuaScriptEventListenerManager.cpp
+	source/src/NGE/Scripting/LuaScriptExports.cpp
+	source/src/NGE/Scripting/LuaScriptManager.cpp
+	source/src/NGE/Scripting/LuaScriptProcess.cpp
 
 	source/src/NGE/Tools/Logger.cpp
 	source/src/NGE/Tools/Random.cpp

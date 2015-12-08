@@ -11,12 +11,12 @@ GUILabel::GUILabel(const char* labelString, const char* callbackString) : GUIAlp
 
 bool GUILabel::LoadXMLSettings(const pugi::xml_node& node) {
 	if (string(node.name()) != "Label") {
-		log_error("Need Label node");
+		nge_log_error("Need Label node");
 		return false;
 	}
 
 	if (node.attribute("name").empty() && node.attribute("callbackString").empty()) {
-		log_error("Need 'name' or 'callbackString' attribute");
+		nge_log_error("Need 'name' or 'callbackString' attribute");
 		return false;
 	}
 
@@ -47,7 +47,7 @@ const NGE::Math::vec4i& GUILabel::GetWindowBounds() {
 		//SetDimensions(label.GetWidth(), label.GetHeight());
 		GUIRectangle::ComputeWindowBounds();
 
-		log_info(to_string(windowBounds));
+		nge_log_info(nge_to_string(windowBounds));
 	}
 
 	return windowBounds;

@@ -31,7 +31,7 @@ GUITextBox::~GUITextBox() {
 
 bool GUITextBox::LoadXMLSettings(const pugi::xml_node& node) {
 	if (std::string(node.name()) != "TextBox") {
-		log_error("Need TextBox node");
+		nge_log_error("Need TextBox node");
 		return false;
 	}
 
@@ -46,7 +46,7 @@ bool GUITextBox::LoadXMLSettings(const pugi::xml_node& node) {
 
 	shader = Media::MediaManager::getInstance().getShaderManager().getProgram(node.child("Shader"));
 	if (!shader) {
-		log_error("Could not load shader");
+		nge_log_error("Could not load shader");
 		return false;
 	}
 
@@ -91,7 +91,7 @@ void GUITextBox::Update(float dt) {
 	if (keyEvent.GetAction() == Events::PRESSED) {
 		if (keyEvent.GetKeyId() == Events::KEY_RIGHT) {
 			blinkerPosition += (int) (8.f * dt);
-			log_info(to_string(800 * dt));
+			nge_log_info(nge_to_string(800 * dt));
 		}
 		else if (keyEvent.GetKeyId() == Events::KEY_LEFT)
 			blinkerPosition -= (int) (8.f * dt);
