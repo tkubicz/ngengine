@@ -111,6 +111,7 @@ add_library(nge SHARED
 	source/src/NGE/Core/Process.cpp
 	source/src/NGE/Core/ProcessManager.cpp
 
+	source/src/NGE/Events/EventDelegate.cpp
 	source/src/NGE/Events/EventManager.cpp
 	source/src/NGE/Events/IEventManager.cpp
 	source/src/NGE/Events/KeyboardEvent.cpp
@@ -206,6 +207,8 @@ add_library(nge SHARED
 	source/src/NGE/Rendering/Renderer.cpp
 
 	source/src/NGE/Scripting/LuaScriptEvent.cpp
+    source/src/NGE/Scripting/LuaScriptEventListener.cpp
+	source/src/NGE/Scripting/LuaScriptEventListenerManager.cpp
 	source/src/NGE/Scripting/LuaScriptExports.cpp
 	source/src/NGE/Scripting/LuaScriptManager.cpp
 	source/src/NGE/Scripting/LuaScriptProcess.cpp

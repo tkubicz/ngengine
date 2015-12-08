@@ -8,6 +8,8 @@
 #ifndef DELEGATE_HPP
 #define	DELEGATE_HPP
 
+#include <utility>
+
 namespace NGE {
 	namespace Core {
 
