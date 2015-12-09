@@ -2,7 +2,7 @@
  * File:   LuaScriptEvent.hpp
  * Author: tku
  *
- * Created on 24 września 2015, 12:42
+ * Created on 24 September 2015, 12:42
  */
 
 #ifndef LUASCRIPTEVENT_HPP
@@ -31,7 +31,7 @@ namespace NGE {
 
             /**
              * Method used to register an event type in the script engine. It creates table EventType
-             * if doesn't exist and adds key into it. So newly registered event is accesible from script e.g.
+             * if doesn't exist and adds key into it. So newly registered event is accessible from script e.g.
              * EventType.key.
              * @param key Key in EventType Lua table.
              * @param type EventType (unsigned long int) to be registered.
@@ -51,16 +51,16 @@ namespace NGE {
 
           protected:
             /**
-             * This method must be overriden if you want to fire this event from C++ and have it received by the script.
+             * This method must be overridden if you want to fire this event from C++ and have it received by the script.
              * If you only fire the event from the script side, this method will never be called. It's purpose is to
              * fill in the eventData member, which is then passed to the script callback function in the listener. This
              * is only called the first time GetEventData() is called. If the event is script-only, this function does not
-             * need to be overriden.
+             * need to be overridden.
              */
             virtual void BuildEventData();
 
             /**
-             * This method must be overriden if you want to fire this event from script and have it received by C++. If
+             * This method must be overridden if you want to fire this event from script and have it received by C++. If
              * you only fire this event from script and have it received by the script, it doesn't matter since eventData
              * will just be passed straight through. Its purpose is to fill in any C++ member variables using the data in
              * eventData (which is valid at the time of the call). It is called when the event is fired from script.

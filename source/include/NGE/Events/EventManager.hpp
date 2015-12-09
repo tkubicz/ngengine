@@ -2,7 +2,7 @@
  * File:   EventManager.hpp
  * Author: tku
  *
- * Created on 8 września 2015, 10:56
+ * Created on 8 September 2015, 10:56
  */
 
 #ifndef EVENTMANAGER_HPP
@@ -28,7 +28,7 @@ namespace NGE {
             EventListenerMap eventListenersMap;
             EventQueue queues[NUM_QUEUES];
 
-            /** Index of actively processing queue. Events enque to the opossing queue. */
+            /** Index of actively processing queue. Events enqueue to the opposing queue. */
             int activeQueue;
 
             ThreadSafeEventQueue realtimeEventQueue;

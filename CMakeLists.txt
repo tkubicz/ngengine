@@ -19,7 +19,7 @@ set(CMAKE_MODULE_PATH
 
 set (CMAKE_BUILD_TYPE Debug)
 
-# By default we are going to buld tests
+# By default we are going to build tests
 if (NOT DEFINED BUILD_TESTS)
 	set (BUILD_TESTS true)
 endif()

@@ -2,7 +2,7 @@
  * File:   BaseEventData.hpp
  * Author: tku
  *
- * Created on 7 września 2015, 11:13
+ * Created on 7 September 2015, 11:13
  */
 
 #ifndef BASEEVENTDATA_HPP
@@ -33,13 +33,13 @@ namespace NGE {
 			}
 
 			/**
-			 * Serialize event for network input/output.
+			 * Serialise event for network input/output.
 			 * @param out
 			 */
 			virtual void Serialize(std::ostream& out) const { }
 
 			/**
-			 * Deserialize event for network input/output.
+			 * Deserialise event for network input/output.
 			 * @param in
 			 */
 			virtual void Deserialize(std::istream& in) { }
