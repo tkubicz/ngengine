@@ -2,7 +2,7 @@
  * File:   IScriptManager.hpp
  * Author: tku
  *
- * Created on 11 wrzesień 2015, 01:32
+ * Created on 11 September 2015, 01:32
  */
 
 #ifndef ISCRIPTMANAGER_HPP

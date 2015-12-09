@@ -2,7 +2,7 @@
  * File:   IEventManager.hpp
  * Author: tku
  *
- * Created on 7 września 2015, 11:18
+ * Created on 7 September 2015, 11:18
  */
 
 #ifndef IEVENTMANAGER_HPP
@@ -20,8 +20,8 @@ namespace NGE {
 		/**
 		 * This is the object which maintains the list of registered events and their listeners.
 		 * 
-		 * This is a many-to-many relationship, as both one listener can be configured to proccess
-		 * multiple event types and of course multiple listeners can be regsitered to each event type.
+		 * This is a many-to-many relationship, as both one listener can be configured to process
+		 * multiple event types and of course multiple listeners can be registered to each event type.
 		 * 
 		 * The interface to this construct uses smart pointer wrapped objects, the purpose being to ensure
 		 * that no object that the registry is referring to is destroyed before it is removed from the
@@ -45,7 +45,7 @@ namespace NGE {
 			 * @param eventDelegateId Identifier of the delegate. It is needed to identify the delegate.
 			 * @param eventDelegate Delegate function that will be called.
 			 * @param type Event type.
-			 * @return True if successfuly registered, otherwise false.
+			 * @return True if successfully registered, otherwise false.
 			 */
 			virtual bool AddListener(const EventDelegate& delegate, const EventType& type) = 0;
 
@@ -53,7 +53,7 @@ namespace NGE {
 			 * Removes a delegate/event type pairing from the internal tables.
 			 * @param eventDelegateId Identifier of the delegate. It is needed to identify the delegate.
 			 * @param type Event type.
-			 * @return True if successfuly removed, false if the pairing was not found.
+			 * @return True if successfully removed, false if the pairing was not found.
 			 */
 			virtual bool RemoveListener(const EventDelegate& delegate, const EventType& type) = 0;
 
@@ -61,7 +61,7 @@ namespace NGE {
 			 * Execute event now. This bypasses the queue entirely and immediately calls all delegate
 			 * functions registered for the event.
 			 * @param event Event to be executed.
-			 * @return True if event was executed successfuly, otherwise false.
+			 * @return True if event was executed successfully, otherwise false.
 			 */
 			virtual bool TriggerEvent(const IEventDataPtr& event) const = 0;
 
@@ -69,14 +69,14 @@ namespace NGE {
 			 * Execute event. This uses the queue and will call the delegate function on the next call
 			 * to Update(), assuming there's enough time.
 			 * @param event Event to be executed.
-			 * @return True if everything went ok, otherwise false.
+			 * @return True if everything went OK, otherwise false.
 			 */
 			virtual bool QueueEvent(const IEventDataPtr& event) = 0;
 
 			/**
 			 * Execute event in thread-safe manner.
 			 * @param event Event to be executed.
-			 * @return True if everything went ok, otherwise false.
+			 * @return True if everything went OK, otherwise false.
 			 */
 			virtual bool ThreadSafeQueueEvent(const IEventDataPtr& event) = 0;
 
@@ -85,7 +85,7 @@ namespace NGE {
 			 * queue. This may be done up to the point that it is actively being processed. For example, is
 			 * safe to happen during event processing itself.
 			 * @param type Event type.
-			 * @param allOfType If true, then all events of that type are cleard from the input queue.
+			 * @param allOfType If true, then all events of that type are cleared from the input queue.
 			 * @return True if the event was found and removed, otherwise false.
 			 */
 			virtual bool AbortEvent(const EventType& type, bool allOfType = false) = 0;
