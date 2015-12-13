@@ -11,6 +11,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <iostream>
 
 #include "NGE/Parsers/pugixml.hpp"
 #include "NGE/Tools/Logger.hpp"
