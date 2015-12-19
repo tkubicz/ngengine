@@ -9,7 +9,7 @@ build:
     - mkdir build/
     - cd build
     - cmake ..
-    - make -j
+    - make -j 4
 
 test:
   stage: test
@@ -17,5 +17,5 @@ test:
     - mkdir build/
     - cd build
     - cmake ..
-    - make -j
+    - make -j 4
     - ctest -V
