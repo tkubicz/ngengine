@@ -1,3 +1,6 @@
 [submodule "thirdparty/kaguya"]
 	path = thirdparty/kaguya
 	url = https://github.com/satoren/kaguya
+[submodule "thirdparty/pugixml"]
+	path = thirdparty/pugixml
+	url = https://github.com/zeux/pugixml
