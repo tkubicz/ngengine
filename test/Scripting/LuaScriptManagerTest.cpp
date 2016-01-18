@@ -5,7 +5,6 @@
 #include <boost/test/unit_test.hpp>
 #include "NGE/Scripting/LuaScriptManager.hpp"
 
-using namespace sel;
 using namespace NGE::Scripting;
 
 BOOST_AUTO_TEST_CASE(ExecuteStringTest) {
@@ -51,7 +50,7 @@ BOOST_AUTO_TEST_CASE(GetLuaState) {
 	bool result = scriptManager.ExecuteFile("../test/data/test.lua");
 	BOOST_CHECK(result);
 
-	std::weak_ptr<sel::State> state = scriptManager.GetLuaState();
+	std::weak_ptr<kaguya::State> state = scriptManager.GetLuaState();
 	int foo = (*state.lock())["foo"];
 	BOOST_CHECK_EQUAL(foo, 4);
 

@@ -2,6 +2,9 @@ cmake_minimum_required (VERSION 2.8)
 
 project (nge)
 
+# Set the current build profile
+set (CMAKE_BUILD_TYPE Debug)
+
 # --------------------------------------
 message(STATUS "Compiling ${CMAKE_PROJECT_NAME} version 1.0")
 message(STATUS "Using cmake version ${CMAKE_VERSION}")
@@ -17,7 +20,8 @@ set(CMAKE_MODULE_PATH
 	"${CMAKE_CURRENT_SOURCE_DIR}/cmake"
 )
 
-set (CMAKE_BUILD_TYPE Debug)
+# Set the directory of third-party software.
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/kaguya/include/")
 
 # By default we are going to build tests
 if (NOT DEFINED BUILD_TESTS)
@@ -206,12 +210,7 @@ add_library(nge SHARED
 	source/src/NGE/Rendering/Camera/Camera.cpp
 	source/src/NGE/Rendering/Renderer.cpp
 
-	source/src/NGE/Scripting/LuaScriptEvent.cpp
-    source/src/NGE/Scripting/LuaScriptEventListener.cpp
-	source/src/NGE/Scripting/LuaScriptEventListenerManager.cpp
-	source/src/NGE/Scripting/LuaScriptExports.cpp
 	source/src/NGE/Scripting/LuaScriptManager.cpp
-	source/src/NGE/Scripting/LuaScriptProcess.cpp
 
 	source/src/NGE/Tools/Logger.cpp
 	source/src/NGE/Tools/Random.cpp

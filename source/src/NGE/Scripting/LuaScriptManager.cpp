@@ -10,7 +10,7 @@ LuaScriptManager::~LuaScriptManager() {
 }
 
 bool LuaScriptManager::Init() {
-	luaState = std::make_shared<sel::State>(true);
+	luaState = std::make_shared<kaguya::State>();
 	if (luaState == nullptr) {
 		nge_log_error("LuaScriptManager --> Could not initialize lua state");
 		return false;
@@ -19,7 +19,8 @@ bool LuaScriptManager::Init() {
 }
 
 bool LuaScriptManager::ExecuteFile(const std::string& path) {
-	bool result = luaState->Load(path);
+	bool result = luaState->loadfile(path);
+	kaguya::State state;
 	if (!result) {
 		SetError();
 	}
@@ -44,10 +45,11 @@ bool LuaScriptManager::ExecuteString(const std::string& str) {
 }
 
 void LuaScriptManager::SetError() {
-	std::string message = luaState->Read<std::string>(-1);
+	//std::string message = luaState->Read<std::string>(-1);
+	std::string message = luaState->popFromStack();
 	if (!message.empty()) {
 		lastError = message;
-		luaState->Push(0);
+		//luaState->Push(0);
 	} else {
 		lastError = "Unknown Lua error";
 	}
@@ -59,6 +61,6 @@ std::string LuaScriptManager::GetLastError() {
 	return lastError;
 }
 
-std::weak_ptr<sel::State> LuaScriptManager::GetLuaState() {
-	return std::weak_ptr<sel::State>(luaState);
+std::weak_ptr<kaguya::State> LuaScriptManager::GetLuaState() {
+	return std::weak_ptr<kaguya::State>(luaState);
 }

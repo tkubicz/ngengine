@@ -2,21 +2,22 @@
  * File:   LuaScriptManager.hpp
  * Author: tku
  *
- * Created on 14 września 2015, 16:09
+ * Created on 14 September 2015, 16:09
  */
 
 #ifndef LUASCRIPTMANAGER_HPP
-#define	LUASCRIPTMANAGER_HPP
+#define LUASCRIPTMANAGER_HPP
 
-#include "NGE/ThirdPart/selene.h"
-#include "NGE/Scripting/IScriptManager.hpp"
+#include <memory>
+#include <kaguya/kaguya.hpp>
+#include "NGE/Scripting/ScriptManager.hpp"
 
 namespace NGE {
 	namespace Scripting {
 
-		class LuaScriptManager : public IScriptManager {
+		class LuaScriptManager : public ScriptManager {
 		  private:
-			std::shared_ptr<sel::State> luaState;
+			std::shared_ptr<kaguya::State> luaState;
 			std::string lastError;
 
 		  public:
@@ -31,7 +32,7 @@ namespace NGE {
 			virtual bool ExecuteString(const std::string& str);
 
 			std::string GetLastError();
-			std::weak_ptr<sel::State> GetLuaState();
+			std::weak_ptr<kaguya::State> GetLuaState();
 
 		  private:
 			/**
@@ -46,5 +47,5 @@ namespace NGE {
 	}
 }
 
-#endif	/* LUASCRIPTMANAGER_HPP */
+#endif /* LUASCRIPTMANAGER_HPP */
 
