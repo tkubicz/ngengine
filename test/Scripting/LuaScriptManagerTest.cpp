@@ -44,18 +44,21 @@ BOOST_AUTO_TEST_CASE(ExecuteFileThatDoesntExist) {
 	BOOST_CHECK(!result);
 }
 
-BOOST_AUTO_TEST_CASE(GetLuaState) {
-	LuaScriptManager& scriptManager = LuaScriptManager::GetInstance();
-	scriptManager.Init();
-	bool result = scriptManager.ExecuteFile("../test/data/test.lua");
-	BOOST_CHECK(result);
-
-	std::weak_ptr<kaguya::State> state = scriptManager.GetLuaState();
-	int foo = (*state.lock())["foo"];
-	BOOST_CHECK_EQUAL(foo, 4);
-
-	std::string msg = (*scriptManager.GetLuaState().lock())["bar"][3];
-	BOOST_CHECK_EQUAL(msg, "hi");
-
-	BOOST_CHECK_EQUAL(scriptManager.GetLuaState().use_count(), 1);
-}
+//BOOST_AUTO_TEST_CASE(GetLuaState) {
+//	LuaScriptManager& scriptManager = LuaScriptManager::GetInstance();
+//	scriptManager.Init();
+//	bool result = scriptManager.ExecuteFile("../test/data/test.lua");
+//	BOOST_CHECK(result);
+//	
+//	std::weak_ptr<kaguya::State> state = scriptManager.GetLuaState();
+//	
+//	int bar = state.lock()->operator []("foo");
+//	
+//	int foo = (*state.lock())["foo"];
+//	BOOST_CHECK_EQUAL(foo, 4);
+//
+//	std::string msg = (*scriptManager.GetLuaState().lock())["bar"][3];
+//	BOOST_CHECK_EQUAL(msg, "hi");
+//
+//	BOOST_CHECK_EQUAL(scriptManager.GetLuaState().use_count(), 1);
+//}

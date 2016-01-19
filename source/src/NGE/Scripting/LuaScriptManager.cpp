@@ -19,12 +19,12 @@ bool LuaScriptManager::Init() {
 }
 
 bool LuaScriptManager::ExecuteFile(const std::string& path) {
-	bool result = luaState->loadfile(path);
-	kaguya::State state;
-	if (!result) {
-		SetError();
+	kaguya::LuaFunction f = luaState->loadfile(path);
+	if (!f) {
+		nge_log_error("LuaScriptManager --> Could not execute file: " + nge_to_string(path));
+		return false;
 	}
-	return result;
+	return true;
 }
 
 bool LuaScriptManager::ExecuteString(const std::string& str) {
