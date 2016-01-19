@@ -8,10 +8,9 @@
 #ifndef TEXTURE_HPP
 #define	TEXTURE_HPP
 
-
+#include <pugixml.hpp>
 #include "NGE/Core/Core.hpp"
 #include "NGE/Media/Images/Image.hpp"
-#include "NGE/Parsers/pugixml.hpp"
 
 namespace NGE {
 	namespace Media {

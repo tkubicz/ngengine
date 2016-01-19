@@ -14,7 +14,7 @@
 #include "NGE/Events/MouseEvent.hpp"
 #include "NGE/Events/KeyboardEvent.hpp"
 #include "NGE/Events/GUIEventListener.hpp"
-#include "NGE/Parsers/pugixml.hpp"
+#include <pugixml.hpp>
 #include "NGE/GUI/GUITexCoordDescriptor.hpp"
 #include <string>
 

@@ -11,7 +11,7 @@
 #include "NGE/GUI/GUIRectangle.hpp"
 #include "NGE/GUI/GUIClippedRectangle.hpp"
 #include "NGE/Geometry/DistanceObject.hpp"
-#include "NGE/Parsers/pugixml.hpp"
+#include <pugixml.hpp>
 
 namespace NGE {
 	namespace GUI {

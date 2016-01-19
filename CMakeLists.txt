@@ -22,6 +22,7 @@ set(CMAKE_MODULE_PATH
 
 # Set the directory of third-party software.
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/kaguya/include/")
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/pugixml/src/")
 
 # By default we are going to build tests
 if (NOT DEFINED BUILD_TESTS)
@@ -188,7 +189,7 @@ add_library(nge SHARED
 	source/src/NGE/Media/MediaManager.cpp
 	source/src/NGE/Media/MediaPathManager.cpp
 
-	source/src/NGE/Parsers/pugixml.cpp
+	thirdparty/pugixml/src/pugixml.cpp
 
 	source/src/NGE/Physics/MassAggregate/Particle.cpp
 	source/src/NGE/Physics/MassAggregate/ParticleContacts.cpp

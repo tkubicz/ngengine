@@ -10,7 +10,7 @@
 
 #include <string>
 
-#include "NGE/Parsers/pugixml.hpp"
+#include <pugixml.hpp>
 #include "NGE/Media/Shaders/GLSLProgram.hpp"
 #include "NGE/Media/Images/Texture.hpp"
 #include "NGE/Math/Vector2.hpp"

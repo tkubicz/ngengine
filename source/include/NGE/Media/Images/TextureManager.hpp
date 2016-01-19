@@ -12,7 +12,7 @@
 #include <string>
 
 #include "NGE/Media/Images/Texture.hpp"
-#include "NGE/Parsers/pugixml.hpp"
+#include <pugixml.hpp>
 
 namespace NGE {
 	namespace Media {

@@ -1,7 +1,7 @@
 #include <vector>
 #include "NGE/Media/Shaders/ShaderManager.hpp"
 #include "NGE/Media//MediaManager.hpp"
-#include "NGE/Parsers/pugixml.hpp"
+#include <pugixml.hpp>
 #include "NGE/Tools/Logger.hpp"
 
 using namespace NGE::Media::Shaders;

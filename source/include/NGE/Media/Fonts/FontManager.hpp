@@ -11,7 +11,7 @@
 #include <map>
 
 #include "NGE/Media/Fonts/FreeTypeFont.hpp"
-#include "NGE/Parsers/pugixml.hpp"
+#include <pugixml.hpp>
 
 namespace NGE {
 	namespace Media {

@@ -10,7 +10,7 @@
 
 #include "NGE/GUI/GUIRectangle.hpp"
 #include "NGE/GUI/GUITypes.hpp"
-#include "NGE/Parsers/pugixml.hpp"
+#include <pugixml.hpp>
 
 namespace NGE {
 	namespace GUI {

@@ -15,7 +15,7 @@
 
 #include "NGE/Windows/Window.h"
 #include "NGE/Windows/Application.h"
-#include "NGE/Parsers/pugixml.hpp"
+#include <pugixml.hpp>
 
 namespace NGE {
 	namespace Windows {

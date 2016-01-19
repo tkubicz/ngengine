@@ -9,7 +9,7 @@
 #define	GUILABEL_HPP
 
 #include "NGE/GUI/GUIAlphaElement.hpp"
-#include "NGE/Parsers/pugixml.hpp"
+#include <pugixml.hpp>
 
 namespace NGE {
 	namespace GUI {
