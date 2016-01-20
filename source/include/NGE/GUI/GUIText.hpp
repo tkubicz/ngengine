@@ -11,7 +11,7 @@
 #include <string>
 #include "NGE/Math/Vector2.hpp"
 #include "NGE/Math/Vector4.hpp"
-#include "NGE/Parsers/pugixml.hpp"
+#include <pugixml.hpp>
 #include "NGE/Core/Core.hpp"
 
 #ifdef NGE_USE_FREETYPE

@@ -10,7 +10,7 @@
 
 #include "NGE/GUI/GUITexCoordDescriptor.hpp"
 #include "NGE/GUI/GUIPanel.hpp"
-#include "NGE/Parsers/pugixml.hpp"
+#include <pugixml.hpp>
 #include "NGE/Media/Images/Texture.hpp"
 
 

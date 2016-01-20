@@ -27,26 +27,8 @@ if(${BUILD_TESTS})
 	add_executable(EventManagerTest test/EventManagerTest.cpp)
 	target_link_libraries(EventManagerTest ${EXTRA_LIBS})
 
-	add_executable(SeleneTest test/SeleneTest.cpp)
-	target_link_libraries(SeleneTest ${EXTRA_LIBS})
-
-	add_executable(LuaScriptManagerTest test/LuaScriptManagerTest.cpp)
+	add_executable(LuaScriptManagerTest test/Scripting/LuaScriptManagerTest.cpp)
 	target_link_libraries(LuaScriptManagerTest ${EXTRA_LIBS})
-
-	add_executable(LuaScriptProcessTest test/LuaScriptProcessTest.cpp)
-	target_link_libraries(LuaScriptProcessTest ${EXTRA_LIBS})
-
-	add_executable(LuaScriptEventTest test/Scripting/LuaScriptEventTest.cpp)
-	target_link_libraries(LuaScriptEventTest ${EXTRA_LIBS})
-
-	add_executable(LuaScriptExportsTest test/Scripting/LuaScriptExportsTest.cpp)
-	target_link_libraries(LuaScriptExportsTest ${EXTRA_LIBS})
-
-    add_executable(LuaScriptEventListenerTest test/Scripting/LuaScriptEventListenerTest.cpp)
-	target_link_libraries(LuaScriptEventListenerTest ${EXTRA_LIBS})
-
-	add_executable(LuaScriptEventListenerManagerTest test/Scripting/LuaScriptEventListenerManagerTest.cpp)
-	target_link_libraries(LuaScriptEventListenerManagerTest ${EXTRA_LIBS})
 
 	enable_testing()
 
@@ -55,12 +37,7 @@ if(${BUILD_TESTS})
 	add_test(ConcurrentQueueTestRunner				ConcurrentQueueTest)
 	add_test(EventDelegateTestRunner				EventDelegateTest)
 	add_test(EventManagerTestRunner					EventManagerTest)
-	add_test(SeleneTestRunner						SeleneTest)
-	add_test(LuaScriptManagerRunner					LuaScriptManagerTest)
-	add_test(LuaScriptProcessRunner					LuaScriptProcessTest)
-	add_test(LuaScriptEventRunner					LuaScriptEventTest)
-	add_test(LuaScriptExportsRunner					LuaScriptExportsTest)
-    add_test(LuaScriptEventListenerRunner			LuaScriptEventListenerTest)
-	add_test(LuaScriptEventListenerManagerRunner	LuaScriptEventListenerManagerTest)
+
+	add_test(LuaScriptManagerTestRunner				LuaScriptManagerTest)
 
 endif()

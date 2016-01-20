@@ -10,7 +10,7 @@
 
 #include <string>
 
-#include "NGE/Parsers/pugixml.hpp"
+#include "pugixml.hpp"
 #include "NGE/Math/Vector2.hpp"
 
 namespace NGE {

@@ -13,8 +13,22 @@ Documentation: http://redmine.lynxware.eu/projects/nge/wiki
 ## About ##
 NGEngine (No Gravity Engine) is a multiplatform OpenGL graphics engine. Currently it works on Linux, Windows and Android.
 
-## Compilation
-This secion describes how to compile NGE on various operation systems.
+
+
+## Installation
+This section describes how to download and compile NGE on various operation systems.
+
+### Download
+First download the repository.
+```sh
+$ git clone git@gitlab.com:lynxware/ngengine.git
+```
+After that, initialise the submodules.
+```sh
+$ cd ngengine/
+$ git submodules init
+$ git submodules update
+```
 
 ### Dependencies
 NGE depends on various third party libraries that you need for compilation. On debain based systems you will need:
@@ -37,7 +51,7 @@ lua5.2 liblua5.2-dev libxrandr-dev libxcursor-dev
 ### Build
 To build library use cmake:
 ```sh
-$ cd nge-directory/
+$ cd ngengine/
 $ mkdir build && cd build/
 $ cmake ..
 $ make

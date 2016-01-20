@@ -1,4 +1,5 @@
 #include "NGE/Scripting/LuaScriptManager.hpp"
+#include "NGE/Core/Delegate.hpp"
 #include "NGE/Tools/Logger.hpp"
 using namespace NGE::Scripting;
 
@@ -6,22 +7,25 @@ LuaScriptManager::LuaScriptManager() {
 	luaState = nullptr;
 }
 
-LuaScriptManager::~LuaScriptManager() {
-}
-
 bool LuaScriptManager::Init() {
-	luaState = std::make_shared<sel::State>(true);
+	luaState = std::make_shared<kaguya::State>();
 	if (luaState == nullptr) {
-		nge_log_error("LuaScriptManager --> Could not initialize lua state");
+		nge_log_error("LuaScriptManager --> Could not initialise Lua state");
 		return false;
 	}
+
+	//	std::function<void(int, const char*) > delegate = NGE::Core::make_delegate(GetInstance(), &LuaScriptManager::HandleError);
+	//	luaState->setErrorHandler(delegate);
+
+	luaState->setErrorHandler(&LuaScriptManager::HandleError);
+
 	return true;
 }
 
 bool LuaScriptManager::ExecuteFile(const std::string& path) {
-	bool result = luaState->Load(path);
+	bool result = luaState->dofile(path);
 	if (!result) {
-		SetError();
+		nge_log_error("LuaScriptManager --> Could not execute file: " + nge_to_string(path));
 	}
 	return result;
 }
@@ -29,36 +33,27 @@ bool LuaScriptManager::ExecuteFile(const std::string& path) {
 bool LuaScriptManager::ExecuteString(const std::string& str) {
 	bool result;
 	if (str[0] != '=') {
-		result = (*luaState)(str.c_str());
-		if (!result) {
-			SetError();
-		}
+		result = (*luaState.get())(str.c_str());
 	} else {
 		std::string buffer = "print(" + str.substr(1) + ")";
-		result = (*luaState)(buffer.c_str());
-		if (!result) {
-			SetError();
-		}
+		result = (*luaState.get())(buffer.c_str());
 	}
 	return result;
 }
 
-void LuaScriptManager::SetError() {
-	std::string message = luaState->Read<std::string>(-1);
-	if (!message.empty()) {
-		lastError = message;
-		luaState->Push(0);
-	} else {
-		lastError = "Unknown Lua error";
-	}
-
-	nge_log_error("LuaScriptManager --> " + lastError);
+void LuaScriptManager::HandleError(int val, const char* msg) {
+	LuaScriptManager::GetInstance().SetLastError(msg);
+	nge_log_error("LuaScriptManager --> " + nge_to_string(msg));
 }
 
-std::string LuaScriptManager::GetLastError() {
+void LuaScriptManager::SetLastError(const char* error) {
+	lastError = error;
+}
+
+std::string LuaScriptManager::GetLastError() const {
 	return lastError;
 }
 
-std::weak_ptr<sel::State> LuaScriptManager::GetLuaState() {
-	return std::weak_ptr<sel::State>(luaState);
+std::weak_ptr<kaguya::State> LuaScriptManager::GetLuaState() {
+	return luaState;
 }

@@ -6,12 +6,12 @@
  */
 
 #ifndef ISCRIPTMANAGER_HPP
-#define	ISCRIPTMANAGER_HPP
+#define ISCRIPTMANAGER_HPP
 
 namespace NGE {
 	namespace Scripting {
 
-		class IScriptManager {
+		class ScriptManager {
 		  public:
 			virtual bool Init() = 0;
 			virtual bool ExecuteFile(const std::string& resource) = 0;
@@ -20,5 +20,5 @@ namespace NGE {
 	}
 }
 
-#endif	/* ISCRIPTMANAGER_HPP */
+#endif /* ISCRIPTMANAGER_HPP */
 

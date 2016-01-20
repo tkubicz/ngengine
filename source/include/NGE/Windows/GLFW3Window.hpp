@@ -9,7 +9,7 @@
 #define	GLFW3WINDOW_HPP
 
 #include "NGE/Core/Core.hpp"
-#include "NGE/Parsers/pugixml.hpp"
+#include <pugixml.hpp>
 #include "NGE/Windows/Application.hpp"
 #include "NGE/Windows/AbstractWindow.hpp"
 

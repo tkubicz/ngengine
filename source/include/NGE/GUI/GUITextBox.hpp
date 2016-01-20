@@ -11,7 +11,7 @@
 #include "NGE/GUI/GUIAlphaElement.hpp"
 #include "NGE/Events/MouseEvent.hpp"
 #include "NGE/Events/KeyboardEvent.hpp"
-#include "NGE/Parsers/pugixml.hpp"
+#include <pugixml.hpp>
 #include "NGE/Media/Fonts/FreeTypeFont.hpp"
 #include "NGE/Media/Shaders/GLSLProgram.hpp"
 

@@ -6,14 +6,13 @@
  */
 
 #ifndef COLLADAMODEL_H
-#define	COLLADAMODEL_H
+#define COLLADAMODEL_H
 
 #include <string>
 #include <map>
 #include <vector>
 #include <iostream>
-
-#include "NGE/Parsers/pugixml.hpp"
+#include <pugixml.hpp>
 #include "NGE/Tools/Logger.hpp"
 
 namespace NGE {
@@ -122,5 +121,5 @@ namespace NGE {
 	}
 }
 
-#endif	/* COLLADAMODEL_HPP */
+#endif /* COLLADAMODEL_HPP */
 

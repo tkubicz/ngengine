@@ -13,9 +13,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
-
+#include "pugixml.hpp"
 #include "NGE/Core/Core.hpp"
-#include "NGE/Parsers/pugixml.hpp"
 #include "NGE/Math/Vector4.hpp"
 
 using std::string;
