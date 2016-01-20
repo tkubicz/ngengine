@@ -22,6 +22,8 @@ namespace NGE {
 
 		  public:
 
+			~LuaScriptManager() { }
+
 			static LuaScriptManager& GetInstance() {
 				static LuaScriptManager instance;
 				return instance;
@@ -31,7 +33,9 @@ namespace NGE {
 			virtual bool ExecuteFile(const std::string& path);
 			virtual bool ExecuteString(const std::string& str);
 
-			std::string GetLastError();
+			void SetLastError(const char* error);
+			std::string GetLastError() const;
+			
 			std::weak_ptr<kaguya::State> GetLuaState();
 
 		  private:
@@ -40,9 +44,8 @@ namespace NGE {
 			 * to get object.
 			 */
 			explicit LuaScriptManager();
-			virtual ~LuaScriptManager();
-
-			void SetError();
+			
+			static void HandleError(int val, const char* msg);
 		};
 	}
 }
