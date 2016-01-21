@@ -15,6 +15,11 @@
 namespace NGE {
 	namespace Scripting {
 
+		/**
+		 * Class that manages state of the Lua in the engine. This class is a
+		 * singleton. This class requires initialisation before first usage, so
+		 * do not forget to invoke Init() method.
+		 */
 		class LuaScriptManager : public ScriptManager {
 		  private:
 			std::shared_ptr<kaguya::State> luaState;
@@ -24,27 +29,36 @@ namespace NGE {
 
 			~LuaScriptManager() { }
 
+			/**
+			 * Get the instance of LuaScriptManager class using new C++11 pattern.
+			 * @return Instance of the class.
+			 */
 			static LuaScriptManager& GetInstance() {
 				static LuaScriptManager instance;
 				return instance;
 			}
 
+			/**
+			 * Initialise Lua state. This method should be invoked first.
+			 * @return True if the state was initialised successfully, otherwise false.
+			 */
 			virtual bool Init();
+
 			virtual bool ExecuteFile(const std::string& path);
 			virtual bool ExecuteString(const std::string& str);
 
 			void SetLastError(const char* error);
 			std::string GetLastError() const;
-			
+
 			std::weak_ptr<kaguya::State> GetLuaState();
 
 		  private:
 			/**
-			 * LuaScriptManager constructor is private, use GetInstance() method
+			 * LuaScriptManager constructor is private, use LuaScriptManager::GetInstance() method
 			 * to get object.
 			 */
 			explicit LuaScriptManager();
-			
+
 			static void HandleError(int val, const char* msg);
 		};
 	}

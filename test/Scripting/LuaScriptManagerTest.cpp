@@ -32,14 +32,14 @@ BOOST_AUTO_TEST_CASE(ExecuteStringPrintShortcut) {
 BOOST_AUTO_TEST_CASE(ExecuteFile) {
 	LuaScriptManager& scriptManager = LuaScriptManager::GetInstance();
 	scriptManager.Init();
-	bool result = scriptManager.ExecuteFile("../test/data/test.lua");
+	bool result = scriptManager.ExecuteFile("../test/Data/test.lua");
 	BOOST_CHECK(result);
 }
 
 BOOST_AUTO_TEST_CASE(ExecuteFileThatDoesntExist) {
 	LuaScriptManager& scriptManager = LuaScriptManager::GetInstance();
 	scriptManager.Init();
-	bool result = scriptManager.ExecuteFile("../test/data/doesntexist.lua");
+	bool result = scriptManager.ExecuteFile("../test/Data/doesntexist.lua");
 	BOOST_CHECK(!result);
 }
 
@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE(ExecuteMultipleLines) {
 BOOST_AUTO_TEST_CASE(GetLuaState) {
 	LuaScriptManager& scriptManager = LuaScriptManager::GetInstance();
 	scriptManager.Init();
-	bool result = scriptManager.ExecuteFile("../test/data/test.lua");
+	bool result = scriptManager.ExecuteFile("../test/Data/test.lua");
 	BOOST_CHECK(result);
 
 	std::weak_ptr<kaguya::State> state = scriptManager.GetLuaState();

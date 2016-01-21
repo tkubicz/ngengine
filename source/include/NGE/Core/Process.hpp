@@ -6,7 +6,7 @@
  */
 
 #ifndef PROCESS_HPP
-#define	PROCESS_HPP
+#define PROCESS_HPP
 
 #include "NGE/Core/Core.hpp"
 #include <memory>
@@ -93,9 +93,11 @@ namespace NGE {
 
 			/**
 			 * Called every frame.
+			 * TOOD: This method should be pure virtual (abstract) but it isn't
+			 * because we can't register abstract classes in Lua. Think how to change it.
 			 * @param deltaTime time passed from the last frame.
 			 */
-			virtual void OnUpdate(unsigned int deltaTime) = 0;
+			virtual void OnUpdate(unsigned int deltaTime) { }
 
 			/**
 			 * Called if the process succeeds.
@@ -198,4 +200,4 @@ namespace NGE {
 	}
 }
 
-#endif	/* PROCESS_HPP */
+#endif /* PROCESS_HPP */
