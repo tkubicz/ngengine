@@ -13,7 +13,8 @@ namespace NGE {
 
 		class ScriptManager {
 		  public:
-			virtual bool Init() = 0;
+			virtual bool Initialise() = 0;
+			
 			virtual bool ExecuteFile(const std::string& resource) = 0;
 			virtual bool ExecuteString(const std::string& str) = 0;
 		};

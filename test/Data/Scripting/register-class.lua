@@ -5,7 +5,15 @@ function TestProcess:on_init()
 end
 
 function TestProcess:on_update(time)
-	print("Update function, time = " .. tostring(time))
+	print("update function, time = " .. tostring(time))
+end
+
+function TestProcess:custom_test_function()
+	print("this is custom function")
+end
+
+function TestProcess:on_success()
+	self:custom_test_function()
 end
 
 tp = TestProcess.new({frequency = 125})
@@ -14,16 +22,9 @@ print("is dead: " .. tostring(tp:is_dead()))
 print("is alive: " .. tostring(tp:is_alive()))
 print("is paused: " .. tostring(tp:is_paused()))
 
-tp:succeed()
-tp:fail()
-tp:pause()
-tp:unpause()
+-- tp:succeed()
+-- tp:fail()
+-- tp:pause()
+-- tp:unpause()
 
-child = {}
-tp:attach_child(child)
-
-dp = TestProcess.new({frequency = 250})
-print(tp.frequency)
-print(dp.frequency)
-
-tp:on_init()
+tp:build_data(tp)

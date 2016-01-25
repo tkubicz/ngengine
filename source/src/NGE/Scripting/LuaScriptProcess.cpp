@@ -25,7 +25,7 @@ void LuaScriptProcess::RegisterScriptClass() {
 void LuaScriptProcess::OnInit() {
 	NGE::Core::Process::OnInit();
 	if (!initFunction.isNilref()) {
-		initFunction();
+		initFunction(self);
 	}
 
 	if (!updateFunction.isNilref()) {
@@ -36,67 +36,74 @@ void LuaScriptProcess::OnInit() {
 void LuaScriptProcess::OnUpdate(unsigned int deltaMs) {
 	time += deltaMs;
 	if (time >= frequency) {
-		updateFunction(time);
+		updateFunction(self, time);
 		time = 0;
 	}
 }
 
 void LuaScriptProcess::OnSuccess() {
 	if (!successFunction.isNilref()) {
-		successFunction();
+		successFunction(self);
 	}
 }
 
 void LuaScriptProcess::OnFail() {
 	if (!failFunction.isNilref()) {
-		failFunction();
+		failFunction(self);
 	}
 }
 
 void LuaScriptProcess::OnAbort() {
 	if (!abortFunction.isNilref()) {
-		abortFunction();
+		abortFunction(self);
 	}
 }
 
 bool LuaScriptProcess::BuildDataFromScript(kaguya::LuaRef self) {
 	if (!self.isNilref()) {
-		
 		kaguya::LuaRef refFunction;
-		refFunction = self["on_init"];
-		if (!refFunction.isNilref()) {
-			std::cout << "ref function not null" << std::endl;
-			initFunction = refFunction;
+
+		kaguya::LuaRef refInitFunction = self["on_init"];
+		if (!refInitFunction.isNilref()) {
+			nge_log_info("LuaScriptProcess --> BuildDataFromScript --> on_init function found");
+			initFunction = refInitFunction;
 		}
 
-		refFunction = self["on_update"];
-		if (!refFunction.isNilref()) {
-			updateFunction = refFunction;
+		kaguya::LuaRef refUpdateFunction = self["on_update"];
+		if (!refUpdateFunction.isNilref()) {
+			nge_log_info("LuaScriptProcess --> BuildDataFromScript --> on_update function found");
+			updateFunction = refUpdateFunction;
 		} else {
-			nge_log_error("LuaScriptProcess --> No 'on_update()' method found in script process");
+			nge_log_error("LuaScriptProcess --> BuildDataFromScript --> No 'on_update()' method found in script process");
 			return false;
 		}
 
 		refFunction = self["on_success"];
 		if (!refFunction.isNilref()) {
+			nge_log_info("LuaScriptProcess --> BuildDataFromScript --> on_success function found");
 			successFunction = refFunction;
 		}
 
 		refFunction = self["on_fail"];
 		if (!refFunction.isNilref()) {
+			nge_log_info("LuaScriptProcess --> BuildDataFromScript --> on_fail function found");
 			failFunction = refFunction;
 		}
 		refFunction = self["on_abort"];
 		if (!refFunction.isNilref()) {
+			nge_log_info("LuaScriptProcess --> BuildDataFromScript --> on_abort function found");
 			abortFunction = refFunction;
 		}
 
 		kaguya::LuaRef refFrequency = self["frequency"];
 		if (!refFrequency.isNilref()) {
+			nge_log_info("LuaScriptProcess --> BuildDataFromScript --> frequency variable found");
 			frequency = refFrequency;
 		}
+
+		this->self = self;
 	} else {
-		nge_log_error("LuaScriptProcess --> self is null");
+		nge_log_error("LuaScriptProcess --> BuildDataFromScript --> self is null");
 		return false;
 	}
 

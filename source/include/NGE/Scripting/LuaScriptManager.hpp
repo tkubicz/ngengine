@@ -42,10 +42,10 @@ namespace NGE {
 			 * Initialise Lua state. This method should be invoked first.
 			 * @return True if the state was initialised successfully, otherwise false.
 			 */
-			virtual bool Init();
+			virtual bool Initialise() override;
 
-			virtual bool ExecuteFile(const std::string& path);
-			virtual bool ExecuteString(const std::string& str);
+			virtual bool ExecuteFile(const std::string& path) override;
+			virtual bool ExecuteString(const std::string& str) override;
 
 			void SetLastError(const char* error);
 			std::string GetLastError() const;

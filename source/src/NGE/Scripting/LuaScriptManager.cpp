@@ -7,7 +7,7 @@ LuaScriptManager::LuaScriptManager() {
 	luaState = nullptr;
 }
 
-bool LuaScriptManager::Init() {
+bool LuaScriptManager::Initialise() {
 	luaState = std::make_shared<kaguya::State>();
 	if (luaState == nullptr) {
 		nge_log_error("LuaScriptManager --> Could not initialise Lua state");

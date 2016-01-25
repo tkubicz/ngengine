@@ -4,7 +4,7 @@
 using namespace NGE::Core;
 
 Process::Process() {
-	state = UNINITIALIZED;
+	state = UNINITIALISED;
 }
 
 Process::~Process() {

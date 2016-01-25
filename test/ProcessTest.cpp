@@ -22,7 +22,7 @@ class TestProcessWrapper : public TestProcess {
 
 BOOST_AUTO_TEST_CASE(CreateProcess) {
     TestProcess process;
-    BOOST_CHECK_EQUAL(Process::UNINITIALIZED, process.GetState());
+    BOOST_CHECK_EQUAL(Process::UNINITIALISED, process.GetState());
 }
 
 BOOST_AUTO_TEST_CASE(OnInit) {

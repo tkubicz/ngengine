@@ -18,18 +18,23 @@ namespace NGE {
 		  private:
 			unsigned int frequency, time;
 			kaguya::LuaFunction initFunction, updateFunction, successFunction, failFunction, abortFunction;
+			kaguya::LuaRef self;
 
 		  public:
 
-			explicit LuaScriptProcess() {}
+			explicit LuaScriptProcess() : NGE::Core::Process(), time(0) { }
 			static void RegisterScriptClass();
-			
+
 			void OnInitWrapper() {
 				OnInit();
 			}
-			
+
 			void OnUpdateWrapper(unsigned int v) {
 				OnUpdate(v);
+			}
+
+			void OnSuccessWrapper() {
+				OnSuccess();
 			}
 
 		  protected:
