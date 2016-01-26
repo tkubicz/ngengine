@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required (VERSION 3.0)
 
 project (nge)
 
@@ -38,8 +38,8 @@ if(CMAKE_COMPILER_IS_GNUCXX)
     	add_definitions(-g -std=c++11 -Wall -DUSE_GLFW)
     else()
     	add_definitions(-g -std=c++11)	
-    	SET( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${my_cxx_flags}" )
-      	SET( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${my_cxx_flags}" )
+    	set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${my_cxx_flags}" )
+      	set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${my_cxx_flags}" )
     endif()
 endif()
 
@@ -56,20 +56,18 @@ option(NO_OPENGL "Disable OpenGL support" OFF)
 option(NO_GLFW "Disable GLFW support" OFF)
 option(NO_GLEW "Disable GLEW support" OFF)
 
-#set (ENV{BOOST_ROOT} "/home/tku/Pobrane/Boost-for-Android/boost_1_53_0")
-
 if (ANDROID)
 	message(STATUS "Building for Android")
 	find_host_package(Boost 1.53.0 REQUIRED)
 	if (Boost_FOUND)
 		#include_directories (${Boost_INCLUDE_DIRS})
-		MESSAGE(STATUS "Boost include:" ${Boost_INCLUDE_DIRS})
+		message(STATUS "Boost include:" ${Boost_INCLUDE_DIRS})
 		include_directories("/home/tku/Pobrane/Boost-for-Android/build/include/boost-1_53")
 	endif()
 endif()
 
 if (NOT ANDROID)
-# Find boost
+	# Find boost
 	find_package (Boost 1.53.0 REQUIRED COMPONENTS unit_test_framework)
 	if (Boost_FOUND)
 		include_directories(${Boost_INCLUDE_DIRS})
