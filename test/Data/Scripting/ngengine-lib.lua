@@ -36,7 +36,11 @@ function class(className)
         local instance = o or {}
         instance.__index = instance
 
-        instance.cpp_object = className.new()
+		if instance.shared == true then
+			instance.cpp_object = className.shared()
+		else
+			instance.cpp_object = className.new()
+		end
 
         setmetatable(instance, ret)
         return instance

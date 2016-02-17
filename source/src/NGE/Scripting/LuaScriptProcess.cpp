@@ -20,6 +20,10 @@ void LuaScriptProcess::RegisterScriptClass() {
 			.addMember("build_data", &LuaScriptProcess::BuildDataFromScript)
 			.addConstructor()
 			);
+
+	// Make ability to create objects owned by C++ using "class" lua function.
+	//(*manager.GetLuaState().lock())["ScriptProcess"]["shared"] = &LuaSharedObject::CreateSharedObject<LuaScriptProcess>;
+	(*manager.GetLuaState().lock())["ScriptProcess"]["shared"] = &std::make_shared<LuaScriptProcess>;
 }
 
 void LuaScriptProcess::OnInit() {
@@ -28,7 +32,7 @@ void LuaScriptProcess::OnInit() {
 		initFunction(self);
 	}
 
-	if (!updateFunction.isNilref()) {
+	if (updateFunction.isNilref()) {
 		Fail();
 	}
 }
