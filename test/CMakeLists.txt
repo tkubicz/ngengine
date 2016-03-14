@@ -22,6 +22,7 @@ if(${BUILD_TESTS})
 		EventManagerTest	Events/EventManagerTest.cpp
 		
 		# Scripting
+        LuaScriptEventTest   Scripting/LuaScriptEventTest.cpp
 		LuaScriptManagerTest Scripting/LuaScriptManagerTest.cpp
 		LuaScriptProcessTest Scripting/LuaScriptProcessTest.cpp
 	)
