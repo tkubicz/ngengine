@@ -13,7 +13,7 @@
 
 namespace NGE {
     namespace Scripting {
-
+		
         class LuaScriptEvent : public NGE::Events::BaseEventData {
           private:
             static const NGE::Events::EventType eventType;
@@ -36,6 +36,8 @@ namespace NGE {
 
             
             static void RegisterScriptClass();
+			
+			static void RegisterEventTypeWithScript(const std::string& key, NGE::Events::EventType type);
         };
     }
 }
