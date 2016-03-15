@@ -3,11 +3,14 @@ cmake_minimum_required (VERSION 3.0)
 project (nge)
 
 # Set the current build profile
-set (CMAKE_BUILD_TYPE Debug)
+if (NOT CMAKE_BUILD_TYPE)
+    set (CMAKE_BUILD_TYPE Debug)
+endif()
 
 # --------------------------------------
 message(STATUS "Compiling ${CMAKE_PROJECT_NAME} version 1.0")
 message(STATUS "Using cmake version ${CMAKE_VERSION}")
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 # --------------------------------------
 
 # Specific the default install path
@@ -23,6 +26,9 @@ set(CMAKE_MODULE_PATH
 # Set the directory of third-party software.
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/kaguya/include/")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/pugixml/src/")
+
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/cppformat/")
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/cppformat" thirdparty/cppformat)
 
 # By default we are going to build tests
 if (NOT DEFINED BUILD_TESTS)

@@ -3,7 +3,7 @@ cmake_minimum_required (VERSION 3.0)
 if(${BUILD_TESTS})
 
 	set (extra_libs 
-		${Boost_LIBRARIES} nge GL GLU GLEW glfw z pthread lua${LUA_VERSION}
+		${Boost_LIBRARIES} nge GL GLU GLEW glfw z pthread lua${LUA_VERSION} cppformat
 	)
 
 	SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/tests)
@@ -25,6 +25,9 @@ if(${BUILD_TESTS})
         LuaScriptEventTest   Scripting/LuaScriptEventTest.cpp
 		LuaScriptManagerTest Scripting/LuaScriptManagerTest.cpp
 		LuaScriptProcessTest Scripting/LuaScriptProcessTest.cpp
+
+        # Thirdparty
+        CppFormatTest        Thirdparty/CppFormatTest.cpp
 	)
 
 	array2d_begin_loop(advanced "${tuples}" 2 "name;path")

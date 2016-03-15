@@ -4,3 +4,6 @@
 [submodule "thirdparty/pugixml"]
 	path = thirdparty/pugixml
 	url = https://github.com/zeux/pugixml
+[submodule "thirdparty/cppformat"]
+	path = thirdparty/cppformat
+	url = https://github.com/cppformat/cppformat
