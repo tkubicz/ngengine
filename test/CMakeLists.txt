@@ -28,6 +28,9 @@ if(${BUILD_TESTS})
 
         # Thirdparty
         CppFormatTest        Thirdparty/CppFormatTest.cpp
+
+		# Tools
+		LoggerTest			Tools/LoggerTest.cpp
 	)
 
 	array2d_begin_loop(advanced "${tuples}" 2 "name;path")
