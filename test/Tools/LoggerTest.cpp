@@ -8,5 +8,5 @@
 using namespace NGE::Tools;
 
 BOOST_AUTO_TEST_CASE(InitialTest) {
-	NewLogger& newLogger = NewLogger::GetInstance();
+	test_log("{} {} {} {}", "ala", "ma", 2, "koty");
 }

@@ -22,3 +22,13 @@ BATC(PrintTest) {
     fmt::print(stderr, "System error code = {}\n", errno);
     fmt::print("Don't {}\n", "panic");
 }
+
+template<typename... Args> std::string testFunc(const std::string& format, Args&&... arguments) {
+    return fmt::format(format, std::forward<Args>(arguments)...);
+}
+
+BATC(VariadicTemplateTest) {
+    std::string expectedStr = "This is sparta!!!";
+    std::string resultStr = testFunc("{} {} {}{}", "This", "is", "sparta", "!!!");
+    BOOST_CHECK_EQUAL(expectedStr, resultStr);
+}
