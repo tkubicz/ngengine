@@ -31,6 +31,7 @@ if(${BUILD_TESTS})
 
 		# Tools
 		LoggerTest			Tools/LoggerTest.cpp
+		TimingTest			Tools/TimingTest.cpp
 	)
 
 	array2d_begin_loop(advanced "${tuples}" 2 "name;path")

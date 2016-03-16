@@ -1,56 +1,51 @@
 #include <iostream>
 #include <chrono>
+#include <iomanip>
 #include "NGE/Tools/Timing.hpp"
 
 using namespace NGE::Tools;
 
-static Timing* timingData = NULL;
-
 void Timing::Initialize() {
-	if (!timingData)
-		timingData = new Timing();
 
-	timingData->frameNumber = 0;
+	frameNumber = 0;
 
-	//timingData->lastFrameTimestamp = glfwGetTime();
-	timingData->lastFrameTimestamp = std::chrono::duration_cast<std::chrono::duration<double>>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
-	timingData->lastFrameDuration = 0;
+	lastFrameTimestamp = std::chrono::duration_cast<std::chrono::duration<double>>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+	lastFrameDuration = 0;
 
-	timingData->isPaused = false;
+	isPaused = false;
 
-	timingData->averageFrameDuration = 0;
-	timingData->fps = 0;
+	averageFrameDuration = 0;
+	fps = 0;
 }
 
 void Timing::Deinitialize() {
-	delete timingData;
-	timingData = NULL;
-}
-
-Timing& Timing::Get() {
-	return (Timing&)*timingData;
 }
 
 void Timing::Update() {
-	if (!timingData)
-		return;
+	if (!isPaused) {
+		frameNumber++;
+	}
 
-	if (!timingData->isPaused)
-		timingData->frameNumber++;
-
-	//double thisTime = glfwGetTime();
 	double thisTime = std::chrono::duration_cast<std::chrono::duration<double>>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
-	timingData->lastFrameDuration = thisTime - timingData->lastFrameTimestamp;
-	timingData->lastFrameTimestamp = thisTime;
+	lastFrameDuration = thisTime - lastFrameTimestamp;
+	lastFrameTimestamp = thisTime;
 
-	if (timingData->frameNumber > 1) {
-		if (timingData->averageFrameDuration <= 0)
-			timingData->averageFrameDuration = (double) timingData->lastFrameDuration;
+	if (frameNumber > 1) {
+		if (averageFrameDuration <= 0)
+			averageFrameDuration = (double) lastFrameDuration;
 		else {
-			timingData->averageFrameDuration *= 0.99;
-			timingData->averageFrameDuration += 0.01 * (double) timingData->lastFrameDuration;
+			averageFrameDuration *= 0.99;
+			averageFrameDuration += 0.01 * (double) lastFrameDuration;
 
-			timingData->fps = (float) (1000.0 / timingData->averageFrameDuration);
+			fps = (float) (1000.0 / averageFrameDuration);
 		}
 	}
+}
+
+std::string Timing::GetCurrentTimeInFormat(const std::string& format) {
+	std::time_t currentTime = std::time(NULL);
+	if (std::strftime(&timeBuffer[0], timeBufferSize, format.c_str(), std::localtime(&currentTime))) {
+		return std::string(&timeBuffer[0]);
+	}
+	return NULL;
 }

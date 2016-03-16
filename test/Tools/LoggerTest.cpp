@@ -8,5 +8,5 @@
 using namespace NGE::Tools;
 
 BOOST_AUTO_TEST_CASE(InitialTest) {
-	test_log("{} {} {} {}", "ala", "ma", 2, "koty");
+	test_debug_log("{} {} {} {}", "ala", "ma", 2, "koty");
 }
