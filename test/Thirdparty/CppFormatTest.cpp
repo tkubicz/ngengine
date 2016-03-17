@@ -53,7 +53,8 @@ BATC(MemoryWriterTimeTest) {
 	unsigned short fractional_seconds = milliseconds.count() % 1000;
 	std::string format = "%Y-%m-%d %H:%M:%S.%f";
 	NGE::Parsers::StringUtils::ReplaceAll(format, "%f", std::to_string(fractional_seconds));
-	std::cout << std::put_time(&localTime, format.c_str()) << std::endl;
+	
+	//std::cout << std::put_time(&localTime, format.c_str()) << std::endl;
 
 	char* timeBuffer = new char[100];
 	if (std::strftime(&timeBuffer[0], 100, format.c_str(), &localTime)) {
