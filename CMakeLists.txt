@@ -30,6 +30,10 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/pugixml/src/")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/cppformat/")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/cppformat" thirdparty/cppformat)
 
+# Specify the compilation flags for different build types.
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -std=c++11 -DUSE_GLFW -g -Wall")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=c++11 -DUSE_GLFW -O3 -Wall")
+
 # By default we are going to build tests
 if (NOT DEFINED BUILD_TESTS)
 	set (BUILD_TESTS true)
@@ -40,14 +44,16 @@ if (NOT DEFINED LUA_VERSION)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX)
-	if (NOT ANDROID)
-    	add_definitions(-g -std=c++11 -Wall -DUSE_GLFW)
-    else()
-    	add_definitions(-g -std=c++11)	
-    	set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${my_cxx_flags}" )
-      	set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${my_cxx_flags}" )
-    endif()
+#	if (NOT ANDROID)
+#    	add_definitions(-g -std=c++11 -Wall -DUSE_GLFW)
+#    else()
+#    	add_definitions(-g -std=c++11)
+#    	set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${my_cxx_flags}" )
+#      	set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${my_cxx_flags}" )
+#    endif()
 endif()
+
+
 
 IF (ANDROID)
 	find_package(OpenGLES)

@@ -34,7 +34,7 @@ namespace NGE {
 		  private:
 
 			Timing() {
-				timeBufferSize = 26;
+				timeBufferSize = 100;
 				timeBuffer = new char[timeBufferSize];
 			}
 
@@ -59,10 +59,7 @@ namespace NGE {
 			void Initialize();
 			void Deinitialize();
 
-			unsigned GetTime();
-			//static unsigned long GetClock();
-
-			std::string GetCurrentTimeInFormat(const std::string& format = "%Y-%m-%d %H:%M:%S");
+			std::string GetCurrentTimeInFormat(const std::string& format = "%Y-%m-%d %H:%M:%S.%f");
 
 			double GetLastFrameDuration() const {
 				return lastFrameDuration;

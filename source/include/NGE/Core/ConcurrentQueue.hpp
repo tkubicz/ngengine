@@ -2,11 +2,11 @@
  * File:   ConcurrentQueue.hpp
  * Author: tku
  *
- * Created on 7 września 2015, 13:23
+ * Created on 7 September 2015, 13:23
  */
 
 #ifndef CONCURRENTQUEUE_HPP
-#define	CONCURRENTQUEUE_HPP
+#define CONCURRENTQUEUE_HPP
 
 #include <queue>
 #include <mutex>
@@ -25,6 +25,8 @@ namespace NGE {
 		  public:
 
 			ConcurrentQueue() { }
+			ConcurrentQueue(const ConcurrentQueue &) = delete;
+			ConcurrentQueue& operator=(const ConcurrentQueue &) = delete;
 
 			void Push(T const& data) {
 				std::unique_lock<std::mutex> lock(mutex);
@@ -33,6 +35,9 @@ namespace NGE {
 				condition.notify_one();
 			}
 
+			/**
+			 * Test whether container is empty
+			 */
 			bool Empty() {
 				std::unique_lock<std::mutex> lock(mutex);
 				return queue.empty();
@@ -41,6 +46,14 @@ namespace NGE {
 			long unsigned int Size() {
 				std::unique_lock<std::mutex> lock(mutex);
 				return queue.size();
+			}
+
+			/**
+			 * Clear the queue from all its elements.
+			 */
+			void Clear() {
+				std::unique_lock<std::mutex> lock(mutex);
+				std::queue<T>().swap(queue);
 			}
 
 			bool TryPop(T& poppedValue) {
@@ -66,5 +79,5 @@ namespace NGE {
 	}
 }
 
-#endif	/* CONCURRENTQUEUE_HPP */
+#endif /* CONCURRENTQUEUE_HPP */
 

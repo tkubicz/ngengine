@@ -9,55 +9,10 @@
 #define NEWLOGGER_HPP
 
 #include <list>
-#include <mutex>
+#include <fstream>
 #include <cppformat/format.h>
-#include <boost/format.hpp>
-
-#include "Timing.hpp"
-
-/**
- * TODO: Refactor this! This is just an example how a new logging system should looks
- * like.
- */
-namespace log_2 {
-
-	class tracer {
-	  private:
-		std::ostream& out;
-		boost::format formatter;
-
-	  public:
-
-		tracer(std::ostream& out, const char* format, const char* type, char const* file, int line, const char* function) : out(out) {
-			out << type << " - " << file << ":" << line << ":" << function << ": ";
-			formatter = boost::format(format);
-		}
-
-		tracer(std::ostream& out, const char* format, const char* type) : out(out) {
-			out << type << ": ";
-			formatter = boost::format(format);
-		}
-
-		~tracer() {
-			out << formatter;
-			out << std::endl;
-		}
-
-		template <typename TF, typename ... TR> void write(TF const& f, TR const& ... rest) {
-			formatter % f;
-			write(rest...);
-		}
-
-		template <typename TF> void write(TF const& f) {
-			formatter % f;
-		}
-
-		void write() {
-			// empty param
-		}
-	};
-
-}
+#include "NGE/Core/ConcurrentQueue.hpp"
+#include "NGE/Tools/Timing.hpp"
 
 namespace NGE {
 	namespace Tools {
@@ -65,17 +20,19 @@ namespace NGE {
 		class NewLogger {
 		  public:
 
-			enum class LOG_LEVEL {
-				TRACE, DEBUG, INFO, WARN, ERROR, CRITICAL_ERROR
+			enum class LOG_LEVEL : unsigned short {
+				TRACE = 0, DEBUG = 1, INFO = 2, WARN = 3, ERROR = 4, CRITICAL_ERROR = 5
 			};
 
 		  private:
+
+			static const std::array<std::string, 6> logLevelNames;
 
 			/**
 			 * Holds currently accumulated logs. This structure is cleared
 			 * after flushing.
 			 */
-			std::list<std::string> logStrings;
+			NGE::Core::ConcurrentQueue<std::string> logStrings;
 
 			/**
 			 * Format of the logged message
@@ -102,11 +59,6 @@ namespace NGE {
 			 */
 			LOG_LEVEL logLevel;
 
-			/**
-			 * Mutex to ensure that write and read operations are thread-safe.
-			 */
-			std::mutex mutex;
-
 		  private:
 
 			/**
@@ -115,10 +67,7 @@ namespace NGE {
 			 * instance of this class.
 			 */
 			NewLogger() {
-				logLevel = LOG_LEVEL::DEBUG;
-				loggingToFileEnabled = false;
-				loggingtoStdOutEnabled = true;
-				logFormat = "{} - {} - {}: ";
+				Initialise();
 			}
 
 		  public:
@@ -128,37 +77,71 @@ namespace NGE {
 				return instance;
 			}
 
-			template<typename... Args>
-			void WriteLog(const std::string& format, const char* logLevel, const char* file,
-					int line, const char* function, Args&&... arguments) {
+			void Initialise() {
+				logLevel = LOG_LEVEL::TRACE;
+				loggingToFileEnabled = false;
+				loggingtoStdOutEnabled = true;
+				logFormat = "{} - {} - {} - {}[{}]: ";
 
-				std::cout << fmt::format(logFormat + format,
-						Timing::GetInstance().GetCurrentTimeInFormat(),
-						logLevel,
-						file,
-						std::forward<Args>(arguments)...) << std::endl;
+				if (!logStrings.Empty()) {
+					logStrings.Clear();
+				}
+			}
+
+			template<typename... Args> void WriteLog(const std::string& format, LOG_LEVEL logLevel, Args&&... args) {
+				//logStrings.Push(fmt::format())
+			}
+
+			template<typename... Args> void WriteLog(const std::string& format, LOG_LEVEL logLevel, const char* file, int line, const char* function, Args&&... arguments) {
+
+				if (logStrings.Size() > 20) {
+					FlushToFile();
+				}
+
+				logStrings.Push(fmt::format(logFormat + format, Timing::GetInstance().GetCurrentTimeInFormat(),
+						logLevelNames[static_cast<unsigned short> (logLevel)], file, function, line, std::forward<Args>(arguments)...));
+			}
+
+			void FlushToStdOut() {
+				while (logStrings.Size() > 0) {
+					std::string logMessage;
+					if (logStrings.TryPop(logMessage)) {
+						std::cout << logMessage << std::endl;
+					}
+				}
+			}
+
+			void FlushToFile() {
+				std::ofstream logFile("log.txt", std::ios::app);
+				while (logStrings.Size() > 0) {
+					std::string logMessage;
+					if (logStrings.TryPop(logMessage)) {
+						logFile << logMessage << "\n";
+					}
+				}
+			}
+
+			std::string GetLogFormat() const {
+				return logFormat;
+			}
+
+			void SetLogFormat(std::string logFormat) {
+				this->logFormat = logFormat;
 			}
 		};
+
+		const std::array<std::string, 6> NewLogger::logLevelNames = {"TRACE", "DEBUG", "INFO", "WARN", "ERROR", "CRITICAL ERROR"};
 	}
 }
 
-#define test_debug_log(format, ...) NGE::Tools::NewLogger::GetInstance().WriteLog(format, "DEBUG", __FILE__, __LINE__, __PRETTY_FUNCTION__, __VA_ARGS__);
+#define test_trace_log(format, ...) NGE::Tools::NewLogger::GetInstance().WriteLog(format, NGE::Tools::NewLogger::LOG_LEVEL::TRACE, __FILE__, __LINE__, __PRETTY_FUNCTION__, __VA_ARGS__);
+#define test_debug_log(format, ...) NGE::Tools::NewLogger::GetInstance().WriteLog(format, NGE::Tools::NewLogger::LOG_LEVEL::DEBUG, __FILE__, __LINE__, __PRETTY_FUNCTION__, __VA_ARGS__);
+#define test_info_log(format, ...) NGE::Tools::NewLogger::GetInstance().WriteLog(format, NGE::Tools::NewLogger::LOG_LEVEL::INFO, __FILE__, __LINE__, __PRETTY_FUNCTION__, __VA_ARGS__);
+#define test_warn_log(format, ...) NGE::Tools::NewLogger::GetInstance().WriteLog(format, NGE::Tools::NewLogger::LOG_LEVEL::WARN, __FILE__, __LINE__, __PRETTY_FUNCTION__, __VA_ARGS__);
+#define test_error_log(format, ...) NGE::Tools::NewLogger::GetInstance().WriteLog(format, NGE::Tools::NewLogger::LOG_LEVEL::ERROR, __FILE__, __LINE__, __PRETTY_FUNCTION__, __VA_ARGS__);
+#define test_critical_log(format, ...) NGE::Tools::NewLogger::GetInstance().WriteLog(format, NGE::Tools::NewLogger::LOG_LEVEL::CRITICAL_ERROR, __FILE__, __LINE__, __PRETTY_FUNCTION__, __VA_ARGS__);
 
-#define DEBUG
 
-#ifdef DEBUG
-#define LOGDEBUG(format, ...) log_2::tracer(std::cout, format, "DEBUG", __FILE__, __LINE__, __PRETTY_FUNCTION__).write(__VA_ARGS__);
-#define LOGINFO(format, ...) log_2::tracer(std::cout, format, "INFO", __FILE__, __LINE__, __PRETTY_FUNCTION__).write(__VA_ARGS__);
-#define LOGWARN(format, ...) log_2::tracer(std::cout, format, "WARNING", __FILE__, __LINE__, __PRETTY_FUNCTION__).write(__VA_ARGS__);
-#define LOGERROR(format, ...) log_2::tracer(std::cout, format, "ERROR", __FILE__, __LINE__, __PRETTY_FUNCTION__).write(__VA_ARGS__);
-#define LOGCRITICAL(format, ...) log_2::tracer(std::cout, format, "CRITICAL ERROR", __FILE__, __LINE__, __PRETTY_FUNCTION__).write(__VA_ARGS__);
-#else
-#define LOGDEBUG(format, ...) log_2::tracer(std::cout, format, "DEBUG").write(__VA_ARGS__);
-#define LOGINFO(format, ...) log_2::tracer(std::cout, format, "INFO").write(__VA_ARGS__);
-#define LOGWARN(format, ...) log_2::tracer(std::cout, format, "WARNING").write(__VA_ARGS__);
-#define LOGERROR(format, ...) log_2::tracer(std::cout, format, "ERROR").write(__VA_ARGS__);
-#define LOGCRITICAL(format, ...) log_2::tracer(std::cout, format, "CRITICAL ERROR").write(__VA_ARGS__);
-#endif
 
 #endif /* NEWLOGGER_HPP */
 

@@ -21,6 +21,9 @@ if(${BUILD_TESTS})
 		EventDelegateTest	Events/EventDelegateTest.cpp
 		EventManagerTest	Events/EventManagerTest.cpp
 		
+		# Parsers
+		StringUtilsTest		Parsers/StringUtilsTest.cpp
+
 		# Scripting
         LuaScriptEventTest   Scripting/LuaScriptEventTest.cpp
 		LuaScriptManagerTest Scripting/LuaScriptManagerTest.cpp
