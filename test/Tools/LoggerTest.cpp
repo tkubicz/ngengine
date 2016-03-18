@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE(WriteLogsFromMultipleThreads) {
 	std::array<std::thread, numThreads> threads;
 	for (int i = 0; i < numThreads; ++i) {
 		threads[i] = std::thread([]() {
-			for (int i = 0; i < 100000; ++i) {
+			for (int i = 0; i < 100; ++i) {
 				log_info("Info {}", "msg");
 			}
 		});

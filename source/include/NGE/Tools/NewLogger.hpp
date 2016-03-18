@@ -94,7 +94,7 @@ namespace NGE {
 				while (logQueue.Size() > 0) {
 					std::string logMessage;
 					if (logQueue.TryPop(logMessage)) {
-						std::cout << logMessage << std::endl;
+						std::cout << logMessage << "\n";
 					}
 				}
 			}
