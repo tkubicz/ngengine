@@ -10,36 +10,46 @@
 using namespace NGE::Tools;
 
 BOOST_AUTO_TEST_CASE(InitialTest) {
-	test_trace_log("{} {} {} {}", "ala", "ma", 2, "koty");
-	test_info_log("This is message: {:d}", 1);
-	NewLogger::GetInstance().FlushToStdOut();
+    log_trace("{} {} {} {}", "ala", "ma", 2, "koty");
+    log_info("This is message: {:d}", 1);
+    NewLogger::GetInstance().FlushToStdOut();
+}
+
+BOOST_AUTO_TEST_CASE(LogFormatTest) {
+    NewLogger& log = NewLogger::GetInstance();
+    log.SetLogFormat("{level} | {date} - {log}");
+    log_warn("This is a warning message: {}", "beware!");
+    log.SetLogFormat("{date} | {level} | {function} | {log}");
+    log_error("This is an error message: {:d}", 66);
+
+    log.FlushToStdOut();
 }
 
 BOOST_AUTO_TEST_CASE(Test1000MessageLogs) {
-	NewLogger& log = NewLogger::GetInstance();
-	log.Initialise();
+    NewLogger& log = NewLogger::GetInstance();
+    log.Initialise();
 
-	auto startTime = std::chrono::high_resolution_clock::now();
+    auto startTime = std::chrono::high_resolution_clock::now();
 
-	for (int i = 0; i < 1000; ++i) {
-		test_trace_log("message {} {} {}", 1, 2, 3);
-	}
+    for (int i = 0; i < 1000; ++i) {
+        log_trace("message {} {} {}", 1, 2, 3);
+    }
 
-	auto stopTime = std::chrono::high_resolution_clock::now();
+    auto stopTime = std::chrono::high_resolution_clock::now();
 
-	std::chrono::duration<double, std::milli> fp_ms = stopTime - startTime;
-	std::cout << "Diff: " << fp_ms.count() << " ms" << std::endl;
+    std::chrono::duration<double, std::milli> fp_ms = stopTime - startTime;
+    std::cout << "Diff: " << fp_ms.count() << " ms" << std::endl;
 
-	log.FlushToFile();
+    log.FlushToFile();
 }
 
 BOOST_AUTO_TEST_CASE(FlushToFileTest) {
-	NewLogger& log = NewLogger::GetInstance();
-	log.Initialise();
+    NewLogger& log = NewLogger::GetInstance();
+    log.Initialise();
 
-	for (int i = 0; i < 100; ++i) {
-		test_info_log("This is a log message #{:d}", i);
-	}
+    for (int i = 0; i < 100; ++i) {
+        log_info("This is a log message #{:d}", i);
+    }
 
-	//log.FlushToFile();
+    //log.FlushToFile();
 }
