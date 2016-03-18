@@ -72,3 +72,34 @@ BOOST_AUTO_TEST_CASE(PushFromMultipleThreads) {
 
 	BOOST_CHECK_EQUAL(queue.Size(), 1000 * numThreads);
 }
+
+BOOST_AUTO_TEST_CASE(ClearQueue) {
+	ConcurrentQueue<int> queue;
+
+	for (int i = 0; i < 1000; ++i) {
+		queue.Push(i);
+	}
+
+	BOOST_CHECK_EQUAL(1000, queue.Size());
+
+	queue.Clear();
+
+	BOOST_CHECK_EQUAL(0, queue.Size());
+}
+
+BOOST_AUTO_TEST_CASE(DrainToAnotherQueue) {
+	ConcurrentQueue<int> sourceQueue;
+	ConcurrentQueue<int> destQueue;
+
+	for (int i = 0; i < 1000; ++i) {
+		sourceQueue.Push(i);
+	}
+
+	BOOST_CHECK_EQUAL(1000, sourceQueue.Size());
+	BOOST_CHECK_EQUAL(0, destQueue.Size());
+
+	BOOST_CHECK_EQUAL(1000, sourceQueue.DrainTo(destQueue));
+
+	BOOST_CHECK_EQUAL(0, sourceQueue.Size());
+	BOOST_CHECK_EQUAL(1000, destQueue.Size());
+}

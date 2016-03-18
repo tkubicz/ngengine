@@ -75,6 +75,19 @@ namespace NGE {
 				poppedValue = queue.front();
 				queue.pop();
 			}
+
+			int DrainTo(ConcurrentQueue<T>& dest) {
+				std::unique_lock<std::mutex> lock(mutex);
+				unsigned int counter = 0;
+				while (!queue.empty()) {
+					T value = queue.front();
+					queue.pop();
+
+					dest.Push(value);
+					counter++;
+				}
+				return counter;
+			}
 		};
 	}
 }
