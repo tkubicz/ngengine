@@ -2,11 +2,13 @@
  * File:   Timing.h
  * Author: tku
  *
- * Created on 21 maj 2012, 13:33
+ * Created on 21 May 2012, 13:33
  */
 
 #ifndef TIMING_HPP
 #define TIMING_HPP
+
+#include <chrono>
 
 namespace NGE {
 	namespace Tools {
@@ -60,6 +62,8 @@ namespace NGE {
 			void Deinitialize();
 
 			std::string GetCurrentTimeInFormat(const std::string& format = "%Y-%m-%d %H:%M:%S.%f");
+			std::string GetTimeInFormat(const std::chrono::milliseconds& milliseconds, const std::string& format = "%Y-%m-%d %H:%M:%S.%f");
+			std::chrono::milliseconds GetCurrentTimeInMs();
 
 			double GetLastFrameDuration() const {
 				return lastFrameDuration;

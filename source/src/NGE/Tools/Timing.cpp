@@ -1,5 +1,4 @@
 #include <iostream>
-#include <chrono>
 #include <iomanip>
 #include "NGE/Tools/Timing.hpp"
 #include "NGE/Parsers/StringUtils.hpp"
@@ -48,8 +47,11 @@ void Timing::Update() {
 std::string Timing::GetCurrentTimeInFormat(const std::string& format) {
 	ch::high_resolution_clock::time_point timePoint = ch::high_resolution_clock::now();
 	auto milliseconds = ch::duration_cast<ch::milliseconds>(timePoint.time_since_epoch());
-	auto seconds = ch::duration_cast<ch::seconds>(milliseconds);
+	return GetTimeInFormat(milliseconds, format);
+}
 
+std::string Timing::GetTimeInFormat(const ch::milliseconds& milliseconds, const std::string& format) {
+	auto seconds = ch::duration_cast<ch::seconds>(milliseconds);
 	std::time_t currentTime = seconds.count();
 	std::tm localTime = *std::localtime(&currentTime);
 
@@ -59,4 +61,9 @@ std::string Timing::GetCurrentTimeInFormat(const std::string& format) {
 	if (std::strftime(&timeBuffer[0], timeBufferSize, replacedFormat.c_str(), &localTime)) {
 		return std::string(&timeBuffer[0]);
 	}
+}
+
+std::chrono::milliseconds Timing::GetCurrentTimeInMs() {
+	ch::high_resolution_clock::time_point timePoint = ch::high_resolution_clock::now();
+	return ch::duration_cast<ch::milliseconds>(timePoint.time_since_epoch());
 }
