@@ -8,6 +8,7 @@
 #ifndef FILELOGGEROUTPUT_HPP
 #define FILELOGGEROUTPUT_HPP
 
+#include <iostream>
 #include <fstream>
 #include "NGE/Tools/Logger/NewLogger.hpp"
 #include "NGE/Tools/Logger/LoggerOutput.hpp"

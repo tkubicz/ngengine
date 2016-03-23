@@ -1,6 +1,6 @@
 #include "NGE/Scripting/LuaScriptManager.hpp"
 #include "NGE/Core/Delegate.hpp"
-#include "NGE/Tools/Logger.hpp"
+#include "NGE/Tools/Logger/NewLogger.hpp"
 using namespace NGE::Scripting;
 
 LuaScriptManager::LuaScriptManager() {
@@ -10,7 +10,7 @@ LuaScriptManager::LuaScriptManager() {
 bool LuaScriptManager::Initialise() {
     luaState = std::make_shared<kaguya::State>();
     if (luaState == nullptr) {
-        nge_log_error("LuaScriptManager --> Could not initialise Lua state");
+        log_error("Could not initialise Lua state");
         return false;
     }
 
@@ -25,7 +25,7 @@ bool LuaScriptManager::Initialise() {
 bool LuaScriptManager::ExecuteFile(const std::string& path) {
     bool result = luaState->dofile(path);
     if (!result) {
-        nge_log_error("LuaScriptManager --> Could not execute file: " + nge_to_string(path));
+        log_error("LuaScriptManager --> Could not execute file: '{}'", path);
     }
     return result;
 }
@@ -43,7 +43,7 @@ bool LuaScriptManager::ExecuteString(const std::string& str) {
 
 void LuaScriptManager::HandleError(int val, const char* msg) {
     LuaScriptManager::GetInstance().SetLastError(msg);
-    nge_log_error("LuaScriptManager --> " + nge_to_string(msg));
+    log_error("Lua error: {}", msg);
 }
 
 void LuaScriptManager::SetLastError(const char* error) {
