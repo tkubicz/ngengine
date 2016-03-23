@@ -1,7 +1,7 @@
 #ifdef NGE_USE_IMAGE_PNG
 #include <png.h>
 #include "NGE/Media/Images/PngImage.hpp"
-#include "NGE/Tools/Logger.hpp"
+#include "NGE/Tools/Logger/NewLogger.hpp"
 using namespace NGE::Media::Images;
 
 PngImage::PngImage() {
@@ -15,7 +15,7 @@ bool PngImage::load(const std::string& fileName, bool suppressError) {
 
 	if (!fileIn) {
 		if (!suppressError)
-			log_error("PngImage -> Could not open the JPEG image file for reading: \"" + fileName + "\".");
+			log_error("Could not open the JPEG image file for reading: '{}'", fileName);
 		return false;
 	}
 

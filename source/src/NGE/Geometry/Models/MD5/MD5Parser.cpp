@@ -1,6 +1,6 @@
 #include "NGE/Geometry/Models/MD5/MD5Parser.hpp"
 #include "NGE/Math/NumberConverter.hpp"
-#include "NGE/Tools/Logger.hpp"
+#include "NGE/Tools/Logger/NewLogger.hpp"
 using namespace NGE::Geometry::Models::MD5;
 
 MD5Parser::MD5Parser(char* buffer, unsigned int fileSize) {

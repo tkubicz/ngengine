@@ -5,8 +5,8 @@
  * Created on 22 marca 2016, 14:58
  */
 
-#ifndef LOGLEVEL_HPP
-#define LOGLEVEL_HPP
+#ifndef LOGTYPES_HPP
+#define LOGTYPES_HPP
 
 #include <array>
 
@@ -22,11 +22,9 @@ namespace NGE {
 
 				static const std::array<std::string, 6> LOG_LEVEL_NAME;
 			};
-
-			const std::array<std::string, 6> LogTypes::LOG_LEVEL_NAME = {"TRACE", "DEBUG", "INFO", "WARN", "ERROR", "CRITICAL"};
 		}
 	}
 }
 
-#endif /* LOGLEVEL_HPP */
+#endif /* LOGTYPES_HPP */
 
