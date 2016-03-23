@@ -36,17 +36,17 @@ namespace NGE {
 
 						file.open(filePath, std::ios::app);
 						if (!file.is_open()) {
-							//log_error("Could not open log file: '{}'", filePath);
-							std::cout << "Cold not open log file: '" << filePath << "'\n";
+							log_error("Could not open log file: '{}'", filePath);
+							//std::cout << "Cold not open log file: '" << filePath << "'\n";
 							return;
 						}
 
 						fmt::MemoryWriter mw;
 						queue.DrainTo(internalQueue);
 						while (!internalQueue.empty()) {
-							LogMessage logMsg = internalQueue.front();
+							std::shared_ptr<LogMessage> logMsg = internalQueue.front();
 							internalQueue.pop();
-							std::string formattedLog = FormatLogMessage(logMsg);
+							std::string formattedLog = FormatLogMessage(*logMsg.get());
 							mw << formattedLog << "\n";
 						}
 

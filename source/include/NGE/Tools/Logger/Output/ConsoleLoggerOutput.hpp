@@ -30,9 +30,9 @@ namespace NGE {
 						fmt::MemoryWriter mw;
 						queue.DrainTo(internalQueue);
 						while (!internalQueue.empty()) {
-							LogMessage logMsg = internalQueue.front();
+							std::shared_ptr<LogMessage> logMsg = internalQueue.front();
 							internalQueue.pop();
-							std::string formattedLog = FormatLogMessage(logMsg);
+							std::string formattedLog = FormatLogMessage(*logMsg.get());
 							mw << formattedLog << "\n";
 						}
 

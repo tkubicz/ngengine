@@ -93,7 +93,8 @@ namespace NGE {
 				template<typename... Args>
 				void WriteLog(const std::string& format, LogTypes::LOG_LEVEL logLevel, const char* file, int line, const char* function, Args&&... arguments) {
 					std::string message = fmt::format(format, std::forward<Args>(arguments)...);
-					LogMessage msg(logLevel, file, function, line, message);
+					//LogMessage msg(logLevel, file, function, line, message);
+					auto msg = std::make_shared<LogMessage>(logLevel, file, function, line, message);
 
 					for (auto& kv : outputs) {
 						if (kv.second->IsEnabled() && CheckLogMessageLevel(logLevel, kv.second->GetLogLevel())) {

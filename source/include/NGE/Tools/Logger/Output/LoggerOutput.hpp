@@ -28,12 +28,12 @@ namespace NGE {
 					/**
 					 * Queue that keeps log messages. It is cleared after flush.
 					 */
-					NGE::Core::ConcurrentQueue<LogMessage> queue;
+					NGE::Core::ConcurrentQueue<std::shared_ptr<LogMessage>> queue;
 
 					/**
 					 * Internal queue.
 					 */
-					std::queue<LogMessage> internalQueue;
+					std::queue<std::shared_ptr<LogMessage>> internalQueue;
 
 					/**
 					 * Format of the log.
@@ -74,7 +74,7 @@ namespace NGE {
 
 					virtual void Flush() = 0;
 
-					NGE::Core::ConcurrentQueue<LogMessage>& GetQueue() {
+					NGE::Core::ConcurrentQueue<std::shared_ptr<LogMessage>>&GetQueue() {
 						return queue;
 					}
 

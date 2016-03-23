@@ -2,7 +2,7 @@
  * File:   LogLevel.hpp
  * Author: tku
  *
- * Created on 22 marca 2016, 14:58
+ * Created on 22 March 2016, 14:58
  */
 
 #ifndef LOGTYPES_HPP
