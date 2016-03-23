@@ -14,37 +14,35 @@
 #include "NGE/Tools/Logger/LoggerOutput.hpp"
 
 namespace NGE {
-	namespace Tools {
-		namespace Logger {
+    namespace Tools {
+        namespace Logger {
 
-			class ConsoleLoggerOutput : public LoggerOutput {
-			  public:
+            class ConsoleLoggerOutput : public LoggerOutput {
+              public:
 
-				ConsoleLoggerOutput(LogLevel::LOG_LEVEL logLevel, std::string logFormat, std::string dateFormat, unsigned int flushAfter, bool enabled) :
-				LoggerOutput(logLevel, logFormat, dateFormat, flushAfter, enabled) { }
+                ConsoleLoggerOutput(LogTypes::LOG_LEVEL logLevel, std::string logFormat, std::string dateFormat, unsigned int flushAfter, bool enabled) :
+                LoggerOutput(logLevel, logFormat, dateFormat, flushAfter, enabled) { }
 
-				virtual void Init() override { }
+                virtual void Init() override { }
 
-				virtual void Flush() override {
-					std::unique_lock<std::mutex> lock(mutex);
-					while (!queue.Empty()) {
-						LogMessage logMsg;
-						queue.TryPop(logMsg);
+                virtual void Flush() override {
+                    std::unique_lock<std::mutex> lock(mutex);
 
-						std::string formattedLog = fmt::format(logFormat,
-								fmt::arg("date", Timing::GetInstance().GetTimeInFormat(logMsg.timeInMs, dateFormat)),
-								fmt::arg("level", LogLevel::LOG_LEVEL_NAME[static_cast<unsigned short> (logMsg.logLevel)]),
-								fmt::arg("file", logMsg.file),
-								fmt::arg("function", logMsg.function),
-								fmt::arg("line", logMsg.line),
-								fmt::arg("log", logMsg.message));
+                    fmt::MemoryWriter mw;
+                    queue.DrainTo(internalQueue);
+                    while (!internalQueue.empty()) {
+                        LogMessage logMsg = internalQueue.front();
+                        internalQueue.pop();
+                        std::string formattedLog = FormatLogMessage(logMsg);
+                        mw << formattedLog << "\n";
+                    }
 
-						std::cout << formattedLog << "\n";
-					}
-				}
-			};
-		}
-	}
+                    std::cout << mw.c_str();
+                    mw.clear();
+                }
+            };
+        }
+    }
 }
 
 #endif /* CONSOLELOGGEROUTPUT_HPP */

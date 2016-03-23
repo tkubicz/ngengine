@@ -9,7 +9,7 @@
 #define LOGGEROUTPUT_HPP
 
 #include <mutex>
-#include "NGE/Tools/Logger/LogLevel.hpp"
+#include "NGE/Tools/Logger/LogTypes.hpp"
 #include "NGE/Tools/Logger/LogMessage.hpp"
 
 namespace NGE {
@@ -21,12 +21,17 @@ namespace NGE {
 				/**
 				 * Current log level.
 				 */
-				LogLevel::LOG_LEVEL logLevel;
+				LogTypes::LOG_LEVEL logLevel;
 
 				/**
 				 * Queue that keeps log messages. It is cleared after flush.
 				 */
 				NGE::Core::ConcurrentQueue<LogMessage> queue;
+                
+                /**
+                 * Internal queue.
+                 */
+                std::queue<LogMessage> internalQueue;
 
 				/**
 				 * Format of the log.
@@ -56,7 +61,7 @@ namespace NGE {
 
 			  public:
 
-				LoggerOutput(LogLevel::LOG_LEVEL logLevel, std::string logFormat, std::string dateFormat, unsigned int flushAfter, bool enabled) :
+				LoggerOutput(LogTypes::LOG_LEVEL logLevel, std::string logFormat, std::string dateFormat, unsigned int flushAfter, bool enabled) :
 				logLevel(logLevel), logFormat(logFormat), dateFormat(dateFormat), flushAfter(flushAfter), enabled(enabled) { }
 
 				virtual ~LoggerOutput() {
@@ -80,6 +85,17 @@ namespace NGE {
 				void SetEnabled(bool enabled) {
 					this->enabled = enabled;
 				}
+                
+              protected:
+                std::string FormatLogMessage(const LogMessage& logMsg) {
+                    return fmt::format(logFormat,
+								fmt::arg("date", Timing::GetInstance().GetTimeInFormat(logMsg.timeInMs, dateFormat)),
+								fmt::arg("level", LogTypes::LOG_LEVEL_NAME[static_cast<unsigned short> (logMsg.logLevel)]),
+								fmt::arg("file", logMsg.file),
+								fmt::arg("function", logMsg.function),
+								fmt::arg("line", logMsg.line),
+								fmt::arg("log", logMsg.message));
+                }
 			};
 		}
 	}

@@ -9,28 +9,62 @@
 #define FILELOGGEROUTPUT_HPP
 
 #include <fstream>
+#include "NGE/Tools/Logger/NewLogger.hpp"
 #include "NGE/Tools/Logger/LoggerOutput.hpp"
 
 namespace NGE {
-	namespace Tools {
-		namespace Logger {
+    namespace Tools {
+        namespace Logger {
 
-			class FileLoggerOutput : public LoggerOutput {
-			  protected:
-				std::ofstream file;
+            class FileLoggerOutput : public LoggerOutput {
+              protected:
+                std::ofstream file;
 
-			  public:
+                std::string filePath;
 
-				FileLoggerOutput(LogLevel::LOG_LEVEL logLevel, std::string logFormat, std::string dateFormat, unsigned int flushAfter, bool enabled) :
-				LoggerOutput(logLevel, logFormat, dateFormat, flushAfter, enabled) {
-				}
+              public:
 
-				virtual void Init() override { }
+                FileLoggerOutput(LogTypes::LOG_LEVEL logLevel, std::string logFormat, std::string dateFormat, unsigned int flushAfter, bool enabled) :
+                LoggerOutput(logLevel, logFormat, dateFormat, flushAfter, enabled) {
+                    filePath = "nge.log";
+                }
 
-				virtual void Flush() override { }
-			};
-		}
-	}
+                virtual void Init() override { }
+
+                virtual void Flush() override {
+                    std::unique_lock<std::mutex> lock(mutex);
+
+                    file.open(filePath, std::ios::app);
+                    if (!file.is_open()) {
+                        //log_error("Could not open log file: '{}'", filePath);
+                        std::cout << "Cold not open log file: '" << filePath << "'\n";
+                        return;
+                    }
+
+                    fmt::MemoryWriter mw;
+                    queue.DrainTo(internalQueue);
+                    while (!internalQueue.empty()) {
+                        LogMessage logMsg = internalQueue.front();
+                        internalQueue.pop();
+                        std::string formattedLog = FormatLogMessage(logMsg);
+                        mw << formattedLog << "\n";
+                    }
+
+                    file << mw.c_str();
+                    file.close();
+                    mw.clear();
+                }
+
+                std::string GetFilePath() const {
+                    return filePath;
+                }
+
+                void SetFilePath(const std::string& filePath) {
+                    this->filePath = filePath;
+                }
+            };
+        }
+    }
 }
 
 #endif /* FILELOGGEROUTPUT_HPP */

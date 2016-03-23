@@ -14,16 +14,16 @@ namespace NGE {
 	namespace Tools {
 		namespace Logger {
 
-			struct LogLevel {
+			struct LogTypes {
 
 				enum class LOG_LEVEL : unsigned short {
-					TRACE = 0, DEBUG = 1, INFO = 2, WARN = 3, ERROR = 4, CRITICAL_ERROR = 5
+					TRACE = 0, DEBUG = 1, INFO = 2, WARN = 3, ERROR = 4, CRITICAL = 5
 				};
 
 				static const std::array<std::string, 6> LOG_LEVEL_NAME;
 			};
 
-			const std::array<std::string, 6> LogLevel::LOG_LEVEL_NAME = {"TRACE", "DEBUG", "INFO", "WARN", "ERROR", "CRITICAL ERROR"};
+			const std::array<std::string, 6> LogTypes::LOG_LEVEL_NAME = {"TRACE", "DEBUG", "INFO", "WARN", "ERROR", "CRITICAL"};
 		}
 	}
 }

@@ -10,12 +10,30 @@
 using namespace NGE::Tools::Logger;
 
 BOOST_AUTO_TEST_CASE(InitialTest) {
-	NewLogger& log = NewLogger::GetInstance();
+    NewLogger& log = NewLogger::GetInstance();
 
-	log_trace("{} {} {} {}", "ala", "ma", 2, "koty");
-	log_info("This is message: {:d}", 1);
+    for (int i = 0; i < 10; ++i) {
+        log_trace("{} {}: {}", "Trace", "message", 25);
+        log_debug("Debug message: {} - {}", "test", 123.56);
+        log_info("Info message: {:d}", 1);
+        log_warn("Warn message: {}", "test");
+        log_error("Error message");
+        log_critical("Critical message: {} {} {}", 1, 2, "test");
+    }
+    log.Flush();
+}
 
-	log.Flush();
+BOOST_AUTO_TEST_CASE(LogToFile) {
+    NewLogger& log = NewLogger::GetInstance();
+    log.GetOutputs()["file"]->SetEnabled(true);
+    log.GetOutputs()["console"]->SetEnabled(true);
+
+    FileLoggerOutput* fileLogger = dynamic_cast<FileLoggerOutput*>(log.GetOutputs()["file"]);
+    fileLogger->SetFilePath("test_log_file.log");
+
+    log_debug("This is some kind of a debug message");
+
+    log.Flush();
 }
 
 //BOOST_AUTO_TEST_CASE(LogFormatTest) {
