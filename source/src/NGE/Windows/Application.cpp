@@ -49,7 +49,7 @@ void Application::OnResize(int width, int height) {
     Math::mat4f perspective;
     perspective.SetPerspectiveProjection(52.0f, float(width) / float(height), 0.1f, 4000.0f);
 
-    log_info("perspeciveProjectionMatrix: '{}'", perspective);
+    //log_info("perspeciveProjectionMatrix: '{}'", perspective);
 
     Rendering::Renderer::GetInstance().GetMatrixStack().Multiple(perspective);
 

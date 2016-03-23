@@ -2,7 +2,7 @@
  * File:   NewLogger.hpp
  * Author: tku
  *
- * Created on 15 marca 2016, 02:55
+ * Created on 15 March 2016, 02:55
  */
 
 #ifndef NEWLOGGER_HPP
@@ -18,9 +18,7 @@
 #include "NGE/Tools/Timing.hpp"
 #include "NGE/Tools/Logger/LogTypes.hpp"
 #include "NGE/Tools/Logger/LogMessage.hpp"
-#include "NGE/Tools/Logger/LoggerOutput.hpp"
-#include "NGE/Tools/Logger/FileLoggerOutput.hpp"
-#include "NGE/Tools/Logger/ConsoleLoggerOutput.hpp"
+#include "NGE/Tools/Logger/Output/LoggerOutput.hpp"
 
 #define log_trace(format, ...) \
     NGE::Tools::Logger::NewLogger::GetInstance().WriteLog(format, NGE::Tools::Logger::LogTypes::LOG_LEVEL::TRACE, __FILE__, __LINE__, __PRETTY_FUNCTION__, ##__VA_ARGS__);
@@ -36,121 +34,92 @@
     NGE::Tools::Logger::NewLogger::GetInstance().WriteLog(format, NGE::Tools::Logger::LogTypes::LOG_LEVEL::CRITICAL, __FILE__, __LINE__, __PRETTY_FUNCTION__, ##__VA_ARGS__);
 
 namespace NGE {
-    namespace Tools {
-        namespace Logger {
+	namespace Tools {
+		namespace Logger {
 
-            class NewLogger {
-              private:
-                /**
-                 * Format of the logged message
-                 */
-                std::string logFormat;
+			class NewLogger {
+			  private:
+				/**
+				 * Format of the logged message
+				 */
+				std::string logFormat;
 
-                /**
-                 * Format of the date used in logger.
-                 */
-                std::string dateFormat;
+				/**
+				 * Format of the date used in logger.
+				 */
+				std::string dateFormat;
 
-                /**
-                 * Default maximum size of the log queue.
-                 */
-                unsigned int flushAfter;
+				/**
+				 * Default maximum size of the log queue.
+				 */
+				unsigned int flushAfter;
 
-                /**
-                 * Current logging level.
-                 */
-                LogTypes::LOG_LEVEL logLevel;
+				/**
+				 * Current logging level.
+				 */
+				LogTypes::LOG_LEVEL logLevel;
 
-                std::map<std::string, LoggerOutput*> outputs;
+				std::map<std::string, Output::LoggerOutput*> outputs;
 
-              private:
+			  private:
 
-                /**
-                 * Constructor that sets default values for fields. It is private,
-                 * because this class is a singleton. Use GetInstance() to obtain
-                 * instance of this class.
-                 */
-                NewLogger() {
-                    Initialise();
-                    InitialiseDefaultOutputs();
-                }
+				/**
+				 * Constructor that sets default values for fields. It is private,
+				 * because this class is a singleton. Use GetInstance() to obtain
+				 * instance of this class.
+				 */
+				NewLogger();
 
-                ~NewLogger() {
-                    for (auto& kv : outputs) {
-                        if (kv.second != nullptr) {
-                            delete kv.second;
-                        }
-                    }
-                }
+				~NewLogger();
 
-                void InitialiseDefaultOutputs() {
-                    outputs.insert(std::pair<std::string, LoggerOutput*>("file", new FileLoggerOutput(logLevel, logFormat, dateFormat, flushAfter, false)));
-                    outputs.insert(std::pair<std::string, LoggerOutput*>("console", new ConsoleLoggerOutput(logLevel, logFormat, dateFormat, flushAfter, true)));
-                }
+				void InitialiseDefaultOutputs();
 
-              public:
+				bool CheckLogMessageLevel(LogTypes::LOG_LEVEL logLevel, LogTypes::LOG_LEVEL loggerLevel);
+				
+				void ClearOutputs();
 
-                static NewLogger& GetInstance() {
-                    static NewLogger instance;
-                    return instance;
-                }
+			  public:
 
-                void Initialise() {
-                    logLevel = LogTypes::LOG_LEVEL::TRACE;
-                    flushAfter = 20;
-                    logFormat = "{date} - {level} - {file} - {function}[{line}]: {log}";
-                    dateFormat = "%Y-%m-%d %H:%M:%S.%f";
-                }
+				static NewLogger& GetInstance();
 
-                template<typename... Args> void WriteLog(const std::string& format, LogTypes::LOG_LEVEL logLevel, const char* file, int line, const char* function, Args&&... arguments) {
-                    std::string message = fmt::format(format, std::forward<Args>(arguments)...);
-                    LogMessage msg(logLevel, file, function, line, message);
+				/**
+				 * Initialise the logger and default outputs with default values.
+				 * 
+				 * This method initialises global logger options with default values,
+				 * and all default outputs.
+				 */
+				void Initialise();
 
-                    for (auto& kv : outputs) {
-                        if (kv.second->IsEnabled()) {
-                            kv.second->GetQueue().Push(msg);
-                        }
-                    }
-                }
+				template<typename... Args>
+				void WriteLog(const std::string& format, LogTypes::LOG_LEVEL logLevel, const char* file, int line, const char* function, Args&&... arguments) {
+					std::string message = fmt::format(format, std::forward<Args>(arguments)...);
+					LogMessage msg(logLevel, file, function, line, message);
 
-                void Flush() {
-                    for (auto& kv : outputs) {
-                        if (kv.second->IsEnabled()) {
-                            kv.second->Flush();
-                        }
-                    }
-                }
+					for (auto& kv : outputs) {
+						if (kv.second->IsEnabled() && CheckLogMessageLevel(logLevel, kv.second->GetLogLevel())) {
+							kv.second->GetQueue().Push(msg);
+						}
+					}
+				}
 
-                LogTypes::LOG_LEVEL GetLogLevel() const {
-                    return logLevel;
-                }
+				void Flush();
 
-                void SetLogLevel(LogTypes::LOG_LEVEL logLevel) {
-                    this->logLevel = logLevel;
-                }
+				LogTypes::LOG_LEVEL GetLogLevel() const;
 
-                std::string GetLogFormat() const {
-                    return logFormat;
-                }
+				void SetLogLevel(LogTypes::LOG_LEVEL logLevel);
 
-                void SetLogFormat(std::string logFormat) {
-                    this->logFormat = logFormat;
-                }
+				std::string GetLogFormat() const;
 
-                std::string GetDateFormat() const {
-                    return dateFormat;
-                }
+				void SetLogFormat(const std::string& logFormat);
 
-                void SetDateFormat(std::string dateFormat) {
-                    this->dateFormat = dateFormat;
-                }
+				std::string GetDateFormat() const;
 
-                std::map<std::string, LoggerOutput*>& GetOutputs() {
-                    return outputs;
-                }
-            };
-        }
-    }
+				void SetDateFormat(const std::string& dateFormat);
+
+				std::map<std::string, Output::LoggerOutput*>& GetOutputs();
+			};
+		}
+	}
 }
 
 #endif /* NEWLOGGER_HPP */

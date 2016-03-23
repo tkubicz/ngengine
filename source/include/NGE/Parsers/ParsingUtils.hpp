@@ -2,11 +2,11 @@
  * File:   ParsingUtils.hpp
  * Author: tku
  *
- * Created on 22 październik 2014, 15:36
+ * Created on 22 October 2014, 15:36
  */
 
 #ifndef PARSINGUTILS_HPP
-#define	PARSINGUTILS_HPP
+#define PARSINGUTILS_HPP
 
 #include <cstring>
 
@@ -15,6 +15,13 @@ namespace NGE {
 
 		class ParsingUtils {
 		  public:
+
+			static const char PATH_SEPARATOR =
+#ifdef _WIN32 
+					'\\';
+#else 
+					'/';
+#endif
 
 			template <class char_t> inline static bool IsSpace(char_t in) {
 				return (in == (char_t) ' ' || in == (char_t) '\t');
@@ -78,5 +85,5 @@ namespace NGE {
 	}
 }
 
-#endif	/* PARSINGUTILS_HPP */
+#endif /* PARSINGUTILS_HPP */
 

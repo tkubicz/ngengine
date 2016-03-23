@@ -6,34 +6,66 @@
 #include <ratio>
 #include <boost/test/unit_test.hpp>
 #include "NGE/Tools/Logger/NewLogger.hpp"
+#include "NGE/Tools/Logger/Output/FileLoggerOutput.hpp"
 
 using namespace NGE::Tools::Logger;
+using namespace NGE::Tools::Logger::Output;
 
 BOOST_AUTO_TEST_CASE(InitialTest) {
-    NewLogger& log = NewLogger::GetInstance();
+	NewLogger& log = NewLogger::GetInstance();
 
-    for (int i = 0; i < 10; ++i) {
-        log_trace("{} {}: {}", "Trace", "message", 25);
-        log_debug("Debug message: {} - {}", "test", 123.56);
-        log_info("Info message: {:d}", 1);
-        log_warn("Warn message: {}", "test");
-        log_error("Error message");
-        log_critical("Critical message: {} {} {}", 1, 2, "test");
-    }
-    log.Flush();
+	for (int i = 0; i < 10; ++i) {
+		log_trace("{} {}: {}", "Trace", "message", 25);
+		log_debug("Debug message: {} - {}", "test", 123.56);
+		log_info("Info message: {:d}", 1);
+		log_warn("Warn message: {}", "test");
+		log_error("Error message");
+		log_critical("Critical message: {} {} {}", 1, 2, "test");
+	}
+	log.Flush();
 }
 
 BOOST_AUTO_TEST_CASE(LogToFile) {
-    NewLogger& log = NewLogger::GetInstance();
-    log.GetOutputs()["file"]->SetEnabled(true);
-    log.GetOutputs()["console"]->SetEnabled(true);
+	NewLogger& log = NewLogger::GetInstance();
+	log.GetOutputs()["file"]->SetEnabled(true);
+	log.GetOutputs()["console"]->SetEnabled(true);
 
-    FileLoggerOutput* fileLogger = dynamic_cast<FileLoggerOutput*>(log.GetOutputs()["file"]);
-    fileLogger->SetFilePath("test_log_file.log");
+	FileLoggerOutput* fileLogger = dynamic_cast<FileLoggerOutput*> (log.GetOutputs()["file"]);
+	fileLogger->SetFilePath("test_log_file.log");
 
-    log_debug("This is some kind of a debug message");
+	log_debug("This is some kind of a debug message");
 
-    log.Flush();
+	log.Flush();
+}
+
+BOOST_AUTO_TEST_CASE(TestLoggerLevels) {
+	NewLogger& log = NewLogger::GetInstance();
+	log.GetOutputs()["file"]->SetEnabled(true);
+	log.GetOutputs()["console"]->SetEnabled(false);
+
+	FileLoggerOutput* fileLogger = dynamic_cast<FileLoggerOutput*> (log.GetOutputs()["file"]);
+	fileLogger->SetFilePath("test_logger_levels.log");
+
+	log_trace("Log this msg");
+	log_debug("Log this msg");
+
+	log.GetOutputs()["file"]->SetLogLevel(LogTypes::LOG_LEVEL::INFO);
+
+	log_trace("Do not log this msg");
+	log_debug("Do not log this msg");
+	log_info("Log this msg");
+	log_warn("Log this msg");
+
+	log.GetOutputs()["file"]->SetLogLevel(LogTypes::LOG_LEVEL::ERROR);
+
+	log_trace("Do not log this msg");
+	log_debug("Do not log this msg");
+	log_info("Do not log this msg");
+	log_warn("Do not log this msg");
+	log_error("Log this msg");
+	log_critical("Log this msg");
+
+	log.Flush();
 }
 
 //BOOST_AUTO_TEST_CASE(LogFormatTest) {
@@ -81,25 +113,23 @@ BOOST_AUTO_TEST_CASE(LogToFile) {
 //	log.Flush();
 //}
 //
-//BOOST_AUTO_TEST_CASE(WriteLogsFromMultipleThreads) {
-//	NewLogger& log = NewLogger::GetInstance();
-//	log.Initialise();
-//	log.SetLoggingtoStdOutEnabled(false);
-//	log.SetLoggingToFileEnabled(true);
-//
-//	const int numThreads = 10;
-//	std::array<std::thread, numThreads> threads;
-//	for (int i = 0; i < numThreads; ++i) {
-//		threads[i] = std::thread([]() {
-//			for (int i = 0; i < 100; ++i) {
-//				log_info("Info {}", "msg");
-//			}
-//		});
-//	}
-//
-//	for (int i = 0; i < numThreads; ++i) {
-//		threads[i].join();
-//	}
-//
-//	log.Flush();
-//}
+
+BOOST_AUTO_TEST_CASE(WriteLogsFromMultipleThreads) {
+	NewLogger& log = NewLogger::GetInstance();
+
+	const int numThreads = 10;
+	std::array<std::thread, numThreads> threads;
+	for (int i = 0; i < numThreads; ++i) {
+		threads[i] = std::thread([]() {
+			for (int i = 0; i < 100; ++i) {
+				log_info("Info {}", "msg");
+			}
+		});
+	}
+
+	for (int i = 0; i < numThreads; ++i) {
+		threads[i].join();
+	}
+
+	log.Flush();
+}

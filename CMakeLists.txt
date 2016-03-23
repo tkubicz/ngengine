@@ -226,6 +226,8 @@ add_library(nge SHARED
 	source/src/NGE/Scripting/LuaScriptProcess.cpp
 
 	source/src/NGE/Tools/Logger/LogTypes.cpp
+	source/src/NGE/Tools/Logger/NewLogger.cpp
+
 	source/src/NGE/Tools/Random.cpp
 	source/src/NGE/Tools/Timing.cpp
 

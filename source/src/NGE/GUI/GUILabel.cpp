@@ -35,7 +35,7 @@ void GUILabel::Render() {
     //if (label.NeedUpdating())
     //parent->ForceUpdate(true);
 
-    Math::vec2i center = GetCenter();
+    //Math::vec2i center = GetCenter();
 
     label.Print(windowBounds.x, windowBounds.y);
 }

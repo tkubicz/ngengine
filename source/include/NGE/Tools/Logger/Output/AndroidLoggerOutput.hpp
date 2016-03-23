@@ -8,7 +8,7 @@
 #ifndef ANDROIDLOGGEROUTPUT_HPP
 #define ANDROIDLOGGEROUTPUT_HPP
 
-#include "LoggerOutput.hpp"
+#include "NGE/Tools/Logger/Output/LoggerOutput.hpp"
 
 // TODO: Fix and finish that.
 // This is just temporary here.
@@ -22,21 +22,21 @@
 #endif
 
 namespace NGE {
-    namespace Tools {
-        namespace Logger {
+	namespace Tools {
+		namespace Logger {
+			namespace Output {
 
-            class AndroidLoggerOutput : public LoggerOutput {
-              public:
+				class AndroidLoggerOutput : public LoggerOutput {
+				  public:
 
-                AndroidLoggerOutput(LogTypes::LOG_LEVEL logLevel, std::string logFormat, std::string dateFormat, unsigned int flushAfter, bool enabled) :
-                LoggerOutput(logLevel, logFormat, dateFormat, flushAfter, enabled) { }
+					AndroidLoggerOutput(LogTypes::LOG_LEVEL logLevel, std::string logFormat, std::string dateFormat, unsigned int flushAfter, bool enabled) :
+					LoggerOutput(logLevel, logFormat, dateFormat, flushAfter, enabled) { }
 
-                virtual void Init() { }
-
-                virtual void Flush() { }
-            };
-        }
-    }
+					virtual void Flush() override { }
+				};
+			}
+		}
+	}
 }
 
 #endif /* ANDROIDLOGGEROUTPUT_HPP */

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <iomanip>
+#include <c++/4.9/bits/stringfwd.h>
 #include "NGE/Tools/Timing.hpp"
 #include "NGE/Parsers/StringUtils.hpp"
 #include "cppformat/format.h"
@@ -61,6 +62,8 @@ std::string Timing::GetTimeInFormat(const ch::milliseconds& milliseconds, const 
 	if (std::strftime(&timeBuffer[0], timeBufferSize, replacedFormat.c_str(), &localTime)) {
 		return std::string(&timeBuffer[0]);
 	}
+
+	return std::string();
 }
 
 std::chrono::milliseconds Timing::GetCurrentTimeInMs() {
