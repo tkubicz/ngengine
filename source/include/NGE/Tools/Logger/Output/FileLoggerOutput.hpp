@@ -24,11 +24,22 @@ namespace NGE {
 
 					std::string filePath;
 
+				  protected:
+
+					void SetDefaultFilePath() {
+						filePath = "nge.log";
+					}
+
 				  public:
 
-					FileLoggerOutput(LogTypes::LOG_LEVEL logLevel, std::string logFormat, std::string dateFormat, unsigned int flushAfter, bool enabled) :
-					AbstractLoggerOutput(logLevel, logFormat, dateFormat, flushAfter, enabled) {
-						filePath = "nge.log";
+					FileLoggerOutput(LogTypes::LOG_LEVEL logLevel, std::string logFormat, std::string dateFormat, bool autoFlushEnabled, unsigned int flushAfter, bool enabled) :
+					AbstractLoggerOutput(logLevel, logFormat, dateFormat, autoFlushEnabled, flushAfter, enabled) {
+						SetDefaultFilePath();
+					}
+
+					FileLoggerOutput(LogConfig logConfig) :
+					AbstractLoggerOutput(logConfig) {
+						SetDefaultFilePath();
 					}
 
 					virtual void Flush() override {
@@ -37,18 +48,11 @@ namespace NGE {
 						file.open(filePath, std::ios::app);
 						if (!file.is_open()) {
 							log_error("Could not open log file: '{}'", filePath);
-							//std::cout << "Cold not open log file: '" << filePath << "'\n";
 							return;
 						}
 
 						fmt::MemoryWriter mw;
-						queue.DrainTo(internalQueue);
-						while (!internalQueue.empty()) {
-							std::shared_ptr<LogMessage> logMsg = internalQueue.front();
-							internalQueue.pop();
-							std::string formattedLog = FormatLogMessage(*logMsg.get());
-							mw << formattedLog << "\n";
-						}
+						BuildMemoryWriterFromQueue(mw);
 
 						file << mw.c_str();
 						file.close();

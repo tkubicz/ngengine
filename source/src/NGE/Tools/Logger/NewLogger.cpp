@@ -12,8 +12,8 @@ NewLogger::~NewLogger() {
 }
 
 void NewLogger::InitialiseDefaultOutputs() {
-	outputs.insert(std::pair<std::string, Output::AbstractLoggerOutput*>("file", new Output::FileLoggerOutput(logLevel, logFormat, dateFormat, flushAfter, true)));
-	outputs.insert(std::pair<std::string, Output::AbstractLoggerOutput*>("console", new Output::ConsoleLoggerOutput(logLevel, logFormat, dateFormat, flushAfter, true)));
+	outputs.insert(std::pair<std::string, Output::AbstractLoggerOutput*>("file", new Output::FileLoggerOutput(logConfig)));
+	outputs.insert(std::pair<std::string, Output::AbstractLoggerOutput*>("console", new Output::ConsoleLoggerOutput(logConfig)));
 }
 
 bool NewLogger::CheckLogMessageLevel(LogTypes::LOG_LEVEL logLevel, LogTypes::LOG_LEVEL loggerLevel) {
@@ -34,14 +34,16 @@ void NewLogger::ClearOutputs() {
 
 NewLogger& NewLogger::GetInstance() {
 	static NewLogger instance;
+
 	return instance;
 }
 
 void NewLogger::Initialise() {
-	logLevel = LogTypes::LOG_LEVEL::TRACE;
-	flushAfter = 20;
-	logFormat = "[{date}][{level}][{shortFile}/{shortFunction}[{line}]] - {log}";
-	dateFormat = "%Y-%m-%d %H:%M:%S.%f";
+	logConfig.logLevel = LogTypes::LOG_LEVEL::TRACE;
+	logConfig.autoFlushEnabled = true;
+	logConfig.flushAfter = 20;
+	logConfig.logFormat = "[{date}][{level}][{shortFile}/{shortFunction}[{line}]] - {log}";
+	logConfig.dateFormat = "%Y-%m-%d %H:%M:%S.%f";
 
 	ClearOutputs();
 	InitialiseDefaultOutputs();
@@ -56,35 +58,68 @@ void NewLogger::Flush() {
 }
 
 LogTypes::LOG_LEVEL NewLogger::GetLogLevel() const {
-	return logLevel;
+	return logConfig.logLevel;
 }
 
 void NewLogger::SetLogLevel(LogTypes::LOG_LEVEL logLevel) {
-	this->logLevel = logLevel;
+	this->logConfig.logLevel = logLevel;
 	for (auto& kv : outputs) {
 		kv.second->SetLogLevel(logLevel);
 	}
 }
 
 std::string NewLogger::GetLogFormat() const {
-	return logFormat;
+	return logConfig.logFormat;
 }
 
 void NewLogger::SetLogFormat(const std::string& logFormat) {
-	this->logFormat = logFormat;
+	this->logConfig.logFormat = logFormat;
 	for (auto& kv : outputs) {
 		kv.second->SetLogFormat(logFormat);
 	}
 }
 
 std::string NewLogger::GetDateFormat() const {
-	return dateFormat;
+	return logConfig.dateFormat;
 }
 
 void NewLogger::SetDateFormat(const std::string& dateFormat) {
-	this->dateFormat = dateFormat;
+	this->logConfig.dateFormat = dateFormat;
 	for (auto& kv : outputs) {
 		kv.second->SetDateFormat(dateFormat);
+	}
+}
+
+LogConfig NewLogger::GetLogConfig() const {
+	return logConfig;
+}
+
+void NewLogger::SetLogConfig(LogConfig logConfig) {
+	this->logConfig = logConfig;
+	for (auto& kv : outputs) {
+		kv.second->SetLogConfig(logConfig);
+	}
+}
+
+bool NewLogger::IsAutoFlushEnabled() const {
+	return logConfig.autoFlushEnabled;
+}
+
+void NewLogger::SetAutoFlushEnabled(bool autoFlushEnabled) {
+	this->logConfig.autoFlushEnabled = autoFlushEnabled;
+	for (auto& kv : outputs) {
+		kv.second->SetAutoFlushEnabled(autoFlushEnabled);
+	}
+}
+
+unsigned int NewLogger::GetFlushAfter() const {
+	return this->logConfig.flushAfter;
+}
+
+void NewLogger::SetFlushAfter(unsigned int flushAfter) {
+	this->logConfig.flushAfter = flushAfter;
+	for (auto& kv : outputs) {
+		kv.second->SetFlushAfter(flushAfter);
 	}
 }
 

@@ -9,7 +9,10 @@
 #define LOGGEROUTPUT_HPP
 
 #include <mutex>
+#include "cppformat/format.h"
+#include "NGE/Core/ConcurrentQueue.hpp"
 #include "NGE/Parsers/ParsingUtils.hpp"
+#include "NGE/Tools/Logger/LogConfig.hpp"
 #include "NGE/Tools/Logger/LogTypes.hpp"
 #include "NGE/Tools/Logger/LogMessage.hpp"
 
@@ -21,11 +24,6 @@ namespace NGE {
 				class AbstractLoggerOutput {
 				  protected:
 					/**
-					 * Current log level.
-					 */
-					LogTypes::LOG_LEVEL logLevel;
-
-					/**
 					 * Queue that keeps log messages. It is cleared after flush.
 					 */
 					NGE::Core::ConcurrentQueue<std::shared_ptr<LogMessage>> queue;
@@ -34,22 +32,6 @@ namespace NGE {
 					 * Internal queue.
 					 */
 					std::queue<std::shared_ptr<LogMessage>> internalQueue;
-
-					/**
-					 * Format of the log.
-					 */
-					std::string logFormat;
-
-					/**
-					 * Format of the date.
-					 */
-					std::string dateFormat;
-
-					/**
-					 * Maximum size of the log queue. When queue size reaches
-					 * size defined here, it will be flushed.
-					 */
-					unsigned int flushAfter;
 
 					/**
 					 * Mutex used to lock the flushing.
@@ -61,82 +43,59 @@ namespace NGE {
 					 */
 					bool enabled;
 
+					LogConfig logConfig;
+
 				  public:
 
-					AbstractLoggerOutput(LogTypes::LOG_LEVEL logLevel, std::string logFormat, std::string dateFormat, unsigned int flushAfter, bool enabled) :
-					logLevel(logLevel), logFormat(logFormat), dateFormat(dateFormat), flushAfter(flushAfter), enabled(enabled) { }
+					AbstractLoggerOutput(LogTypes::LOG_LEVEL logLevel, std::string logFormat, std::string dateFormat, bool autoFlushEnabled, unsigned int flushAfter, bool enabled);
 
-					virtual ~AbstractLoggerOutput() {
-						if (queue.Empty()) {
-							queue.Clear();
-						}
-					}
+					AbstractLoggerOutput(LogConfig logConfig);
+
+					virtual ~AbstractLoggerOutput();
 
 					virtual void Flush() = 0;
 
-					NGE::Core::ConcurrentQueue<std::shared_ptr<LogMessage>>&GetQueue() {
-						return queue;
-					}
+					NGE::Core::ConcurrentQueue<std::shared_ptr<LogMessage>>&GetQueue();
 
-					bool IsEnabled() const {
-						return enabled;
-					}
+					bool IsEnabled() const;
 
-					void SetEnabled(bool enabled) {
-						this->enabled = enabled;
-					}
+					void SetEnabled(bool enabled);
 
-					LogTypes::LOG_LEVEL GetLogLevel() const {
-						return logLevel;
-					}
+					LogTypes::LOG_LEVEL GetLogLevel() const;
 
-					void SetLogLevel(LogTypes::LOG_LEVEL logLevel) {
-						this->logLevel = logLevel;
-					}
+					void SetLogLevel(LogTypes::LOG_LEVEL logLevel);
 
-					std::string GetLogFormat() const {
-						return logFormat;
-					}
+					std::string GetLogFormat() const;
 
-					void SetLogFormat(std::string logFormat) {
-						this->logFormat = logFormat;
-					}
+					void SetLogFormat(std::string logFormat);
 
-					std::string GetDateFormat() const {
-						return dateFormat;
-					}
+					std::string GetDateFormat() const;
 
-					void SetDateFormat(std::string dateFormat) {
-						this->dateFormat = dateFormat;
-					}
+					void SetDateFormat(std::string dateFormat);
 
+					LogConfig GetLogConfig() const;
+
+					void SetLogConfig(LogConfig logConfig);
+
+					bool IsAutoFlushEnabled() const;
+
+					void SetAutoFlushEnabled(bool autoFlushEnabled);
+
+					unsigned int GetFlushAfter() const;
+
+					void SetFlushAfter(unsigned int flushAfter);
 
 				  protected:
 
-					std::string FormatLogMessage(const LogMessage& logMsg) {
-						return fmt::format(logFormat,
-								fmt::arg("date", Timing::GetInstance().GetTimeInFormat(logMsg.timeInMs, dateFormat)),
-								fmt::arg("level", LogTypes::LOG_LEVEL_NAME[static_cast<unsigned short> (logMsg.logLevel)]),
-								fmt::arg("file", logMsg.file),
-								fmt::arg("shortFile", GetShortFileName(logMsg.file)),
-								fmt::arg("function", logMsg.function),
-								fmt::arg("shortFunction", GetMethodWithoutArguments(logMsg.function)),
-								fmt::arg("line", logMsg.line),
-								fmt::arg("log", logMsg.message));
-					}
+					std::string FormatLogMessage(const LogMessage& logMsg);
 
-					std::string GetShortFileName(const std::string& fileName) {
-						return fileName.substr(fileName.find_last_of(NGE::Parsers::ParsingUtils::PATH_SEPARATOR) + 1);
-					}
+					std::string GetShortFileName(const std::string& fileName);
 
-					std::string GetMethodWithArguments(const std::string& function) {
-						return function.substr(function.find_last_of("::", function.find_first_of('(')) + 1);
-					}
+					std::string GetMethodWithArguments(const std::string& function);
 
-					std::string GetMethodWithoutArguments(const std::string& function) {
-						std::string methodWithArguments = GetMethodWithArguments(function);
-						return methodWithArguments.substr(0, methodWithArguments.find_first_of('('));
-					}
+					std::string GetMethodWithoutArguments(const std::string& function);
+
+					void BuildMemoryWriterFromQueue(fmt::MemoryWriter& mw);
 				};
 			}
 		}

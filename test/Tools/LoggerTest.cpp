@@ -136,16 +136,18 @@ BOOST_AUTO_TEST_CASE(WriteLogsFromMultipleThreads) {
 	NewLogger& log = NewLogger::GetInstance();
 	log.Initialise();
 	log.GetOutputs()["file"]->SetEnabled(true);
-	log.GetOutputs()["console"]->SetEnabled(false);
+	log.GetOutputs()["console"]->SetEnabled(true);
 
 	FileLoggerOutput* fileLogger = dynamic_cast<FileLoggerOutput*> (log.GetOutputs()["file"]);
 	fileLogger->SetFilePath("thread_log_file.log");
 
-	const int numThreads = 50;
+	auto startTime = std::chrono::high_resolution_clock::now();
+
+	const int numThreads = 10;
 	std::array<std::thread, numThreads> threads;
 	for (int i = 0; i < numThreads; ++i) {
 		threads[i] = std::thread([]() {
-			for (int i = 0; i < 10000; ++i) {
+			for (int i = 0; i < 1000; ++i) {
 				log_info("{} / Info {}", std::this_thread::get_id(), i);
 			}
 		});
@@ -156,4 +158,9 @@ BOOST_AUTO_TEST_CASE(WriteLogsFromMultipleThreads) {
 	}
 
 	log.Flush();
+
+	auto stopTime = std::chrono::high_resolution_clock::now();
+
+	std::chrono::duration<double, std::milli> fp_ms = stopTime - startTime;
+	std::cout << "Diff: " << fp_ms.count() << " ms" << std::endl;
 }

@@ -17,6 +17,7 @@
 #include "NGE/Core/ConcurrentQueue.hpp"
 #include "NGE/Tools/Timing.hpp"
 #include "NGE/Tools/Logger/LogTypes.hpp"
+#include "NGE/Tools/Logger/LogConfig.hpp"
 #include "NGE/Tools/Logger/LogMessage.hpp"
 #include "NGE/Tools/Logger/Output/AbstractLoggerOutput.hpp"
 
@@ -39,25 +40,7 @@ namespace NGE {
 
 			class NewLogger {
 			  private:
-				/**
-				 * Format of the logged message
-				 */
-				std::string logFormat;
-
-				/**
-				 * Format of the date used in logger.
-				 */
-				std::string dateFormat;
-
-				/**
-				 * Default maximum size of the log queue.
-				 */
-				unsigned int flushAfter;
-
-				/**
-				 * Current logging level.
-				 */
-				LogTypes::LOG_LEVEL logLevel;
+				LogConfig logConfig;
 
 				std::map<std::string, Output::AbstractLoggerOutput*> outputs;
 
@@ -93,9 +76,7 @@ namespace NGE {
 				template<typename... Args>
 				void WriteLog(const std::string& format, LogTypes::LOG_LEVEL logLevel, const char* file, int line, const char* function, Args&&... arguments) {
 					std::string message = fmt::format(format, std::forward<Args>(arguments)...);
-					//LogMessage msg(logLevel, file, function, line, message);
 					auto msg = std::make_shared<LogMessage>(logLevel, file, function, line, message);
-
 					for (auto& kv : outputs) {
 						if (kv.second->IsEnabled() && CheckLogMessageLevel(logLevel, kv.second->GetLogLevel())) {
 							kv.second->GetQueue().Push(msg);
@@ -116,6 +97,18 @@ namespace NGE {
 				std::string GetDateFormat() const;
 
 				void SetDateFormat(const std::string& dateFormat);
+
+				LogConfig GetLogConfig() const;
+
+				void SetLogConfig(LogConfig logConfig);
+				
+				bool IsAutoFlushEnabled() const;
+				
+				void SetAutoFlushEnabled(bool autoFlushEnabled);
+				
+				unsigned int GetFlushAfter() const;
+				
+				void SetFlushAfter(unsigned int flushAfter);
 
 				std::map<std::string, Output::AbstractLoggerOutput*>& GetOutputs();
 			};
