@@ -11,14 +11,14 @@
 #include <iostream>
 #include <fstream>
 #include "NGE/Tools/Logger/NewLogger.hpp"
-#include "NGE/Tools/Logger/Output/LoggerOutput.hpp"
+#include "NGE/Tools/Logger/Output/AbstractLoggerOutput.hpp"
 
 namespace NGE {
 	namespace Tools {
 		namespace Logger {
 			namespace Output {
 
-				class FileLoggerOutput : public LoggerOutput {
+				class FileLoggerOutput : public AbstractLoggerOutput {
 				  protected:
 					std::ofstream file;
 
@@ -27,7 +27,7 @@ namespace NGE {
 				  public:
 
 					FileLoggerOutput(LogTypes::LOG_LEVEL logLevel, std::string logFormat, std::string dateFormat, unsigned int flushAfter, bool enabled) :
-					LoggerOutput(logLevel, logFormat, dateFormat, flushAfter, enabled) {
+					AbstractLoggerOutput(logLevel, logFormat, dateFormat, flushAfter, enabled) {
 						filePath = "nge.log";
 					}
 

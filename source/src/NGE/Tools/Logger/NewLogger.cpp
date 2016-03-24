@@ -12,8 +12,8 @@ NewLogger::~NewLogger() {
 }
 
 void NewLogger::InitialiseDefaultOutputs() {
-	outputs.insert(std::pair<std::string, Output::LoggerOutput*>("file", new Output::FileLoggerOutput(logLevel, logFormat, dateFormat, flushAfter, true)));
-	outputs.insert(std::pair<std::string, Output::LoggerOutput*>("console", new Output::ConsoleLoggerOutput(logLevel, logFormat, dateFormat, flushAfter, true)));
+	outputs.insert(std::pair<std::string, Output::AbstractLoggerOutput*>("file", new Output::FileLoggerOutput(logLevel, logFormat, dateFormat, flushAfter, true)));
+	outputs.insert(std::pair<std::string, Output::AbstractLoggerOutput*>("console", new Output::ConsoleLoggerOutput(logLevel, logFormat, dateFormat, flushAfter, true)));
 }
 
 bool NewLogger::CheckLogMessageLevel(LogTypes::LOG_LEVEL logLevel, LogTypes::LOG_LEVEL loggerLevel) {
@@ -88,6 +88,6 @@ void NewLogger::SetDateFormat(const std::string& dateFormat) {
 	}
 }
 
-std::map<std::string, Output::LoggerOutput*>& NewLogger::GetOutputs() {
+std::map<std::string, Output::AbstractLoggerOutput*>& NewLogger::GetOutputs() {
 	return outputs;
 }

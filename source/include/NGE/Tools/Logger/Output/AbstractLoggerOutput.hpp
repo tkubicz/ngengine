@@ -18,7 +18,7 @@ namespace NGE {
 		namespace Logger {
 			namespace Output {
 
-				class LoggerOutput {
+				class AbstractLoggerOutput {
 				  protected:
 					/**
 					 * Current log level.
@@ -63,10 +63,10 @@ namespace NGE {
 
 				  public:
 
-					LoggerOutput(LogTypes::LOG_LEVEL logLevel, std::string logFormat, std::string dateFormat, unsigned int flushAfter, bool enabled) :
+					AbstractLoggerOutput(LogTypes::LOG_LEVEL logLevel, std::string logFormat, std::string dateFormat, unsigned int flushAfter, bool enabled) :
 					logLevel(logLevel), logFormat(logFormat), dateFormat(dateFormat), flushAfter(flushAfter), enabled(enabled) { }
 
-					virtual ~LoggerOutput() {
+					virtual ~AbstractLoggerOutput() {
 						if (queue.Empty()) {
 							queue.Clear();
 						}

@@ -30,10 +30,12 @@ if(${BUILD_TESTS})
 		LuaScriptProcessTest Scripting/LuaScriptProcessTest.cpp
 
         # Thirdparty
-        CppFormatTest        Thirdparty/CppFormatTest.cpp
+		CatchTest			Thirdparty/CatchTest.cpp
+        CppFormatTest       Thirdparty/CppFormatTest.cpp
 
 		# Tools
 		LoggerTest			Tools/LoggerTest.cpp
+		NewLoggerTest		Tools/NewLoggerTest.cpp
 		TimingTest			Tools/TimingTest.cpp
 	)
 

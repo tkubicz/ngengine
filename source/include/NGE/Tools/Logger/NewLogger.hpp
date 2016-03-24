@@ -18,20 +18,20 @@
 #include "NGE/Tools/Timing.hpp"
 #include "NGE/Tools/Logger/LogTypes.hpp"
 #include "NGE/Tools/Logger/LogMessage.hpp"
-#include "NGE/Tools/Logger/Output/LoggerOutput.hpp"
+#include "NGE/Tools/Logger/Output/AbstractLoggerOutput.hpp"
 
 #define log_trace(format, ...) \
-    NGE::Tools::Logger::NewLogger::GetInstance().WriteLog(format, NGE::Tools::Logger::LogTypes::LOG_LEVEL::TRACE, __FILE__, __LINE__, __PRETTY_FUNCTION__, ##__VA_ARGS__);
+    NGE::Tools::Logger::NewLogger::GetInstance().WriteLog(format, NGE::Tools::Logger::LogTypes::LOG_LEVEL::TRACE, __FILE__, __LINE__, __PRETTY_FUNCTION__,  ##__VA_ARGS__);
 #define log_debug(format, ...) \
-    NGE::Tools::Logger::NewLogger::GetInstance().WriteLog(format, NGE::Tools::Logger::LogTypes::LOG_LEVEL::DEBUG, __FILE__, __LINE__, __PRETTY_FUNCTION__, ##__VA_ARGS__);
+    NGE::Tools::Logger::NewLogger::GetInstance().WriteLog(format, NGE::Tools::Logger::LogTypes::LOG_LEVEL::DEBUG, __FILE__, __LINE__, __PRETTY_FUNCTION__,  ##__VA_ARGS__);
 #define log_info(format, ...) \
-    NGE::Tools::Logger::NewLogger::GetInstance().WriteLog(format, NGE::Tools::Logger::LogTypes::LOG_LEVEL::INFO, __FILE__, __LINE__, __PRETTY_FUNCTION__, ##__VA_ARGS__);
+    NGE::Tools::Logger::NewLogger::GetInstance().WriteLog(format, NGE::Tools::Logger::LogTypes::LOG_LEVEL::INFO, __FILE__, __LINE__, __PRETTY_FUNCTION__,  ##__VA_ARGS__);
 #define log_warn(format, ...) \
-    NGE::Tools::Logger::NewLogger::GetInstance().WriteLog(format, NGE::Tools::Logger::LogTypes::LOG_LEVEL::WARN, __FILE__, __LINE__, __PRETTY_FUNCTION__, ##__VA_ARGS__);
+    NGE::Tools::Logger::NewLogger::GetInstance().WriteLog(format, NGE::Tools::Logger::LogTypes::LOG_LEVEL::WARN, __FILE__, __LINE__, __PRETTY_FUNCTION__,  ##__VA_ARGS__);
 #define log_error(format, ...) \
-    NGE::Tools::Logger::NewLogger::GetInstance().WriteLog(format, NGE::Tools::Logger::LogTypes::LOG_LEVEL::ERROR, __FILE__, __LINE__, __PRETTY_FUNCTION__, ##__VA_ARGS__);
+    NGE::Tools::Logger::NewLogger::GetInstance().WriteLog(format, NGE::Tools::Logger::LogTypes::LOG_LEVEL::ERROR, __FILE__, __LINE__, __PRETTY_FUNCTION__,  ##__VA_ARGS__);
 #define log_critical(format, ...) \
-    NGE::Tools::Logger::NewLogger::GetInstance().WriteLog(format, NGE::Tools::Logger::LogTypes::LOG_LEVEL::CRITICAL, __FILE__, __LINE__, __PRETTY_FUNCTION__, ##__VA_ARGS__);
+    NGE::Tools::Logger::NewLogger::GetInstance().WriteLog(format, NGE::Tools::Logger::LogTypes::LOG_LEVEL::CRITICAL, __FILE__, __LINE__, __PRETTY_FUNCTION__,  ##__VA_ARGS__);
 
 namespace NGE {
 	namespace Tools {
@@ -59,7 +59,7 @@ namespace NGE {
 				 */
 				LogTypes::LOG_LEVEL logLevel;
 
-				std::map<std::string, Output::LoggerOutput*> outputs;
+				std::map<std::string, Output::AbstractLoggerOutput*> outputs;
 
 			  private:
 
@@ -75,7 +75,7 @@ namespace NGE {
 				void InitialiseDefaultOutputs();
 
 				bool CheckLogMessageLevel(LogTypes::LOG_LEVEL logLevel, LogTypes::LOG_LEVEL loggerLevel);
-				
+
 				void ClearOutputs();
 
 			  public:
@@ -117,7 +117,7 @@ namespace NGE {
 
 				void SetDateFormat(const std::string& dateFormat);
 
-				std::map<std::string, Output::LoggerOutput*>& GetOutputs();
+				std::map<std::string, Output::AbstractLoggerOutput*>& GetOutputs();
 			};
 		}
 	}

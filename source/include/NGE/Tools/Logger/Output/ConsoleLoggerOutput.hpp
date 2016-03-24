@@ -11,18 +11,18 @@
 #include <iostream>
 #include <queue>
 #include <cppformat/format.h>
-#include "NGE/Tools/Logger/Output/LoggerOutput.hpp"
+#include "NGE/Tools/Logger/Output/AbstractLoggerOutput.hpp"
 
 namespace NGE {
 	namespace Tools {
 		namespace Logger {
 			namespace Output {
 
-				class ConsoleLoggerOutput : public LoggerOutput {
+				class ConsoleLoggerOutput : public AbstractLoggerOutput {
 				  public:
 
 					ConsoleLoggerOutput(LogTypes::LOG_LEVEL logLevel, std::string logFormat, std::string dateFormat, unsigned int flushAfter, bool enabled) :
-					LoggerOutput(logLevel, logFormat, dateFormat, flushAfter, enabled) { }
+					AbstractLoggerOutput(logLevel, logFormat, dateFormat, flushAfter, enabled) { }
 
 					virtual void Flush() override {
 						std::unique_lock<std::mutex> lock(mutex);

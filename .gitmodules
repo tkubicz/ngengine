@@ -7,3 +7,6 @@
 [submodule "thirdparty/cppformat"]
 	path = thirdparty/cppformat
 	url = https://github.com/cppformat/cppformat
+[submodule "thirdparty/Catch"]
+	path = thirdparty/Catch
+	url = https://github.com/philsquared/Catch
