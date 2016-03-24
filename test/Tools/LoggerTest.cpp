@@ -71,7 +71,8 @@ BOOST_AUTO_TEST_CASE(TestLoggerLevels) {
 
 BOOST_AUTO_TEST_CASE(TestFlushing) {
 	NewLogger& log = NewLogger::GetInstance();
-	log.GetOutputs()["file"]->SetEnabled(false);
+	log.Initialise();
+	log.GetOutputs()["file"]->SetEnabled(true);
 	log.GetOutputs()["console"]->SetEnabled(true);
 
 	FileLoggerOutput* fileLogger = dynamic_cast<FileLoggerOutput*> (log.GetOutputs()["file"]);
@@ -146,7 +147,7 @@ BOOST_AUTO_TEST_CASE(WriteLogsFromMultipleThreads) {
 	std::array<std::thread, numThreads> threads;
 	for (int i = 0; i < numThreads; ++i) {
 		threads[i] = std::thread([]() {
-			for (int i = 0; i < 20; ++i) {
+			for (int i = 0; i < 10000; ++i) {
 				log_info("Info {}", std::this_thread::get_id());
 			}
 		});

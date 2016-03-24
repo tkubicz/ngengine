@@ -5,7 +5,6 @@ using namespace NGE::Tools::Logger;
 
 NewLogger::NewLogger() {
 	Initialise();
-	InitialiseDefaultOutputs();
 }
 
 NewLogger::~NewLogger() {
@@ -13,7 +12,6 @@ NewLogger::~NewLogger() {
 }
 
 void NewLogger::InitialiseDefaultOutputs() {
-	ClearOutputs();
 	outputs.insert(std::pair<std::string, Output::LoggerOutput*>("file", new Output::FileLoggerOutput(logLevel, logFormat, dateFormat, flushAfter, true)));
 	outputs.insert(std::pair<std::string, Output::LoggerOutput*>("console", new Output::ConsoleLoggerOutput(logLevel, logFormat, dateFormat, flushAfter, true)));
 }
@@ -31,6 +29,7 @@ void NewLogger::ClearOutputs() {
 			delete kv.second;
 		}
 	}
+	outputs.clear();
 }
 
 NewLogger& NewLogger::GetInstance() {
@@ -43,6 +42,9 @@ void NewLogger::Initialise() {
 	flushAfter = 20;
 	logFormat = "[{date}][{level}][{shortFile}/{shortFunction}[{line}]] - {log}";
 	dateFormat = "%Y-%m-%d %H:%M:%S.%f";
+
+	ClearOutputs();
+	InitialiseDefaultOutputs();
 }
 
 void NewLogger::Flush() {
