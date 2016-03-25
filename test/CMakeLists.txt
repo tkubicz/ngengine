@@ -54,7 +54,14 @@ if(${BUILD_TESTS})
 	)
 	add_executable(ToolsTest ${source})
 	target_link_libraries(ToolsTest ${extra_libs})
+
 	add_test(ToolsTestRunner ${EXECUTABLE_OUTPUT_PATH}/ToolsTest)
+
+	add_test(NAME ListTests COMMAND ${EXECUTABLE_OUTPUT_PATH}/ToolsTest --list-tests)
+	set_tests_properties(ListTests PROPERTIES PASS_REGULAR_EXPRESSION "[0-9]+ test cases")
+
+	add_test(NAME ListTags COMMAND ${EXECUTABLE_OUTPUT_PATH}/ToolsTest --list-tags)
+	set_tests_properties(ListTags PROPERTIES PASS_REGULAR_EXPRESSION "[0-9]+ tags")
 
 	enable_testing()
 
