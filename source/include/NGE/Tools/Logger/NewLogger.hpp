@@ -37,12 +37,15 @@
 namespace NGE {
 	namespace Tools {
 		namespace Logger {
+			typedef std::map<std::string, Output::AbstractLoggerOutput*> OutputMap;
+			typedef std::map<std::string, Output::AbstractLoggerOutput*>::iterator OutputMapInterator;
+			typedef std::pair<std::string, Output::AbstractLoggerOutput*> OutputPair;
 
 			class NewLogger {
 			  private:
 				LogConfig logConfig;
 
-				std::map<std::string, Output::AbstractLoggerOutput*> outputs;
+				OutputMap outputs;
 
 			  private:
 
@@ -65,6 +68,15 @@ namespace NGE {
 
 				static NewLogger& GetInstance();
 
+				Output::AbstractLoggerOutput* operator[](const std::string& name) {
+					auto findOutput = outputs.find(name);
+					if (findOutput == outputs.end()) {
+						log_warn("Could not find logger output: '{}'", name);
+						return nullptr;
+					}
+					return findOutput->second;
+				}
+
 				/**
 				 * Initialise the logger and default outputs with default values.
 				 * 
@@ -85,6 +97,10 @@ namespace NGE {
 				}
 
 				void Flush();
+				
+				bool IsEnabled() const;
+				
+				void SetEnabled(bool enabled);
 
 				LogTypes::LOG_LEVEL GetLogLevel() const;
 
@@ -101,16 +117,16 @@ namespace NGE {
 				LogConfig GetLogConfig() const;
 
 				void SetLogConfig(LogConfig logConfig);
-				
+
 				bool IsAutoFlushEnabled() const;
-				
+
 				void SetAutoFlushEnabled(bool autoFlushEnabled);
-				
+
 				unsigned int GetFlushAfter() const;
-				
+
 				void SetFlushAfter(unsigned int flushAfter);
 
-				std::map<std::string, Output::AbstractLoggerOutput*>& GetOutputs();
+				OutputMap& GetOutputs();
 			};
 		}
 	}

@@ -10,10 +10,10 @@ AbstractLoggerOutput::AbstractLoggerOutput(LogTypes::LOG_LEVEL logLevel, std::st
 	logConfig.dateFormat = dateFormat;
 	logConfig.autoFlushEnabled = autoFlushEnabled;
 	logConfig.flushAfter = flushAfter;
-	this->enabled = enabled;
+	logConfig.enabled = enabled;
 }
 
-AbstractLoggerOutput::AbstractLoggerOutput(LogConfig logConfig) :
+AbstractLoggerOutput::AbstractLoggerOutput(const LogConfig& logConfig) :
 logConfig(logConfig) {
 }
 
@@ -23,16 +23,16 @@ AbstractLoggerOutput::~AbstractLoggerOutput() {
 	}
 }
 
-NGE::Core::ConcurrentQueue<std::shared_ptr<l::LogMessage>>& AbstractLoggerOutput::GetQueue() {
+NGE::Core::ConcurrentQueue<std::shared_ptr<l::LogMessage>>&AbstractLoggerOutput::GetQueue() {
 	return queue;
 }
 
 bool AbstractLoggerOutput::IsEnabled() const {
-	return enabled;
+	return logConfig.enabled;
 }
 
 void AbstractLoggerOutput::SetEnabled(bool enabled) {
-	this->enabled = enabled;
+	this->logConfig.enabled = enabled;
 }
 
 l::LogTypes::LOG_LEVEL AbstractLoggerOutput::GetLogLevel() const {

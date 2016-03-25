@@ -226,9 +226,13 @@ add_library(nge SHARED
 	source/src/NGE/Scripting/LuaScriptManager.cpp
 	source/src/NGE/Scripting/LuaScriptProcess.cpp
 
+	source/src/NGE/Tools/Logger/Output/AbstractLoggerOutput.cpp
+	source/src/NGE/Tools/Logger/Output/ConsoleLoggerOutput.cpp
+	source/src/NGE/Tools/Logger/Output/FileLoggerOutput.cpp
+	source/src/NGE/Tools/Logger/Output/StreamLoggerOutput.cpp
+
 	source/src/NGE/Tools/Logger/LogTypes.cpp
 	source/src/NGE/Tools/Logger/NewLogger.cpp
-	source/src/NGE/Tools/Logger/Output/AbstractLoggerOutput.cpp
 
 	source/src/NGE/Tools/Random.cpp
 	source/src/NGE/Tools/Timing.cpp

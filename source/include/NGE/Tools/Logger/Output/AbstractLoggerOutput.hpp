@@ -34,28 +34,31 @@ namespace NGE {
 					std::queue<std::shared_ptr<LogMessage>> internalQueue;
 
 					/**
-					 * Mutex used to lock the flushing.
+					 * Mutex used to lock while flushing.
 					 */
 					std::mutex mutex;
 
 					/**
-					 * Is the Logger enabled.
+					 * Output configuration.
 					 */
-					bool enabled;
-
 					LogConfig logConfig;
 
 				  public:
 
 					AbstractLoggerOutput(LogTypes::LOG_LEVEL logLevel, std::string logFormat, std::string dateFormat, bool autoFlushEnabled, unsigned int flushAfter, bool enabled);
-
-					AbstractLoggerOutput(LogConfig logConfig);
-
+					AbstractLoggerOutput(const LogConfig& logConfig);
 					virtual ~AbstractLoggerOutput();
 
 					virtual void Flush() = 0;
 
 					NGE::Core::ConcurrentQueue<std::shared_ptr<LogMessage>>&GetQueue();
+
+					template <typename T> T* Get() {
+						if (std::is_base_of<AbstractLoggerOutput, T>::value) {
+							return dynamic_cast<T*> (this);
+						}
+						return nullptr;
+					}
 
 					bool IsEnabled() const;
 

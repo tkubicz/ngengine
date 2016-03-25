@@ -20,20 +20,9 @@ namespace NGE {
 
 				class ConsoleLoggerOutput : public AbstractLoggerOutput {
 				  public:
-
-					ConsoleLoggerOutput(LogTypes::LOG_LEVEL logLevel, std::string logFormat, std::string dateFormat, bool autoFlushEnabled, unsigned int flushAfter, bool enabled) :
-					AbstractLoggerOutput(logLevel, logFormat, dateFormat, autoFlushEnabled, flushAfter, enabled) { }
-
-					ConsoleLoggerOutput(LogConfig logConfig) :
-					AbstractLoggerOutput(logConfig) { }
-
-					virtual void Flush() override {
-						std::unique_lock<std::mutex> lock(mutex);
-						fmt::MemoryWriter mw;
-						BuildMemoryWriterFromQueue(mw);
-						std::cout << mw.c_str();
-						mw.clear();
-					}
+					ConsoleLoggerOutput(LogTypes::LOG_LEVEL logLevel, std::string logFormat, std::string dateFormat, bool autoFlushEnabled = true, unsigned int flushAfter = 20, bool enabled = true);
+					ConsoleLoggerOutput(const LogConfig& logConfig);
+					virtual void Flush() override;
 				};
 			}
 		}

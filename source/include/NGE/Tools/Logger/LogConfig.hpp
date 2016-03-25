@@ -26,6 +26,16 @@ namespace NGE {
 				std::string dateFormat;
 
 				/**
+				 * Current logging level.
+				 */
+				LogTypes::LOG_LEVEL logLevel;
+
+				/**
+				 * Flag that indicates if the logger is enabled.
+				 */
+				bool enabled;
+
+				/**
 				 * Flag that indicates if the automatic flushing is enabled.
 				 */
 				bool autoFlushEnabled;
@@ -35,15 +45,10 @@ namespace NGE {
 				 */
 				unsigned int flushAfter;
 
-				/**
-				 * Current logging level.
-				 */
-				LogTypes::LOG_LEVEL logLevel;
-
 				LogConfig() { }
 
-				LogConfig(std::string logFormat, std::string dateFormat, bool autoFlushEnabled, unsigned int flushAfter, LogTypes::LOG_LEVEL logLevel) :
-				logFormat(logFormat), dateFormat(dateFormat), autoFlushEnabled(autoFlushEnabled), flushAfter(flushAfter), logLevel(logLevel) { }
+				LogConfig(std::string logFormat, std::string dateFormat, LogTypes::LOG_LEVEL logLevel, bool enabled, bool autoFlushEnabled, unsigned int flushAfter) :
+				logFormat(logFormat), dateFormat(dateFormat), logLevel(logLevel), enabled(enabled), autoFlushEnabled(autoFlushEnabled), flushAfter(flushAfter) { }
 
 			};
 		}

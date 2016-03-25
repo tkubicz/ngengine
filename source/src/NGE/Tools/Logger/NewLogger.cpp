@@ -12,8 +12,8 @@ NewLogger::~NewLogger() {
 }
 
 void NewLogger::InitialiseDefaultOutputs() {
-	outputs.insert(std::pair<std::string, Output::AbstractLoggerOutput*>("file", new Output::FileLoggerOutput(logConfig)));
-	outputs.insert(std::pair<std::string, Output::AbstractLoggerOutput*>("console", new Output::ConsoleLoggerOutput(logConfig)));
+	outputs.insert(OutputPair("file", new Output::FileLoggerOutput(logConfig)));
+	outputs.insert(OutputPair("console", new Output::ConsoleLoggerOutput(logConfig)));
 }
 
 bool NewLogger::CheckLogMessageLevel(LogTypes::LOG_LEVEL logLevel, LogTypes::LOG_LEVEL loggerLevel) {
@@ -39,11 +39,12 @@ NewLogger& NewLogger::GetInstance() {
 }
 
 void NewLogger::Initialise() {
+	logConfig.enabled = true;
+	logConfig.logFormat = "[{date}][{level}][{shortFile}/{shortFunction}[{line}]] - {log}";
+	logConfig.dateFormat = "%Y-%m-%d %H:%M:%S.%f";
 	logConfig.logLevel = LogTypes::LOG_LEVEL::TRACE;
 	logConfig.autoFlushEnabled = true;
 	logConfig.flushAfter = 20;
-	logConfig.logFormat = "[{date}][{level}][{shortFile}/{shortFunction}[{line}]] - {log}";
-	logConfig.dateFormat = "%Y-%m-%d %H:%M:%S.%f";
 
 	ClearOutputs();
 	InitialiseDefaultOutputs();
@@ -54,6 +55,17 @@ void NewLogger::Flush() {
 		if (kv.second->IsEnabled()) {
 			kv.second->Flush();
 		}
+	}
+}
+
+bool NewLogger::IsEnabled() const {
+	return logConfig.enabled;
+}
+
+void NewLogger::SetEnabled(bool enabled) {
+	this->logConfig.enabled = enabled;
+	for (auto& kv : outputs) {
+		kv.second->SetEnabled(enabled);
 	}
 }
 
@@ -123,6 +135,6 @@ void NewLogger::SetFlushAfter(unsigned int flushAfter) {
 	}
 }
 
-std::map<std::string, Output::AbstractLoggerOutput*>& NewLogger::GetOutputs() {
+OutputMap& NewLogger::GetOutputs() {
 	return outputs;
 }

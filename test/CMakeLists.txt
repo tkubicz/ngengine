@@ -35,8 +35,8 @@ if(${BUILD_TESTS})
 
 		# Tools
 		LoggerTest			Tools/LoggerTest.cpp
-		NewLoggerTest		Tools/NewLoggerTest.cpp
-		TimingTest			Tools/TimingTest.cpp
+		#NewLoggerTest		Tools/NewLoggerTest.cpp
+		#TimingTest			Tools/TimingTest.cpp
 	)
 
 	array2d_begin_loop(advanced "${tuples}" 2 "name;path")
@@ -46,6 +46,15 @@ if(${BUILD_TESTS})
 		add_test(${name}Runner ${EXECUTABLE_OUTPUT_PATH}/${name})
 		array2d_advance()
 	endwhile()
+
+	set(source
+		test/Tools/NewLoggerTest.cpp
+		test/Tools/TimingTest.cpp
+		test/Tools/ToolsTest.cpp
+	)
+	add_executable(ToolsTest ${source})
+	target_link_libraries(ToolsTest ${extra_libs})
+	add_test(ToolsTestRunner ${EXECUTABLE_OUTPUT_PATH}/ToolsTest)
 
 	enable_testing()
 

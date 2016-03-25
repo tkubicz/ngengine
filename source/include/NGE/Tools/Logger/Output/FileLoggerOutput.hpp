@@ -24,48 +24,19 @@ namespace NGE {
 
 					std::string filePath;
 
-				  protected:
+					static const std::string defaultFilePath;
 
-					void SetDefaultFilePath() {
-						filePath = "nge.log";
-					}
+				  protected:
+					void SetDefaultFilePath();
 
 				  public:
+					FileLoggerOutput(LogTypes::LOG_LEVEL logLevel, std::string logFormat, std::string dateFormat, bool autoFlushEnabled = true, unsigned int flushAfter = 20, bool enabled = true);
+					FileLoggerOutput(const LogConfig& logConfig);
 
-					FileLoggerOutput(LogTypes::LOG_LEVEL logLevel, std::string logFormat, std::string dateFormat, bool autoFlushEnabled, unsigned int flushAfter, bool enabled) :
-					AbstractLoggerOutput(logLevel, logFormat, dateFormat, autoFlushEnabled, flushAfter, enabled) {
-						SetDefaultFilePath();
-					}
+					virtual void Flush() override;
 
-					FileLoggerOutput(LogConfig logConfig) :
-					AbstractLoggerOutput(logConfig) {
-						SetDefaultFilePath();
-					}
-
-					virtual void Flush() override {
-						std::unique_lock<std::mutex> lock(mutex);
-
-						file.open(filePath, std::ios::app);
-						if (!file.is_open()) {
-							log_error("Could not open log file: '{}'", filePath);
-							return;
-						}
-
-						fmt::MemoryWriter mw;
-						BuildMemoryWriterFromQueue(mw);
-
-						file << mw.c_str();
-						file.close();
-						mw.clear();
-					}
-
-					std::string GetFilePath() const {
-						return filePath;
-					}
-
-					void SetFilePath(const std::string& filePath) {
-						this->filePath = filePath;
-					}
+					std::string GetFilePath() const;
+					void SetFilePath(const std::string& filePath);
 				};
 			}
 		}
