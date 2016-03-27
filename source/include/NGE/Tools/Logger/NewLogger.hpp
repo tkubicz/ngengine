@@ -35,101 +35,101 @@
     NGE::Tools::Logger::NewLogger::GetInstance().WriteLog(format, NGE::Tools::Logger::LogTypes::LOG_LEVEL::CRITICAL, __FILE__, __LINE__, __PRETTY_FUNCTION__,  ##__VA_ARGS__);
 
 namespace NGE {
-	namespace Tools {
-		namespace Logger {
-			typedef std::map<std::string, Output::AbstractLoggerOutput*> OutputMap;
-			typedef std::map<std::string, Output::AbstractLoggerOutput*>::iterator OutputMapInterator;
-			typedef std::pair<std::string, Output::AbstractLoggerOutput*> OutputPair;
+    namespace Tools {
+        namespace Logger {
+            typedef std::map<std::string, Output::AbstractLoggerOutput*> OutputMap;
+            typedef std::map<std::string, Output::AbstractLoggerOutput*>::iterator OutputMapInterator;
+            typedef std::pair<std::string, Output::AbstractLoggerOutput*> OutputPair;
 
-			class NewLogger {
-			  private:
-				LogConfig logConfig;
+            class NewLogger {
+            private:
+                LogConfig logConfig;
 
-				OutputMap outputs;
+                OutputMap outputs;
 
-			  private:
+            private:
 
-				/**
-				 * Constructor that sets default values for fields. It is private,
-				 * because this class is a singleton. Use GetInstance() to obtain
-				 * instance of this class.
-				 */
-				NewLogger();
+                /**
+                 * Constructor that sets default values for fields. It is private,
+                 * because this class is a singleton. Use GetInstance() to obtain
+                 * instance of this class.
+                 */
+                NewLogger();
 
-				~NewLogger();
+                ~NewLogger();
 
-				void InitialiseDefaultOutputs();
+                void InitialiseDefaultOutputs();
 
-				bool CheckLogMessageLevel(LogTypes::LOG_LEVEL logLevel, LogTypes::LOG_LEVEL loggerLevel);
+                bool CheckLogMessageLevel(LogTypes::LOG_LEVEL logLevel, LogTypes::LOG_LEVEL loggerLevel);
 
-				void ClearOutputs();
+                void ClearOutputs();
 
-			  public:
+            public:
 
-				static NewLogger& GetInstance();
+                static NewLogger& GetInstance();
 
-				Output::AbstractLoggerOutput* operator[](const std::string& name) {
-					auto findOutput = outputs.find(name);
-					if (findOutput == outputs.end()) {
-						log_warn("Could not find logger output: '{}'", name);
-						return nullptr;
-					}
-					return findOutput->second;
-				}
+                Output::AbstractLoggerOutput* operator[](const std::string& name) {
+                    auto findOutput = outputs.find(name);
+                    if (findOutput == outputs.end()) {
+                        log_warn("Could not find logger output: '{}'", name);
+                        return nullptr;
+                    }
+                    return findOutput->second;
+                }
 
-				/**
-				 * Initialise the logger and default outputs with default values.
-				 * 
-				 * This method initialises global logger options with default values,
-				 * and all default outputs.
-				 */
-				void Initialise();
+                /**
+                 * Initialise the logger and default outputs with default values.
+                 * 
+                 * This method initialises global logger options with default values,
+                 * and all default outputs.
+                 */
+                void Initialise();
 
-				template<typename... Args>
-				void WriteLog(const std::string& format, LogTypes::LOG_LEVEL logLevel, const char* file, int line, const char* function, Args&&... arguments) {
-					std::string message = fmt::format(format, std::forward<Args>(arguments)...);
-					auto msg = std::make_shared<LogMessage>(logLevel, file, function, line, message);
-					for (auto& kv : outputs) {
-						if (kv.second->IsEnabled() && CheckLogMessageLevel(logLevel, kv.second->GetLogLevel())) {
-							kv.second->GetQueue().Push(msg);
-						}
-					}
-				}
+                template<typename... Args>
+                void WriteLog(const std::string& format, LogTypes::LOG_LEVEL logLevel, const char* file, int line, const char* function, Args&&... arguments) {
+                    std::string message = fmt::format(format, std::forward<Args>(arguments)...);
+                    auto msg = std::make_shared<LogMessage>(logLevel, file, function, line, message);
+                    for (auto& kv : outputs) {
+                        if (kv.second->IsEnabled() && CheckLogMessageLevel(logLevel, kv.second->GetLogLevel())) {
+                            kv.second->GetQueue().Push(msg);
+                        }
+                    }
+                }
 
-				void Flush();
-				
-				bool IsEnabled() const;
-				
-				void SetEnabled(bool enabled);
+                void Flush();
 
-				LogTypes::LOG_LEVEL GetLogLevel() const;
+                bool IsEnabled() const;
 
-				void SetLogLevel(LogTypes::LOG_LEVEL logLevel);
+                void SetEnabled(bool enabled);
 
-				std::string GetLogFormat() const;
+                LogTypes::LOG_LEVEL GetLogLevel() const;
 
-				void SetLogFormat(const std::string& logFormat);
+                void SetLogLevel(LogTypes::LOG_LEVEL logLevel);
 
-				std::string GetDateFormat() const;
+                std::string GetLogFormat() const;
 
-				void SetDateFormat(const std::string& dateFormat);
+                void SetLogFormat(const std::string& logFormat);
 
-				LogConfig GetLogConfig() const;
+                std::string GetDateFormat() const;
 
-				void SetLogConfig(LogConfig logConfig);
+                void SetDateFormat(const std::string& dateFormat);
 
-				bool IsAutoFlushEnabled() const;
+                LogConfig GetLogConfig() const;
 
-				void SetAutoFlushEnabled(bool autoFlushEnabled);
+                void SetLogConfig(LogConfig logConfig);
 
-				unsigned int GetFlushAfter() const;
+                bool IsAutoFlushEnabled() const;
 
-				void SetFlushAfter(unsigned int flushAfter);
+                void SetAutoFlushEnabled(bool autoFlushEnabled);
 
-				OutputMap& GetOutputs();
-			};
-		}
-	}
+                unsigned int GetFlushAfter() const;
+
+                void SetFlushAfter(unsigned int flushAfter);
+
+                OutputMap& GetOutputs();
+            };
+        }
+    }
 }
 
 #endif /* NEWLOGGER_HPP */
