@@ -556,3 +556,19 @@ SCENARIO("Automatic flush should work", "[logger]") {
 		log.Initialise();
 	}
 }
+
+SCENARIO("Load configuration from XML file", "[logger]") {
+
+	GIVEN("Default Logger") {
+		l::NewLogger& log = l::NewLogger::GetInstance();
+		log.Initialise();
+
+		WHEN("Configuration from XML is loaded") {
+			REQUIRE(log.LoadXMLSettings("logger-configuration.xml"));
+
+			THEN("Global logger should have configuration from XML file") {
+				
+			}
+		}
+	}
+}

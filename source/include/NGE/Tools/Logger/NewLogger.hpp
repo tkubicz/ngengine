@@ -14,6 +14,7 @@
 #include <mutex>
 #include <cppformat/format.h>
 
+#include "NGE/Core/XMLSettings.hpp"
 #include "NGE/Core/ConcurrentQueue.hpp"
 #include "NGE/Tools/Timing.hpp"
 #include "NGE/Tools/Logger/LogTypes.hpp"
@@ -41,7 +42,7 @@ namespace NGE {
 			typedef std::map<std::string, Output::AbstractLoggerOutput*>::iterator OutputMapInterator;
 			typedef std::pair<std::string, Output::AbstractLoggerOutput*> OutputPair;
 
-			class NewLogger {
+			class NewLogger : public NGE::Core::XMLSettings {
 			  private:
 				LogConfig logConfig;
 
@@ -128,6 +129,10 @@ namespace NGE {
 				void SetFlushAfter(unsigned int flushAfter);
 
 				OutputMap& GetOutputs();
+
+				bool LoadXMLSettings(const std::string& xmlFilePath) override;
+
+				bool SaveXMLSettings(const std::string& xmlFilePath) override;
 			};
 		}
 	}

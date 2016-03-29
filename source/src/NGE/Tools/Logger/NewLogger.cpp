@@ -138,3 +138,23 @@ void NewLogger::SetFlushAfter(unsigned int flushAfter) {
 OutputMap& NewLogger::GetOutputs() {
 	return outputs;
 }
+
+/**
+ * TODO: Finish implementation.
+ * @param xmlFilePath
+ * @return 
+ */
+bool NewLogger::LoadXMLSettings(const std::string& xmlFilePath) {
+	return true;
+}
+
+/**
+ * TODO: Finish implementation.
+ * @param xmlFilePath
+ * @return 
+ */
+bool NewLogger::SaveXMLSettings(const std::string& xmlFilePath) {
+	return true;
+}
+
+
