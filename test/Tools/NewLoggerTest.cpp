@@ -214,7 +214,7 @@ SCENARIO("Check setting global configuration using setters", "[logger]") {
     }
 }
 
-SCENARIO("Registering new logger output") {
+SCENARIO("Registering and unregistering logger output", "[logger]") {
 
     GIVEN("Logger instance with default configuration") {
         l::NewLogger& log = l::NewLogger::GetInstance();
@@ -228,5 +228,97 @@ SCENARIO("Registering new logger output") {
                 REQUIRE(log["stream"]->Get<o::StreamLoggerOutput>() != nullptr);
             }
         }
+
+        WHEN("Logger output is unregistered") {
+            REQUIRE(log.GetOutputs().size() == 3);
+            log.GetOutputs().erase("stream");
+
+            THEN("Unregistered output is not available anymore") {
+                REQUIRE(log.GetOutputs().size() == 2);
+                REQUIRE(log["stream"] == nullptr);
+            }
+        }
+    }
+}
+
+void verifyStringStream(const std::stringstream& ss, const std::string& level, const std::string& logMsg) {
+    std::string msg = ss.str();
+    REQUIRE(msg.find(level) != std::string::npos);
+    REQUIRE(msg.find(logMsg) != std::string::npos);
+}
+
+SCENARIO("Logging to console") {
+
+    GIVEN("Logger with default console output enabled") {
+        l::NewLogger& log = l::NewLogger::GetInstance();
+        log.Initialise();
+        log["file"]->SetEnabled(false);
+        log["console"]->SetEnabled(true);
+
+        std::stringstream ss;
+        auto old = std::cout.rdbuf();
+        std::cout.rdbuf(ss.rdbuf());
+
+        WHEN("Trace log is written") {
+            std::string logMsg = "trace message";
+            log_trace("{}", logMsg);
+            log.Flush();
+
+            THEN("Message is written to console") {
+                verifyStringStream(ss, "TRACE", logMsg);
+            }
+        }
+
+        WHEN("Debug log is written") {
+            std::string logMsg = "debug message";
+            log_debug("{}", logMsg);
+            log.Flush();
+
+            THEN("Message is written to console") {
+                verifyStringStream(ss, "DEBUG", logMsg);
+            }
+        }
+
+        WHEN("Info log is written") {
+            std::string logMsg = "info message";
+            log_info("{}", logMsg);
+            log.Flush();
+
+            THEN("Message is written to console") {
+                verifyStringStream(ss, "INFO", logMsg);
+            }
+        }
+
+        WHEN("Warn log is written") {
+            std::string logMsg = "Warn message";
+            log_warn("{}", logMsg);
+            log.Flush();
+
+            THEN("Message is written to console") {
+                verifyStringStream(ss, "WARN", logMsg);
+            }
+        }
+
+        WHEN("Error log is written") {
+            std::string logMsg = "error message";
+            log_error("{}", logMsg);
+            log.Flush();
+
+            THEN("Message is written to console") {
+                verifyStringStream(ss, "ERROR", logMsg);
+            }
+        }
+
+        WHEN("Critical log is written") {
+            std::string logMsg = "critical message";
+            log_critical("{}", logMsg);
+            log.Flush();
+
+            THEN("Message is written to console") {
+                verifyStringStream(ss, "CRITICAL", logMsg);
+            }
+        }
+
+        std::cout.rdbuf(old);
     }
 }
