@@ -48,8 +48,6 @@ namespace NGE {
 
 				OutputMap outputs;
 
-			  private:
-
 				/**
 				 * Constructor that sets default values for fields. It is private,
 				 * because this class is a singleton. Use GetInstance() to obtain
@@ -57,18 +55,44 @@ namespace NGE {
 				 */
 				NewLogger();
 
+				/**
+				 * Private destructor. Because this class is a singleton, this destructor
+				 * will be executed once, when the application will be destroyed.
+				 */
 				~NewLogger();
 
+				/**
+				 * Initialisation of default logger outputs. By default console and
+				 * file logger are available.
+				 */
 				void InitialiseDefaultOutputs();
 
+				/**
+				 * Helper method that checks if the message will be logged.
+				 * @param logLevel Level of the log message.
+				 * @param loggerLevel Level of the logger output.
+				 * @return True if the loggerLevel is bigger or equal to logLevel.
+				 */
 				bool CheckLogMessageLevel(LogTypes::LOG_LEVEL logLevel, LogTypes::LOG_LEVEL loggerLevel);
 
+				/**
+				 * Clear all logger outputs. Delete pointers and clear the map.
+				 */
 				void ClearOutputs();
 
 			  public:
 
+				/**
+				 * Get instance of the logger class. Logger class is lazy initialised.
+				 * @return Reference to logger class.
+				 */
 				static NewLogger& GetInstance();
 
+				/**
+				 * Access logger outputs using subscript operator.
+				 * @param name Identifier of the output. E.g. "file" or "console".
+				 * @return Pointer to requested logger output. If not found, nullptr.
+				 */
 				Output::AbstractLoggerOutput* operator[](const std::string& name) {
 					auto findOutput = outputs.find(name);
 					if (findOutput == outputs.end()) {
