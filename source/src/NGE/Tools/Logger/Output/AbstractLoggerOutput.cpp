@@ -23,6 +23,12 @@ AbstractLoggerOutput::~AbstractLoggerOutput() {
 	}
 }
 
+void AbstractLoggerOutput::TryFlush() {
+	if (FlushNow()) {
+		Flush();
+	}
+}
+
 NGE::Core::ConcurrentQueue<std::shared_ptr<l::LogMessage>>&AbstractLoggerOutput::GetQueue() {
 	return queue;
 }
@@ -117,4 +123,11 @@ void AbstractLoggerOutput::BuildMemoryWriterFromQueue(fmt::MemoryWriter& mw) {
 		std::string formattedLog = FormatLogMessage(*logMsg.get());
 		mw << formattedLog << "\n";
 	}
+}
+
+bool AbstractLoggerOutput::FlushNow() {
+	if (queue.Size() >= logConfig.flushAfter) {
+		return true;
+	}
+	return false;
 }

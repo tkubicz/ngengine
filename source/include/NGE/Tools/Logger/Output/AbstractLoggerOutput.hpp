@@ -51,13 +51,24 @@ namespace NGE {
 
 					virtual void Flush() = 0;
 
+					void TryFlush();
+
 					NGE::Core::ConcurrentQueue<std::shared_ptr<LogMessage>>&GetQueue();
 
-					template <typename T> T* Get() {
+					template <typename T> T* GetPtr() {
 						if (std::is_base_of<AbstractLoggerOutput, T>::value) {
 							return dynamic_cast<T*> (this);
 						}
 						return nullptr;
+					}
+
+					template <typename T> T& GetRef() {
+						if (std::is_base_of<AbstractLoggerOutput, T>::value) {
+							T* casted = dynamic_cast<T*> (this);
+							return *casted;
+						} else {
+							throw std::bad_cast();
+						}
 					}
 
 					bool IsEnabled() const;
@@ -99,6 +110,8 @@ namespace NGE {
 					std::string GetMethodWithoutArguments(const std::string& function);
 
 					void BuildMemoryWriterFromQueue(fmt::MemoryWriter& mw);
+
+					bool FlushNow();
 				};
 			}
 		}
