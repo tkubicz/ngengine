@@ -553,6 +553,21 @@ SCENARIO("Automatic flush should work", "[logger]") {
 			}
 		}
 
+		WHEN("AutoFlush is disabled") {
+			log.SetAutoFlushEnabled(false);
+			log.SetFlushAfter(1);
+
+			WHEN("Few messages are logged") {
+				for (int i = 0; i < 5; ++i) {
+					log_warn("warn #{}", i + 1);
+				}
+
+				THEN("Log output should be empty") {
+					REQUIRE(output.str().empty());
+				}
+			}
+		}
+
 		log.Initialise();
 	}
 }
@@ -567,7 +582,7 @@ SCENARIO("Load configuration from XML file", "[logger]") {
 			REQUIRE(log.LoadXMLSettings("logger-configuration.xml"));
 
 			THEN("Global logger should have configuration from XML file") {
-				
+
 			}
 		}
 	}

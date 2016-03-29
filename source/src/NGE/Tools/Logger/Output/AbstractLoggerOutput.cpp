@@ -126,7 +126,7 @@ void AbstractLoggerOutput::BuildMemoryWriterFromQueue(fmt::MemoryWriter& mw) {
 }
 
 bool AbstractLoggerOutput::FlushNow() {
-	if (queue.Size() >= logConfig.flushAfter) {
+	if (logConfig.autoFlushEnabled && queue.Size() >= logConfig.flushAfter) {
 		return true;
 	}
 	return false;
