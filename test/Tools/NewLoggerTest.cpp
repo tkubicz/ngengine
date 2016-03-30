@@ -2,7 +2,6 @@
 #include <iostream>
 #include <fstream>
 #include <cstdio>
-#include <c++/4.9/iosfwd>
 #include "NGE/Tools/Logger/NewLogger.hpp"
 #include "NGE/Tools/Logger/Output/StreamLoggerOutput.hpp"
 #include "NGE/Tools/Logger/Output/ConsoleLoggerOutput.hpp"
@@ -586,4 +585,14 @@ SCENARIO("Load configuration from XML file", "[logger]") {
 			}
 		}
 	}
+}
+
+SCENARIO("Write logs from multiple threads", "[.][integration][logger]") {
+    GIVEN("Logger with file output enabled") {
+        l::NewLogger& log = l::NewLogger::GetInstance();
+        log.Initialise();
+        log["console"]->SetEnabled(false);
+        
+        WHEN("")
+    }
 }
