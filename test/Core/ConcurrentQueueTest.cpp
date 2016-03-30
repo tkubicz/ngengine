@@ -87,7 +87,7 @@ SCENARIO("Clear queue", "[concurrent-queue]") {
 	}
 }
 
-SCENARIO("Drain elements from one queue to another") {
+SCENARIO("Drain elements from one queue to another", "[concurrent-queue]") {
 
 	GIVEN("ConcurrentQueue with some elements") {
 		ConcurrentQueue<int> sourceQueue;
