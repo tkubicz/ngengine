@@ -12,7 +12,6 @@ if(${BUILD_TESTS})
 
 	set(tuples
 		# Core 
-		DelegateTest		Core/DelegateTest.cpp
 		ProcessTest			Core/ProcessTest.cpp
 		ProcessManagerTest	Core/ProcessManagerTest.cpp
 
@@ -38,6 +37,7 @@ if(${BUILD_TESTS})
 
 	set(source
 		test/Core/ConcurrentQueueTest.cpp
+        test/Core/DelegateTest.cpp
 		test/Parsers/StringUtilsTest.cpp
         test/Thirdparty/CatchTest.cpp
 		test/Tools/NewLoggerTest.cpp
