@@ -22,15 +22,12 @@ if(${BUILD_TESTS})
 		EventManagerTest	Events/EventManagerTest.cpp
 		
 		# Parsers
-		StringUtilsTest		Parsers/StringUtilsTest.cpp
+		#StringUtilsTest		Parsers/StringUtilsTest.cpp
 
 		# Scripting
         LuaScriptEventTest   Scripting/LuaScriptEventTest.cpp
 		LuaScriptManagerTest Scripting/LuaScriptManagerTest.cpp
 		LuaScriptProcessTest Scripting/LuaScriptProcessTest.cpp
-
-		# Tools
-		LoggerTest			Tools/LoggerTest.cpp
 	)
 
 	array2d_begin_loop(advanced "${tuples}" 2 "name;path")
@@ -42,6 +39,7 @@ if(${BUILD_TESTS})
 	endwhile()
 
 	set(source
+		test/Parsers/StringUtilsTest.cpp
         test/Thirdparty/CatchTest.cpp
 		test/Tools/NewLoggerTest.cpp
 		test/Tools/TimingTest.cpp

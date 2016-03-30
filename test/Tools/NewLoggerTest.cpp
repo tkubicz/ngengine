@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstdio>
+#include "NGE/Parsers/StringUtils.hpp"
 #include "NGE/Tools/Logger/NewLogger.hpp"
 #include "NGE/Tools/Logger/Output/StreamLoggerOutput.hpp"
 #include "NGE/Tools/Logger/Output/ConsoleLoggerOutput.hpp"
@@ -9,6 +10,7 @@
 
 namespace l = NGE::Tools::Logger;
 namespace o = NGE::Tools::Logger::Output;
+namespace p = NGE::Parsers;
 
 SCENARIO("Get logger outputs using subscript operator", "[logger]") {
 
@@ -349,7 +351,7 @@ SCENARIO("Logging to file", "[logger]") {
 		log.Initialise();
 		log["file"]->SetEnabled(true);
 		log["console"]->SetEnabled(false);
-		const std::string fileName = "logging_to_file_test.log";
+		const std::string fileName = p::StringUtils::RandomString(10) + ".log";
 		(log["file"]->GetPtr<o::FileLoggerOutput>())->SetFilePath(fileName);
 
 		WHEN("Logs are written and flushed") {
@@ -588,11 +590,67 @@ SCENARIO("Load configuration from XML file", "[logger]") {
 }
 
 SCENARIO("Write logs from multiple threads", "[.][integration][logger]") {
-    GIVEN("Logger with file output enabled") {
-        l::NewLogger& log = l::NewLogger::GetInstance();
-        log.Initialise();
-        log["console"]->SetEnabled(false);
-        
-        WHEN("")
-    }
+
+	GIVEN("Logger with file output enabled") {
+		l::NewLogger& log = l::NewLogger::GetInstance();
+		log.Initialise();
+		log["console"]->SetEnabled(false);
+
+		const std::string fileName = p::StringUtils::RandomString(10) + ".log";
+		log["file"]->GetRef<o::FileLoggerOutput>().SetFilePath(fileName);
+
+		const size_t numThreads = 10;
+		const size_t numLogs = 10000;
+
+		std::function<double(const size_t, const size_t) > logFromThreads = [&](const size_t numThreads, const size_t numLogs) -> double {
+			auto startTime = std::chrono::high_resolution_clock::now();
+			std::vector<std::thread> threads(numThreads);
+			for (std::thread& t : threads) {
+				t = std::thread([&numLogs]() {
+					for (size_t i = 0; i < numLogs; ++i) {
+						log_info("{} / {}", std::this_thread::get_id(), i + 1);
+					}
+				});
+			}
+
+			for (std::thread& t : threads) {
+				t.join();
+			}
+
+			log.Flush();
+			auto stopTime = std::chrono::high_resolution_clock::now();
+			std::chrono::duration<double, std::milli> diffTime = stopTime - startTime;
+			return diffTime.count();
+		};
+
+		std::function<void(const size_t, const size_t, const double, const std::string&) > checkFile = [&](const size_t numThreads, const size_t numLogs, const double diffTime, const std::string & fileName) {
+			INFO("Finished in time: " << diffTime << " ms");
+
+			std::ifstream file(fileName.c_str());
+			REQUIRE(file.is_open());
+			int linesInFile = std::count(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>(), '\n');
+			REQUIRE(linesInFile == (numThreads * numLogs));
+		};
+
+		WHEN("Logs are written from multiple threads without auto flush") {
+			log["file"]->SetAutoFlushEnabled(false);
+			double diffTime = logFromThreads(numThreads, numLogs);
+
+			THEN("All logs were written to log file") {
+				checkFile(numThreads, numLogs, diffTime, fileName);
+			}
+		}
+
+		WHEN("Logs are written from multiple threads with auto flush") {
+			log["file"]->SetAutoFlushEnabled(true);
+			log["file"]->SetFlushAfter(100);
+			double diffTime = logFromThreads(numThreads, numLogs);
+
+			THEN("All logs were written to log file") {
+				checkFile(numThreads, numLogs, diffTime, fileName);
+			}
+		}
+
+		std::remove(fileName.c_str());
+	}
 }
