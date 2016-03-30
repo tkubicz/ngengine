@@ -12,13 +12,11 @@ if(${BUILD_TESTS})
 
 	set(tuples
 		# Core 
-		ConcurrentQueueTest Core/ConcurrentQueueTest.cpp
 		DelegateTest		Core/DelegateTest.cpp
 		ProcessTest			Core/ProcessTest.cpp
 		ProcessManagerTest	Core/ProcessManagerTest.cpp
 
 		# Events
-		EventDelegateTest	Events/EventDelegateTest.cpp
 		EventManagerTest	Events/EventManagerTest.cpp
 		
 		# Parsers
@@ -39,6 +37,7 @@ if(${BUILD_TESTS})
 	endwhile()
 
 	set(source
+		test/Core/ConcurrentQueueTest.cpp
 		test/Parsers/StringUtilsTest.cpp
         test/Thirdparty/CatchTest.cpp
 		test/Tools/NewLoggerTest.cpp
