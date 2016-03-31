@@ -2,13 +2,24 @@ cmake_minimum_required (VERSION 3.0)
 
 project (nge)
 
-# Set the current build profile
+# Set the current build profile.
 if (NOT CMAKE_BUILD_TYPE)
     set (CMAKE_BUILD_TYPE Debug)
 endif()
 
+# Appends the cmake/ path to MAKE_MODULE_PATH variable.
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/ ${CMAKE_MODULE_PATH})
+
+# Current version of the project.
+set(MAJOR_VERSION 0)
+set(MINOR_VERSION 1)
+set(PATH_VERSION 0)
+
+include(GitGetRevisionDescription)
+git_execute(COMMIT_HASH rev-parse --short HEAD)
+
 # --------------------------------------
-message(STATUS "Compiling ${CMAKE_PROJECT_NAME} version 1.0")
+message(STATUS "Compiling ${CMAKE_PROJECT_NAME} version ${MAJOR_VERSION}.${MINOR_VERSION}.${PATH_VERSION}-${COMMIT_HASH}")
 message(STATUS "Using cmake version ${CMAKE_VERSION}")
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 # --------------------------------------
@@ -18,18 +29,8 @@ if (NOT DEFINED CMAKE_INSTALL_PREFIX)
 	set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/install/")
 endif()
 
-# Set the list of directories to search for cmake modules.
-set(CMAKE_MODULE_PATH
-	"${CMAKE_CURRENT_SOURCE_DIR}/cmake"
-)
-
-# Set the directory of third-party software.
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/kaguya/include/")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/pugixml/src/")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/Catch/include/")
-
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/cppformat/")
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/cppformat" thirdparty/cppformat)
+# Set up the thirdparty software.
+include(${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/ThirdpartyMakeLists.txt)
 
 # Specify the compilation flags for different build types.
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -std=c++11 -DUSE_GLFW -g -Wall")
@@ -58,8 +59,6 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 #      	set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${my_cxx_flags}" )
 #    endif()
 endif()
-
-
 
 IF (ANDROID)
 	find_package(OpenGLES)
@@ -255,4 +254,4 @@ endif()
 install (TARGETS nge DESTINATION bin)
 install (DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/source/include/ DESTINATION include)
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/test/CMakeLists.txt)
+include(${CMAKE_CURRENT_SOURCE_DIR}/test/TestMakeLists.txt)

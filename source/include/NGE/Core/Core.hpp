@@ -2,7 +2,7 @@
  * File:   Core.hpp
  * Author: tku
  *
- * Created on 3 luty 2015, 15:24
+ * Created on 3 February 2015, 15:24
  */
 
 #ifndef CORE_HPP
