@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 3.0)
 
 if(${BUILD_TESTS})
 
-	set (extra_libs 
+	set (EXTRA_LIBS 
 		${Boost_LIBRARIES} nge GL GLU GLEW glfw z pthread lua${LUA_VERSION} cppformat
 	)
 
@@ -12,7 +12,7 @@ if(${BUILD_TESTS})
 
 	set(tuples
 		# Events
-		EventManagerTest	Events/EventManagerTest.cpp
+		#EventManagerTest	Events/EventManagerTest.cpp
 
 		# Scripting
         LuaScriptEventTest   Scripting/LuaScriptEventTest.cpp
@@ -23,7 +23,7 @@ if(${BUILD_TESTS})
 	array2d_begin_loop(advanced "${tuples}" 2 "name;path")
 	while (advanced)
 		add_executable(${name} test/${path})
-		target_link_libraries(${name} ${extra_libs})
+		target_link_libraries(${name} ${EXTRA_LIBS})
 		add_test(${name}Runner ${EXECUTABLE_OUTPUT_PATH}/${name})
 		array2d_advance()
 	endwhile()
@@ -33,21 +33,37 @@ if(${BUILD_TESTS})
         test/Core/DelegateTest.cpp
 		test/Core/ProcessManagerTest.cpp
 		test/Core/ProcessTest.cpp
+		test/Events/EventManagerTest.cpp
 		test/Parsers/StringUtilsTest.cpp
         test/Thirdparty/CatchTest.cpp
 		test/Tools/NewLoggerTest.cpp
 		test/Tools/TimingTest.cpp
 		test/Main.cpp
 	)
-	add_executable(Tests ${source})
-	target_link_libraries(Tests ${extra_libs})
+	
+	SET(TEST_EXECUTABLE_NAME tests)
 
-	add_test(RunTests ${EXECUTABLE_OUTPUT_PATH}/Tests)
+	add_executable(${TEST_EXECUTABLE_NAME} ${source})
+	target_link_libraries(${TEST_EXECUTABLE_NAME} ${EXTRA_LIBS})
 
-	add_test(NAME ListTests COMMAND ${EXECUTABLE_OUTPUT_PATH}/Tests --list-tests)
+	if (${SHOW_SOURCE_CODE_STATS})
+		find_program(CLOC cloc)
+		if (NOT CLOC)
+			message(STATUS "Could not find Cloc")
+		else()
+			message(STATUS "Cloc found")
+			add_test(NAME NgeSourceCodeStats COMMAND ${CLOC} ${PROJECT_SOURCE_DIR}/source)
+			add_test(NAME TestSourceCodeStats COMMAND ${CLOC} ${PROJECT_SOURCE_DIR}/test)
+			add_test(NAME SummarySourceCodeStats COMMAND ${CLOC} ${PROJECT_SOURCE_DIR}/source ${PROJECT_SOURCE_DIR}/test)
+		endif()
+	endif()
+
+	add_test(RunTests ${EXECUTABLE_OUTPUT_PATH}/${TEST_EXECUTABLE_NAME})
+
+	add_test(NAME ListTests COMMAND ${EXECUTABLE_OUTPUT_PATH}/${TEST_EXECUTABLE_NAME} --list-tests)
 	set_tests_properties(ListTests PROPERTIES PASS_REGULAR_EXPRESSION "[0-9]+ test cases")
 
-	add_test(NAME ListTags COMMAND ${EXECUTABLE_OUTPUT_PATH}/Tests --list-tags)
+	add_test(NAME ListTags COMMAND ${EXECUTABLE_OUTPUT_PATH}/${TEST_EXECUTABLE_NAME} --list-tags)
 	set_tests_properties(ListTags PROPERTIES PASS_REGULAR_EXPRESSION "[0-9]+ tags")
 
 	enable_testing()

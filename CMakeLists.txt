@@ -40,6 +40,11 @@ if (NOT DEFINED BUILD_TESTS)
 	set (BUILD_TESTS true)
 endif()
 
+# By default we want to show source code statistics
+if (NOT DEFINED SHOW_SOURCE_CODE_STATS)
+	set (SHOW_SOURCE_CODE_STATS true)
+endif()
+
 if (NOT DEFINED LUA_VERSION)
 	set (LUA_VERSION 5.2)
 endif()

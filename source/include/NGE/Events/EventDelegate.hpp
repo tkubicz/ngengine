@@ -2,11 +2,11 @@
  * File:   EventDelegate.hpp
  * Author: tku
  *
- * Created on 19 październik 2015, 00:19
+ * Created on 19 October 2015, 00:19
  */
 
 #ifndef EVENTDELEGATE_HPP
-#define	EVENTDELEGATE_HPP
+#define EVENTDELEGATE_HPP
 
 #include "NGE/Events/IEventData.hpp"
 
@@ -33,5 +33,5 @@ namespace NGE {
 	}
 }
 
-#endif	/* EVENTDELEGATE_HPP */
+#endif /* EVENTDELEGATE_HPP */
 
