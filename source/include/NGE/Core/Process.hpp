@@ -132,9 +132,9 @@ namespace NGE {
 			virtual void Pause();
 
 			/**
-			 * Unpause the process.
+			 * Run the process.
 			 */
-			virtual void UnPause();
+			virtual void Run();
 
 			/**
 			 * Get the current state of the process.

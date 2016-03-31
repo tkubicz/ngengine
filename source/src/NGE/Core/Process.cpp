@@ -86,11 +86,11 @@ void Process::Pause() {
     }
 }
 
-void Process::UnPause() {
+void Process::Run() {
     if (state == PAUSED) {
         state = RUNNING;
     } else {
-        log_warn("Attempting to unpause a process that isn't paused");
+        log_warn("Attempting to run a process that isn't paused");
     }
 }
 

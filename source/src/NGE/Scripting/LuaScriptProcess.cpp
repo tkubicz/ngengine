@@ -9,7 +9,7 @@ void LuaScriptProcess::RegisterScriptClass() {
             .addMember("succeed", &NGE::Core::Process::Succeed)
             .addMember("fail", &NGE::Core::Process::Fail)
             .addMember("pause", &NGE::Core::Process::Pause)
-            .addMember("unpause", &NGE::Core::Process::UnPause)
+            .addMember("unpause", &NGE::Core::Process::Run)
             .addMember("is_alive", &NGE::Core::Process::IsAlive)
             .addMember("is_dead", &NGE::Core::Process::IsDead)
             .addMember("is_paused", &NGE::Core::Process::IsPaused)
