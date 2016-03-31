@@ -13,7 +13,6 @@ if(${BUILD_TESTS})
 	set(tuples
 		# Core 
 		ProcessTest			Core/ProcessTest.cpp
-		ProcessManagerTest	Core/ProcessManagerTest.cpp
 
 		# Events
 		EventManagerTest	Events/EventManagerTest.cpp
@@ -38,6 +37,7 @@ if(${BUILD_TESTS})
 	set(source
 		test/Core/ConcurrentQueueTest.cpp
         test/Core/DelegateTest.cpp
+		test/Core/ProcessManagerTest.cpp
 		test/Parsers/StringUtilsTest.cpp
         test/Thirdparty/CatchTest.cpp
 		test/Tools/NewLoggerTest.cpp
