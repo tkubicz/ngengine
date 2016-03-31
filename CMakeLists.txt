@@ -30,7 +30,7 @@ if (NOT DEFINED CMAKE_INSTALL_PREFIX)
 endif()
 
 # Set up the thirdparty software.
-include(${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/ThirdpartyMakeLists.txt)
+include(${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/ThirdpartyMakeLists.cmake)
 
 # Specify the compilation flags for different build types.
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -std=c++11 -DUSE_GLFW -g -Wall")
@@ -254,4 +254,4 @@ endif()
 install (TARGETS nge DESTINATION bin)
 install (DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/source/include/ DESTINATION include)
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/test/TestMakeLists.txt)
+include(${CMAKE_CURRENT_SOURCE_DIR}/test/TestMakeLists.cmake)

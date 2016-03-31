@@ -49,11 +49,26 @@ namespace NGE {
 					AbstractLoggerOutput(const LogConfig& logConfig);
 					virtual ~AbstractLoggerOutput();
 
+					/**
+					 * Method to be implemented in derived classes. This method should 
+					 * immediately flush all log messages that are kept in queue.
+					 */
 					virtual void Flush() = 0;
 
+					/**
+					 * Try to flush current queue depending on its size and log 
+					 * configuration.
+					 */
 					void TryFlush();
 
+					/**
+					 * Get reference to log queue.
+					 * @return Reference to log queue.
+					 */
 					NGE::Core::ConcurrentQueue<std::shared_ptr<LogMessage>>&GetQueue();
+
+					// TODO: Modify that to use std::enable_if.
+					// Reference: http://stackoverflow.com/questions/14797303/template-specialization-and-derived-classes-in-c
 
 					template <typename T> T* GetPtr() {
 						if (std::is_base_of<AbstractLoggerOutput, T>::value) {

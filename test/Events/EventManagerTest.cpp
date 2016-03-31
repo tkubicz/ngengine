@@ -21,6 +21,27 @@ SCENARIO("Create event manager", "[event-manager]") {
 			REQUIRE(IEventManager::Get() == nullptr);
 		}
 	}
+
+	WHEN("Global event manager is created") {
+		EventManager manager1("global-event-manager", true);
+
+		THEN("IEventManager::Get() should return the same object") {
+			REQUIRE(&manager1 == IEventManager::Get());
+		}
+	}
+
+//	WHEN("Two global managers are created") {
+//		EventManager* manager1 = new EventManager("first-event-manager", true);
+//		EventManager* manager2 = new EventManager("second-event-manager", true);
+//
+//		THEN("Event manager created last should be global") {
+//			REQUIRE_FALSE(manager1 == IEventManager::Get());
+//			REQUIRE(manager2 == IEventManager::Get());
+//
+//			if (manager1 != nullptr) delete manager1;
+//			if (manager2 != nullptr) delete manager2;
+//		}
+//	}
 }
 
 //class TestDelegateClass {
