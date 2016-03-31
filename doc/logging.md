@@ -1,3 +1,11 @@
+# **Logger**
+
+## Overview
+
+## Using logger
+
+## Default configuration
+
 ### Logging format options
 
 Those options can be used in logger format.
@@ -10,3 +18,7 @@ Those options can be used in logger format.
 * shortFunction
 * line
 * log
+
+### Date format
+
+### Setting log levels
