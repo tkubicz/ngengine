@@ -1,10 +1,13 @@
 # **Logger**
 
 ## Overview
+todo
 
 ## Using logger
+todo
 
 ## Default configuration
+todo
 
 ### Logging format options
 
@@ -20,5 +23,7 @@ Those options can be used in logger format.
 * log
 
 ### Date format
+todo
 
 ### Setting log levels
+todo
