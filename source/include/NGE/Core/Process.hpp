@@ -2,11 +2,11 @@
  * File:   Process.hpp
  * Author: tku
  *
- * Created on 7 sierpnia 2015, 14:49
+ * Created on 7 August 2015, 14:49
  */
 
 #ifndef PROCESS_HPP
-#define	PROCESS_HPP
+#define PROCESS_HPP
 
 #include "NGE/Core/Core.hpp"
 #include <memory>
@@ -25,7 +25,7 @@ namespace NGE {
 		 * attached to process manager.
 		 * - Failure means the process started but failed in some way. If the process has a child,
 		 * it will be aborted.
-		 * - Aborted processes are processes that are cancaled while not submitted to the process manager.
+		 * - Aborted processes are processes that are cancelled while not submitted to the process manager.
 		 * Depending on the circumstances, they may or may not have gotten an OnInit() call. For example,
 		 * a process can spawn another process and call AttachChild() on itself. If the new process fails,
 		 * the child will get an OnAbort() call on it, event though its status is @link State::RUNNING.
@@ -41,14 +41,14 @@ namespace NGE {
 			enum State {
 				// Processes that are neither dead nor alive.
 				/** Create but not running. */
-				UNINITIALIZED = 0,
-				/** Removed from the process list but not destroyed; this can happen when a process that is already running is parented to another process. */
+				UNINITIALISED = 0,
+				/** Removed from the process list but not destroyed; this can happen when a process that is already running is parent for another process. */
 				REMOVED,
 
 				// Living processes.
-				/** Initialized and running. */
+				/** Initialised and running. */
 				RUNNING,
-				/** Initialized but paused. */
+				/** Initialised but paused. */
 				PAUSED,
 
 				// Dead processes.
@@ -93,9 +93,11 @@ namespace NGE {
 
 			/**
 			 * Called every frame.
+			 * TOOD: This method should be pure virtual (abstract) but it isn't
+			 * because we can't register abstract classes in Lua. Think how to change it.
 			 * @param deltaTime time passed from the last frame.
 			 */
-			virtual void OnUpdate(unsigned int deltaTime) = 0;
+			virtual void OnUpdate(unsigned int deltaTime) { }
 
 			/**
 			 * Called if the process succeeds.
@@ -130,9 +132,9 @@ namespace NGE {
 			virtual void Pause();
 
 			/**
-			 * Unpause the process.
+			 * Run the process.
 			 */
-			virtual void UnPause();
+			virtual void Run();
 
 			/**
 			 * Get the current state of the process.
@@ -198,4 +200,4 @@ namespace NGE {
 	}
 }
 
-#endif	/* PROCESS_HPP */
+#endif /* PROCESS_HPP */

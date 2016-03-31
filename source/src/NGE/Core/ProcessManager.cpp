@@ -1,5 +1,4 @@
 #include <list>
-
 #include "NGE/Core/ProcessManager.hpp"
 using namespace NGE::Core;
 
@@ -21,8 +20,8 @@ unsigned int ProcessManager::UpdateProcesses(unsigned int deltaTime) {
 		ProcessList::iterator thisIt = it;
 		++it;
 
-		// Process is uninitialized, so initialize it.
-		if (currentProcess->GetState() == Process::UNINITIALIZED) {
+		// Process is uninitialised, so initialise it.
+		if (currentProcess->GetState() == Process::UNINITIALISED) {
 			currentProcess->OnInit();
 		}
 
@@ -100,8 +99,6 @@ void ProcessManager::AbortAllProcesses(bool immediate) {
 	}
 }
 
-
-
-
-
-
+unsigned int ProcessManager::GetProcessCount() const {
+	return processList.size();
+}

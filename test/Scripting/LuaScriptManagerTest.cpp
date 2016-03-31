@@ -9,13 +9,13 @@ using namespace NGE::Scripting;
 
 BOOST_AUTO_TEST_CASE(ExecuteStringTest) {
 	LuaScriptManager& scriptManager = LuaScriptManager::GetInstance();
-	scriptManager.Init();
+	scriptManager.Initialise();
 	bool result = scriptManager.ExecuteString("print('I am executing this string and printing it!')");
 	BOOST_CHECK(result);
 }
 
 BOOST_AUTO_TEST_CASE(ExecuteErrorString) {
-	LuaScriptManager::GetInstance().Init();
+	LuaScriptManager::GetInstance().Initialise();
 	bool result = LuaScriptManager::GetInstance().ExecuteString("undefined()");
 	BOOST_CHECK(!result);
 	std::string errorMessage = LuaScriptManager::GetInstance().GetLastError();
@@ -24,28 +24,28 @@ BOOST_AUTO_TEST_CASE(ExecuteErrorString) {
 
 BOOST_AUTO_TEST_CASE(ExecuteStringPrintShortcut) {
 	LuaScriptManager& scriptManager = LuaScriptManager::GetInstance();
-	scriptManager.Init();
+	scriptManager.Initialise();
 	bool result = scriptManager.ExecuteString("='Print this message from shortcut!'");
 	BOOST_CHECK(result);
 }
 
 BOOST_AUTO_TEST_CASE(ExecuteFile) {
 	LuaScriptManager& scriptManager = LuaScriptManager::GetInstance();
-	scriptManager.Init();
-	bool result = scriptManager.ExecuteFile("../test/data/test.lua");
+	scriptManager.Initialise();
+	bool result = scriptManager.ExecuteFile("../test/Data/test.lua");
 	BOOST_CHECK(result);
 }
 
 BOOST_AUTO_TEST_CASE(ExecuteFileThatDoesntExist) {
 	LuaScriptManager& scriptManager = LuaScriptManager::GetInstance();
-	scriptManager.Init();
-	bool result = scriptManager.ExecuteFile("../test/data/doesntexist.lua");
+	scriptManager.Initialise();
+	bool result = scriptManager.ExecuteFile("../test/Data/doesntexist.lua");
 	BOOST_CHECK(!result);
 }
 
 BOOST_AUTO_TEST_CASE(ExecuteMultipleLines) {
 	LuaScriptManager& scriptManager = LuaScriptManager::GetInstance();
-	scriptManager.Init();
+	scriptManager.Initialise();
 
 	bool result = false;
 
@@ -58,8 +58,8 @@ BOOST_AUTO_TEST_CASE(ExecuteMultipleLines) {
 
 BOOST_AUTO_TEST_CASE(GetLuaState) {
 	LuaScriptManager& scriptManager = LuaScriptManager::GetInstance();
-	scriptManager.Init();
-	bool result = scriptManager.ExecuteFile("../test/data/test.lua");
+	scriptManager.Initialise();
+	bool result = scriptManager.ExecuteFile("../test/Data/test.lua");
 	BOOST_CHECK(result);
 
 	std::weak_ptr<kaguya::State> state = scriptManager.GetLuaState();

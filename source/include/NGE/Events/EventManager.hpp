@@ -37,7 +37,6 @@ namespace NGE {
             explicit EventManager(const std::string& name, bool setAsGlobal);
             virtual ~EventManager();
 
-
             virtual bool AddListener(const EventDelegate& delegate, const EventType& type);
             virtual bool RemoveListener(const EventDelegate& delegate, const EventType& type);
 

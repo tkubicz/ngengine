@@ -5,12 +5,12 @@
 
 #include "NGE/Math/Matrix4.hpp"
 #include "NGE/Math/MathUtils.hpp"
-#include "NGE/Tools/Logger.hpp"
+#include "NGE/Tools/Logger/NewLogger.hpp"
 
 namespace NGE {
+    // TOOD: Move this enum inside class.
 	// This enum shoud be in "Rendering" namespace, but it can't due C++ limitation.
 	// After C++0x it should be moved inside namespace.
-
 	enum MatrixMode {
 		MODELVIEW_MATRIX = 0, PROJECTION_MATRIX, TEXTURE_MATRIX
 	};
@@ -98,7 +98,7 @@ namespace NGE {
 					break;
 
 				default:
-					nge_log_error("Invalid MatrixMode parameter");
+					log_error("Invalid MatrixMode parameter");
 					break;
 			}
 		}
@@ -133,7 +133,7 @@ namespace NGE {
 					return textureStack.top();
 
 				default:
-					nge_log_error("Invalid MatrixMode parameter");
+					log_error("Invalid MatrixMode parameter");
 					break;
 			}
 

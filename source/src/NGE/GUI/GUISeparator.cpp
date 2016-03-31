@@ -2,7 +2,7 @@
 #include "NGE/GUI/GUIClippedRectangle.hpp"
 #include "NGE/Math/MathUtils.hpp"
 #include "NGE/Math/Vector4.hpp"
-#include "NGE/Tools/Logger.hpp"
+#include "NGE/Tools/Logger/NewLogger.hpp"
 #include "NGE/Media/MediaManager.hpp"
 
 using namespace NGE::GUI;
@@ -54,7 +54,7 @@ const NGE::Math::vec3f& GUISeparator::GetColor() {
 
 bool GUISeparator::LoadXMLSettings(const pugi::xml_node& node) {
 	if (string(node.name()) != "Separator") {
-		nge_log_error("Need Separator node");
+		log_error("Need Separator node");
 		return false;
 	}
 
@@ -62,7 +62,7 @@ bool GUISeparator::LoadXMLSettings(const pugi::xml_node& node) {
 	shader = Media::MediaManager::getInstance().getShaderManager().getProgram(node.child("Shader"));
 
 	if (shader == NULL) {
-		nge_log_error("Could not load shader for separator");
+		log_error("Could not load shader for separator");
 		return false;
 	}
 

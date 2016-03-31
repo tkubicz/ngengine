@@ -1,7 +1,7 @@
 #include <fstream>
 #include "NGE/Geometry/Skeleton/SkinnedMesh.hpp"
 #include "NGE/Geometry/Skeleton/SkeletonNode.hpp"
-#include "NGE/Tools/Logger.hpp"
+#include "NGE/Tools/Logger/NewLogger.hpp"
 #include "NGE/Rendering/Renderer.hpp"
 #include "NGE/Core/Core.hpp"
 using namespace NGE::Geometry::Skeleton;
@@ -24,7 +24,7 @@ void SkinnedMesh::LoadMesh(const std::string& filename) {
 
 	std::ifstream ifile(filename.c_str(), std::ios::in);
 	if (!ifile.is_open()) {
-		nge_log_error("SkinnedMesh --> Could not open file: " + filename);
+		log_error("Could not open file: '{}'", filename);
 		return;
 	}
 

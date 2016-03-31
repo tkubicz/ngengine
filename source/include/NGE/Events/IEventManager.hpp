@@ -6,7 +6,7 @@
  */
 
 #ifndef IEVENTMANAGER_HPP
-#define	IEVENTMANAGER_HPP
+#define IEVENTMANAGER_HPP
 
 #include "NGE/Events/IEventData.hpp"
 #include "NGE/Events/EventDelegate.hpp"
@@ -110,5 +110,5 @@ namespace NGE {
 	}
 }
 
-#endif	/* IEVENTMANAGER_HPP */
+#endif /* IEVENTMANAGER_HPP */
 

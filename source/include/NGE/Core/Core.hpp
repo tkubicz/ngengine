@@ -2,7 +2,7 @@
  * File:   Core.hpp
  * Author: tku
  *
- * Created on 3 luty 2015, 15:24
+ * Created on 3 February 2015, 15:24
  */
 
 #ifndef CORE_HPP
@@ -18,10 +18,5 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #endif
-
-/** 
- * Include Logger - it's accessable from any part of the code.
- */
-#include "NGE/Tools/Logger.hpp"
 
 #endif	/* CORE_HPP */

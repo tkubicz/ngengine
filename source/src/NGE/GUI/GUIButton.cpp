@@ -1,5 +1,5 @@
 #include "NGE/GUI/GUIButton.hpp"
-#include "NGE/Tools/Logger.hpp"
+#include "NGE/Tools/Logger/NewLogger.hpp"
 #include "NGE/Rendering/Renderer.hpp"
 #include "NGE/Media/MediaManager.hpp"
 
@@ -20,7 +20,7 @@ GUIButton::GUIButton(const char* callback) : GUIAlphaElement(callback), GUIClipp
 
 bool GUIButton::LoadXMLSettings(const pugi::xml_node& node) {
 	if (std::string(node.name()) != "Button") {
-		nge_log_error("Need a Button node");
+		log_error("Need a Button node");
 		return false;
 	}
 

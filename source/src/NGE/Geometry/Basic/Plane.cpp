@@ -1,5 +1,5 @@
 #include "NGE/Geometry/Basic/Plane.hpp"
-#include "NGE/Core/Core.hpp"
+#include "NGE/Tools/Logger/NewLogger.hpp"
 using namespace NGE::Geometry::Basic;
 
 bool Plane::Initialize() {

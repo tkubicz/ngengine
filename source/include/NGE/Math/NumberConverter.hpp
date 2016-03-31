@@ -87,7 +87,7 @@ namespace NGE {
 			inline static uint64_t StrToUl10_64(const char* in, const char** out = 0, unsigned int* maxInout = 0);
 
 			/**
-			 * Provides a fast functiom for converting a string into a float, about
+			 * Provides a fast function for converting a string into a float, about
 			 * 6 times faster than atof in win32.
 			 * @param c
 			 * @param out
