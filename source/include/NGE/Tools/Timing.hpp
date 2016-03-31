@@ -2,48 +2,72 @@
  * File:   Timing.h
  * Author: tku
  *
- * Created on 21 maj 2012, 13:33
+ * Created on 21 May 2012, 13:33
  */
 
 #ifndef TIMING_HPP
-#define	TIMING_HPP
+#define TIMING_HPP
+
+#include <chrono>
+#include <array>
 
 namespace NGE {
 	namespace Tools {
 
 		class Timing {
-		  public:
+		  private:
+
+			/**
+			 * Time buffer to keep formatted date.
+			 */
+			char* timeBuffer;
+
+			/**
+			 * Size of the time buffer.
+			 */
+			unsigned short timeBufferSize;
+
 			unsigned frameNumber;
 			double lastFrameTimestamp;
 			double lastFrameDuration;
-			//unsigned long lastFrameClockstamp;
-			//unsigned long lastFrameClockTicks;
-
-			bool isPaused;
-
 			double averageFrameDuration;
 			float fps;
 
-			static Timing& Get();
-			static void Update();
-			static void Initialize();
-			static void Deinitialize();
+			/**
+			 * Flag that indicates if the timer is initialised.
+			 */
+			bool initialised;
 
-			static unsigned GetTime();
-			//static unsigned long GetClock();
-
+			/**
+			 * Flag that indicates if the timer is paused or not.
+			 */
+			bool paused;
 		  private:
 
-			Timing() { }
+			Timing();
+			~Timing();
+			Timing(const Timing&);
+			Timing& operator=(const Timing&);
 
-			Timing(const Timing&) { }
+			void SetInternalFieldsToDefault();
 
-			Timing& operator=(const Timing&) {
-				return *this;
-			}
+		  public:
+
+			static Timing& GetInstance();
+
+			void Update();
+			void Initialize();
+			void Deinitialize();
+
+			std::string GetCurrentTimeInFormat(const std::string& format = "%Y-%m-%d %H:%M:%S.%f");
+			std::string GetTimeInFormat(const std::chrono::milliseconds& milliseconds, const std::string& format = "%Y-%m-%d %H:%M:%S.%f");
+			std::chrono::milliseconds GetCurrentTimeInMs();
+
+			double GetLastFrameDuration() const;
+			double GetAverageFrameDuration() const;
 		};
 	}
 }
 
-#endif	/* TIMING_HPP */
+#endif /* TIMING_HPP */
 

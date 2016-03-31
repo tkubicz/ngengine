@@ -2,7 +2,7 @@
 #include <fstream>
 #include <jpeglib.h>
 #include "NGE/Media/Images/JpegImage.hpp"
-#include "NGE/Tools/Logger.hpp"
+#include "NGE/Tools/Logger/NewLogger.hpp"
 using namespace NGE::Media::Images;
 
 JpegImage::JpegImage() {
@@ -17,7 +17,7 @@ bool JpegImage::load(const std::string& filename, bool suppressError) {
 
 	if (!fileIn) {
 		if (!suppressError)
-			log_error("JpegImage -> Could not open the JPEG image file for reading: \"" + filename + "\".");
+			log_error("Could not open the JPEG image file for reading: '{}'", filename);
 		return false;
 	}
 

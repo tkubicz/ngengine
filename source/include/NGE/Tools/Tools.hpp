@@ -2,14 +2,14 @@
  * File:   Tools.hpp
  * Author: tku
  *
- * Created on 25 marzec 2013, 05:28
+ * Created on 25 March 2013, 05:28
  */
 
 #ifndef TOOLS_HPP
-#define	TOOLS_HPP
+#define TOOLS_HPP
 
-#ifndef LOGGER_H
-#include "NGE/Tools/Logger.hpp"
+#ifndef NEWLOGGER_HPP
+#include "NGE/Tools/Logger/NewLogger.hpp"
 #endif
 
 #ifndef RANDOM_H
@@ -20,5 +20,5 @@
 #include "NGE/Tools/Timing.hpp"
 #endif
 
-#endif	/* TOOLS_HPP */
+#endif /* TOOLS_HPP */
 

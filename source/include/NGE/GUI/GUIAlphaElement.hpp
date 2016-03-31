@@ -6,7 +6,7 @@
  */
 
 #ifndef GUIALPHAELEMENT_HPP
-#define	GUIALPHAELEMENT_HPP
+#define GUIALPHAELEMENT_HPP
 
 #include "NGE/GUI/GUIRectangle.hpp"
 #include "NGE/GUI/GUIText.hpp"
@@ -17,6 +17,8 @@ namespace NGE {
 		class GUIAlphaElement : public GUIRectangle {
 		  public:
 			GUIAlphaElement(const char* callback = NULL);
+
+			virtual ~GUIAlphaElement() { }
 
 			virtual void Update(float dt) = 0;
 			virtual void Render() = 0;
@@ -52,5 +54,5 @@ namespace NGE {
 	}
 }
 
-#endif	/* GUIALPHAELEMENT_HPP */
+#endif /* GUIALPHAELEMENT_HPP */
 

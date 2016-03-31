@@ -1,5 +1,5 @@
 #include "NGE/Physics/RigidBody/Contact.hpp"
-#include "NGE/Tools/Logger.hpp"
+#include "NGE/Tools/Logger/NewLogger.hpp"
 
 using namespace NGE::Physics::RigidBody;
 

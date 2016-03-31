@@ -56,7 +56,7 @@ void Camera::Look() {
 void Camera::SetTouchInput(Events::TouchEvent& event) {
     int y = event.getYPosition();
     int x = event.getXPosition();
-    nge_log_info("SetTouchInput: x=" + nge_to_string(x) + ", y=" + nge_to_string(y));
+    log_info("SetTouchInput: x={}, y={}", x, y);
     if (y < 900 && x > 270 && x < 810) {
         activeKeys[0] = (event.getType() == 1 || event.getType() == 3) ? true : false;
     }

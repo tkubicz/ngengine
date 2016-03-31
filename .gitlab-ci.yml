@@ -1,3 +1,5 @@
+image: wraithbb/lynxware-cpp
+
 stages:
   - build
   - test

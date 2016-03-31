@@ -1,6 +1,6 @@
 #include "NGE/Media/Fonts/TextureMappedFont.hpp"
 #include "NGE/Rendering/Renderer.hpp"
-#include "NGE/Tools/Logger.hpp"
+#include "NGE/Tools/Logger/NewLogger.hpp"
 
 using namespace NGE::Media::Fonts;
 
@@ -13,7 +13,7 @@ TextureMappedFont::TextureMappedFont(float fontSize, NGE::Media::Images::Texture
 
 bool TextureMappedFont::initialize() {
 	if (texture == NULL) {
-		nge_log_error("Font texture is not initialized");
+		log_error("Font texture is not initialised");
 		return false;
 	}
 

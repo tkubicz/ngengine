@@ -6,7 +6,7 @@
  */
 
 #ifndef GUILABEL_HPP
-#define	GUILABEL_HPP
+#define GUILABEL_HPP
 
 #include "NGE/GUI/GUIAlphaElement.hpp"
 #include <pugixml.hpp>
@@ -18,6 +18,8 @@ namespace NGE {
 		  public:
 			GUILabel(const char* labelString = NULL, const char* callbackString = NULL);
 
+			virtual ~GUILabel() { }
+
 			virtual bool LoadXMLSettings(const pugi::xml_node& node);
 			virtual const Math::vec4i& GetWindowBounds();
 
@@ -27,5 +29,5 @@ namespace NGE {
 	}
 }
 
-#endif	/* GUILABEL_HPP */
+#endif /* GUILABEL_HPP */
 

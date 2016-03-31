@@ -1,7 +1,7 @@
 #ifdef _WIN32
 
 #include "NGE/Windows/D3DWindow.hpp"
-#include "NGE/Tools/Logger.hpp"
+#include "NGE/Tools/Logger/NewLogger.hpp"
 
 using namespace NGE::Windows;
 
