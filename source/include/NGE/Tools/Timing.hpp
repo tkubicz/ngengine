@@ -9,6 +9,7 @@
 #define TIMING_HPP
 
 #include <chrono>
+#include <array>
 
 namespace NGE {
 	namespace Tools {
@@ -29,33 +30,30 @@ namespace NGE {
 			unsigned frameNumber;
 			double lastFrameTimestamp;
 			double lastFrameDuration;
-			bool isPaused;
 			double averageFrameDuration;
 			float fps;
 
+			/**
+			 * Flag that indicates if the timer is initialised.
+			 */
+			bool initialised;
+
+			/**
+			 * Flag that indicates if the timer is paused or not.
+			 */
+			bool paused;
 		  private:
 
-			Timing() {
-				timeBufferSize = 100;
-				timeBuffer = new char[timeBufferSize];
-			}
+			Timing();
+			~Timing();
+			Timing(const Timing&);
+			Timing& operator=(const Timing&);
 
-			~Timing() {
-				delete timeBuffer;
-			}
-
-			Timing(const Timing&) { }
-
-			Timing& operator=(const Timing&) {
-				return *this;
-			}
+			void SetInternalFieldsToDefault();
 
 		  public:
 
-			static Timing& GetInstance() {
-				static Timing instance;
-				return instance;
-			}
+			static Timing& GetInstance();
 
 			void Update();
 			void Initialize();
@@ -65,9 +63,8 @@ namespace NGE {
 			std::string GetTimeInFormat(const std::chrono::milliseconds& milliseconds, const std::string& format = "%Y-%m-%d %H:%M:%S.%f");
 			std::chrono::milliseconds GetCurrentTimeInMs();
 
-			double GetLastFrameDuration() const {
-				return lastFrameDuration;
-			}
+			double GetLastFrameDuration() const;
+			double GetAverageFrameDuration() const;
 		};
 	}
 }

@@ -3,28 +3,60 @@
 #include "NGE/Tools/Timing.hpp"
 #include "NGE/Parsers/StringUtils.hpp"
 #include "cppformat/format.h"
+#include "NGE/Tools/Logger/NewLogger.hpp"
 
 using namespace NGE::Tools;
 namespace ch = std::chrono;
 
-void Timing::Initialize() {
+Timing::Timing() {
+	timeBufferSize = 100;
+	timeBuffer = new char[timeBufferSize];
+	initialised = false;
+}
 
+Timing::~Timing() {
+	delete timeBuffer;
+}
+
+Timing::Timing(const Timing&) {
+}
+
+Timing& Timing::operator=(const Timing&) {
+	return *this;
+}
+
+Timing& Timing::GetInstance() {
+	static Timing instance;
+	return instance;
+}
+
+void Timing::SetInternalFieldsToDefault() {
 	frameNumber = 0;
-
-	lastFrameTimestamp = ch::duration_cast<ch::duration<double>>(ch::high_resolution_clock::now().time_since_epoch()).count();
 	lastFrameDuration = 0;
-
-	isPaused = false;
-
+	paused = false;
 	averageFrameDuration = 0;
 	fps = 0;
 }
 
+void Timing::Initialize() {
+	SetInternalFieldsToDefault();
+	lastFrameTimestamp = ch::duration_cast<ch::duration<double>>(ch::high_resolution_clock::now().time_since_epoch()).count();
+	initialised = true;
+}
+
 void Timing::Deinitialize() {
+	SetInternalFieldsToDefault();
+	lastFrameTimestamp = 0;
+	initialised = false;
 }
 
 void Timing::Update() {
-	if (!isPaused) {
+	if (!initialised) {
+		log_warn("Trying to update time, but the timer is not initialised");
+		return;
+	}
+
+	if (!paused) {
 		frameNumber++;
 	}
 
@@ -61,9 +93,19 @@ std::string Timing::GetTimeInFormat(const ch::milliseconds& milliseconds, const 
 	if (std::strftime(&timeBuffer[0], timeBufferSize, replacedFormat.c_str(), &localTime)) {
 		return std::string(&timeBuffer[0]);
 	}
+
+	return std::string();
 }
 
 std::chrono::milliseconds Timing::GetCurrentTimeInMs() {
 	ch::high_resolution_clock::time_point timePoint = ch::high_resolution_clock::now();
 	return ch::duration_cast<ch::milliseconds>(timePoint.time_since_epoch());
+}
+
+double Timing::GetLastFrameDuration() const {
+	return lastFrameDuration;
+}
+
+double Timing::GetAverageFrameDuration() const {
+	return averageFrameDuration;
 }

@@ -8,7 +8,7 @@
 #ifndef TOUCHEVENT_HPP
 #define	TOUCHEVENT_HPP
 
-#include "NGE/Core/Core.hpp"
+#include <iostream>
 #include "NGE/Events/EventsTypes.hpp"
 
 namespace NGE {

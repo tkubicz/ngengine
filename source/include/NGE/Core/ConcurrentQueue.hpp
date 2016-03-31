@@ -14,82 +14,88 @@
 #include <thread>
 
 namespace NGE {
-	namespace Core {
+    namespace Core {
 
-		template <typename T> class ConcurrentQueue {
-		  private:
-			std::queue<T> queue;
-			std::condition_variable condition;
-			std::mutex mutex;
+        template <typename T> class ConcurrentQueue {
+          private:
+            std::queue<T> queue;
+            std::condition_variable condition;
+            std::mutex mutex;
 
-		  public:
+          public:
 
-			ConcurrentQueue() { }
-			ConcurrentQueue(const ConcurrentQueue &) = delete;
-			ConcurrentQueue& operator=(const ConcurrentQueue &) = delete;
+            ConcurrentQueue() { }
+            ConcurrentQueue(const ConcurrentQueue &) = delete;
+            ConcurrentQueue& operator=(const ConcurrentQueue &) = delete;
 
-			void Push(T const& data) {
-				std::unique_lock<std::mutex> lock(mutex);
-				queue.push(data);
-				lock.unlock();
-				condition.notify_one();
-			}
+            void Push(T const& data) {
+                std::unique_lock<std::mutex> lock(mutex);
+                queue.push(data);
+                lock.unlock();
+                condition.notify_one();
+            }
 
-			/**
-			 * Test whether container is empty
-			 */
-			bool Empty() {
-				std::unique_lock<std::mutex> lock(mutex);
-				return queue.empty();
-			}
+            /**
+             * Test whether container is empty
+             */
+            bool Empty() {
+                std::unique_lock<std::mutex> lock(mutex);
+                return queue.empty();
+            }
 
-			long unsigned int Size() {
-				std::unique_lock<std::mutex> lock(mutex);
-				return queue.size();
-			}
+            long unsigned int Size() {
+                std::unique_lock<std::mutex> lock(mutex);
+                return queue.size();
+            }
 
-			/**
-			 * Clear the queue from all its elements.
-			 */
-			void Clear() {
-				std::unique_lock<std::mutex> lock(mutex);
-				std::queue<T>().swap(queue);
-			}
+            /**
+             * Clear the queue from all its elements.
+             */
+            void Clear() {
+                std::unique_lock<std::mutex> lock(mutex);
+                std::queue<T>().swap(queue);
+            }
 
-			bool TryPop(T& poppedValue) {
-				std::unique_lock<std::mutex> lock(mutex);
-				if (queue.empty()) {
-					return false;
-				}
+            bool TryPop(T& poppedValue) {
+                std::unique_lock<std::mutex> lock(mutex);
+                if (queue.empty()) {
+                    return false;
+                }
 
-				poppedValue = queue.front();
-				queue.pop();
-				return true;
-			}
+                poppedValue = queue.front();
+                queue.pop();
+                return true;
+            }
 
-			void WaitAndPop(T& poppedValue) {
-				std::unique_lock<std::mutex> lock(mutex);
-				while (queue.empty()) {
-					condition.wait(lock);
-				}
-				poppedValue = queue.front();
-				queue.pop();
-			}
+            void WaitAndPop(T& poppedValue) {
+                std::unique_lock<std::mutex> lock(mutex);
+                while (queue.empty()) {
+                    condition.wait(lock);
+                }
+                poppedValue = queue.front();
+                queue.pop();
+            }
 
-			int DrainTo(ConcurrentQueue<T>& dest) {
-				std::unique_lock<std::mutex> lock(mutex);
-				unsigned int counter = 0;
-				while (!queue.empty()) {
-					T value = queue.front();
-					queue.pop();
+            int DrainTo(ConcurrentQueue<T>& dest) {
+                std::unique_lock<std::mutex> lock(mutex);
+                unsigned int counter = 0;
+                while (!queue.empty()) {
+                    T value = queue.front();
+                    queue.pop();
 
-					dest.Push(value);
-					counter++;
-				}
-				return counter;
-			}
-		};
-	}
+                    dest.Push(value);
+                    counter++;
+                }
+                return counter;
+            }
+
+            int DrainTo(std::queue<T>& dest) {
+                std::unique_lock<std::mutex> lock(mutex);
+                queue.swap(dest);
+                return dest.size();
+            }
+        };
+    }
 }
 
 #endif /* CONCURRENTQUEUE_HPP */

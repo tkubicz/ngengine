@@ -2,7 +2,7 @@
  * File:   Delegate.hpp
  * Author: tku
  *
- * Created on 7 września 2015, 11:32
+ * Created on 7 September 2015, 11:32
  */
 
 #ifndef DELEGATE_HPP

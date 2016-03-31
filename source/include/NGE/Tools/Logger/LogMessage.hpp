@@ -9,7 +9,7 @@
 #define LOGMESSAGE_HPP
 
 #include <chrono>
-#include "NGE/Tools/Logger/LogLevel.hpp"
+#include "NGE/Tools/Logger/LogTypes.hpp"
 #include "NGE/Tools/Timing.hpp"
 
 namespace NGE {
@@ -18,7 +18,7 @@ namespace NGE {
 
 			class LogMessage {
 			  public:
-				NGE::Tools::Logger::LogLevel::LOG_LEVEL logLevel;
+				NGE::Tools::Logger::LogTypes::LOG_LEVEL logLevel;
 				std::chrono::milliseconds timeInMs;
 				std::string file;
 				std::string function;
@@ -29,7 +29,7 @@ namespace NGE {
 
 				LogMessage() { }
 
-				LogMessage(NGE::Tools::Logger::LogLevel::LOG_LEVEL logLevel, const std::string& file, const std::string& function, unsigned int line, const std::string& message) :
+				LogMessage(NGE::Tools::Logger::LogTypes::LOG_LEVEL logLevel, const std::string& file, const std::string& function, unsigned int line, const std::string& message) :
 				logLevel(logLevel), file(file), function(function), line(line), message(message) {
 					timeInMs = Timing::GetInstance().GetCurrentTimeInMs();
 				}

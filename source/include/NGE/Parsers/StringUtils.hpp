@@ -8,6 +8,9 @@
 #ifndef STRINGUTILS_HPP
 #define STRINGUTILS_HPP
 
+#include <string>
+#include <algorithm>
+
 namespace NGE {
 	namespace Parsers {
 
@@ -31,6 +34,20 @@ namespace NGE {
 					str.replace(startPos, from.length(), to);
 					startPos += to.length();
 				}
+			}
+
+			inline static std::string RandomString(size_t length) {
+				auto randchar = []() -> char {
+					const char charset[] =
+							"0123456789"
+							"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+							"abcdefghijklmnopqrstuvwxyz";
+					const size_t maxIndex = (sizeof (charset) - 1);
+					return charset[std::rand() % maxIndex];
+				};
+				std::string str(length, 0);
+				std::generate_n(str.begin(), length, randchar);
+				return str;
 			}
 		};
 	}
