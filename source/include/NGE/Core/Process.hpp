@@ -42,7 +42,7 @@ namespace NGE {
 				// Processes that are neither dead nor alive.
 				/** Create but not running. */
 				UNINITIALISED = 0,
-				/** Removed from the process list but not destroyed; this can happen when a process that is already running is parented to another process. */
+				/** Removed from the process list but not destroyed; this can happen when a process that is already running is parent for another process. */
 				REMOVED,
 
 				// Living processes.

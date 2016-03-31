@@ -11,14 +11,8 @@ if(${BUILD_TESTS})
 	include(array2d)
 
 	set(tuples
-		# Core 
-		ProcessTest			Core/ProcessTest.cpp
-
 		# Events
 		EventManagerTest	Events/EventManagerTest.cpp
-		
-		# Parsers
-		#StringUtilsTest		Parsers/StringUtilsTest.cpp
 
 		# Scripting
         LuaScriptEventTest   Scripting/LuaScriptEventTest.cpp
@@ -38,6 +32,7 @@ if(${BUILD_TESTS})
 		test/Core/ConcurrentQueueTest.cpp
         test/Core/DelegateTest.cpp
 		test/Core/ProcessManagerTest.cpp
+		test/Core/ProcessTest.cpp
 		test/Parsers/StringUtilsTest.cpp
         test/Thirdparty/CatchTest.cpp
 		test/Tools/NewLoggerTest.cpp
