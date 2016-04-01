@@ -1,6 +1,6 @@
 #include "catch.hpp"
 #include <boost/test/unit_test.hpp>
-#include "NGE/Events/EventManager.hpp"
+#include "NGE/Events/EventBus.hpp"
 #include "NGE/Events/EventDelegate.hpp"
 #include "NGE/Events/BaseEventData.hpp"
 #include "NGE/Core/Delegate.hpp"
@@ -9,8 +9,8 @@ using namespace NGE::Events;
 SCENARIO("Create event manager", "[event-manager]") {
 
 	WHEN("Local Event managers are created") {
-		std::unique_ptr<IEventManager> manager1(new EventManager("manager-1", false));
-		std::unique_ptr<IEventManager> manager2(new EventManager("manager-2", false));
+		std::unique_ptr<AbstractEventBus> manager1(new EventBus("manager-1", false));
+		std::unique_ptr<AbstractEventBus> manager2(new EventBus("manager-2", false));
 
 		THEN("Event managers exist") {
 			REQUIRE(manager1 != nullptr);
@@ -18,15 +18,15 @@ SCENARIO("Create event manager", "[event-manager]") {
 		}
 
 		AND_THEN("Global event manager doesn't exist") {
-			REQUIRE(IEventManager::Get() == nullptr);
+			REQUIRE(AbstractEventBus::Get() == nullptr);
 		}
 	}
 
 	WHEN("Global event manager is created") {
-		EventManager manager1("global-event-manager", true);
+		EventBus manager1("global-event-manager", true);
 
 		THEN("IEventManager::Get() should return the same object") {
-			REQUIRE(&manager1 == IEventManager::Get());
+			REQUIRE(&manager1 == AbstractEventBus::Get());
 		}
 	}
 

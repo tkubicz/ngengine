@@ -2,53 +2,30 @@
  * File:   EventManager.hpp
  * Author: tku
  *
- * Created on 8 September 2015, 10:56
+ * Created on 1 April 2016, 02:48
  */
 
 #ifndef EVENTMANAGER_HPP
-#define	EVENTMANAGER_HPP
+#define EVENTMANAGER_HPP
 
-#include <map>
 #include <list>
-#include "NGE/Events/IEventManager.hpp"
+#include "NGE/Core/Singleton.hpp"
 
 namespace NGE {
     namespace Events {
 
-        class EventManager : public IEventManager {
+        typedef std::shared_ptr<E
+        
+        class EventManager : public NGE::Core::Singleton<EventManager> {
+            friend class NGE::Core::Singleton<EventManager>;
 
-            enum constants {
-                NUM_QUEUES = 2
-            };
+          private:
 
-            typedef std::map<std::string, EventListenerDelegate> EventDelegateMap;
-            typedef std::map<EventType, EventDelegateMap> EventListenerMap;
-            typedef std::list<IEventDataPtr> EventQueue;
+            EventManager() { }
 
-            EventListenerMap eventListenersMap;
-            EventQueue queues[NUM_QUEUES];
-
-            /** Index of actively processing queue. Events enqueue to the opposing queue. */
-            int activeQueue;
-
-            ThreadSafeEventQueue realtimeEventQueue;
-
-          public:
-            explicit EventManager(const std::string& name, bool setAsGlobal);
-            virtual ~EventManager();
-
-            virtual bool AddListener(const EventDelegate& delegate, const EventType& type);
-            virtual bool RemoveListener(const EventDelegate& delegate, const EventType& type);
-
-            virtual bool TriggerEvent(const IEventDataPtr& event) const;
-            virtual bool QueueEvent(const IEventDataPtr& event);
-            virtual bool ThreadSafeQueueEvent(const IEventDataPtr& event);
-            virtual bool AbortEvent(const EventType& type, bool allOfType);
-
-            virtual bool Update(unsigned long maxMillis);
         };
     }
 }
 
-#endif	/* EVENTMANAGER_HPP */
+#endif /* EVENTMANAGER_HPP */
 

@@ -1,15 +1,15 @@
 #include <chrono>
-#include "NGE/Events/EventManager.hpp"
+#include "NGE/Events/EventBus.hpp"
 #include "NGE/Tools/Logger/NewLogger.hpp"
 using namespace NGE::Events;
 
-EventManager::EventManager(const std::string& name, bool setAsGlobal) : IEventManager(name, setAsGlobal) {
+EventBus::EventBus(const std::string& name, bool setAsGlobal) : AbstractEventBus(name, setAsGlobal) {
     activeQueue = 0;
 }
 
-EventManager::~EventManager() { }
+EventBus::~EventBus() { }
 
-bool EventManager::AddListener(const EventDelegate& delegate, const EventType& type) {
+bool EventBus::AddListener(const EventDelegate& delegate, const EventType& type) {
     log_info("Attempting to add delegate function for event type: '{}'", type);
 
     // This will find or create the entry.
@@ -30,7 +30,7 @@ bool EventManager::AddListener(const EventDelegate& delegate, const EventType& t
     return success;
 }
 
-bool EventManager::RemoveListener(const EventDelegate& delegate, const EventType& type) {
+bool EventBus::RemoveListener(const EventDelegate& delegate, const EventType& type) {
     log_info("Attempting to remove delegate function from event type: '{}'", type);
     bool success = false;
 
@@ -48,7 +48,7 @@ bool EventManager::RemoveListener(const EventDelegate& delegate, const EventType
     return success;
 }
 
-bool EventManager::TriggerEvent(const IEventDataPtr& event) const {
+bool EventBus::TriggerEvent(const IEventDataPtr& event) const {
     log_info("Attempting to trigger event: '{}'", event->GetName());
     bool processed = false;
 
@@ -67,7 +67,7 @@ bool EventManager::TriggerEvent(const IEventDataPtr& event) const {
     return processed;
 }
 
-bool EventManager::QueueEvent(const IEventDataPtr& event) {
+bool EventBus::QueueEvent(const IEventDataPtr& event) {
     if (activeQueue < 0 || activeQueue > NUM_QUEUES) {
         return false;
     }
@@ -90,12 +90,12 @@ bool EventManager::QueueEvent(const IEventDataPtr& event) {
     }
 }
 
-bool EventManager::ThreadSafeQueueEvent(const IEventDataPtr& event) {
+bool EventBus::ThreadSafeQueueEvent(const IEventDataPtr& event) {
     realtimeEventQueue.Push(event);
     return true;
 }
 
-bool EventManager::AbortEvent(const EventType& type, bool allOfType) {
+bool EventBus::AbortEvent(const EventType& type, bool allOfType) {
     if (activeQueue < 0 || activeQueue > NUM_QUEUES) {
         return false;
     }
@@ -126,10 +126,10 @@ bool EventManager::AbortEvent(const EventType& type, bool allOfType) {
     return success;
 }
 
-bool EventManager::Update(unsigned long maxMillis) {
+bool EventBus::Update(unsigned long maxMillis) {
     using namespace std::chrono;
     unsigned long currMs = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
-    unsigned long maxMs = ((maxMillis == IEventManager::INFINITE) ? (IEventManager::INFINITE) : (currMs + maxMillis));
+    unsigned long maxMs = ((maxMillis == AbstractEventBus::INFINITE) ? (AbstractEventBus::INFINITE) : (currMs + maxMillis));
 
     // Handle events from other threads.
     IEventDataPtr realtimeEvent;
@@ -137,7 +137,7 @@ bool EventManager::Update(unsigned long maxMillis) {
         QueueEvent(realtimeEvent);
 
         currMs = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
-        if (maxMillis != IEventManager::INFINITE) {
+        if (maxMillis != AbstractEventBus::INFINITE) {
             if (currMs >= maxMs) {
                 log_error("A real-time process is spamming the event manager");
             }
@@ -175,8 +175,8 @@ bool EventManager::Update(unsigned long maxMillis) {
         }
 
         // Check to see if time ran out.
-        currMs = ((maxMillis == IEventManager::INFINITE) ? (IEventManager::INFINITE) : (currMs + maxMillis));
-        if (maxMillis != IEventManager::INFINITE && currMs >= maxMs) {
+        currMs = ((maxMillis == AbstractEventBus::INFINITE) ? (AbstractEventBus::INFINITE) : (currMs + maxMillis));
+        if (maxMillis != AbstractEventBus::INFINITE && currMs >= maxMs) {
             log_info("Aborting event processing - time ran out");
             break;
         }
