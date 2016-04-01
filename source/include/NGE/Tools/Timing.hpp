@@ -10,63 +10,64 @@
 
 #include <chrono>
 #include <array>
+#include "NGE/Core/Singleton.hpp"
 
 namespace NGE {
-	namespace Tools {
+    namespace Tools {
 
-		class Timing {
-		  private:
+        class Timing : public NGE::Core::Singleton<Timing> {
+            friend class NGE::Core::Singleton<Timing>;
 
-			/**
-			 * Time buffer to keep formatted date.
-			 */
-			char* timeBuffer;
+          private:
 
-			/**
-			 * Size of the time buffer.
-			 */
-			unsigned short timeBufferSize;
+            /**
+             * Time buffer to keep formatted date.
+             */
+            char* timeBuffer;
 
-			unsigned frameNumber;
-			double lastFrameTimestamp;
-			double lastFrameDuration;
-			double averageFrameDuration;
-			float fps;
+            /**
+             * Size of the time buffer.
+             */
+            unsigned short timeBufferSize;
 
-			/**
-			 * Flag that indicates if the timer is initialised.
-			 */
-			bool initialised;
+            unsigned frameNumber;
+            double lastFrameTimestamp;
+            double lastFrameDuration;
+            double averageFrameDuration;
+            float fps;
 
-			/**
-			 * Flag that indicates if the timer is paused or not.
-			 */
-			bool paused;
-		  private:
+            /**
+             * Flag that indicates if the timer is initialised.
+             */
+            bool initialised;
 
-			Timing();
-			~Timing();
-			Timing(const Timing&);
-			Timing& operator=(const Timing&);
+            /**
+             * Flag that indicates if the timer is paused or not.
+             */
+            bool paused;
+          private:
 
-			void SetInternalFieldsToDefault();
+            Timing();
+            ~Timing();
+            Timing(const Timing&) = delete;
+            Timing& operator=(const Timing&);
 
-		  public:
+            void SetInternalFieldsToDefault();
 
-			static Timing& GetInstance();
+          public:
 
-			void Update();
-			void Initialize();
-			void Deinitialize();
+            void Update();
+            void Initialize();
+            void Deinitialize();
 
-			std::string GetCurrentTimeInFormat(const std::string& format = "%Y-%m-%d %H:%M:%S.%f");
-			std::string GetTimeInFormat(const std::chrono::milliseconds& milliseconds, const std::string& format = "%Y-%m-%d %H:%M:%S.%f");
-			std::chrono::milliseconds GetCurrentTimeInMs();
+            std::string GetCurrentTimeInFormat(const std::string& format = "%Y-%m-%d %H:%M:%S.%f");
+            std::string GetTimeInFormat(const std::chrono::milliseconds& milliseconds, const std::string& format = "%Y-%m-%d %H:%M:%S.%f");
+            std::chrono::milliseconds GetCurrentTimeInMs();
 
-			double GetLastFrameDuration() const;
-			double GetAverageFrameDuration() const;
-		};
-	}
+            double GetLastFrameDuration() const;
+            double GetAverageFrameDuration() const;
+        };
+    }
 }
 
 #endif /* TIMING_HPP */
