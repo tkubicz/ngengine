@@ -6,7 +6,7 @@
  */
 
 #ifndef EVENTMANAGER_HPP
-#define	EVENTMANAGER_HPP
+#define EVENTMANAGER_HPP
 
 #include <map>
 #include <list>
@@ -34,21 +34,21 @@ namespace NGE {
             ThreadSafeEventQueue realtimeEventQueue;
 
           public:
-            explicit EventBus(const std::string& name, bool setAsGlobal);
+            explicit EventBus(const std::string& name, bool setAsGlobal = false);
             virtual ~EventBus();
 
-            virtual bool AddListener(const EventDelegate& delegate, const EventType& type);
-            virtual bool RemoveListener(const EventDelegate& delegate, const EventType& type);
+            virtual bool AddListener(const EventDelegate& delegate, const EventType& type) override;
+            virtual bool RemoveListener(const EventDelegate& delegate, const EventType& type) override;
 
-            virtual bool TriggerEvent(const IEventDataPtr& event) const;
-            virtual bool QueueEvent(const IEventDataPtr& event);
-            virtual bool ThreadSafeQueueEvent(const IEventDataPtr& event);
-            virtual bool AbortEvent(const EventType& type, bool allOfType);
+            virtual bool TriggerEvent(const IEventDataPtr& event) const override;
+            virtual bool QueueEvent(const IEventDataPtr& event) override;
+            virtual bool ThreadSafeQueueEvent(const IEventDataPtr& event) override;
+            virtual bool AbortEvent(const EventType& type, bool allOfType) override;
 
-            virtual bool Update(unsigned long maxMillis);
+            virtual bool Update(unsigned long maxMillis) override;
         };
     }
 }
 
-#endif	/* EVENTMANAGER_HPP */
+#endif /* EVENTMANAGER_HPP */
 

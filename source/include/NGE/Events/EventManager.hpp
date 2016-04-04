@@ -8,20 +8,31 @@
 #ifndef EVENTMANAGER_HPP
 #define EVENTMANAGER_HPP
 
-#include <list>
+#include <map>
+#include <memory>
 #include "NGE/Core/Singleton.hpp"
+#include "NGE/Events/AbstractEventBus.hpp"
 
 namespace NGE {
     namespace Events {
 
-        typedef std::shared_ptr<E
-        
         class EventManager : public NGE::Core::Singleton<EventManager> {
             friend class NGE::Core::Singleton<EventManager>;
 
           private:
+            std::map<std::string, std::shared_ptr<AbstractEventBus>> eventBusMap;
+            std::shared_ptr<AbstractEventBus> globalEventBus;
 
-            EventManager() { }
+          private:
+            EventManager();
+            ~EventManager();
+
+          protected:
+            void CreateGlobalEventBus();
+
+          public:
+            std::weak_ptr<AbstractEventBus> Create(const std::string& name);
+            bool Delete(const std::string& name);
 
         };
     }
