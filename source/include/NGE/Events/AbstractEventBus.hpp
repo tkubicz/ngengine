@@ -1,12 +1,12 @@
 /* 
- * File:   IEventManager.hpp
+ * File:   AbstractEventBus.hpp
  * Author: tku
  *
  * Created on 7 September 2015, 11:18
  */
 
-#ifndef IEVENTMANAGER_HPP
-#define IEVENTMANAGER_HPP
+#ifndef ABSTRACTEVENTBUS_HPP
+#define ABSTRACTEVENTBUS_HPP
 
 #include "NGE/Events/IEventData.hpp"
 #include "NGE/Events/EventDelegate.hpp"
@@ -110,5 +110,5 @@ namespace NGE {
     }
 }
 
-#endif /* IEVENTMANAGER_HPP */
+#endif /* ABSTRACTEVENTBUS_HPP */
 
