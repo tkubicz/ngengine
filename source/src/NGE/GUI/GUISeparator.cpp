@@ -59,7 +59,7 @@ bool GUISeparator::LoadXMLSettings(const pugi::xml_node& node) {
 	}
 
 	SetRatio(node.attribute("ratio").as_float());
-	shader = Media::MediaManager::getInstance().getShaderManager().getProgram(node.child("Shader"));
+	shader = Media::MediaManager::GetInstance().getShaderManager().getProgram(node.child("Shader"));
 
 	if (shader == NULL) {
 		log_error("Could not load shader for separator");
@@ -79,7 +79,8 @@ bool GUISeparator::LoadXMLSettings(const pugi::xml_node& node) {
 	return GUIRectangle::LoadXMLSettings(node);
 }
 
-void GUISeparator::Update(float dt) { }
+void GUISeparator::Update(float dt) {
+}
 
 void GUISeparator::Render() {
 	if (!parent || ((GUIClippedRectangle*) parent)->IsBackgroundColorOn() || !shader)

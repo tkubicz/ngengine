@@ -34,11 +34,13 @@ namespace NGE {
 			ThreadSafeEventQueue realtimeEventQueue;
 
 		  public:
-			explicit EventBus(const std::string& name, bool setAsGlobal = false);
+			explicit EventBus();
 			virtual ~EventBus();
 
 			virtual bool AddListener(const EventDelegate& delegate, const EventType& type) override;
 			virtual bool RemoveListener(const EventDelegate& delegate, const EventType& type) override;
+			
+			virtual std::map<std::string, EventType> ListAllListeners() override;
 
 			virtual bool TriggerEvent(const IEventDataPtr& event) const override;
 			virtual bool QueueEvent(const IEventDataPtr& event) override;

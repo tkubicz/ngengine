@@ -17,7 +17,7 @@ EventManager::~EventManager() {
 }
 
 void EventManager::CreateGlobalEventBus() {
-	std::shared_ptr<AbstractEventBus> globalEventBusInstance = std::make_shared<EventBus>(GLOBAL);
+	std::shared_ptr<AbstractEventBus> globalEventBusInstance = std::make_shared<EventBus>();
 	globalEventBus = globalEventBusInstance;
 }
 
@@ -51,7 +51,7 @@ EventBusPtr EventManager::Create(const std::string& name) {
 		return find->second;
 	}
 
-	EventBusPtr eventBusPtr = std::make_shared<EventBus>(name);
+	EventBusPtr eventBusPtr = std::make_shared<EventBus>();
 	eventBusMap.insert(std::pair<std::string, EventBusPtr> (name, eventBusPtr));
 	log_debug("Creating new event bus: '{}'", name);
 	return eventBusPtr;

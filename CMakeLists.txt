@@ -131,7 +131,6 @@ add_library(nge SHARED
 	source/src/NGE/Core/Process.cpp
 	source/src/NGE/Core/ProcessManager.cpp
 
-    source/src/NGE/Events/AbstractEventBus.cpp
     source/src/NGE/Events/EventBus.cpp
 	source/src/NGE/Events/EventDelegate.cpp
 	source/src/NGE/Events/EventManager.cpp
@@ -193,7 +192,9 @@ add_library(nge SHARED
 	source/src/NGE/Media/Fonts/FreeTypeFont.cpp
 	source/src/NGE/Media/Fonts/TextureMappedFont.cpp
 
+	source/src/NGE/Media/Images/GetTextureEvent.cpp
 	source/src/NGE/Media/Images/JpegImage.cpp
+	source/src/NGE/Media/Images/LoadTextureEvent.cpp
 	source/src/NGE/Media/Images/PngImage.cpp
 	source/src/NGE/Media/Images/TargaImage.cpp
 	source/src/NGE/Media/Images/Texture.cpp

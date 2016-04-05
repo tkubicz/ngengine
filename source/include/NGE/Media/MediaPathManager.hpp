@@ -2,7 +2,7 @@
  * File:   MediaPathManager.hpp
  * Author: tku
  *
- * Created on 6 marzec 2013, 12:49
+ * Created on 6 March 2013, 12:49
  */
 
 #ifndef MEDIAPATHMANAGER_HPP

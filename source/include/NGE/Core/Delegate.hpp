@@ -15,19 +15,17 @@ namespace NGE {
 
 		template <typename Obj, typename Result, typename ...Args>
 		struct Delegate {
-			Obj x;
+			Obj& x;
 			Result(Obj::*f)(Args...);
 
-			template <typename ...Ts>
-			Result operator()(Ts&&... args) {
-				return (x.*f)(std::forward<Ts>(args)...);
+			Result operator()(Args... args) {
+				return (x.*f)(args...);
 			}
 		};
 
 		template <typename Obj, typename Result, typename ...Args>
-		auto make_delegate(const Obj &x, Result(Obj::*fun)(Args...)) -> Delegate<Obj, Result, Args...> {
-			Delegate<Obj, Result, Args...> result{x, fun};
-			return result;
+		auto make_delegate(Obj &x, Result(Obj::*fun)(Args...)) -> Delegate<Obj, Result, Args...> {
+			return Delegate<Obj, Result, Args...>{x, fun};
 		}
 	}
 }
