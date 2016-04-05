@@ -1,12 +1,12 @@
 /* 
- * File:   IEventManager.hpp
+ * File:   AbstractEventBus.hpp
  * Author: tku
  *
  * Created on 7 September 2015, 11:18
  */
 
-#ifndef IEVENTMANAGER_HPP
-#define IEVENTMANAGER_HPP
+#ifndef ABSTRACTEVENTBUS_HPP
+#define ABSTRACTEVENTBUS_HPP
 
 #include "NGE/Events/IEventData.hpp"
 #include "NGE/Events/EventDelegate.hpp"
@@ -30,15 +30,12 @@ namespace NGE {
 		 * Simple tearing down the registry (e.g. destroying it) will automatically clean up all
 		 * pointed-to objects (so long as there are no other references).
 		 */
-		class IEventManager {
+		class AbstractEventBus {
 		  public:
 
 			enum constants {
 				INFINITE = 0xffffffff
 			};
-
-			explicit IEventManager(const std::string& name, bool setAsGlobal);
-			virtual ~IEventManager();
 
 			/**
 			 * Registers a delegate function that will get called when the event type is triggered.
@@ -56,6 +53,12 @@ namespace NGE {
 			 * @return True if successfully removed, false if the pairing was not found.
 			 */
 			virtual bool RemoveListener(const EventDelegate& delegate, const EventType& type) = 0;
+
+			/**
+			 * List all registered listeners.
+			 * @return Map of all registered listeners. Key is the event delegate name, and value is an EventType.
+			 */
+			virtual std::map<std::string, EventType> ListAllListeners() = 0;
 
 			/**
 			 * Execute event now. This bypasses the queue entirely and immediately calls all delegate
@@ -98,17 +101,9 @@ namespace NGE {
 			 * @return True if all messages ready for processing were completed, false otherwise (e.g. timeout).
 			 */
 			virtual bool Update(unsigned long maxMillis = INFINITE) = 0;
-
-			/**
-			 * Getter for the main global event manager. This is the event manager that is used by the majority of
-			 * the engine, though you are free to define own as long as you instantiate it with setAsGlobal set to false.
-			 * It is not valid to have more that one global event manager.
-			 * @return Pointer to global event manager.
-			 */
-			static IEventManager* Get();
 		};
 	}
 }
 
-#endif /* IEVENTMANAGER_HPP */
+#endif /* ABSTRACTEVENTBUS_HPP */
 

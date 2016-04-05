@@ -14,6 +14,7 @@
 #include <mutex>
 #include <cppformat/format.h>
 
+#include "NGE/Core/Singleton.hpp"
 #include "NGE/Core/XMLSettings.hpp"
 #include "NGE/Core/ConcurrentQueue.hpp"
 #include "NGE/Tools/Timing.hpp"
@@ -23,20 +24,20 @@
 #include "NGE/Tools/Logger/Output/AbstractLoggerOutput.hpp"
 
 #define _logger_message(logLevel, format, ...) \
-	NGE::Tools::Logger::NewLogger::GetInstance().WriteLog(format, logLevel, __FILE__, __LINE__, __PRETTY_FUNCTION__,  ##__VA_ARGS__);
+    NGE::Tools::Logger::NewLogger::GetInstance().WriteLog(format, logLevel, __FILE__, __LINE__, __PRETTY_FUNCTION__,  ##__VA_ARGS__);
 
 #define log_trace(format, ...) \
-	_logger_message(NGE::Tools::Logger::LogTypes::LOG_LEVEL::TRACE, format, ##__VA_ARGS__);
+    _logger_message(NGE::Tools::Logger::LogTypes::LOG_LEVEL::TRACE, format, ##__VA_ARGS__);
 #define log_debug(format, ...) \
-	_logger_message(NGE::Tools::Logger::LogTypes::LOG_LEVEL::DEBUG, format, ##__VA_ARGS__);
+    _logger_message(NGE::Tools::Logger::LogTypes::LOG_LEVEL::DEBUG, format, ##__VA_ARGS__);
 #define log_info(format, ...) \
-	_logger_message(NGE::Tools::Logger::LogTypes::LOG_LEVEL::INFO, format, ##__VA_ARGS__);
+    _logger_message(NGE::Tools::Logger::LogTypes::LOG_LEVEL::INFO, format, ##__VA_ARGS__);
 #define log_warn(format, ...) \
-	_logger_message(NGE::Tools::Logger::LogTypes::LOG_LEVEL::WARN, format, ##__VA_ARGS__);
+    _logger_message(NGE::Tools::Logger::LogTypes::LOG_LEVEL::WARN, format, ##__VA_ARGS__);
 #define log_error(format, ...) \
     _logger_message(NGE::Tools::Logger::LogTypes::LOG_LEVEL::ERROR, format, ##__VA_ARGS__);
 #define log_critical(format, ...) \
-	_logger_message(NGE::Tools::Logger::LogTypes::LOG_LEVEL::CRITICAL, format, ##__VA_ARGS__);
+    _logger_message(NGE::Tools::Logger::LogTypes::LOG_LEVEL::CRITICAL, format, ##__VA_ARGS__);
 
 namespace NGE {
 	namespace Tools {
@@ -45,7 +46,9 @@ namespace NGE {
 			typedef std::map<std::string, Output::AbstractLoggerOutput*> OutputMap;
 			typedef std::pair<std::string, Output::AbstractLoggerOutput*> OutputPair;
 
-			class NewLogger : public NGE::Core::XMLSettings {
+			class NewLogger : public NGE::Core::Singleton<NewLogger>, public NGE::Core::XMLSettings {
+				friend class NGE::Core::Singleton<NewLogger>;
+
 			  private:
 
 				LogConfig logConfig;
@@ -87,25 +90,11 @@ namespace NGE {
 			  public:
 
 				/**
-				 * Get instance of the logger class. Logger class is lazy initialised.
-				 * @return Reference to logger class.
-				 */
-				static NewLogger& GetInstance();
-
-				/**
 				 * Access logger outputs using subscript operator.
 				 * @param name Identifier of the output. E.g. "file" or "console".
 				 * @return Pointer to requested logger output. If not found, nullptr.
 				 */
-				Output::AbstractLoggerOutput* operator[](const std::string& name) {
-					auto findOutput = outputs.find(name);
-					if (findOutput == outputs.end()) {
-						log_warn("Could not find logger output: '{}'", name);
-
-						return nullptr;
-					}
-					return findOutput->second;
-				}
+				Output::AbstractLoggerOutput* operator[](const std::string& name);
 
 				/**
 				 * Initialise the logger and default outputs with default values.

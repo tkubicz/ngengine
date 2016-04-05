@@ -34,6 +34,8 @@ if(${BUILD_TESTS})
 		test/Core/ProcessManagerTest.cpp
 		test/Core/ProcessTest.cpp
 		test/Events/EventManagerTest.cpp
+		test/Media/Images/TextureManagerTest.cpp
+		test/Media/MediaManagerTest.cpp
 		test/Parsers/StringUtilsTest.cpp
         test/Thirdparty/CatchTest.cpp
 		test/Tools/NewLoggerTest.cpp

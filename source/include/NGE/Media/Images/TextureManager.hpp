@@ -2,41 +2,56 @@
  * File:   TextureManager.hpp
  * Author: tku
  *
- * Created on 11 marzec 2013, 17:41
+ * Created on 11 March 2013, 17:41
  */
 
 #ifndef TEXTUREMANAGER_HPP
-#define	TEXTUREMANAGER_HPP
+#define TEXTUREMANAGER_HPP
 
 #include <map>
 #include <string>
-
-#include "NGE/Media/Images/Texture.hpp"
 #include <pugixml.hpp>
+
+#include "NGE/Core/Singleton.hpp"
+#include "NGE/Events/IEventData.hpp"
+#include "NGE/Events/EventDelegate.hpp"
+#include "NGE/Media/Images/Texture.hpp"
 
 namespace NGE {
 	namespace Media {
 		namespace Images {
 
-			class TextureManager {
-			  public:
-				void initialize();
-				void deinitialize();
+			class TextureManager : public Core::Singleton<TextureManager> {
+				friend class NGE::Core::Singleton<TextureManager>;
 
-				bool addTexture(const std::string& name, Texture* texture);
-
-				bool loadTexture(const pugi::xml_node& node);
-				Texture* getTexture(const std::string& name);
-				Texture* getTexture(const pugi::xml_node& node);
-
-				int getTextureCount();
+				typedef std::map<NGE::Events::EventType, NGE::Events::EventDelegate> EventDelegateMap;
+				typedef std::pair<NGE::Events::EventType, NGE::Events::EventDelegate> EventDelegatePair;
 
 			  private:
 				std::map<std::string, Texture*> textures;
+				EventDelegateMap eventDelegates;
+
+			  public:
+				TextureManager();
+				~TextureManager();
+
+				void Initialise();
+				void Deinitialise();
+
+				bool AddTexture(const std::string& name, Texture* texture);
+				bool LoadTexture(const pugi::xml_node& node);
+
+				void LoadTextureListener(NGE::Events::IEventDataPtr event);
+				void GetTextureListener(NGE::Events::IEventDataPtr event);
+
+				Texture* GetTexture(const std::string& name);
+				Texture* GetTexture(const pugi::xml_node& node);
+
+				unsigned int GetTextureCount();
 			};
 		}
 	}
 }
 
-#endif	/* TEXTUREMANAGER_HPP */
+#endif /* TEXTUREMANAGER_HPP */
 

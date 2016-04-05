@@ -7,7 +7,7 @@ if (NOT CMAKE_BUILD_TYPE)
     set (CMAKE_BUILD_TYPE Debug)
 endif()
 
-# Appends the cmake/ path to MAKE_MODULE_PATH variable.
+# Appends the modules path to MAKE_MODULE_PATH variable.
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/ ${CMAKE_MODULE_PATH})
 
 # Current version of the project.
@@ -29,7 +29,7 @@ if (NOT DEFINED CMAKE_INSTALL_PREFIX)
 	set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/install/")
 endif()
 
-# Set up the thirdparty software.
+# Set up the third party software.
 include(${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/ThirdpartyMakeLists.cmake)
 
 # Specify the compilation flags for different build types.
@@ -131,9 +131,9 @@ add_library(nge SHARED
 	source/src/NGE/Core/Process.cpp
 	source/src/NGE/Core/ProcessManager.cpp
 
+    source/src/NGE/Events/EventBus.cpp
 	source/src/NGE/Events/EventDelegate.cpp
 	source/src/NGE/Events/EventManager.cpp
-	source/src/NGE/Events/IEventManager.cpp
 	source/src/NGE/Events/KeyboardEvent.cpp
 	source/src/NGE/Events/MouseEvent.cpp
     source/src/NGE/Events/TouchEvent.cpp
@@ -192,7 +192,9 @@ add_library(nge SHARED
 	source/src/NGE/Media/Fonts/FreeTypeFont.cpp
 	source/src/NGE/Media/Fonts/TextureMappedFont.cpp
 
+	source/src/NGE/Media/Images/GetTextureEvent.cpp
 	source/src/NGE/Media/Images/JpegImage.cpp
+	source/src/NGE/Media/Images/LoadTextureEvent.cpp
 	source/src/NGE/Media/Images/PngImage.cpp
 	source/src/NGE/Media/Images/TargaImage.cpp
 	source/src/NGE/Media/Images/Texture.cpp

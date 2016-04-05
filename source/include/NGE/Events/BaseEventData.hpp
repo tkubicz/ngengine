@@ -6,7 +6,7 @@
  */
 
 #ifndef BASEEVENTDATA_HPP
-#define	BASEEVENTDATA_HPP
+#define BASEEVENTDATA_HPP
 
 #include "IEventData.hpp"
 
@@ -48,5 +48,5 @@ namespace NGE {
 	}
 }
 
-#endif	/* BASEEVENTDATA_HPP */
+#endif /* BASEEVENTDATA_HPP */
 

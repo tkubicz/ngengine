@@ -1,47 +1,128 @@
 #include "catch.hpp"
 #include <boost/test/unit_test.hpp>
-#include "NGE/Events/EventManager.hpp"
+#include "NGE/Events/EventBus.hpp"
 #include "NGE/Events/EventDelegate.hpp"
 #include "NGE/Events/BaseEventData.hpp"
 #include "NGE/Core/Delegate.hpp"
+#include "NGE/Events/EventManager.hpp"
 using namespace NGE::Events;
 
-SCENARIO("Create event manager", "[event-manager]") {
+SCENARIO("EventManager creation", "[event-manager]") {
 
-	WHEN("Local Event managers are created") {
-		std::unique_ptr<IEventManager> manager1(new EventManager("manager-1", false));
-		std::unique_ptr<IEventManager> manager2(new EventManager("manager-2", false));
+	WHEN("EventManager instance is get for the first time") {
+		EventManager& manager = EventManager::GetInstance();
 
-		THEN("Event managers exist") {
-			REQUIRE(manager1 != nullptr);
-			REQUIRE(manager2 != nullptr);
+		THEN("We have an EventManager with global EventBus") {
+			REQUIRE(manager.GetEventBusMap().size() == 0);
+			REQUIRE(manager[manager.GLOBAL] != nullptr);
 		}
 
-		AND_THEN("Global event manager doesn't exist") {
-			REQUIRE(IEventManager::Get() == nullptr);
-		}
-	}
+		WHEN("Trying to get event bus that doesn't using subscript operator") {
+			auto eventBus = manager["TEST"];
 
-	WHEN("Global event manager is created") {
-		EventManager manager1("global-event-manager", true);
-
-		THEN("IEventManager::Get() should return the same object") {
-			REQUIRE(&manager1 == IEventManager::Get());
+			THEN("EventBus should be null") {
+				REQUIRE(eventBus == nullptr);
+			}
 		}
 	}
+}
 
-//	WHEN("Two global managers are created") {
-//		EventManager* manager1 = new EventManager("first-event-manager", true);
-//		EventManager* manager2 = new EventManager("second-event-manager", true);
-//
-//		THEN("Event manager created last should be global") {
-//			REQUIRE_FALSE(manager1 == IEventManager::Get());
-//			REQUIRE(manager2 == IEventManager::Get());
-//
-//			if (manager1 != nullptr) delete manager1;
-//			if (manager2 != nullptr) delete manager2;
-//		}
-//	}
+SCENARIO("Creating and removing event buses", "[event-manager]") {
+
+	GIVEN("EventManager instance") {
+		EventManager& manager = EventManager::GetInstance();
+
+		WHEN("New event bus is created") {
+			const std::string name = "new-event-bus";
+			auto newEventBus = manager.Create(name);
+
+			THEN("New event bus is available in manager") {
+				REQUIRE(newEventBus != nullptr);
+				REQUIRE(manager.GetEventBusMap().size() == 1);
+				REQUIRE(manager[name] == newEventBus);
+
+				WHEN("Trying to create event bus with the same name second time") {
+					auto secondEventBus = manager.Create(name);
+
+					THEN("Create should return instance of the existing event bus") {
+						REQUIRE(newEventBus == secondEventBus);
+					}
+				}
+			}
+
+			WHEN("Event bus is deleted") {
+				bool deleteResult = manager.Delete(name);
+
+				THEN("Event bus is no longer register in manager") {
+					REQUIRE(deleteResult);
+					REQUIRE(manager.GetEventBusMap().size() == 0);
+					REQUIRE(manager[name] == nullptr);
+				}
+			}
+		}
+
+		WHEN("Trying to delete event bus that doesn't exist") {
+			bool deleteResult = manager.Delete("test-event-bus");
+
+			THEN("Delete method fails") {
+				REQUIRE_FALSE(deleteResult);
+			}
+		}
+	}
+}
+
+SCENARIO("Adding and removing listeners", "[event-manager]") {
+
+	GIVEN("EventManager instance") {
+		EventManager& manager = EventManager::GetInstance();
+
+		GIVEN("Sample EventDelegate and EventType") {
+			EventDelegate eventDelegate("test-delegate", [](IEventDataPtr ptr) {
+			});
+			EventType eventType = 0x887eadca;
+
+			WHEN("Adding new listener to global event bus") {
+				bool addResult = manager.AddListener(eventDelegate, eventType);
+
+				THEN("Listener has been added") {
+					REQUIRE(addResult);
+				}
+
+				WHEN("Removing listener from global event bus") {
+					bool removeResult = manager.RemoveListener(eventDelegate, eventType);
+
+					THEN("Listener has been removed") {
+						REQUIRE(removeResult);
+					}
+				}
+			}
+
+			WHEN("Adding new listener to specified event bus that doesn't exist") {
+				bool addResult = manager.AddListener("event-bus", eventDelegate, eventType);
+
+				THEN("Adding listener fails, because event bus doesn't exist") {
+					REQUIRE_FALSE(addResult);
+				}
+			}
+
+			WHEN("Adding new listener to specified event bus") {
+				manager.Create("event-bus");
+				bool addResult = manager.AddListener("event-bus", eventDelegate, eventType);
+
+				THEN("Listener has been added") {
+					REQUIRE(addResult);
+
+					WHEN("Removing listener from specified event bus") {
+						bool removeResult = manager.RemoveListener("event-bus", eventDelegate, eventType);
+
+						THEN("Listener has been removed") {
+							REQUIRE(removeResult);
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 //class TestDelegateClass {

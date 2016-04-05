@@ -2,53 +2,75 @@
  * File:   EventManager.hpp
  * Author: tku
  *
- * Created on 8 September 2015, 10:56
+ * Created on 1 April 2016, 02:48
  */
 
 #ifndef EVENTMANAGER_HPP
-#define	EVENTMANAGER_HPP
+#define EVENTMANAGER_HPP
 
 #include <map>
-#include <list>
-#include "NGE/Events/IEventManager.hpp"
+#include <memory>
+#include "NGE/Core/Singleton.hpp"
+#include "NGE/Events/AbstractEventBus.hpp"
+#include "NGE/Tools/Logger/NewLogger.hpp"
 
 namespace NGE {
-    namespace Events {
+	namespace Events {
 
-        class EventManager : public IEventManager {
+		typedef std::map<std::string, std::shared_ptr<AbstractEventBus>> EventBusMap;
+		typedef std::map<std::string, std::shared_ptr<AbstractEventBus>>::iterator EventBusMapIter;
+		typedef std::shared_ptr<AbstractEventBus> EventBusPtr;
 
-            enum constants {
-                NUM_QUEUES = 2
-            };
+		class EventManager : public NGE::Core::Singleton<EventManager> {
+			friend class NGE::Core::Singleton<EventManager>;
 
-            typedef std::map<std::string, EventListenerDelegate> EventDelegateMap;
-            typedef std::map<EventType, EventDelegateMap> EventListenerMap;
-            typedef std::list<IEventDataPtr> EventQueue;
+		  private:
+			EventBusMap eventBusMap;
+			EventBusPtr globalEventBus;
 
-            EventListenerMap eventListenersMap;
-            EventQueue queues[NUM_QUEUES];
+		  public:
+			static const char* GLOBAL;
 
-            /** Index of actively processing queue. Events enqueue to the opposing queue. */
-            int activeQueue;
+		  private:
+			EventManager();
+			~EventManager();
 
-            ThreadSafeEventQueue realtimeEventQueue;
+			void CreateGlobalEventBus();
+			bool FindEventBus(const std::string& name, EventBusMapIter& it);
 
-          public:
-            explicit EventManager(const std::string& name, bool setAsGlobal);
-            virtual ~EventManager();
+		  public:
 
-            virtual bool AddListener(const EventDelegate& delegate, const EventType& type);
-            virtual bool RemoveListener(const EventDelegate& delegate, const EventType& type);
+			EventBusPtr operator[](const std::string& name);
 
-            virtual bool TriggerEvent(const IEventDataPtr& event) const;
-            virtual bool QueueEvent(const IEventDataPtr& event);
-            virtual bool ThreadSafeQueueEvent(const IEventDataPtr& event);
-            virtual bool AbortEvent(const EventType& type, bool allOfType);
+			EventBusPtr Create(const std::string& name);
+			bool Delete(const std::string& name);
 
-            virtual bool Update(unsigned long maxMillis);
-        };
-    }
+			bool AddListener(const EventDelegate& delegate, const EventType& type);
+			bool AddListener(const std::string& name, const EventDelegate& delegate, const EventType& type);
+
+			bool RemoveListener(const EventDelegate& delegate, const EventType& type);
+			bool RemoveListener(const std::string& name, const EventDelegate& delegate, const EventType& type);
+
+			bool TriggerEvent(const IEventDataPtr& event);
+			bool TriggerEvent(const std::string& name, const IEventDataPtr& event);
+			
+			bool QueueEvent(const IEventDataPtr& event);
+			bool QueueEvent(const std::string& name, const IEventDataPtr& event);
+
+			bool ThreadSafeEventQueue(const IEventDataPtr& event);
+			bool ThreadSafeEventQueue(const std::string& name, const IEventDataPtr& event);
+
+			bool AbortEvent(const EventType& type, bool allOfType = false);
+			bool AbortEvent(const std::string& name, const EventType& type, bool allOfType = false);
+
+			bool Update(unsigned long maxMillis = AbstractEventBus::constants::INFINITE);
+			bool Update(const std::string& name, unsigned long maxMillis = AbstractEventBus::constants::INFINITE);
+			bool UpdateAll(unsigned long maxMillis = AbstractEventBus::constants::INFINITE);
+
+			EventBusMap& GetEventBusMap();
+		};
+	}
 }
 
-#endif	/* EVENTMANAGER_HPP */
+#endif /* EVENTMANAGER_HPP */
 

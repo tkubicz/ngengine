@@ -2,12 +2,13 @@
  * File:   MediaManager.hpp
  * Author: tku
  *
- * Created on 6 marzec 2013, 12:55
+ * Created on 6 March 2013, 12:55
  */
 
 #ifndef MEDIAMANAGER_HPP
-#define	MEDIAMANAGER_HPP
+#define MEDIAMANAGER_HPP
 
+#include "NGE/Core/Singleton.hpp"
 #include "NGE/Media/MediaPathManager.hpp"
 #include "NGE/Media/Shaders/ShaderManager.hpp"
 #include "NGE/Media/Images/TextureManager.hpp"
@@ -16,34 +17,31 @@
 namespace NGE {
 	namespace Media {
 
-		class MediaManager {
-		  public:
+		class MediaManager : public NGE::Core::Singleton<MediaManager> {
+			friend class NGE::Core::Singleton<MediaManager>;
+
 			MediaManager();
 			MediaManager(const MediaManager&);
 			MediaManager& operator=(const MediaManager&);
 			~MediaManager();
 
-			static MediaManager& getInstance() {
-				static MediaManager instance;
-				return instance;
-			}
+		  public:
 
 			void initialize();
 			void deinitialize();
 
 			MediaPathManager& getMediaPathManager();
 			Shaders::ShaderManager& getShaderManager();
-			Images::TextureManager& getTextureManager();
+			Images::TextureManager& GetTextureManager();
 			Fonts::FontManager& getFontManager();
 
 		  private:
 			MediaPathManager mediaPathManager;
 			Shaders::ShaderManager shaderManager;
-			Images::TextureManager textureManager;
 			Fonts::FontManager fontManager;
 		};
 	}
 }
 
-#endif	/* MEDIAMANAGER_HPP */
+#endif /* MEDIAMANAGER_HPP */
 

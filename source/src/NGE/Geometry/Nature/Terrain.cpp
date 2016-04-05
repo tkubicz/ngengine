@@ -310,7 +310,7 @@ bool Terrain::LoadXMLSettings(const pugi::xml_node& node) {
 		log_error("Terrain --> Need a \"Shader\" child node");
 		return false;
 	} else {
-		shader = Media::MediaManager::getInstance().getShaderManager().getProgram(node.child("Shader"));
+		shader = Media::MediaManager::GetInstance().getShaderManager().getProgram(node.child("Shader"));
 		if (shader == NULL)
 			return false;
 	}
@@ -318,7 +318,7 @@ bool Terrain::LoadXMLSettings(const pugi::xml_node& node) {
 	if (!node.child("Textures").empty()) {
 		for (pugi::xml_node texNode : node.child("Textures").children()) {
 			if (std::string(texNode.name()) == "Texture2D") {
-				Media::Images::Texture* tex = Media::MediaManager::getInstance().getTextureManager().getTexture(texNode);
+				Media::Images::Texture* tex = Media::MediaManager::GetInstance().GetTextureManager().GetTexture(texNode);
 				if (tex != nullptr)
 					textures.push_back(tex);
 			}
@@ -425,8 +425,8 @@ void Terrain::GenerateDebug() {
 
 	glBindVertexArray(0);
 
-	Media::MediaManager::getInstance().getShaderManager().loadProgram("floorShader", "floorShader.xml");
-	debugShader = Media::MediaManager::getInstance().getShaderManager().getProgram("floorShader");
+	Media::MediaManager::GetInstance().getShaderManager().loadProgram("floorShader", "floorShader.xml");
+	debugShader = Media::MediaManager::GetInstance().getShaderManager().getProgram("floorShader");
 }
 
 void Terrain::RenderNormals() {

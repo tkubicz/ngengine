@@ -3,7 +3,7 @@
 #include "NGE/Tools/Logger/Output/ConsoleLoggerOutput.hpp"
 using namespace NGE::Tools::Logger;
 
-NewLogger::NewLogger() {
+NewLogger::NewLogger() : Singleton() {
 	Initialise();
 }
 
@@ -32,10 +32,14 @@ void NewLogger::ClearOutputs() {
 	outputs.clear();
 }
 
-NewLogger& NewLogger::GetInstance() {
-	static NewLogger instance;
+Output::AbstractLoggerOutput* NewLogger::operator[](const std::string& name) {
+	auto findOutput = outputs.find(name);
+	if (findOutput == outputs.end()) {
+		log_warn("Could not find logger output: '{}'", name);
 
-	return instance;
+		return nullptr;
+	}
+	return findOutput->second;
 }
 
 void NewLogger::Initialise() {
