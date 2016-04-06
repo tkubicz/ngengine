@@ -23,7 +23,7 @@ bool EventBus::AddListener(const EventDelegate& delegate, const EventType& type)
         log_debug("Successfully added delegate: '{}' for event type: '{:x}'", delegate.GetEventDelegateId(), type);
         success = true;
     } else {
-        log_warn("Attempting to double-register a delegate: {:x}", delegate.GetEventDelegateId());
+        log_warn("Attempting to double-register a delegate: '{}'", delegate.GetEventDelegateId());
         success = false;
     }
 
