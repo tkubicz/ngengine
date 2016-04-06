@@ -48,7 +48,7 @@ if(${BUILD_TESTS})
 
 	configure_file(
 		test/TestSettings.hpp.in
-		${PROJECT_BINARY_DIR}/include/TestConfiguration.hpp
+		${PROJECT_BINARY_DIR}/include/TestSettings.hpp
 	)
 
 	include_directories("${PROJECT_BINARY_DIR}/include")
