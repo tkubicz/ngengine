@@ -21,7 +21,7 @@ namespace NGE {
 		  public:
 			bool loadXMLSettings(const pugi::xml_node& node);
 
-			std::vector<std::string>& getPaths(std::string key);
+			std::vector<std::string> getPaths(std::string key);
 
 			void setPaths(const std::string& key, std::vector<std::string>& paths);
 			void setPath(const std::string& key, const std::string& path);

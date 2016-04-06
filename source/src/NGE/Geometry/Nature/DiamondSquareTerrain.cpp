@@ -33,8 +33,9 @@ void DiamonSquareTerrain::Generate(const float roughness) {
 }
 
 float DiamonSquareTerrain::GetHeight(const int x, const int y) const {
-	if (x < 0 || x > max || y < 0 || y > max)
+	if (x < 0 || x > (int) max || y < 0 || y > (int) max) {
 		return -1;
+	}
 	return heights[x + size * y];
 }
 
@@ -76,7 +77,7 @@ void DiamonSquareTerrain::Diamond(const int x, const int y, const int size, cons
 }
 
 void DiamonSquareTerrain::Divide(const int size) {
-	int x, y, half = size / 2;
+	unsigned int x, y, half = size / 2;
 	double scale = (double) roughness * (double) size;
 
 	if (half < 1)

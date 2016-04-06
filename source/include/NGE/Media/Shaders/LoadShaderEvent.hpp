@@ -14,48 +14,50 @@
 using namespace NGE::Events;
 
 namespace NGE {
-    namespace Media {
-        namespace Shaders {
+	namespace Media {
+		namespace Shaders {
 
-            class LoadShaderEvent : public BaseEventData {
-                friend class ShaderManager;
+			class LoadShaderEvent : public BaseEventData {
+				friend class ShaderManager;
 
-              private:
-                std::string programName;
-                std::string fileName;
-                bool successful;
+			  private:
+				std::string programName;
+				std::string fileName;
+				bool successful;
 
-              public:
-                static const EventType eventType;
+			  public:
+				static const EventType eventType;
 
-                LoadShaderEvent(const std::string& programName, const std::string& fileName, const float timeStamp = 0.0f)
-                : BaseEventData(timeStamp), programName(programName), fileName(fileName) { }
+				LoadShaderEvent(const std::string& programName, const std::string& fileName, const float timeStamp = 0.0f)
+				: BaseEventData(timeStamp), programName(programName), fileName(fileName) { }
 
-                const EventType& GetEventType() const override {
-                    return eventType;
-                }
+				const EventType& GetEventType() const override {
+					return eventType;
+				}
 
-                IEventDataPtr Copy() const override { }
+				IEventDataPtr Copy() const override {
+					return IEventDataPtr(new LoadShaderEvent(programName, fileName));
+				}
 
-                const std::string GetName() const override {
-                    return "LoadShaderEvent";
-                }
+				const std::string GetName() const override {
+					return "LoadShaderEvent";
+				}
 
-                bool IsSuccessful() const {
-                    return successful;
-                }
+				bool IsSuccessful() const {
+					return successful;
+				}
 
-                std::string GetFileName() const {
-                    return fileName;
-                }
+				std::string GetFileName() const {
+					return fileName;
+				}
 
-                std::string GetProgramName() const {
-                    return programName;
-                }
+				std::string GetProgramName() const {
+					return programName;
+				}
 
-            };
-        }
-    }
+			};
+		}
+	}
 }
 
 #endif /* LOADSHADEREVENT_HPP */

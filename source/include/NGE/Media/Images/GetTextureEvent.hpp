@@ -36,7 +36,9 @@ namespace NGE {
 					return "GetTextureEvent";
 				}
 
-				IEventDataPtr Copy() const override { }
+				IEventDataPtr Copy() const override {
+					return IEventDataPtr(new GetTextureEvent(textureName));
+				}
 
 				bool IsSuccessful() const {
 					return successful;

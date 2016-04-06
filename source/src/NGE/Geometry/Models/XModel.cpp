@@ -226,6 +226,8 @@ bool XModel::Parse() {
     /* TODO: Uncomment this
     if (scene->rootNode)
         FilterHierarchy(scene->rootNode); */
+	
+	return false;
 }
 
 XModel::Scene* XModel::GetScene() {

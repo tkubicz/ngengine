@@ -17,7 +17,7 @@ namespace NGE {
 	namespace Media {
 		namespace Images {
 
-			class LoadTextureEvent : public NGE::Events::BaseEventData {
+			class LoadTextureEvent : public BaseEventData {
 			  private:
 				pugi::xml_node xmlNode;
 				bool successful;
@@ -25,13 +25,15 @@ namespace NGE {
 			  public:
 				static const EventType eventType;
 
-				LoadTextureEvent(pugi::xml_node& xmlNode, const float timeStamp = 0.0f) : BaseEventData(timeStamp), xmlNode(xmlNode) { }
+				LoadTextureEvent(const pugi::xml_node& xmlNode, const float timeStamp = 0.0f) : BaseEventData(timeStamp), xmlNode(xmlNode) { }
 
 				const EventType& GetEventType() const override {
 					return eventType;
 				}
 
-				IEventDataPtr Copy() const override { }
+				IEventDataPtr Copy() const override {
+					return IEventDataPtr(new LoadTextureEvent(xmlNode));
+				}
 
 				const std::string GetName() const override {
 					return "LoadTextureEvent";

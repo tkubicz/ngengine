@@ -38,13 +38,12 @@ bool MediaPathManager::loadXMLSettings(const pugi::xml_node& node) {
 	return true;
 }
 
-// TODO: Zmodyfikować kod tak, by zwracać wskaźnik, a nie referencję z uwagi
-// na brak możliwości zwrócenia pustej referencji.
-
-std::vector<std::string>& MediaPathManager::getPaths(std::string key) {
+std::vector<std::string> MediaPathManager::getPaths(std::string key) {
 	std::map<std::string, std::vector<std::string> >::iterator i = mediaPaths.find(key);
-	if (i != mediaPaths.end())
-		return i->second;
+	if (i != mediaPaths.end()) {
+		return std::vector<std::string>(i->second);
+	}
+	return std::vector<std::string>();
 }
 
 int MediaPathManager::getMediaPathCount() {
