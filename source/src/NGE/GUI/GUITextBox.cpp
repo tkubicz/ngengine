@@ -44,7 +44,7 @@ bool GUITextBox::LoadXMLSettings(const pugi::xml_node& node) {
         }
     }
 
-    shader = Media::MediaManager::GetInstance().getShaderManager().getProgram(node.child("Shader"));
+    shader = Media::MediaManager::GetInstance().GetShaderManager().GetProgram(node.child("Shader"));
     if (!shader) {
         log_error("Could not load shader");
         return false;

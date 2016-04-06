@@ -3,17 +3,36 @@
 #include "NGE/Media//MediaManager.hpp"
 #include <pugixml.hpp>
 #include "NGE/Tools/Logger/NewLogger.hpp"
+#include "NGE/Events/EventManager.hpp"
+#include "NGE/Core/Delegate.hpp"
 
 using namespace NGE::Media::Shaders;
 
-void ShaderManager::deinitialize() {
+void ShaderManager::Initialise() {
+    NGE::Events::EventManager& eventManager = NGE::Events::EventManager::GetInstance();
+
+    eventDelegates.insert(std::make_pair(LoadShaderEvent::eventType, NGE::Events::EventDelegate("load-shader", NGE::Core::make_delegate(GetInstance(), &ShaderManager::LoadProgramListener))));
+    eventDelegates.insert(std::make_pair(GetShaderEvent::eventType, NGE::Events::EventDelegate("get-shader", NGE::Core::make_delegate(GetInstance(), &ShaderManager::GetProgramListener))));
+
+    for (auto& delegate : eventDelegates) {
+        eventManager.AddListener(delegate.second, delegate.first);
+    }
+}
+
+void ShaderManager::Deinitialise() {
     for (std::map<std::string, GLSLProgram>::iterator it = ShaderManager::programs.begin(); it != ShaderManager::programs.end(); ++it)
         it->second.unload();
 
     ShaderManager::programs.clear();
+
+    // Remove event listeners.
+    NGE::Events::EventManager& eventManager = NGE::Events::EventManager::GetInstance();
+    for (auto& delegate : eventDelegates) {
+        eventManager.RemoveListener(delegate.second, delegate.first);
+    }
 }
 
-bool ShaderManager::loadProgram(const std::string& programName, const std::string& fileName) {
+bool ShaderManager::LoadProgram(const std::string& programName, const std::string& fileName) {
     std::map<std::string, GLSLProgram>::iterator it = ShaderManager::programs.find(programName);
     if (it != ShaderManager::programs.end())
         return true;
@@ -44,7 +63,7 @@ bool ShaderManager::loadProgram(const std::string& programName, const std::strin
     }
 }
 
-GLSLProgram* ShaderManager::getProgram(const std::string& name) {
+GLSLProgram* ShaderManager::GetProgram(const std::string& name) {
     std::map<std::string, GLSLProgram>::iterator it = ShaderManager::programs.find(name);
     if (it != ShaderManager::programs.end()) {
         return &(it->second);
@@ -54,7 +73,7 @@ GLSLProgram* ShaderManager::getProgram(const std::string& name) {
     return NULL;
 }
 
-GLSLProgram* ShaderManager::getProgram(const pugi::xml_node& node) {
+GLSLProgram* ShaderManager::GetProgram(const pugi::xml_node& node) {
     if (string(node.name()) != "Shader") {
         log_error("ShaderManager --> Need Shader node");
         return NULL;
@@ -64,13 +83,13 @@ GLSLProgram* ShaderManager::getProgram(const pugi::xml_node& node) {
     std::string shaderFile = node.attribute("fileName").as_string();
 
     if (shaderName.length() > 0 && shaderFile.length() > 0) {
-        if (Media::MediaManager::GetInstance().getShaderManager().loadProgram(shaderName, shaderFile))
-            return getProgram(shaderName);
+        if (Media::MediaManager::GetInstance().GetShaderManager().LoadProgram(shaderName, shaderFile))
+            return GetProgram(shaderName);
     }
 
     return NULL;
 }
 
-int ShaderManager::getProgramCount() {
+int ShaderManager::GetProgramCount() {
     return programs.size();
 }

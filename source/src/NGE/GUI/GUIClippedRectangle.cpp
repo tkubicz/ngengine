@@ -254,7 +254,7 @@ bool GUIClippedRectangle::LoadXMLClippedRectangleInfo(const pugi::xml_node& node
 	}
 
 	if (!node.child("Shader").empty()) {
-		shader = Media::MediaManager::GetInstance().getShaderManager().getProgram(node.child("Shader"));
+		shader = Media::MediaManager::GetInstance().GetShaderManager().GetProgram(node.child("Shader"));
 	}
 
 	if (!node.attribute("drawBackground").empty())

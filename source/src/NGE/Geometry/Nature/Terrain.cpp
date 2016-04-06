@@ -310,7 +310,7 @@ bool Terrain::LoadXMLSettings(const pugi::xml_node& node) {
 		log_error("Terrain --> Need a \"Shader\" child node");
 		return false;
 	} else {
-		shader = Media::MediaManager::GetInstance().getShaderManager().getProgram(node.child("Shader"));
+		shader = Media::MediaManager::GetInstance().GetShaderManager().GetProgram(node.child("Shader"));
 		if (shader == NULL)
 			return false;
 	}
@@ -425,8 +425,8 @@ void Terrain::GenerateDebug() {
 
 	glBindVertexArray(0);
 
-	Media::MediaManager::GetInstance().getShaderManager().loadProgram("floorShader", "floorShader.xml");
-	debugShader = Media::MediaManager::GetInstance().getShaderManager().getProgram("floorShader");
+	Media::MediaManager::GetInstance().GetShaderManager().LoadProgram("floorShader", "floorShader.xml");
+	debugShader = Media::MediaManager::GetInstance().GetShaderManager().GetProgram("floorShader");
 }
 
 void Terrain::RenderNormals() {

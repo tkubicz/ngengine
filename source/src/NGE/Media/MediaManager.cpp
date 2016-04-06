@@ -1,37 +1,35 @@
 #include "NGE/Media/MediaManager.hpp"
 using namespace NGE::Media;
 
-MediaManager::MediaManager() {
-}
+MediaManager::MediaManager() { }
 
-MediaManager::MediaManager(const MediaManager&) {
-}
+MediaManager::MediaManager(const MediaManager&) { }
 
-MediaManager::~MediaManager() {
-}
+MediaManager::~MediaManager() { }
 
 void MediaManager::initialize() {
-	Images::TextureManager::GetInstance().Initialise();
+    GetTextureManager().Initialise();
+    GetShaderManager().Initialise();
 }
 
 void MediaManager::deinitialize() {
-	shaderManager.deinitialize();
-	GetTextureManager().Deinitialise();
-	fontManager.deinitialize();
+    GetShaderManager().Deinitialise();
+    GetTextureManager().Deinitialise();
+    getFontManager().deinitialize();
 }
 
 MediaPathManager& MediaManager::getMediaPathManager() {
-	return mediaPathManager;
+    return mediaPathManager;
 }
 
-Shaders::ShaderManager& MediaManager::getShaderManager() {
-	return shaderManager;
+Shaders::ShaderManager& MediaManager::GetShaderManager() {
+    return Shaders::ShaderManager::GetInstance();
 }
 
 Images::TextureManager& MediaManager::GetTextureManager() {
-	return Images::TextureManager::GetInstance();
+    return Images::TextureManager::GetInstance();
 }
 
 Fonts::FontManager& MediaManager::getFontManager() {
-	return fontManager;
+    return fontManager;
 }

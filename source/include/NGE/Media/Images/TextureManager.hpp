@@ -18,39 +18,40 @@
 #include "NGE/Media/Images/Texture.hpp"
 
 namespace NGE {
-	namespace Media {
-		namespace Images {
+    namespace Media {
+        namespace Images {
 
-			class TextureManager : public Core::Singleton<TextureManager> {
-				friend class NGE::Core::Singleton<TextureManager>;
+            class TextureManager : public Core::Singleton<TextureManager> {
+                friend class NGE::Core::Singleton<TextureManager>;
 
-				typedef std::map<NGE::Events::EventType, NGE::Events::EventDelegate> EventDelegateMap;
-				typedef std::pair<NGE::Events::EventType, NGE::Events::EventDelegate> EventDelegatePair;
+                typedef std::map<NGE::Events::EventType, NGE::Events::EventDelegate> EventDelegateMap;
+                typedef std::pair<NGE::Events::EventType, NGE::Events::EventDelegate> EventDelegatePair;
 
-			  private:
-				std::map<std::string, Texture*> textures;
-				EventDelegateMap eventDelegates;
+              private:
+                std::map<std::string, Texture*> textures;
+                EventDelegateMap eventDelegates;
 
-			  public:
-				TextureManager();
-				~TextureManager();
+              private:
+                TextureManager() {}
+                ~TextureManager() {}
 
-				void Initialise();
-				void Deinitialise();
+              public:
+                void Initialise();
+                void Deinitialise();
 
-				bool AddTexture(const std::string& name, Texture* texture);
-				bool LoadTexture(const pugi::xml_node& node);
+                bool AddTexture(const std::string& name, Texture* texture);
+                bool LoadTexture(const pugi::xml_node& node);
 
-				void LoadTextureListener(NGE::Events::IEventDataPtr event);
-				void GetTextureListener(NGE::Events::IEventDataPtr event);
+                void LoadTextureListener(NGE::Events::IEventDataPtr event);
+                void GetTextureListener(NGE::Events::IEventDataPtr event);
 
-				Texture* GetTexture(const std::string& name);
-				Texture* GetTexture(const pugi::xml_node& node);
+                Texture* GetTexture(const std::string& name);
+                Texture* GetTexture(const pugi::xml_node& node);
 
-				unsigned int GetTextureCount();
-			};
-		}
-	}
+                unsigned int GetTextureCount();
+            };
+        }
+    }
 }
 
 #endif /* TEXTUREMANAGER_HPP */

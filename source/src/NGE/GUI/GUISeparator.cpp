@@ -59,7 +59,7 @@ bool GUISeparator::LoadXMLSettings(const pugi::xml_node& node) {
 	}
 
 	SetRatio(node.attribute("ratio").as_float());
-	shader = Media::MediaManager::GetInstance().getShaderManager().getProgram(node.child("Shader"));
+	shader = Media::MediaManager::GetInstance().GetShaderManager().GetProgram(node.child("Shader"));
 
 	if (shader == NULL) {
 		log_error("Could not load shader for separator");

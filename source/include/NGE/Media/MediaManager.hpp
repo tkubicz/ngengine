@@ -31,13 +31,12 @@ namespace NGE {
 			void deinitialize();
 
 			MediaPathManager& getMediaPathManager();
-			Shaders::ShaderManager& getShaderManager();
+			Shaders::ShaderManager& GetShaderManager();
 			Images::TextureManager& GetTextureManager();
 			Fonts::FontManager& getFontManager();
 
 		  private:
 			MediaPathManager mediaPathManager;
-			Shaders::ShaderManager shaderManager;
 			Fonts::FontManager fontManager;
 		};
 	}

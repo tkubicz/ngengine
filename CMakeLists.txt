@@ -201,6 +201,8 @@ add_library(nge SHARED
 	source/src/NGE/Media/Images/TextureManager.cpp
 
 	source/src/NGE/Media/Shaders/GLSLProgram.cpp
+    source/src/NGE/Media/Shaders/GetShaderEvent.cpp
+    source/src/NGE/Media/Shaders/LoadShaderEvent.cpp
 	source/src/NGE/Media/Shaders/ShaderManager.cpp
 
 	source/src/NGE/Media/MediaManager.cpp
