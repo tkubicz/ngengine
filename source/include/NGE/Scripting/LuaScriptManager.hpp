@@ -28,6 +28,16 @@ namespace NGE {
 			std::shared_ptr<kaguya::State> luaState;
 			std::string lastError;
 
+		  private:
+			/**
+			 * LuaScriptManager constructor is private, use LuaScriptManager::GetInstance() method
+			 * to get object.
+			 */
+			LuaScriptManager();
+
+			~LuaScriptManager() { }
+			void HandleError(int val, const char* msg);
+
 		  public:
 
 			/**
@@ -39,21 +49,9 @@ namespace NGE {
 			virtual bool ExecuteFile(const std::string& path) override;
 			virtual bool ExecuteString(const std::string& str) override;
 
-			void SetLastError(const char* error);
 			std::string GetLastError() const;
 
 			std::weak_ptr<kaguya::State> GetLuaState();
-
-		  private:
-			/**
-			 * LuaScriptManager constructor is private, use LuaScriptManager::GetInstance() method
-			 * to get object.
-			 */
-			explicit LuaScriptManager();
-
-			~LuaScriptManager() { }
-
-			static void HandleError(int val, const char* msg);
 		};
 	}
 }

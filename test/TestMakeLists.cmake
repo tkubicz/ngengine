@@ -16,7 +16,7 @@ if(${BUILD_TESTS})
 
 		# Scripting
         LuaScriptEventTest   Scripting/LuaScriptEventTest.cpp
-		LuaScriptManagerTest Scripting/LuaScriptManagerTest.cpp
+		# LuaScriptManagerTest Scripting/LuaScriptManagerTest.cpp
 		LuaScriptProcessTest Scripting/LuaScriptProcessTest.cpp
 	)
 
@@ -37,6 +37,7 @@ if(${BUILD_TESTS})
 		test/Media/Images/TextureManagerTest.cpp
 		test/Media/MediaManagerTest.cpp
 		test/Parsers/StringUtilsTest.cpp
+		test/Scripting/LuaScriptManagerTest.cpp
         test/Thirdparty/CatchTest.cpp
 		test/Tools/NewLoggerTest.cpp
 		test/Tools/TimingTest.cpp
