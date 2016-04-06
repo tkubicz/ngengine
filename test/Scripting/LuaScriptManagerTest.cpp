@@ -2,7 +2,9 @@
 #define BOOST_TEST_MAIN
 
 #include <iostream>
+#include <cppformat/format.h>
 #include <boost/test/unit_test.hpp>
+#include "TestSettings.hpp"
 #include "NGE/Scripting/LuaScriptManager.hpp"
 
 using namespace NGE::Scripting;
@@ -32,18 +34,21 @@ BOOST_AUTO_TEST_CASE(ExecuteStringPrintShortcut) {
 BOOST_AUTO_TEST_CASE(ExecuteFile) {
 	LuaScriptManager& scriptManager = LuaScriptManager::GetInstance();
 	scriptManager.Initialise();
-	bool result = scriptManager.ExecuteFile("../test/Data/test.lua");
+
+	bool result = scriptManager.ExecuteFile(fmt::format("{}/{}", TEST_ASSET_DIR, "Data/test.lua"));
 	BOOST_CHECK(result);
 }
 
 BOOST_AUTO_TEST_CASE(ExecuteFileThatDoesntExist) {
+
 	LuaScriptManager& scriptManager = LuaScriptManager::GetInstance();
 	scriptManager.Initialise();
-	bool result = scriptManager.ExecuteFile("../test/Data/doesntexist.lua");
+	bool result = scriptManager.ExecuteFile(fmt::format("{}/{}", TEST_ASSET_DIR, "Data/doesntexist.lua"));
 	BOOST_CHECK(!result);
 }
 
 BOOST_AUTO_TEST_CASE(ExecuteMultipleLines) {
+
 	LuaScriptManager& scriptManager = LuaScriptManager::GetInstance();
 	scriptManager.Initialise();
 
@@ -59,7 +64,7 @@ BOOST_AUTO_TEST_CASE(ExecuteMultipleLines) {
 BOOST_AUTO_TEST_CASE(GetLuaState) {
 	LuaScriptManager& scriptManager = LuaScriptManager::GetInstance();
 	scriptManager.Initialise();
-	bool result = scriptManager.ExecuteFile("../test/Data/test.lua");
+	bool result = scriptManager.ExecuteFile(fmt::format("{}/{}", TEST_ASSET_DIR, "Data/test.lua"));
 	BOOST_CHECK(result);
 
 	std::weak_ptr<kaguya::State> state = scriptManager.GetLuaState();

@@ -13,13 +13,13 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/ ${CMAKE_MODULE_PATH})
 # Current version of the project.
 set(MAJOR_VERSION 0)
 set(MINOR_VERSION 1)
-set(PATH_VERSION 0)
+set(PATCH_VERSION 0)
 
 include(GitGetRevisionDescription)
 git_execute(COMMIT_HASH rev-parse --short HEAD)
 
 # --------------------------------------
-message(STATUS "Compiling ${CMAKE_PROJECT_NAME} version ${MAJOR_VERSION}.${MINOR_VERSION}.${PATH_VERSION}-${COMMIT_HASH}")
+message(STATUS "Compiling ${CMAKE_PROJECT_NAME} version ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}-${COMMIT_HASH}")
 message(STATUS "Using cmake version ${CMAKE_VERSION}")
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 # --------------------------------------
@@ -112,6 +112,13 @@ if (LUA_FOUND)
 	include_directories(${LUA_INCLUDE_DIR})
 endif()
 
+# Set Settings.hpp file.
+configure_file(
+		source/include/NGE/Core/Settings.hpp.in
+		${PROJECT_BINARY_DIR}/include/Settings.hpp
+)
+
+include_directories (${PROJECT_BINARY_DIR}/include)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/source/include/)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/source/src/NGE/)
 

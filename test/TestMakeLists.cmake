@@ -44,6 +44,14 @@ if(${BUILD_TESTS})
 	)
 	
 	set(TEST_EXECUTABLE_NAME tests)
+	set(TEST_ASSET_DIR ${PROJECT_SOURCE_DIR}/test)
+
+	configure_file(
+		test/TestSettings.hpp.in
+		${PROJECT_BINARY_DIR}/include/TestConfiguration.hpp
+	)
+
+	include_directories("${PROJECT_BINARY_DIR}/include")
 
 	add_executable(${TEST_EXECUTABLE_NAME} ${source})
 	target_link_libraries(${TEST_EXECUTABLE_NAME} ${EXTRA_LIBS})

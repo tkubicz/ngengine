@@ -34,7 +34,6 @@ namespace NGE {
                 return "LuaScriptEvent";
             }
 
-            
             static void RegisterScriptClass();
 			
 			static void RegisterEventTypeWithScript(const std::string& key, NGE::Events::EventType type);

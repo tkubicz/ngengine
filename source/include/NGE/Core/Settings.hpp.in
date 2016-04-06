@@ -2,20 +2,28 @@
  * File:   Settings.hpp
  * Author: tku
  *
- * Created on 17 luty 2014, 17:31
+ * Created on 17 February 2014, 17:31
  */
 
 #ifndef SETTINGS_HPP
-#define	SETTINGS_HPP
+#define SETTINGS_HPP
 
 /**
- * This file contains preprocessor definitons which are used in graphics engine.
+ * This file contains preprocessor definitions which are used in graphics engine.
  */
+
+/**
+ * Version of the current compilation
+ */
+#define NGE_MAJOR_VERSION @MAJOR_VERSION@
+#define NGE_MINOR_VERSION @MINOR_VERSION@
+#define NGE_PATCH_VERSION @PATCH_VERSION@
+#define NGE_COMMIT_HASH @COMMIT_HASH@
 
 /**
  * When this flag is set, additional methods in various classes are available.
  * It is used to debug engine - get additional information. It should not be
- * used in productive environment.
+ * used in production.
  */
 #ifndef NGE_DEBUG
 #define NGE_DEBUG
@@ -33,5 +41,5 @@
  * Rendering API - it can be OpenGL, OpenGL ES or DirectX.
  */
 
-#endif	/* SETTINGS_HPP */
+#endif /* SETTINGS_HPP */
 

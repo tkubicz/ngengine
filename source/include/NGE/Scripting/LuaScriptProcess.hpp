@@ -10,8 +10,7 @@
 
 #include <kaguya/kaguya.hpp>
 #include "NGE/Core/Process.hpp"
-#include "LuaScriptManager.hpp"
-#include "LuaSharedObject.hpp"
+#include "NGE/Scripting/LuaScriptManager.hpp"
 
 namespace NGE {
 	namespace Scripting {
@@ -25,7 +24,6 @@ namespace NGE {
 		  public:
 
 			explicit LuaScriptProcess() : NGE::Core::Process(), time(0) { }
-			
 			static void RegisterScriptClass();
 
 		  protected:
