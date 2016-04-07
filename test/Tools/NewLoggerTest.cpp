@@ -240,7 +240,7 @@ SCENARIO("Registering and unregistering logger output", "[logger]") {
 	GIVEN("Logger instance with default configuration") {
 		l::NewLogger& log = l::NewLogger::GetInstance();
 
-		WHEN("New logger output is registered") {
+		WHEN("New logger output is registered using map") {
 			log.GetOutputs().insert(l::OutputPair("stream", new o::StreamLoggerOutput(log.GetLogConfig())));
 
 			THEN("New output is available to log") {
@@ -250,13 +250,33 @@ SCENARIO("Registering and unregistering logger output", "[logger]") {
 			}
 		}
 
-		WHEN("Logger output is unregistered") {
+		WHEN("Logger output is unregistered using map") {
 			REQUIRE(log.GetOutputs().size() == 3);
 			log.GetOutputs().erase("stream");
 
 			THEN("Unregistered output is not available anymore") {
 				REQUIRE(log.GetOutputs().size() == 2);
 				REQUIRE(log["stream"] == nullptr);
+			}
+		}
+
+		WHEN("New logger output is registered using RegisterOutput(...)") {
+			log.RegisterOutput("test-stream", new o::StreamLoggerOutput(log.GetLogConfig()));
+
+			THEN("New output is available to log") {
+				REQUIRE(log.GetOutputs().size() == 3);
+				REQUIRE(log["test-stream"] != nullptr);
+				REQUIRE(log["test-stream"]->GetPtr<o::StreamLoggerOutput>() != nullptr);
+			}
+		}
+
+		WHEN("Logger output in unregistered using UnregisterOutput(...)") {
+			REQUIRE(log.GetOutputs().size() == 3);
+			log.UnregisterOutput("test-stream");
+
+			THEN("Unregistered output is not available anymore") {
+				REQUIRE(log.GetOutputs().size() == 2);
+				REQUIRE(log["test-stream"] == nullptr);
 			}
 		}
 	}

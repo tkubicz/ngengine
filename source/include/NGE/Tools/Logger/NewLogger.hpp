@@ -50,10 +50,10 @@ namespace NGE {
 				friend class NGE::Core::Singleton<NewLogger>;
 
 			  private:
-
 				LogConfig logConfig;
-
 				OutputMap outputs;
+
+			  private:
 
 				/**
 				 * Constructor that sets default values for fields. It is private,
@@ -127,6 +127,10 @@ namespace NGE {
 						}
 					}
 				}
+
+				bool RegisterOutput(const std::string& name, Output::AbstractLoggerOutput* output);
+
+				bool UnregisterOutput(const std::string& name);
 
 				/**
 				 * Flush immediately all registered and enabled outputs. 

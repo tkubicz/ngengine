@@ -54,6 +54,28 @@ void NewLogger::Initialise() {
 	InitialiseDefaultOutputs();
 }
 
+bool NewLogger::RegisterOutput(const std::string& name, Output::AbstractLoggerOutput* output) {
+	auto find = outputs.find(name);
+	if (find != outputs.end()) {
+		log_warn("Trying to register output with name that already exist: '{}'", name);
+		return false;
+	}
+	outputs.insert(std::make_pair(name, output));
+	log_debug("Output registered: '{}'", name);
+	return true;
+}
+
+bool NewLogger::UnregisterOutput(const std::string& name) {
+	auto find = outputs.find(name);
+	if (find == outputs.end()) {
+		log_warn("Trying to unregister output that doesn't exist: '{}'", name);
+		return false;
+	}
+	outputs.erase(find);
+	log_debug("Output unregistered: '{}'", name);
+	return true;
+}
+
 void NewLogger::Flush() {
 	for (auto& kv : outputs) {
 		if (kv.second->IsEnabled()) {
