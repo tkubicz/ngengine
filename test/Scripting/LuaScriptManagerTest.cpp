@@ -1,4 +1,5 @@
 #include "catch.hpp"
+#include "cppformat/format.h"
 #include "TestSettings.hpp"
 #include "NGE/Scripting/LuaScriptManager.hpp"
 #include "NGE/Tools/Logger/NewLogger.hpp"
@@ -6,6 +7,7 @@
 
 namespace s = NGE::Scripting;
 namespace l = NGE::Tools::Logger;
+namespace k = kaguya;
 
 SCENARIO("Initialise LuaScriptManager", "[lua][lua-script-manager]") {
 
@@ -40,7 +42,7 @@ SCENARIO("Execute strings", "[lua][lua-script-manager]") {
 		REQUIRE(lsm.Initialise());
 
 		WHEN("Executing string") {
-			bool result = lsm.ExecuteString("print('Executing string and printing it')");
+			bool result = lsm.ExecuteString("a = 20");
 
 			THEN("String was executed properly") {
 				REQUIRE(result);
@@ -57,73 +59,83 @@ SCENARIO("Execute strings", "[lua][lua-script-manager]") {
 		}
 
 		WHEN("Executing string using print shortcut") {
-			bool result = lsm.ExecuteString("='Message from shortcut'");
+			bool result = lsm.ExecuteString("='msg'");
 
 			THEN("String was executed properly") {
 				REQUIRE(result);
 			}
 		}
+
+		WHEN("Multiple strings are executed") {
+			bool first = lsm.ExecuteString("a = 10");
+			bool second = lsm.ExecuteString("b = a + 4");
+
+			THEN("State is the same") {
+				REQUIRE(first);
+				REQUIRE(second);
+			}
+		}
 	}
 }
 
-//
-//BOOST_AUTO_TEST_CASE(ExecuteFile) {
-//	LuaScriptManager& scriptManager = LuaScriptManager::GetInstance();
-//	scriptManager.Initialise();
-//
-//	bool result = scriptManager.ExecuteFile(fmt::format("{}/{}", TEST_ASSET_DIR, "Data/test.lua"));
-//	BOOST_CHECK(result);
-//}
-//
-//BOOST_AUTO_TEST_CASE(ExecuteFileThatDoesntExist) {
-//
-//	LuaScriptManager& scriptManager = LuaScriptManager::GetInstance();
-//	scriptManager.Initialise();
-//	bool result = scriptManager.ExecuteFile(fmt::format("{}/{}", TEST_ASSET_DIR, "Data/doesntexist.lua"));
-//	BOOST_CHECK(!result);
-//}
-//
-//BOOST_AUTO_TEST_CASE(ExecuteMultipleLines) {
-//
-//	LuaScriptManager& scriptManager = LuaScriptManager::GetInstance();
-//	scriptManager.Initialise();
-//
-//	bool result = false;
-//
-//	result = scriptManager.ExecuteString("a = 10");
-//	BOOST_CHECK(result);
-//
-//	result = scriptManager.ExecuteString("print(a)");
-//	BOOST_CHECK(result);
-//}
-//
-//BOOST_AUTO_TEST_CASE(GetLuaState) {
-//	LuaScriptManager& scriptManager = LuaScriptManager::GetInstance();
-//	scriptManager.Initialise();
-//	bool result = scriptManager.ExecuteFile(fmt::format("{}/{}", TEST_ASSET_DIR, "Data/test.lua"));
-//	BOOST_CHECK(result);
-//
-//	std::weak_ptr<kaguya::State> state = scriptManager.GetLuaState();
-//
-//	(*(state.lock()))("a = 15");
-//	(*(state.lock()))("print(a)");
-//	int foo = (*(state.lock()))["foo"];
-//	BOOST_CHECK_EQUAL(foo, 4);
-//
-//	std::string msg = (*scriptManager.GetLuaState().lock())["bar"][3];
-//	BOOST_CHECK_EQUAL(msg, "hi");
-//
-//	// When using state implicitly we need to surround the statement 
-//	// with try-catch block to ensure that exception will be caught.
-//	try {
-//		int value = (*state.lock())["test"];
-//		std::cout << value << std::endl;
-//	} catch (std::exception& e) {
-//		std::cout << "Exception!" << std::endl;
-//	}
-//
-//	kaguya::LuaRef ref = (*state.lock())["test"];
-//	BOOST_CHECK(ref.isNilref());
-//
-//	BOOST_CHECK_EQUAL(scriptManager.GetLuaState().use_count(), 1);
-//}
+SCENARIO("Execute files", "[lua][lua-script-manager]") {
+
+	GIVEN("LuaScriptManager instance") {
+		s::LuaScriptManager& lsm = s::LuaScriptManager::GetInstance();
+		REQUIRE(lsm.Initialise());
+
+		WHEN("Executing file") {
+			bool result = lsm.ExecuteFile(fmt::format("{}/{}", TEST_ASSET_DIR, "Data/test.lua"));
+
+			THEN("File was executed successfully") {
+				REQUIRE(result);
+			}
+		}
+
+		WHEN("Executing file that doesn't exist") {
+			bool result = lsm.ExecuteFile(fmt::format("{}/{}", TEST_ASSET_DIR, "Data/doesntexist.lua"));
+
+			THEN("File was not executed") {
+				REQUIRE_FALSE(result);
+			}
+		}
+	}
+}
+
+SCENARIO("Get Lua state", "[lua][lua-script-manager]") {
+
+	GIVEN("LuaScriptManager instance") {
+		s::LuaScriptManager& lsm = s::LuaScriptManager::GetInstance();
+		REQUIRE(lsm.Initialise());
+
+		WHEN("Some script is executed") {
+			bool result = lsm.ExecuteFile(fmt::format("{}/{}", TEST_ASSET_DIR, "Data/test.lua"));
+			REQUIRE(result);
+
+			WHEN("Getting pointer to Lua state") {
+				std::weak_ptr<k::State> state = lsm.GetLuaState();
+
+				THEN("We have a pointer to Lua state") {
+					REQUIRE_FALSE(state.expired());
+					std::shared_ptr<k::State> s = state.lock();
+					
+					WHEN("We execute something on state") {
+						(*s)("a = 15");
+						(*s)("b = a + 20");
+						int a = (*s)["a"];
+						int b = (*s)["b"];
+						int foo = (*s)["foo"];
+						std::string msg = (*s)["bar"][3];
+
+						THEN("It works") {
+							REQUIRE(a == 15);
+							REQUIRE(b == 35);
+							REQUIRE(foo == 4);
+							REQUIRE(msg == "hi");
+						}
+					}
+				}
+			}
+		}
+	}
+}
