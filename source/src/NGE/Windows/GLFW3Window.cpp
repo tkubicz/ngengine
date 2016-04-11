@@ -2,6 +2,7 @@
 #include "NGE/Core/Core.hpp"
 #include "NGE/Windows/GLFW3Window.hpp"
 #include "NGE/Tools/Logger/NewLogger.hpp"
+#include "NGE/Events/EventManager.hpp"
 
 #include <iostream>
 #include <sstream>
@@ -311,6 +312,9 @@ void GLFW3Window::MousePressedEvent(GLFWwindow* window, int button, int action, 
 
     if (button == -1 && action == -1)
         event.SetMoved(true);
+
+//    Events::IEventDataPtr eventPtr(new Events::MouseEvent(buttonId, actionId, x, y, viewport[3] - y, Events::NOSCROLLING));
+//    Events::EventManager::GetInstance().TriggerEvent(eventPtr);
 
     GLFW3Window::app->OnMouse(event);
 }
