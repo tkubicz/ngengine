@@ -12,33 +12,33 @@
 #include "NGE/Events/BaseEventData.hpp"
 
 namespace NGE {
-    namespace Scripting {
-		
-        class LuaScriptEvent : public NGE::Events::BaseEventData {
-          private:
-            static const NGE::Events::EventType eventType;
-            
-          public:
+	namespace Scripting {
 
-            explicit LuaScriptEvent() { }
+		class LuaScriptEvent : public NGE::Events::BaseEventData {
+		  private:
+			static constexpr const NGE::Events::EventType eventType = 0x0f4bf9b3;
 
-            const NGE::Events::EventType& GetEventType() const override {
-                return eventType;
-            }
-            
-            NGE::Events::IEventDataPtr Copy() const override {
-                return NGE::Events::IEventDataPtr(new LuaScriptEvent());
-            }
+		  public:
 
-            const std::string GetName() const override {
-                return "LuaScriptEvent";
-            }
+			explicit LuaScriptEvent() { }
 
-            static void RegisterScriptClass();
-			
+			const NGE::Events::EventType& GetEventType() const override {
+				return eventType;
+			}
+
+			NGE::Events::IEventDataPtr Copy() const override {
+				return NGE::Events::IEventDataPtr(new LuaScriptEvent());
+			}
+
+			const std::string GetName() const override {
+				return "LuaScriptEvent";
+			}
+
+			static void RegisterScriptClass();
+
 			static void RegisterEventTypeWithScript(const std::string& key, NGE::Events::EventType type);
-        };
-    }
+		};
+	}
 }
 
 #endif /* LUASCRIPTEVENT_HPP */

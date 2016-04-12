@@ -5,7 +5,7 @@
 using namespace NGE::Scripting;
 namespace k = kaguya;
 
-const NGE::Events::EventType LuaScriptEvent::eventType(0x0f4bf9b3);
+constexpr const NGE::Events::EventType LuaScriptEvent::eventType;
 
 void LuaScriptEvent::RegisterScriptClass() {
 	LuaScriptManager& manager = LuaScriptManager::GetInstance();
@@ -16,7 +16,7 @@ void LuaScriptEvent::RegisterEventTypeWithScript(const std::string& key, NGE::Ev
 	LuaScriptManager& manager = LuaScriptManager::GetInstance();
 	k::LuaTable eventTypeTable = (*manager.GetLuaState().lock())["EventType"];
 
-	log_info("LuaScriptEvent --> Registering EventType with script: key: '{}', type: '{}'", key, type);
+	log_debug("Registering EventType with script: key: '{}', type: '{}'", key, type);
 
 	if (eventTypeTable.isNilref()) {
 		eventTypeTable = (*manager.GetLuaState().lock()).newTable();
