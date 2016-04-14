@@ -36,10 +36,14 @@ function class(className)
         local instance = o or {}
         instance.__index = instance
 
-		if instance.shared == true then
-			instance.cpp_object = className.shared()
+		if className ~= nil then
+			if instance.shared == true then
+				instance.cpp_object = className.shared()
+			else
+				instance.cpp_object = className.new()
+			end
 		else
-			instance.cpp_object = className.new()
+			instance.cpp_object = nil
 		end
 
         setmetatable(instance, ret)

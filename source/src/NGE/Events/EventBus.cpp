@@ -95,7 +95,7 @@ bool EventBus::QueueEvent(const IEventDataPtr& event) {
         log_debug("Successfully queued event: '{}'", event->GetName());
         return true;
     } else {
-        log_warn("Skipping event since there are no delegates registered to receive it: '{}'", event->GetName());
+        log_warn("Skipping event since there are no delegates registered to receive it. Event type: '{}', event name: '{}'", event->GetEventType(), event->GetName());
         return false;
     }
 }

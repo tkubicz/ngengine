@@ -22,15 +22,19 @@ namespace NGE {
 
 			explicit LuaScriptEvent() { }
 
-			const NGE::Events::EventType& GetEventType() const override {
+			virtual const NGE::Events::EventType& GetEventType() const override {
 				return eventType;
 			}
 
-			NGE::Events::IEventDataPtr Copy() const override {
+			virtual NGE::Events::IEventDataPtr Copy() const override {
 				return NGE::Events::IEventDataPtr(new LuaScriptEvent());
 			}
 
-			const std::string GetName() const override {
+			virtual const std::string GetName() const override {
+				return "LuaScriptEvent";
+			}
+			
+			const char* GetName2() const {
 				return "LuaScriptEvent";
 			}
 

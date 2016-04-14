@@ -37,6 +37,7 @@ if(${BUILD_TESTS})
 		test/Media/Images/TextureManagerTest.cpp
 		test/Media/MediaManagerTest.cpp
 		test/Parsers/StringUtilsTest.cpp
+		test/Scripting/LuaScriptEventListenerTest.cpp
 		test/Scripting/LuaScriptManagerTest.cpp
         test/Thirdparty/CatchTest.cpp
 		test/Tools/NewLoggerTest.cpp

@@ -9,7 +9,12 @@ constexpr const NGE::Events::EventType LuaScriptEvent::eventType;
 
 void LuaScriptEvent::RegisterScriptClass() {
 	LuaScriptManager& manager = LuaScriptManager::GetInstance();
-	(*manager.GetLuaState().lock())["Event"].setClass(k::ClassMetatable<NGE::Scripting::LuaScriptEvent>().addConstructor());
+	auto ptr = manager.GetLuaState().lock();
+	(*ptr)["Event"].setClass(k::ClassMetatable<NGE::Scripting::LuaScriptEvent>().addConstructor()
+			.addMember("get_event_type", &LuaScriptEvent::GetEventType)
+			.addMember("get_name", &LuaScriptEvent::GetName2));
+
+	(*ptr)["Event"]["shared"] = &std::make_shared<LuaScriptEvent>;
 }
 
 void LuaScriptEvent::RegisterEventTypeWithScript(const std::string& key, NGE::Events::EventType type) {

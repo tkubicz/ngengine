@@ -5,10 +5,10 @@
  * Created on 6 April 2016, 15:49
  */
 
-#ifndef CONFIGURATION_HPP
-#define CONFIGURATION_HPP
+#ifndef TESTSETTINGS_HPP
+#define TESTSETTINGS_HPP
 
 #define TEST_ASSET_DIR "@TEST_ASSET_DIR@"
 
-#endif /* CONFIGURATION_HPP */
+#endif /* TESTSETTINGS_HPP */
 

@@ -2,11 +2,11 @@
  * File:   IEventData.hpp
  * Author: tku
  *
- * Created on 7 września 2015, 11:07
+ * Created on 7 September 2015, 11:07
  */
 
 #ifndef IEVENTDATA_HPP
-#define	IEVENTDATA_HPP
+#define IEVENTDATA_HPP
 
 #include <memory>
 
@@ -21,7 +21,7 @@ namespace NGE {
 		/**
 		 * Base type for event object hierarchy, may be used itself for simplest 
 		 * event notifications such as those that do not carry additional payload 
-		 * data. If any event needs to propagate wth payload data it must be defined
+		 * data. If any event needs to propagate with payload data it must be defined
 		 * separately.
 		 */
 		class IEventData {
@@ -38,5 +38,5 @@ namespace NGE {
 	}
 }
 
-#endif	/* IEVENTDATA_HPP */
+#endif /* IEVENTDATA_HPP */
 

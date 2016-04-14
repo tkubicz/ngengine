@@ -1,8 +1,11 @@
-TestProcess = class(ScriptProcess)
+TestProcess = class()
+
+function TestProcess:new()
+	print("constructor")
+end
 
 function TestProcess:on_init()
 	print("init function")
-	
 end
 
 function TestProcess:on_update(time)
