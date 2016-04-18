@@ -26,7 +26,7 @@ SCENARIO("Create process using script", "[lua][lua-script-process]") {
 				s::LuaScriptProcess::RegisterScriptClass();
 
 				WHEN("Create process script is loaded") {
-					REQUIRE(manager.ExecuteFile(fmt::format("{}/{}", TEST_ASSET_DIR, "Data/Scripting/register-class.lua")));
+					REQUIRE(manager.ExecuteFile(fmt::format("{}/{}", TEST_ASSET_DIR, "Data/Scripting/create-script-process.lua")));
 
 					THEN("It is possible to get raw and shared pointers") {
 						s::LuaScriptProcess* rawPointer = (*manager.GetLuaState().lock())["tp"]["cpp_object"];

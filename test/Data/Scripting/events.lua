@@ -9,7 +9,7 @@ function TestClass:on_uninit()
 end
 
 function TestClass:event_listener(event)
-	print("This is event listener: " .. tostring(event))
+	print("This is event listener: ")
 end
 
 tc = TestClass.new()
@@ -28,8 +28,9 @@ end
 print("Event type: " .. se:get_event_type())
 print("Event name: " .. tostring(se:get_name()))
 
-register_event_listener(0x123, event_listener)
-register_event_listener(0x124, tc, tc.event_listener)
+-- register_event_listener(0x123, event_listener)
+register_event_listener(se:get_event_type(), tc, tc.event_listener)
 
 queue_event(se)
+
 -- queue_event(tc)
