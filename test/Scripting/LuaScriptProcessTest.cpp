@@ -1,54 +1,65 @@
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MAIN
-
-#include <iostream>
-#include <boost/test/unit_test.hpp>
+#include "catch.hpp"
 #include "TestSettings.hpp"
 #include "NGE/Scripting/LuaScriptManager.hpp"
 #include "NGE/Scripting/LuaScriptProcess.hpp"
 #include "NGE/Core/ProcessManager.hpp"
 #include "NGE/Tools/Logger/NewLogger.hpp"
 
-using namespace NGE::Scripting;
+namespace s = NGE::Scripting;
+namespace l = NGE::Tools::Logger;
 
-BOOST_AUTO_TEST_CASE(testRegisterScriptClass) {
-	LuaScriptManager& manager = LuaScriptManager::GetInstance();
-	BOOST_CHECK(manager.Initialise());
-	BOOST_CHECK(manager.ExecuteFile(fmt::format("{}/{}", TEST_ASSET_DIR, "Data/Scripting/ngengine-lib.lua")));
+SCENARIO("Create process using script", "[lua][lua-script-process]") {
 
-	LuaScriptProcess::RegisterScriptClass();
+	GIVEN("LuaScriptManager") {
+		s::LuaScriptManager& manager = s::LuaScriptManager::GetInstance();
+		REQUIRE(manager.Initialise());
 
-	BOOST_CHECK(manager.ExecuteFile(fmt::format("{}/{}", TEST_ASSET_DIR, "Data/Scripting/register-class.lua")));
+		//		l::NewLogger& log = l::NewLogger::GetInstance();
+		//		log["console"]->SetEnabled(true);
+		//		log["console"]->SetAutoFlushEnabled(true);
+		//		log["console"]->SetFlushAfter(1);
 
-	LuaScriptProcess* process = (*manager.GetLuaState().lock())["tp"]["cpp_object"];
-	BOOST_CHECK(process != nullptr);
+		WHEN("NGE library is loaded") {
+			REQUIRE(manager.ExecuteFile(fmt::format("{}/{}", TEST_ASSET_DIR, "Data/Scripting/ngengine-lib.lua")));
 
-	std::shared_ptr<LuaScriptProcess> sharedProcess = (*manager.GetLuaState().lock())["tp"]["cpp_object"];
+			WHEN("LuaScriptProcess is registered") {
+				s::LuaScriptProcess::RegisterScriptClass();
 
-	BOOST_CHECK_EQUAL(process, sharedProcess.get());
+				WHEN("Create process script is loaded") {
+					REQUIRE(manager.ExecuteFile(fmt::format("{}/{}", TEST_ASSET_DIR, "Data/Scripting/register-class.lua")));
 
-	NGE::Core::ProcessManager pm;
-	pm.AttachProcess(sharedProcess);
+					THEN("It is possible to get raw and shared pointers") {
+						s::LuaScriptProcess* rawPointer = (*manager.GetLuaState().lock())["tp"]["cpp_object"];
+						REQUIRE(rawPointer != nullptr);
+						std::shared_ptr<s::LuaScriptProcess> sharedPointer = (*manager.GetLuaState().lock())["tp"]["cpp_object"];
+						REQUIRE(sharedPointer.get() != nullptr);
 
-	BOOST_CHECK_EQUAL(1, pm.GetProcessCount());
-	int result = pm.UpdateProcesses(10);
-	std::cout << "success count: " << (result >> 16) << ", fail count: " << (result >> 16) << std::endl;
+						THEN("Pointers are the same") {
+							REQUIRE(rawPointer == sharedPointer.get());
+						}
 
-	result = pm.UpdateProcesses(20); // 30
-	std::cout << "success count: " << (result >> 16) << ", fail count: " << (result >> 16) << std::endl;
+						WHEN("Process is attached to ProcessManager") {
+							NGE::Core::ProcessManager pm;
+							pm.AttachProcess(sharedPointer);
 
-	result = pm.UpdateProcesses(50); // 80
-	std::cout << "success count: " << (result >> 16) << ", fail count: " << (result >> 16) << std::endl;
+							int result = 0;
+							for (int i = 0; i < 5; ++i) {
+								result = pm.UpdateProcesses(50);
+							}
 
-	result = pm.UpdateProcesses(80); // 160
-	std::cout << "success count: " << (result >> 16) << ", fail count: " << (result >> 16) << std::endl;
+							int successCount = result >> 16;
+							int failureCount = result & 0xFFFF;
 
-	result = pm.UpdateProcesses(50); // 210
-	std::cout << "success count: " << (result >> 16) << ", fail count: " << (result >> 16) << std::endl;
-
-	pm.UpdateProcesses(50); // 260
-
-	std::cout << "use count: " << sharedProcess.use_count() << std::endl;
-
-	std::cout << manager.GetLastError() << std::endl;
+							THEN("Process finished successfully") {
+								REQUIRE(successCount == 1);
+								REQUIRE(failureCount == 0);
+								bool success = (*manager.GetLuaState().lock())["success"];
+								REQUIRE(success);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }

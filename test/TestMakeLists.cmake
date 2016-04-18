@@ -17,7 +17,7 @@ if(${BUILD_TESTS})
 		# Scripting
         LuaScriptEventTest   Scripting/LuaScriptEventTest.cpp
 		# LuaScriptManagerTest Scripting/LuaScriptManagerTest.cpp
-		LuaScriptProcessTest Scripting/LuaScriptProcessTest.cpp
+		# LuaScriptProcessTest Scripting/LuaScriptProcessTest.cpp
 	)
 
 	array2d_begin_loop(advanced "${tuples}" 2 "name;path")
@@ -39,6 +39,7 @@ if(${BUILD_TESTS})
 		test/Parsers/StringUtilsTest.cpp
 		test/Scripting/LuaScriptEventListenerTest.cpp
 		test/Scripting/LuaScriptManagerTest.cpp
+		test/Scripting/LuaScriptProcessTest.cpp
         test/Thirdparty/CatchTest.cpp
 		test/Tools/NewLoggerTest.cpp
 		test/Tools/TimingTest.cpp
