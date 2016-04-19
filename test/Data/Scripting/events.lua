@@ -9,16 +9,20 @@ function TestClass:on_uninit()
 end
 
 function TestClass:event_listener(event)
-	print("This is event listener: ")
+	print("This is object event listener: " .. event:get_event_type())
+end
+
+function TestClass:mouse_event_listener(event)
+	print("This is mouse event listener: " .. event:get_event_type())
 end
 
 tc = TestClass.new()
 
 function event_listener(event)
-	print("This is test: " .. tostring(event))
+	print("This is standalone event listener: " .. event:get_event_type())
 end
 
-SimpleEvent = class(Event)
+SimpleEvent = class(ScriptEvent)
 se = SimpleEvent.new({shared = true})
 
 function SimpleEvent:get_name()
@@ -26,10 +30,11 @@ function SimpleEvent:get_name()
 end
 
 print("Event type: " .. se:get_event_type())
-print("Event name: " .. tostring(se:get_name()))
+-- print("Event name: " .. tostring(se:get_name()))
 
--- register_event_listener(0x123, event_listener)
+register_event_listener(se:get_event_type(), event_listener)
 register_event_listener(se:get_event_type(), tc, tc.event_listener)
+register_event_listener(EventType.MouseEvent, tc, tc.mouse_event_listener)
 
 queue_event(se)
 

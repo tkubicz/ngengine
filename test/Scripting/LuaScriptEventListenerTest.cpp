@@ -8,6 +8,7 @@
 namespace e = NGE::Events;
 namespace s = NGE::Scripting;
 namespace l = NGE::Tools::Logger;
+namespace k = kaguya;
 
 l::LogConfig logConfig;
 
@@ -34,14 +35,18 @@ SCENARIO("Register event listener from script", "[lua][lua-script-event-listener
 
 		WHEN("LuaScriptEventListener class is registered") {
 			s::LuaScriptEvent::RegisterScriptClass();
+			s::LuaScriptEvent::RegisterEventTypeWithScript("MouseEvent", e::MouseEvent::eventType);
 			s::LuaScriptEventListener::RegisterScriptClass();
 
 			WHEN("Events script is loaded") {
 				REQUIRE(manager.ExecuteFile(fmt::format("{}/{}", TEST_ASSET_DIR, "Data/Scripting/events.lua")));
-				
+
 				WHEN("Event manager is updated") {
 					e::EventManager& eventManager = e::EventManager::GetInstance();
-					eventManager.Update(100);
+					
+					std::shared_ptr<e::MouseEvent> mouseEventPtr = std::make_shared<e::MouseEvent>();
+					eventManager.QueueEvent(mouseEventPtr);
+					eventManager.Update();
 				}
 			}
 		}

@@ -18,6 +18,7 @@
 #include "LuaScriptEvent.hpp"
 
 namespace e = NGE::Events;
+namespace c = NGE::Core;
 
 namespace NGE {
 	namespace Scripting {
@@ -26,51 +27,48 @@ namespace NGE {
 		  public:
 
 			struct ScriptEventListener {
-				kaguya::LuaTable object;
-				kaguya::LuaFunction function;
-				e::EventListenerDelegate eventListenerDelegate;
+				kaguya::LuaTable obj;
+				kaguya::LuaFunction fun;
 
-				ScriptEventListener(kaguya::LuaTable object, kaguya::LuaFunction function) :
-				object(object), function(function) {
-					eventListenerDelegate = ([&object, &function](e::IEventDataPtr event) {
-						function(object, event);
-					});
+				ScriptEventListener(kaguya::LuaTable object, kaguya::LuaFunction function) : obj(object), fun(function) { }
+
+				ScriptEventListener(kaguya::LuaFunction function) : fun(function) { }
+
+				~ScriptEventListener() { }
+
+				void RunFunctionWithObject(e::IEventDataPtr event) {
+					if (!obj.isNilref() && !fun.isNilref()) {
+						fun(obj, event);
+					}
 				}
 
-				e::EventDelegate GetEventDelegate(const std::string& name) {
-					return e::EventDelegate(name, eventListenerDelegate);
+				void RunFunction(e::IEventDataPtr event) {
+					if (!fun.isNilref()) {
+						fun(event);
+					}
 				}
 			};
 
-			static std::vector<ScriptEventListener> delegateVector;
+			static std::vector<ScriptEventListener*> delegateVector;
 
 			static void RegisterEventListener(NGE::Events::EventType eventType, kaguya::LuaFunction function) {
+				log_debug("Registering event listener from script for eventType: '{:x}'", eventType);
 
-				//				std::function<void(e::IEventDataPtr) > func = [](e::IEventDataPtr eventPtr) {
-				//					function(eventPtr);
-				//				};
+				ScriptEventListener* scriptEventListener = new ScriptEventListener(function);
+				delegateVector.push_back(scriptEventListener);
 
-				LuaScriptEvent* event = new LuaScriptEvent();
-				function(event);
+				e::EventDelegate delegate(fmt::format("script-function-delegate-{}", delegateVector.size() + 1), c::make_delegate(*scriptEventListener, &ScriptEventListener::RunFunction));
+				e::EventManager::GetInstance().AddListener(delegate, eventType);
 			}
 
 			static void RegisterEventListenerInClass(NGE::Events::EventType eventType, kaguya::LuaTable obj, kaguya::LuaFunction function) {
-				log_debug("Registering event listener from script for eventType: '{}'", eventType);
+				log_debug("Registering event listener from script for eventType: '{:x}'", eventType);
 
-				//				e::EventListenerDelegate eventListenerDelegate = ([&obj, &function](e::IEventDataPtr event) {
-				//					function(obj, event);
-				//				});
-				//
-				//				// Create wrapper.
-				//				e::EventDelegate* delegate = new e::EventDelegate("test-delegate", eventListenerDelegate);
+				ScriptEventListener* scriptEventListener = new ScriptEventListener(obj, function);
+				delegateVector.push_back(scriptEventListener);
 
-				//std::shared_ptr<e::MouseEvent> event = std::make_shared<e::MouseEvent>();
-				//eventListenerDelegate(event);
-
-				//				e::EventManager::GetInstance().AddListener(*delegate, eventType);
-
-				//delegateVector.push_back(ScriptEventListener(obj, function));
-				//e::EventManager::GetInstance().AddListener(delegateVector[0].GetEventDelegate("test-delegate"), eventType);
+				e::EventDelegate delegate(fmt::format("script-object-delegate-{}", delegateVector.size() + 1), c::make_delegate(*scriptEventListener, &ScriptEventListener::RunFunctionWithObject));
+				e::EventManager::GetInstance().AddListener(delegate, eventType);
 			}
 
 			static void QueueEvent(kaguya::LuaTable table) {
@@ -92,7 +90,7 @@ namespace NGE {
 			}
 		};
 
-		std::vector<LuaScriptEventListener::ScriptEventListener> LuaScriptEventListener::delegateVector;
+		std::vector<LuaScriptEventListener::ScriptEventListener*> LuaScriptEventListener::delegateVector;
 	}
 }
 
