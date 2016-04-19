@@ -3,7 +3,7 @@ cmake_minimum_required (VERSION 3.0)
 if(${BUILD_TESTS})
 
 	set (EXTRA_LIBS 
-		${Boost_LIBRARIES} nge GL GLU GLEW glfw z pthread lua${LUA_VERSION} cppformat
+		 nge GL GLU GLEW glfw z pthread lua${LUA_VERSION} cppformat
 	)
 
 	SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/tests)

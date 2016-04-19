@@ -1,5 +1,4 @@
 #include "catch.hpp"
-#include <boost/test/unit_test.hpp>
 #include "NGE/Events/EventBus.hpp"
 #include "NGE/Events/EventDelegate.hpp"
 #include "NGE/Events/BaseEventData.hpp"

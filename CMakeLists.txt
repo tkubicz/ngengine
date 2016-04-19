@@ -75,22 +75,9 @@ option(NO_GLEW "Disable GLEW support" OFF)
 
 if (ANDROID)
 	message(STATUS "Building for Android")
-	find_host_package(Boost 1.53.0 REQUIRED)
-	if (Boost_FOUND)
-		#include_directories (${Boost_INCLUDE_DIRS})
-		message(STATUS "Boost include:" ${Boost_INCLUDE_DIRS})
-		include_directories("/home/tku/Pobrane/Boost-for-Android/build/include/boost-1_53")
-	endif()
 endif()
 
 if (NOT ANDROID)
-	# Find boost
-	find_package (Boost 1.53.0 REQUIRED COMPONENTS unit_test_framework)
-	if (Boost_FOUND)
-		include_directories(${Boost_INCLUDE_DIRS})
-		message(STATUS "Boost include dir:" ${Boost_INCLUDE_DIRS})
-	endif()
-
 	# Find OpenGL
 	find_package (OpenGL REQUIRED)
 
