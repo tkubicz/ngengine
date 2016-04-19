@@ -6,7 +6,7 @@
  */
 
 #ifndef DELEGATE_HPP
-#define	DELEGATE_HPP
+#define DELEGATE_HPP
 
 #include <utility>
 
@@ -21,6 +21,14 @@ namespace NGE {
 			Result operator()(Args... args) {
 				return (x.*f)(args...);
 			}
+
+			template <typename CompareObj, typename CompareResult, typename ...CompareArgs>
+			bool operator==(const Delegate<CompareObj, CompareResult, CompareArgs...>& d1) {
+				if (typeid (Obj) != typeid (CompareObj) || typeid (Result) != typeid (CompareResult)) {
+					return false;
+				}
+				return (void*) &d1.x == (void*) &x && (void*) d1.f == (void*) f;
+			}
 		};
 
 		template <typename Obj, typename Result, typename ...Args>
@@ -30,5 +38,5 @@ namespace NGE {
 	}
 }
 
-#endif	/* DELEGATE_HPP */
+#endif /* DELEGATE_HPP */
 

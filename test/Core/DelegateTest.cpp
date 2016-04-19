@@ -16,6 +16,10 @@ class Foo {
 		return x;
 	}
 
+	int baz(int x) {
+		return x;
+	}
+
 	int getValue() const {
 		return value;
 	}
@@ -98,6 +102,52 @@ SCENARIO("Make delegate to singleton method", "[delegate]") {
 					REQUIRE(get() == 10);
 					REQUIRE(ts.GetValue() == 10);
 				}
+			}
+		}
+	}
+}
+
+SCENARIO("Compare delegates", "[delegate]") {
+	Foo foo;
+
+	GIVEN("Two the same deleagetes") {
+		auto foo1 = make_delegate(foo, &Foo::bar);
+		auto foo2 = make_delegate(foo, &Foo::bar);
+
+		WHEN("Delelgates are compared") {
+			bool equals = (foo1 == foo2);
+
+			THEN("Delelgates are equal") {
+				REQUIRE(equals);
+			}
+		}
+	}
+
+	GIVEN("Two delelgates to the same object but different methods") {
+		auto foo1 = make_delegate(foo, &Foo::bar);
+		auto foo2 = make_delegate(foo, &Foo::baz);
+
+		WHEN("Delegates are compared") {
+			bool equals = (foo1 == foo2);
+
+			THEN("Delegates are not equal") {
+				REQUIRE_FALSE(equals);
+			}
+		}
+	}
+
+	GIVEN("Two delegates to different objects") {
+		auto first = make_delegate(foo, &Foo::bar);
+		auto second = make_delegate(TestSingleton::GetInstance(), &TestSingleton::GetValue);
+		auto third = make_delegate(TestSingleton::GetInstance(), &TestSingleton::GetValue);
+
+		WHEN("Delegates are compared") {
+			bool equals = (first == second);
+			bool equals2 = (second == third);
+
+			THEN("Delegates are not equal") {
+				REQUIRE_FALSE(equals);
+				REQUIRE(equals2);
 			}
 		}
 	}
