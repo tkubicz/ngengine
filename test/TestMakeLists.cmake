@@ -8,26 +8,6 @@ if(${BUILD_TESTS})
 
 	SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/tests)
 
-	include(array2d)
-
-	set(tuples
-		# Events
-		#EventManagerTest	Events/EventManagerTest.cpp
-
-		# Scripting
-        LuaScriptEventTest   Scripting/LuaScriptEventTest.cpp
-		# LuaScriptManagerTest Scripting/LuaScriptManagerTest.cpp
-		# LuaScriptProcessTest Scripting/LuaScriptProcessTest.cpp
-	)
-
-	array2d_begin_loop(advanced "${tuples}" 2 "name;path")
-	while (advanced)
-		add_executable(${name} test/${path})
-		target_link_libraries(${name} ${EXTRA_LIBS})
-		add_test(${name}Runner ${EXECUTABLE_OUTPUT_PATH}/${name})
-		array2d_advance()
-	endwhile()
-
 	set(source
 		test/Core/ConcurrentQueueTest.cpp
         test/Core/DelegateTest.cpp
@@ -38,6 +18,7 @@ if(${BUILD_TESTS})
 		test/Media/MediaManagerTest.cpp
 		test/Parsers/StringUtilsTest.cpp
 		test/Scripting/LuaScriptEventListenerTest.cpp
+		test/Scripting/LuaScriptEventTest.cpp
 		test/Scripting/LuaScriptManagerTest.cpp
 		test/Scripting/LuaScriptProcessTest.cpp
         test/Thirdparty/CatchTest.cpp
