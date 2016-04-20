@@ -17,7 +17,11 @@ class Foo {
 	}
 
 	int baz(int x) {
-		return x;
+		return x + 20;
+	}
+	
+	void test() {
+		
 	}
 
 	int getValue() const {
@@ -123,13 +127,26 @@ SCENARIO("Compare delegates", "[delegate]") {
 		}
 	}
 
-	GIVEN("Two delelgates to the same object but different methods") {
+	GIVEN("Two delelgates to the same object but different methods with the same type") {
 		auto foo1 = make_delegate(foo, &Foo::bar);
 		auto foo2 = make_delegate(foo, &Foo::baz);
 
 		WHEN("Delegates are compared") {
 			bool equals = (foo1 == foo2);
 
+			THEN("Delegates are not equal") {
+				REQUIRE_FALSE(equals);
+			}
+		}
+	}
+	
+	GIVEN("Two delegates to the same object buf different methods with different types") {
+		auto foo1 = make_delegate(foo, &Foo::bar);
+		auto foo2 = make_delegate(foo, &Foo::test);
+		
+		WHEN("Delegates are compared") {
+			bool equals = (foo1 == foo2);
+			
 			THEN("Delegates are not equal") {
 				REQUIRE_FALSE(equals);
 			}
