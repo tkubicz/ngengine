@@ -1,4 +1,5 @@
 #include "catch.hpp"
+#include "TestSettings.hpp"
 #include "NGE/Scripting/LuaScriptManager.hpp"
 #include "NGE/Scripting/LuaScriptEvent.hpp"
 
@@ -33,4 +34,30 @@ SCENARIO("Register EventType within script", "[lua][lua-script-event]") {
 			}
 		}
 	}
+}
+
+SCENARIO("Build event data from script and access it in cpp", "[lua][lua-script-event]") {
+	enableConsoleLogging();
+
+	GIVEN("LuaScriptMnager") {
+
+		s::LuaScriptManager& manager = s::LuaScriptManager::GetInstance();
+		REQUIRE(manager.Initialise());
+		REQUIRE(manager.ExecuteFile(fmt::format("{}/{}", TEST_ASSET_DIR, "Data/Scripting/ngengine-lib.lua")));
+
+		WHEN("LuaScriptEvent class is registered") {
+			s::LuaScriptEvent::RegisterScriptClass();
+
+			WHEN("Script is loaded") {
+				REQUIRE(manager.ExecuteFile(fmt::format("{}/{}", TEST_ASSET_DIR, "Data/Scripting/build-event-data.lua")));
+
+				THEN("Get event from script and check its internal data") {
+					std::shared_ptr<s::LuaScriptEvent> event = (*manager.GetLuaState().lock())["se"]["cpp_object"];
+					REQUIRE(event != nullptr);
+				}
+			}
+		}
+	}
+
+	disableConsoleLogging();
 }

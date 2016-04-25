@@ -32,6 +32,15 @@ SCENARIO("Initialise LuaScriptManager", "[lua][lua-script-manager]") {
 				}
 			}
 		}
+
+		WHEN("LuaScriptManager is initialised twice") {
+			bool firstInit = lsm.Initialise();
+			bool secondInit = lsm.Initialise();
+
+			THEN("Both initilisations was successful") {
+				REQUIRE((firstInit && secondInit));
+			}
+		}
 	}
 }
 
@@ -118,7 +127,7 @@ SCENARIO("Get Lua state", "[lua][lua-script-manager]") {
 				THEN("We have a pointer to Lua state") {
 					REQUIRE_FALSE(state.expired());
 					std::shared_ptr<k::State> s = state.lock();
-					
+
 					WHEN("We execute something on state") {
 						(*s)("a = 15");
 						(*s)("b = a + 20");

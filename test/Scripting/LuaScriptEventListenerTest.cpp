@@ -10,25 +10,9 @@ namespace s = NGE::Scripting;
 namespace l = NGE::Tools::Logger;
 namespace k = kaguya;
 
-l::LogConfig logConfig;
-
-void enableConsoleLogging() {
-	l::NewLogger& log = l::NewLogger::GetInstance();
-	logConfig = log["console"]->GetLogConfig();
-	log["console"]->SetEnabled(true);
-	log["console"]->SetAutoFlushEnabled(true);
-	log["console"]->SetFlushAfter(1);
-}
-
-void disableConsoleLogging() {
-	l::NewLogger& log = l::NewLogger::GetInstance();
-	log["console"]->SetLogConfig(logConfig);
-}
-
 SCENARIO("Register event listener from script", "[lua][lua-script-event-listener]") {
 
 	GIVEN("LuaScriptManager with NGE library") {
-		enableConsoleLogging();
 		s::LuaScriptManager& manager = s::LuaScriptManager::GetInstance();
 		REQUIRE(manager.Initialise());
 		REQUIRE(manager.ExecuteFile(fmt::format("{}/{}", TEST_ASSET_DIR, "Data/Scripting/ngengine-lib.lua")));
@@ -50,7 +34,5 @@ SCENARIO("Register event listener from script", "[lua][lua-script-event-listener
 				}
 			}
 		}
-
-		disableConsoleLogging();
 	}
 }

@@ -24,6 +24,7 @@ if(${BUILD_TESTS})
         test/Thirdparty/CatchTest.cpp
 		test/Tools/NewLoggerTest.cpp
 		test/Tools/TimingTest.cpp
+		test/TestSettings.cpp
 		test/Main.cpp
 	)
 	

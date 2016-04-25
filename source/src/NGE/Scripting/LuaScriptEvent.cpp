@@ -21,6 +21,7 @@ void LuaScriptEvent::RegisterScriptClass() {
 	(*ptr)["ScriptEvent"].setClass(k::ClassMetatable<NGE::Scripting::LuaScriptEvent, e::IEventData>().addConstructor()
 			//			.addMember("get_event_type", &LuaScriptEvent::GetEventType)
 			//			.addMember("get_name", &LuaScriptEvent::GetName2)
+			.addMember("build", &LuaScriptEvent::BuildEventData)
 			);
 
 	(*ptr)["ScriptEvent"]["shared"] = &std::make_shared<LuaScriptEvent>;
@@ -39,3 +40,5 @@ void LuaScriptEvent::RegisterEventTypeWithScript(const std::string& key, NGE::Ev
 	eventTypeTable[key] = type;
 	(*manager.GetLuaState().lock())["EventType"] = eventTypeTable;
 }
+
+

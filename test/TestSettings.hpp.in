@@ -10,5 +10,8 @@
 
 #define TEST_ASSET_DIR "@TEST_ASSET_DIR@"
 
+void enableConsoleLogging();
+void disableConsoleLogging();
+
 #endif /* TESTSETTINGS_HPP */
 

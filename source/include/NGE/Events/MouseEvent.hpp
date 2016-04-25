@@ -2,7 +2,7 @@
  * File:   MouseEvent.hpp
  * Author: tku
  *
- * Created on 6 styczeń 2013, 09:01
+ * Created on 6 January 2013, 09:01
  */
 
 #ifndef MOUSEEVENT_HPP
