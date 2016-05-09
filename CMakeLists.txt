@@ -109,6 +109,8 @@ if (ANDROID)
 endif()
 
 add_library(nge SHARED
+	source/src/NGE/Actors/Actor.cpp
+
 	source/src/NGE/Appearance/Light.cpp
 	source/src/NGE/Appearance/Scene/SceneNode.cpp
 

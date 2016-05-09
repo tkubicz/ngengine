@@ -9,6 +9,7 @@ if(${BUILD_TESTS})
 	SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/tests)
 
 	set(source
+		test/Actors/ActorTest.cpp
 		test/Core/ConcurrentQueueTest.cpp
         test/Core/DelegateTest.cpp
 		test/Core/ProcessManagerTest.cpp
