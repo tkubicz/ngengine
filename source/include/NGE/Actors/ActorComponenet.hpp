@@ -8,6 +8,7 @@
 #ifndef ACTORCOMPONENET_HPP
 #define ACTORCOMPONENET_HPP
 
+#include <functional>
 #include "Actor.hpp"
 
 namespace NGE {
@@ -21,9 +22,7 @@ namespace NGE {
 
 		  public:
 
-			virtual ~ActorComponent() {
-				owner.reset();
-			}
+			virtual ~ActorComponent();
 
 			virtual bool Init() = 0;
 
@@ -33,15 +32,15 @@ namespace NGE {
 
 			virtual void OnChanged() { }
 
-			virtual ComponentId GetId() const {
-				//return GetIdFromName(GetName());
-			}
+			virtual ComponentId GetId() const;
 
-			virtual const char* GetName() const = 0;
+			virtual const std::string GetName() const = 0;
 
-			virtual ComponentId GetIdFromName(const char* componenetName) {
-				//void* rawId = Hash
-			}
+			virtual ComponentId GetIdFromName(const std::string& componenetName) const;
+
+		  private:
+
+			void SetOwner(StrongActorPtr owner);
 		};
 	}
 }
