@@ -30,7 +30,8 @@ namespace NGE {
 			Math::vec2i dimensions;
 
 		  public:
-
+			
+			// TODO: Change it to use Singleton class.
 			static Renderer& GetInstance() {
 				static Renderer instance;
 				return instance;

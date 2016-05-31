@@ -2,7 +2,7 @@
  * File:   GLSLProgram.hpp
  * Author: tku
  *
- * Created on 12 styczeń 2012, 18:02
+ * Created on 12 January 2012, 18:02
  */
 
 #ifndef GLSLPROGRAM_HPP
@@ -23,87 +23,87 @@ using std::map;
 using std::vector;
 
 namespace NGE {
-    namespace Media {
-        namespace Shaders {
+	namespace Media {
+		namespace Shaders {
 
-            class GLSLProgram {
-              public:
+			class GLSLProgram {
+			  public:
 
-                class GLSLShader {
-                  public:
-                    unsigned int id;
-                    std::string filename;
-                    std::string source;
-                };
+				class GLSLShader {
+				  public:
+					unsigned int id;
+					std::string filename;
+					std::string source;
+				};
 
-                class UniformVariable {
-                  public:
-                    unsigned int index;
-                    std::string name;
-                    std::string type;
-                };
+				class UniformVariable {
+				  public:
+					unsigned int index;
+					std::string name;
+					std::string type;
+				};
 
-                GLSLProgram() : xmlShader(false) { }
-                GLSLProgram(const pugi::xml_node& node);
-                GLSLProgram(const string& vertexShader, const string& fragmentShader);
+				GLSLProgram() : xmlShader(false) { }
+				GLSLProgram(const pugi::xml_node& node);
+				GLSLProgram(const string& vertexShader, const string& fragmentShader);
 
-                virtual ~GLSLProgram() { }
+				virtual ~GLSLProgram() { }
 
-                bool setShaderSource(const string vertexShaderSource, const string fragmentShaderSource);
-                bool setShader(const string& vertexShaderPath, const string& fragmentShaderPath);
-                bool loadXMLSettings(const pugi::xml_node& node);
+				bool setShaderSource(const string vertexShaderSource, const string fragmentShaderSource);
+				bool setShader(const string& vertexShaderPath, const string& fragmentShaderPath);
+				bool loadXMLSettings(const pugi::xml_node& node);
 
-                void unload();
-                bool initialize(bool bindAttribs = false);
-                void linkProgram();
+				void unload();
+				bool initialize(bool bindAttribs = false);
+				void linkProgram();
 
-                GLuint getUniformLocation(const string& name);
-                GLuint getAttribLocation(const string& name);
+				GLuint getUniformLocation(const string& name);
+				GLuint getAttribLocation(const string& name);
 
-                void sendUniform(const string& name, const int id);
-                void sendUniform(const string& name, const unsigned int id);
-                void sendUniform(const string& name, const float red, const float green, const float blue, const float alpha);
-                void sendUniform(const string& name, const Math::vec4f& vec);
-                void sendUniform(const string& name, const float x, const float y, const float z);
-                void sendUniform(const string& name, const Math::vec3f& vec);
-                void sendUniform(const string& name, const float scalar);
-                void sendUniformArray4(const string& name, const int size, const float* array);
-                void sendUniformArray2(const string& name, const int size, const float* array);
-                void sendUniform4x4(const string& name, const float* matrix, bool transpose = false);
-                void sendUniform3x3(const string& name, const float* matrix, bool transpose = false);
+				void sendUniform(const string& name, const int id);
+				void sendUniform(const string& name, const unsigned int id);
+				void sendUniform(const string& name, const float red, const float green, const float blue, const float alpha);
+				void sendUniform(const string& name, const Math::vec4f& vec);
+				void sendUniform(const string& name, const float x, const float y, const float z);
+				void sendUniform(const string& name, const Math::vec3f& vec);
+				void sendUniform(const string& name, const float scalar);
+				void sendUniformArray4(const string& name, const int size, const float* array);
+				void sendUniformArray2(const string& name, const int size, const float* array);
+				void sendUniform4x4(const string& name, const float* matrix, bool transpose = false);
+				void sendUniform3x3(const string& name, const float* matrix, bool transpose = false);
 
-                void autoBindAttribs();
-                void bindAttrib(unsigned int index, const string& attribName);
+				void autoBindAttribs();
+				void bindAttrib(unsigned int index, const string& attribName);
 
-                void autoEnableVertexAttribArray();
-                void autoDisableVertexAttribArray();
+				void autoEnableVertexAttribArray();
+				void autoDisableVertexAttribArray();
 
-                void bindShader();
-                void unbindShader();
+				void bindShader();
+				void unbindShader();
 
-                const std::string& getName();
+				const std::string& getName();
 
-              private:
+			  private:
 
-                string readFile(const string& filename);
-                bool compileShader(const GLSLShader& shader);
-                void outputShaderLog(unsigned int shaderId);
-                void outputProgramLog(unsigned int programId);
+				string readFile(const string& filename);
+				bool compileShader(const GLSLShader& shader);
+				void outputShaderLog(unsigned int shaderId);
+				void outputProgramLog(unsigned int programId);
 
-                GLSLShader vertexShader;
-                GLSLShader fragmentShader;
-                GLSLShader geometryShader;
+				GLSLShader vertexShader;
+				GLSLShader fragmentShader;
+				GLSLShader geometryShader;
 
-                unsigned int programId;
-                bool xmlShader;
-                bool fileShader;
-                std::string name;
+				unsigned int programId;
+				bool xmlShader;
+				bool fileShader;
+				std::string name;
 
-                map<string, GLuint> uniformMap;
-                map<string, GLuint> attribMap;
-            };
-        }
-    }
+				map<string, GLuint> uniformMap;
+				map<string, GLuint> attribMap;
+			};
+		}
+	}
 }
 
 #endif /* GLSLPROGRAM_HPP */
