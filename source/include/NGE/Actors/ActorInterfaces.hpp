@@ -2,11 +2,14 @@
  * File:   ActorInterfaces.hpp
  * Author: tku
  *
- * Created on 28 listopad 2015, 01:05
+ * Created on 28 November 2015, 01:05
  */
 
 #ifndef ACTORINTERFACES_HPP
 #define ACTORINTERFACES_HPP
+
+#include <string>
+#include <memory>
 
 namespace NGE {
     namespace Actors {
@@ -14,6 +17,7 @@ namespace NGE {
         class ActorComponent;
 
         typedef unsigned int ActorId;
+		typedef std::string ActorType;
         typedef unsigned int ComponentId;
 
         typedef std::shared_ptr<Actor> StrongActorPtr;

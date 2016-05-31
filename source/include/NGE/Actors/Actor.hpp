@@ -2,58 +2,80 @@
  * File:   Actor.hpp
  * Author: tku
  *
- * Created on 29 listopad 2015, 04:26
+ * Created on 29 November 2015, 04:26
  */
 
 #ifndef ACTOR_HPP
 #define ACTOR_HPP
 
+#include <map>
+#include <pugixml.hpp>
 #include "NGE/Actors/ActorInterfaces.hpp"
 
 namespace NGE {
-    namespace Actors {
+	namespace Actors {
 
-        class Actor {
-          public:
-            typedef std::map<ComponentId, StrongActorComponentPtr> ActorComponents;
-            typedef std::string ActorType;
+		class Actor {
+		  public:
+			typedef std::map<ComponentId, StrongActorComponentPtr> ActorComponents;
+			typedef std::string ActorType;
 
-          private:
-            /**
-             * Unique ID for the Actor.
-             */
-            ActorId id;
+		  private:
+			/**
+			 * Unique ID for the Actor.
+			 */
+			ActorId id;
 
-            /**
-             * All components this actor has.
-             */
-            ActorComponents components;
+			/**
+			 * All components this actor has.
+			 */
+			ActorComponents components;
 
-            /**
-             * Type of the actor.
-             */
-            ActorType type;
+			/**
+			 * Type of the actor.
+			 */
+			ActorType type;
 
-          public:
-            explicit Actor(ActorId id);
-            virtual ~Actor();
+			/**
+			 * The XML file from which this actor was initialised.
+			 */
+			std::string resource;
 
-            bool Initialise(pugi::xml_node* data);
-            void PostInit();
-            void Terminate();
-            void Update(int deltaTimeMs);
+		  public:
+			explicit Actor(ActorId id);
+			virtual ~Actor();
 
-            std::string ToXml();
+			bool Initialise(pugi::xml_node* data);
+			void PostInit();
+			void Terminate();
+			void Update(int deltaTimeMs);
 
-            ActorId GetId() const;
-            ActorType GetType() const;
-            const ActorComponents* GetComponents();
-            template <class ComponentType> std::weak_ptr<ComponentType> GetComponent(ComponentId id);
-            template <class ComponentType> std::weak_ptr<ComponentType> GetComponent(const std::string& name);
+			std::string ToXml();
 
-            void AddComponent(StrongActorComponentPtr componenet);
-        };
-    }
+			ActorId GetId() const;
+			ActorType GetType() const;
+			const ActorComponents* GetComponents();
+
+			template <class ComponentType> std::weak_ptr<ComponentType> GetComponent(ComponentId id) {
+				auto find = components.find(id);
+				if (find != components.end()) {
+					StrongActorComponentPtr base(find->second);
+					// Cast to subclass version of the pointer.
+					std::shared_ptr<ComponentType> sub(std::static_pointer_cast<ComponentType>(base));
+					// Convert strong pointer to weak pointer.
+					std::weak_ptr<ComponentType> weakSub(sub);
+					// Return the weak pointer.
+					return weakSub;
+				} else {
+					return std::weak_ptr<ComponentType>();
+				}
+			}
+
+			template <class ComponentType> std::weak_ptr<ComponentType> GetComponent(const std::string& name) { }
+
+			void AddComponent(StrongActorComponentPtr componenet);
+		};
+	}
 }
 
 #endif /* ACTOR_HPP */

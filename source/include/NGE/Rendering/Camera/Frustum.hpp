@@ -2,11 +2,11 @@
  * File:   Frustum.hpp
  * Author: tku
  *
- * Created on 26 grudzień 2013, 20:08
+ * Created on 26 December 2013, 20:08
  */
 
 #ifndef FRUSTUM_HPP
-#define	FRUSTUM_HPP
+#define FRUSTUM_HPP
 
 #include "NGE/Core/Core.hpp"
 #include "NGE/Math/Vector3.hpp"
@@ -40,7 +40,7 @@ namespace NGE {
 
 				/**
 				 * Points that represents the view frustum - near[] is the near plane
-				 * and respectivly far is the far plane.
+				 * and respectively far is the far plane.
 				 * Indices correspond to points:
 				 * 0 - top left vertex, 
 				 * 1 - top right vertex, 
@@ -105,7 +105,7 @@ namespace NGE {
 				 * When camera changes this should be updated.
 				 * @param position Position of the camera.
 				 * @param focus Point where camera focuses.
-				 * @param upVector Normalise up vector - usualy (0,1,0) when Y axis is UP.
+				 * @param upVector Normalise up vector - usually (0,1,0) when Y axis is UP.
 				 */
 				void SetCameraDefinition(const Math::Vector3<T>& position, const Math::Vector3<T>& focus, const Math::Vector3<T>& upVector);
 
@@ -118,7 +118,7 @@ namespace NGE {
 				int PointInFrustum(const Math::Vector3<T>& point);
 
 				/**
-				 * Test if sphere is in furstum.
+				 * Test if sphere is in frustum.
 				 * @param position Position of the sphere.
 				 * @param radius Radius of the sphere.
 				 * @return State in which sphere is.
@@ -147,5 +147,5 @@ namespace NGE {
 	}
 }
 
-#endif	/* FRUSTUM_HPP */
+#endif /* FRUSTUM_HPP */
 

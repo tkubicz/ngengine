@@ -12,6 +12,18 @@
 #include "NGE/Tools/Logger/NewLogger.hpp"
 #endif
 
+#ifndef LOGTYPES_HPP
+#include "NGE/Tools/Logger/LogTypes.hpp"
+#endif
+
+#ifndef LOGMESSAGE_HPP
+#include "NGE/Tools/Logger/LogMessage.hpp"
+#endif
+
+#ifndef LOGCONFIG_HPP
+#include "NGE/Tools/Logger/LogConfig.hpp"
+#endif
+
 #ifndef RANDOM_H
 #include "NGE/Tools/Random.hpp"
 #endif
