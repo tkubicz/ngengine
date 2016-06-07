@@ -143,7 +143,7 @@ void Box::Render() {
 	if (shader == NULL)
 		return;
 
-	shader->bindShader();
+	shader->BindShader();
 
 	//texture->Activate();
 
@@ -156,5 +156,5 @@ void Box::Render() {
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
-	shader->unbindShader();
+	shader->UnbindShader();
 }

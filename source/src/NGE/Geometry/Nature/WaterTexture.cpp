@@ -113,7 +113,7 @@ unsigned int WaterTexture::Initialize(float waterPlaneLength, NGE::Media::Shader
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	shader->bindShader();
+	shader->BindShader();
 
 	Math::mat4f lookAt;
 	Math::mat4f modelviewMatrix = lookAt.LookAt(0.0f, 0.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
@@ -208,7 +208,7 @@ void WaterTexture::Render() {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	shader->bindShader();
+	shader->BindShader();
 
 	shader->sendUniform("u_passedTime", passedTime);
 	shader->sendUniformArray4("u_waveParameters", 4 * NUMBER_WAVES, (GLfloat*) waveParameters);
@@ -224,7 +224,7 @@ void WaterTexture::Render() {
 
 	glViewport(0, 0, parentWidth, parentHeight);
 
-	shader->unbindShader();
+	shader->UnbindShader();
 }
 
 void WaterTexture::Reshape(int width, int height) {

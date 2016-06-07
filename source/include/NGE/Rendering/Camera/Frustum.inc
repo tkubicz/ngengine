@@ -168,7 +168,7 @@ template <typename T> void Frustum<T>::InitialiseVBA() {
 }
 
 template <typename T> void Frustum<T>::Render() {
-	shader->bindShader();
+	shader->BindShader();
 
 	Rendering::Renderer::GetInstance().GetMatrixStack().PushMatrix();
 	//Rendering::Renderer::GetInstance().GetMatrixStack().Scale(15.0f, 15.0f, 15.0f);
@@ -190,5 +190,5 @@ template <typename T> void Frustum<T>::Render() {
 
 	Rendering::Renderer::GetInstance().GetMatrixStack().PopMatrix();
 
-	shader->unbindShader();
+	shader->UnbindShader();
 }

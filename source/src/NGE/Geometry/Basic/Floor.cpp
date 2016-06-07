@@ -61,7 +61,7 @@ void Floor::Update(float dt) { }
 
 void Floor::Render() {
 	Rendering::Renderer::GetInstance().GetMatrixStack().PushMatrix();
-	shader->bindShader();
+	shader->BindShader();
 
 	shader->sendUniform4x4("modelview_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX));
 	shader->sendUniform4x4("projection_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(PROJECTION_MATRIX));
@@ -71,7 +71,7 @@ void Floor::Render() {
 	glDrawArrays(GL_LINES, 0, vertices.size());
 	glBindVertexArray(0);
 
-	shader->unbindShader();
+	shader->UnbindShader();
 	Rendering::Renderer::GetInstance().GetMatrixStack().PopMatrix();
 }
 

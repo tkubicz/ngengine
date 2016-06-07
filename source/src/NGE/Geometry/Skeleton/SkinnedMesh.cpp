@@ -89,7 +89,7 @@ void SkinnedMesh::Render() {
 	if (shader == NULL)
 		return;
 
-	shader->bindShader();
+	shader->BindShader();
 	shader->sendUniform4x4("modelview_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX));
 	shader->sendUniform4x4("projection_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(PROJECTION_MATRIX));
 	shader->sendUniform("color", Math::vec3f(1.0, 0.0, 0.0));

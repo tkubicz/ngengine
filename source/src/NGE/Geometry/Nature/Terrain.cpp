@@ -354,7 +354,7 @@ void Terrain::Render() {
 
 	Rendering::Renderer::GetInstance().GetMatrixStack().Multiple(localToWorldMatrix);
 
-	shader->bindShader();
+	shader->BindShader();
 
 	shader->sendUniform4x4("modelview_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX));
 	shader->sendUniform4x4("projection_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(PROJECTION_MATRIX));
@@ -388,7 +388,7 @@ void Terrain::Render() {
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
-	shader->unbindShader();
+	shader->UnbindShader();
 
 	if (wireframe) {
 		// Fix that, it is not working in opengl es.
@@ -430,7 +430,7 @@ void Terrain::GenerateDebug() {
 }
 
 void Terrain::RenderNormals() {
-	debugShader->bindShader();
+	debugShader->BindShader();
 	debugShader->sendUniform4x4("modelview_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX));
 	debugShader->sendUniform4x4("projection_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(PROJECTION_MATRIX));
 	debugShader->sendUniform("color", Math::vec4f(1.0f, 1.0f, 0.0f, 1.0f));
@@ -439,7 +439,7 @@ void Terrain::RenderNormals() {
 	glDrawArrays(GL_LINES, 0, normalVertices.size());
 	glBindVertexArray(0);
 
-	debugShader->unbindShader();
+	debugShader->UnbindShader();
 }
 
 void Terrain::SetWireframe(bool value) {

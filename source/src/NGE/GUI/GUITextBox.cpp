@@ -109,8 +109,8 @@ void GUITextBox::Render() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    shader->bindShader();
-    shader->autoEnableVertexAttribArray();
+    shader->BindShader();
+    shader->AutoEnableVertexAttribArray();
 
     shader->sendUniform("guiType", 0);
 
@@ -128,7 +128,7 @@ void GUITextBox::Render() {
         glDrawArrays(GL_LINES, 8, 2);
     }
 
-    shader->autoDisableVertexAttribArray();
+    shader->AutoDisableVertexAttribArray();
 
     glDisable(GL_BLEND);
 

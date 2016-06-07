@@ -119,7 +119,7 @@ void SkyPlane::Render(int alpha) {
 	if (shader == NULL || texture == NULL)
 		return;
 
-	shader->bindShader();
+	shader->BindShader();
 	texture->activate();
 
 	shader->sendUniform4x4("modelview_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX));
@@ -130,7 +130,7 @@ void SkyPlane::Render(int alpha) {
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
-	shader->unbindShader();
+	shader->UnbindShader();
 
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }

@@ -31,9 +31,18 @@ namespace NGE {
 
 				class GLSLShader {
 				  public:
+
 					unsigned int id;
 					std::string filename;
 					std::string source;
+
+					GLSLShader() : id(0) { }
+
+					void Clear() {
+						id = 0;
+						filename.clear();
+						source.clear();
+					}
 				};
 
 				class UniformVariable {
@@ -43,22 +52,29 @@ namespace NGE {
 					std::string type;
 				};
 
-				GLSLProgram() : xmlShader(false) { }
+				GLSLProgram() { }
 				GLSLProgram(const pugi::xml_node& node);
-				GLSLProgram(const string& vertexShader, const string& fragmentShader);
+				GLSLProgram(const string& vertexShaderPath, const string& fragmentShaderPath);
+				GLSLProgram(const string& vertexShaderPath, const string& geometryShaderPath, const string& fragmentShaderPath);
 
-				virtual ~GLSLProgram() { }
+				virtual ~GLSLProgram();
 
-				bool setShaderSource(const string vertexShaderSource, const string fragmentShaderSource);
-				bool setShader(const string& vertexShaderPath, const string& fragmentShaderPath);
-				bool loadXMLSettings(const pugi::xml_node& node);
+				void SetShaderSource(const string& vertexShaderSource, const string& fragmentShaderSource);
+				void SetShaderSource(const string& vertexShaderSource, const string& geometryShaderSource, const string& fragmentShaderSource);
 
-				void unload();
-				bool initialize(bool bindAttribs = false);
-				void linkProgram();
+				void SetShaderPath(const string& vertexShaderPath, const string& fragmentShaderPath);
+				void SetShaderPath(const string& vertexShaderPath, const string& geometryShaderPath, const string& fragmentShaderPath);
 
-				GLuint getUniformLocation(const string& name);
-				GLuint getAttribLocation(const string& name);
+				bool LoadXMLSettings(const pugi::xml_node& node);
+
+				bool Initialise(bool bindAttribs = false);
+
+				void Terminate();
+
+				void LinkProgram();
+
+				GLuint GetUniformLocation(const string& name);
+				GLuint GetAttribLocation(const string& name);
 
 				void sendUniform(const string& name, const int id);
 				void sendUniform(const string& name, const unsigned int id);
@@ -72,31 +88,37 @@ namespace NGE {
 				void sendUniform4x4(const string& name, const float* matrix, bool transpose = false);
 				void sendUniform3x3(const string& name, const float* matrix, bool transpose = false);
 
-				void autoBindAttribs();
-				void bindAttrib(unsigned int index, const string& attribName);
+				void AutoBindAttribs();
+				void BindAttrib(unsigned int index, const string& attribName);
 
-				void autoEnableVertexAttribArray();
-				void autoDisableVertexAttribArray();
+				void AutoEnableVertexAttribArray();
+				void AutoDisableVertexAttribArray();
 
-				void bindShader();
-				void unbindShader();
+				void BindShader();
+				void UnbindShader();
 
-				const std::string& getName();
+				const std::string& GetName();
 
 			  private:
 
-				string readFile(const string& filename);
-				bool compileShader(const GLSLShader& shader);
-				void outputShaderLog(unsigned int shaderId);
-				void outputProgramLog(unsigned int programId);
+				string ReadFile(const string& filename);
+				bool CompileShader(const GLSLShader& shader);
+				void OutputShaderLog(unsigned int shaderId);
+				void OutputProgramLog(unsigned int programId);
+
+				void DetachShader(unsigned int programId, unsigned int shaderId);
+				void DeleteShader(unsigned int shaderId);
 
 				GLSLShader vertexShader;
 				GLSLShader fragmentShader;
 				GLSLShader geometryShader;
 
 				unsigned int programId;
+				
 				bool xmlShader;
 				bool fileShader;
+				bool geometryShaderAvailable;
+				
 				std::string name;
 
 				map<string, GLuint> uniformMap;

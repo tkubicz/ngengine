@@ -13,47 +13,47 @@
 #include "NGE/Math/Vector2.hpp"
 
 namespace NGE {
-    namespace Events {
+	namespace Events {
 
-        class MouseEvent : public BaseEventData {
-          private:
+		class MouseEvent : public BaseEventData {
+		  private:
 
-            int scrolling, buttonId, action,
-            x, y, yInverse;
-            bool moved;
+			int scrolling, buttonId, action,
+			x, y, yInverse;
+			bool moved;
 
-          public:
-            static constexpr const EventType eventType = 0x9bad1a15;
+		  public:
+			static constexpr const EventType eventType = 0x9bad1a15;
 
-            MouseEvent(float timeStamp = 0.0f);
-            MouseEvent(int id, int action, int xPosition, int yPosition, int yInverse, int scrolling, float timeStamp = 0.0f);
-            MouseEvent& operator=(const MouseEvent& copy);
+			MouseEvent(float timeStamp = 0.0f);
+			MouseEvent(int id, int action, int xPosition, int yPosition, int yInverse, int scrolling, float timeStamp = 0.0f);
+			MouseEvent& operator=(const MouseEvent& copy);
 
-            const EventType& GetEventType() const override {
-                return eventType;
-            }
+			const EventType& GetEventType() const override {
+				return eventType;
+			}
 
-            const std::string GetName() const override {
-                return "MouseEvent";
-            }
+			const std::string GetName() const override {
+				return "MouseEvent";
+			}
 
-            IEventDataPtr Copy() const override {
-                return IEventDataPtr(new MouseEvent(buttonId, action, x, y, yInverse, scrolling));
-            }
+			IEventDataPtr Copy() const override {
+				return IEventDataPtr(new MouseEvent(buttonId, action, x, y, yInverse, scrolling));
+			}
 
-            int GetScrolling();
-            int GetButtonId();
-            int GetAction();
+			int GetScrolling();
+			int GetButtonId();
+			int GetAction();
 
-            bool GetMoved();
-            void SetMoved(bool moved);
+			bool GetMoved();
+			void SetMoved(bool moved);
 
-            Math::vec2i GetPosition();
-            int GetX();
-            int GetY();
-            int GetYInverse();
-        };
-    }
+			Math::vec2i GetPosition();
+			int GetX();
+			int GetY();
+			int GetYInverse();
+		};
+	}
 }
 
 

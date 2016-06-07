@@ -86,7 +86,7 @@ void GUISeparator::Render() {
 	if (!parent || ((GUIClippedRectangle*) parent)->IsBackgroundColorOn() || !shader)
 		return;
 
-	shader->bindShader();
+	shader->BindShader();
 	shader->sendUniform("guiType", 0);
 	shader->sendUniform("color", color);
 

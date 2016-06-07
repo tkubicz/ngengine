@@ -217,7 +217,7 @@ void Sphere::Render() {
 		return;
 	}
 
-	shader->bindShader();
+	shader->BindShader();
 	texture->activate();
 
 	shader->sendUniform4x4("modelview_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX));
@@ -236,7 +236,7 @@ void Sphere::Render() {
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
-	shader->unbindShader();
+	shader->UnbindShader();
 	texture->deactivate();
 }
 

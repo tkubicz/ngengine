@@ -203,7 +203,7 @@ void DiamonSquareTerrain::Render() {
 #ifndef ANDROID
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 #endif
-	shader->bindShader();
+	shader->BindShader();
 
 	shader->sendUniform4x4("modelviewMatrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX));
 	shader->sendUniform4x4("projectionMatrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(PROJECTION_MATRIX));
@@ -212,5 +212,5 @@ void DiamonSquareTerrain::Render() {
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
-	shader->unbindShader();
+	shader->UnbindShader();
 }

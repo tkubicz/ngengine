@@ -93,6 +93,7 @@ namespace NGE {
 			 * @param angle Angle in radians.
 			 */
 			inline void RotateZ(const T angle);
+			
 			/*inline void RotateXYZ(const Vector3<T> &vec);
 			inline void RotateXYZ(float x, float y, float z);*/
 

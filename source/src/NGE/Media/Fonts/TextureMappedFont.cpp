@@ -55,7 +55,7 @@ void TextureMappedFont::printString(const std::string& str, const NGE::Math::vec
 }
 
 void TextureMappedFont::printString(const std::string& str, float x, float y, const NGE::Math::vec4f& color) {
-	shader->bindShader();
+	shader->BindShader();
 	float texCoords[8];
 
 	glDisable(GL_CULL_FACE);
@@ -64,7 +64,7 @@ void TextureMappedFont::printString(const std::string& str, float x, float y, co
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	texture->activate();
-	shader->autoEnableVertexAttribArray();
+	shader->AutoEnableVertexAttribArray();
 
 	Rendering::Renderer::GetInstance().GetMatrixStack().PushMatrix();
 	Rendering::Renderer::GetInstance().GetMatrixStack().Identity();
@@ -110,7 +110,7 @@ void TextureMappedFont::printString(const std::string& str, float x, float y, co
 	}
 	Rendering::Renderer::GetInstance().GetMatrixStack().PopMatrix();
 
-	shader->autoDisableVertexAttribArray();
+	shader->AutoDisableVertexAttribArray();
 
 	glDisable(GL_BLEND);
 	glEnable(GL_CULL_FACE);

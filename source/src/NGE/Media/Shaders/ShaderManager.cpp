@@ -21,7 +21,7 @@ void ShaderManager::Initialise() {
 
 void ShaderManager::Deinitialise() {
     for (std::map<std::string, GLSLProgram>::iterator it = ShaderManager::programs.begin(); it != ShaderManager::programs.end(); ++it)
-        it->second.unload();
+        it->second.Terminate();
 
     ShaderManager::programs.clear();
 
@@ -50,7 +50,7 @@ bool ShaderManager::LoadProgram(const std::string& programName, const std::strin
                 continue;
 
             for (pugi::xml_node node = shaderDoc.child("Shader"); node; node = node.next_sibling("Shader")) {
-                if (node.attribute("name").as_string() == programName && program.loadXMLSettings(node)) {
+                if (node.attribute("name").as_string() == programName && program.LoadXMLSettings(node)) {
                     ShaderManager::programs.insert(std::make_pair(programName, program));
                     log_info("New shader program added: '{}'", programName);
                     return true;
