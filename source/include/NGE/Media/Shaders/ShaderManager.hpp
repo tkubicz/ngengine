@@ -28,7 +28,7 @@ namespace NGE {
                 typedef std::map<NGE::Events::EventType, NGE::Events::EventDelegate> EventDelegateMap;
 
               private:
-                std::map<std::string, GLSLProgram> programs;
+                std::map<std::string, std::shared_ptr<GLSLProgram>> programs;
                 EventDelegateMap eventDelegates;
 
               private:

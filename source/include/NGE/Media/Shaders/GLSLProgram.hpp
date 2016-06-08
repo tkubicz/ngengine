@@ -99,6 +99,8 @@ namespace NGE {
 
 				const std::string& GetName();
 
+				bool IsInitialised() const;
+
 			  private:
 
 				string ReadFile(const string& filename);
@@ -108,17 +110,18 @@ namespace NGE {
 
 				void DetachShader(unsigned int programId, unsigned int shaderId);
 				void DeleteShader(unsigned int shaderId);
+				void DeleteProgram(unsigned int programId);
 
 				GLSLShader vertexShader;
 				GLSLShader fragmentShader;
 				GLSLShader geometryShader;
 
-				unsigned int programId;
-				
-				bool xmlShader;
-				bool fileShader;
-				bool geometryShaderAvailable;
-				
+				unsigned int programId = 0;
+
+				bool xmlShader = false;
+				bool fileShader = false;
+				bool geometryShaderAvailable = false;
+
 				std::string name;
 
 				map<string, GLuint> uniformMap;

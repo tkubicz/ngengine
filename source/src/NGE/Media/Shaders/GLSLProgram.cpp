@@ -2,6 +2,7 @@
 #include <boost/lexical_cast.hpp>
 #include "NGE/Media/Shaders/GLSLProgram.hpp"
 #include "NGE/Tools/Logger/NewLogger.hpp"
+#include "NGE/Tools/GLError.hpp"
 #include "pugixml.hpp"
 
 using namespace NGE::Media::Shaders;
@@ -119,11 +120,12 @@ void GLSLProgram::Terminate() {
 	DeleteShader(geometryShader.id);
 	DeleteShader(fragmentShader.id);
 
-	DeleteShader(programId);
+	DeleteProgram(programId);
 
 	vertexShader.Clear();
 	geometryShader.Clear();
 	fragmentShader.Clear();
+	programId = 0;
 }
 
 // TOOD: Refactor this method.
@@ -149,18 +151,21 @@ bool GLSLProgram::Initialise(bool bindAttribs) {
 	}
 
 	programId = glCreateProgram();
+	check_gl_error();
 	if (programId == 0) {
 		log_error("Could not create program");
 		return false;
 	}
 
 	vertexShader.id = glCreateShader(GL_VERTEX_SHADER);
+	check_gl_error();
 	if (vertexShader.id == 0) {
 		log_error("Could not create vertex shader");
 		return false;
 	}
 
 	fragmentShader.id = glCreateShader(GL_FRAGMENT_SHADER);
+	check_gl_error();
 	if (fragmentShader.id == 0) {
 		log_error("Could not create fragment shader");
 		return false;
@@ -168,6 +173,7 @@ bool GLSLProgram::Initialise(bool bindAttribs) {
 
 	if (geometryShaderAvailable) {
 		geometryShader.id = glCreateShader(GL_GEOMETRY_SHADER);
+		check_gl_error();
 		if (geometryShader.id == 0) {
 			log_error("Could not create geometry shader");
 			return false;
@@ -176,13 +182,16 @@ bool GLSLProgram::Initialise(bool bindAttribs) {
 
 	const GLchar* temp = static_cast<const GLchar*> (vertexShader.source.c_str());
 	glShaderSource(vertexShader.id, 1, (const GLchar**) &temp, NULL);
+	check_gl_error();
 
 	temp = static_cast<const GLchar*> (fragmentShader.source.c_str());
 	glShaderSource(fragmentShader.id, 1, (const GLchar**) &temp, NULL);
+	check_gl_error();
 
 	if (geometryShaderAvailable) {
 		temp = static_cast<const GLchar*> (geometryShader.source.c_str());
 		glShaderSource(geometryShader.id, 1, (const GLchar**) &temp, NULL);
+		check_gl_error();
 	}
 
 	if (!CompileShader(vertexShader) || !CompileShader(fragmentShader)) {
@@ -197,6 +206,7 @@ bool GLSLProgram::Initialise(bool bindAttribs) {
 
 	glAttachShader(programId, vertexShader.id);
 	glAttachShader(programId, fragmentShader.id);
+
 	if (geometryShaderAvailable) {
 		glAttachShader(programId, geometryShader.id);
 	}
@@ -204,11 +214,14 @@ bool GLSLProgram::Initialise(bool bindAttribs) {
 	if (bindAttribs)
 		AutoBindAttribs();
 
+	check_gl_error();
+
 	return true;
 }
 
 void GLSLProgram::LinkProgram() {
 	glLinkProgram(programId);
+	check_gl_error();
 	OutputProgramLog(programId);
 }
 
@@ -300,6 +313,7 @@ void GLSLProgram::AutoBindAttribs() {
 
 void GLSLProgram::BindAttrib(unsigned int index, const string& attribName) {
 	glBindAttribLocation(programId, index, attribName.c_str());
+	check_gl_error();
 }
 
 void GLSLProgram::AutoEnableVertexAttribArray() {
@@ -342,6 +356,8 @@ bool GLSLProgram::CompileShader(const GLSLShader& shader) {
 	GLint result = 0xDEADBEEF;
 	glGetShaderiv(shader.id, GL_COMPILE_STATUS, &result);
 
+	check_gl_error();
+
 	if (!result) {
 		log_error("Could not compile shader: '{}'", shader.id);
 		OutputShaderLog(shader.id);
@@ -355,11 +371,15 @@ void GLSLProgram::OutputShaderLog(unsigned int shaderId) {
 	vector<char> infoLog;
 	GLint infoLen;
 	glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &infoLen);
+	check_gl_error();
+
 	infoLog.resize(infoLen);
 
 	std::stringstream ss;
-	ss << "Shader " << shaderId << " contains errors, please validate this shader!" << std::endl;
+	ss << "Shader '" << shaderId << "' contains errors, please validate this shader!" << std::endl;
 	glGetShaderInfoLog(shaderId, infoLog.size(), &infoLen, &infoLog[0]);
+	check_gl_error();
+
 	ss << string(infoLog.begin(), infoLog.end()) << std::endl;
 
 	log_error("{}", ss.str());
@@ -370,15 +390,18 @@ void GLSLProgram::OutputProgramLog(unsigned int programId) {
 	GLint infoLen;
 	GLint result;
 	glGetProgramiv(programId, GL_LINK_STATUS, &result);
+	check_gl_error();
 
 	if (result == GL_TRUE)
 		return;
 
 	glGetProgramiv(programId, GL_INFO_LOG_LENGTH, &infoLen);
+	check_gl_error();
+
 	infoLog.resize(infoLen);
 
 	std::stringstream ss;
-	ss << "Shader " << programId << " contains errors, please validate this shader!" << std::endl;
+	ss << "Shader program: '" << programId << "' contains errors, please validate this shader!" << std::endl;
 	glGetProgramInfoLog(programId, infoLog.size(), &infoLen, &infoLog[0]);
 	ss << string(infoLog.begin(), infoLog.end()) << std::endl;
 
@@ -388,11 +411,20 @@ void GLSLProgram::OutputProgramLog(unsigned int programId) {
 void GLSLProgram::DetachShader(unsigned int programId, unsigned int shaderId) {
 	if (programId != 0 && shaderId != 0) {
 		glDetachShader(programId, shaderId);
+		check_gl_error();
 	}
 }
 
 void GLSLProgram::DeleteShader(unsigned int shaderId) {
 	if (shaderId != 0) {
 		glDeleteShader(shaderId);
+		check_gl_error();
+	}
+}
+
+void GLSLProgram::DeleteProgram(unsigned int programId) {
+	if (programId != 0) {
+		glDeleteProgram(programId);
+		check_gl_error();
 	}
 }
