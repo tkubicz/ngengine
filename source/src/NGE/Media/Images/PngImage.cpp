@@ -8,14 +8,16 @@ PngImage::PngImage() {
 	width = height = bitsPerPixel = bytesPerPixel = 0;
 }
 
-PngImage::~PngImage() { }
+PngImage::~PngImage() {
+}
 
 bool PngImage::load(const std::string& fileName, bool suppressError) {
 	FILE* fileIn = fopen(fileName.c_str(), "rb");
 
 	if (!fileIn) {
-		if (!suppressError)
-			log_error("Could not open the JPEG image file for reading: '{}'", fileName);
+		if (!suppressError) {
+			log_error("Could not open the PNG image file for reading: '{}'", fileName);
+		}
 		return false;
 	}
 
@@ -24,15 +26,17 @@ bool PngImage::load(const std::string& fileName, bool suppressError) {
 	fread(header, 1, 8, fileIn);
 
 	if (png_sig_cmp(header, 0, 8)) {
-		if (!suppressError)
-			log_error("PngImage -> \"" + fileName + "\" is not a PNG file.");
+		if (!suppressError) {
+			log_error("Not a PNG image: '{}'", fileName);
+		}
 		return false;
 	}
 
 	png_structp pngPtr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 	if (!pngPtr) {
-		if (!suppressError)
-			log_error("PngImage -> png_create_read_struct returned 0.");
+		if (!suppressError) {
+			log_error("png_create_read_struct returned 0");
+		}
 		fclose(fileIn);
 		return false;
 	}
@@ -40,8 +44,9 @@ bool PngImage::load(const std::string& fileName, bool suppressError) {
 	// Create png info struct.
 	png_infop infoPtr = png_create_info_struct(pngPtr);
 	if (!infoPtr) {
-		if (!suppressError)
-			log_error("PngImage -> png_create_info_struct returned 0.");
+		if (!suppressError) {
+			log_error("png_create_info_struct returned 0");
+		}
 		png_destroy_read_struct(&pngPtr, (png_infopp) NULL, (png_infopp) NULL);
 		fclose(fileIn);
 		return false;
@@ -50,8 +55,9 @@ bool PngImage::load(const std::string& fileName, bool suppressError) {
 	// Create png end info struct.
 	png_infop endInfo = png_create_info_struct(pngPtr);
 	if (!endInfo) {
-		if (!suppressError)
-			log_error("PngImage -> png_create_info_struct returned 0.");
+		if (!suppressError) {
+			log_error("png_create_info_struct returned 0");
+		}
 		png_destroy_read_struct(&pngPtr, &infoPtr, (png_infopp) NULL);
 		fclose(fileIn);
 		return false;
@@ -59,8 +65,9 @@ bool PngImage::load(const std::string& fileName, bool suppressError) {
 
 	// Check if we have error from libPNG.
 	if (setjmp(png_jmpbuf(pngPtr))) {
-		if (!suppressError)
-			log_error("PngImage -> Error from libPNG.");
+		if (!suppressError) {
+			log_error("Error from libPNG");
+		}
 		png_destroy_read_struct(&pngPtr, &infoPtr, &endInfo);
 		fclose(fileIn);
 		return false;
@@ -100,15 +107,16 @@ bool PngImage::load(const std::string& fileName, bool suppressError) {
 	// rowPointers is pointing to imageData for reading the png.
 	png_bytep* rowPointers = (png_bytep*) malloc(height * sizeof (png_bytep));
 	if (rowPointers == NULL) {
-		if (!suppressError)
-			log_error("PngImage -> Could not allocate memory for PNG row pointers.");
+		if (!suppressError) {
+			log_error("Could not allocate memory for PNG row pointers.");
+		}
 		png_destroy_read_struct(&pngPtr, &infoPtr, &endInfo);
 		fclose(fileIn);
 		return false;
 	}
 
 	// Set the individual rowPointers to point at the correft offset of imageData.
-	for (int i = 0; i < height; ++i)
+	for (unsigned i = 0; i < height; ++i)
 		rowPointers[height - 1 - i] = &imageData[0] + i * rowbytes;
 
 	// Read the png info imageData through rowPointers.

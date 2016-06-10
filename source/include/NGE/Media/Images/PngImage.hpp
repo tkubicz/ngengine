@@ -6,7 +6,7 @@
  */
 
 #ifndef PNGIMAGE_HPP
-#define	PNGIMAGE_HPP
+#define PNGIMAGE_HPP
 
 #ifdef NGE_USE_IMAGE_PNG
 
@@ -44,5 +44,5 @@ namespace NGE {
 }
 
 #endif
-#endif	/* PNGIMAGE_HPP */
+#endif /* PNGIMAGE_HPP */
 

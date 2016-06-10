@@ -6,6 +6,10 @@ if(${BUILD_TESTS})
 		 nge GL GLU GLEW glfw z pthread lua${LUA_VERSION} cppformat
 	)
 
+	if (NGE_USE_IMAGE_PNG)
+		set (EXTRA_LIBS ${EXTRA_LIBS} png)
+	endif()
+
 	SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/tests)
 
 	set(source

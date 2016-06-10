@@ -89,6 +89,11 @@ if (LUA_FOUND)
 	include_directories(${LUA_INCLUDE_DIR})
 endif()
 
+#if (NGE_USE_IMAGE_PNG)
+#	find_package (PNG REQUIRED)
+#	set (EXTRA_LBIS ${EXTRA_LIBS} png)
+#endif()
+
 # Set Settings.hpp file.
 configure_file(
 		source/include/NGE/Core/Settings.hpp.in
@@ -238,9 +243,7 @@ add_library(nge SHARED
     source/src/NGE/Windows/AndroidWindow.cpp
 )
 
-if (ANDROID)
-	target_link_libraries(nge ${EXTRA_LIBS})
-endif()
+target_link_libraries(nge ${EXTRA_LIBS})
 
 install (TARGETS nge DESTINATION bin)
 install (DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/source/include/ DESTINATION include)
