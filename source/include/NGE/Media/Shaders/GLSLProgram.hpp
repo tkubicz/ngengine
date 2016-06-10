@@ -86,7 +86,9 @@ namespace NGE {
 				void sendUniformArray4(const string& name, const int size, const float* array);
 				void sendUniformArray2(const string& name, const int size, const float* array);
 				void sendUniform4x4(const string& name, const float* matrix, bool transpose = false);
+				void sendUniform4x4(const string& name, const float* matrix, const int size, bool transpose = false);
 				void sendUniform3x3(const string& name, const float* matrix, bool transpose = false);
+				void sendUniform3x3(const string& name, const float* matrix, const int size, bool transpose = false);
 
 				void AutoBindAttribs();
 				void BindAttrib(unsigned int index, const string& attribName);

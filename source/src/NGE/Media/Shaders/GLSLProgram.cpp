@@ -296,9 +296,19 @@ void GLSLProgram::sendUniform3x3(const string& name, const float* matrix, bool t
 	glUniformMatrix3fv(location, 1, transpose, matrix);
 }
 
+void GLSLProgram::sendUniform3x3(const string& name, const float* matrix, const int size, bool transpose) {
+	GLuint location = GetUniformLocation(name);
+	glUniformMatrix3fv(location, size, transpose, matrix);
+}
+
 void GLSLProgram::sendUniform4x4(const string& name, const float* matrix, bool transpose) {
 	GLuint location = GetUniformLocation(name);
 	glUniformMatrix4fv(location, 1, transpose, matrix);
+}
+
+void GLSLProgram::sendUniform4x4(const string& name, const float* matrix, const int size, bool transpose) {
+	GLuint location = GetUniformLocation(name);
+	glUniformMatrix4fv(location, size, transpose, matrix);
 }
 
 void GLSLProgram::AutoBindAttribs() {
