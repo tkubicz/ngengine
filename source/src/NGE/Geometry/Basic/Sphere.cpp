@@ -218,7 +218,7 @@ void Sphere::Render() {
 	}
 
 	shader->BindShader();
-	texture->activate();
+	texture->Activate();
 
 	shader->sendUniform4x4("modelview_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX));
 	shader->sendUniform4x4("projection_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(PROJECTION_MATRIX));
@@ -237,7 +237,7 @@ void Sphere::Render() {
 	glBindVertexArray(0);
 
 	shader->UnbindShader();
-	texture->deactivate();
+	texture->Deactivate();
 }
 
 void Sphere::SetShader(NGE::Media::Shaders::GLSLProgram * shader) {

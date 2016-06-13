@@ -97,17 +97,17 @@ void GUIClippedRectangle::EnableBackgroundColor(bool enable) {
 
 void GUIClippedRectangle::SetTextureRectangle(float x, float y, float z, float w) {
 	if (x > 1.0f || y > 1.0f || z > 1.0f || w > 1.0f) {
-		if (texture->getID()) {
-			x = Math::MathUtils::Clamp(x, 0.0f, (float) texture->getWidth());
-			y = Math::MathUtils::Clamp(y, 0.0f, (float) texture->getHeight());
-			z = Math::MathUtils::Clamp(z, 0.0f, (float) texture->getWidth());
-			w = Math::MathUtils::Clamp(w, 0.0f, (float) texture->getHeight());
+		if (texture->GetID()) {
+			x = Math::MathUtils::Clamp(x, 0.0f, (float) texture->GetWidth());
+			y = Math::MathUtils::Clamp(y, 0.0f, (float) texture->GetHeight());
+			z = Math::MathUtils::Clamp(z, 0.0f, (float) texture->GetWidth());
+			w = Math::MathUtils::Clamp(w, 0.0f, (float) texture->GetHeight());
 
-			x /= texture->getWidth();
-			z /= texture->getWidth();
+			x /= texture->GetWidth();
+			z /= texture->GetWidth();
 
-			w /= texture->getHeight();
-			y /= texture->getHeight();
+			w /= texture->GetHeight();
+			y /= texture->GetHeight();
 		}
 	}
 
@@ -166,8 +166,8 @@ void GUIClippedRectangle::RenderClippedBounds() {
 		shader->sendUniform4x4("modelview_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX));
 		shader->sendUniform4x4("projection_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(PROJECTION_MATRIX));
 
-		if (drawBackground && texture && texture->getID()) {
-			texture->activate();
+		if (drawBackground && texture && texture->GetID()) {
+			texture->Activate();
 			shader->sendUniform("texture0", 0);
 			shader->sendUniform("guiType", 1);
 		} else

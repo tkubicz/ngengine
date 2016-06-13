@@ -6,7 +6,7 @@
  */
 
 #ifndef TEXTURE_HPP
-#define	TEXTURE_HPP
+#define TEXTURE_HPP
 
 #include <pugixml.hpp>
 #include "NGE/Core/Core.hpp"
@@ -23,29 +23,29 @@ namespace NGE {
 				Texture& operator=(const Texture& copy);
 				~Texture();
 
-				bool loadXMLSettings(const pugi::xml_node& node, const std::string& path);
+				bool LoadXMLSettings(const pugi::xml_node& node, const std::string& path);
 
-				bool load2DImage(const Image& image, GLuint clampS = GL_REPEAT, GLuint clampT = GL_REPEAT,
+				bool Load2DImage(Image*, GLuint clampS = GL_REPEAT, GLuint clampT = GL_REPEAT,
 						GLuint magFilter = GL_LINEAR, GLuint minFilter = GL_LINEAR_MIPMAP_LINEAR,
 						GLuint internalFormat = GL_RGB, GLuint format = GL_RGB, bool mipmap = true);
 
-				bool loadCubemap(const Image& positiveX, const Image& negativeX, const Image& positiveY, const Image& negativeY,
-						const Image& positiveZ, const Image& negativeZ, GLuint clampS = GL_CLAMP_TO_EDGE, GLuint clampT = GL_CLAMP_TO_EDGE,
+				bool LoadCubemap(Image* positiveX, Image* negativeX, Image* positiveY, Image* negativeY,
+						Image* positiveZ, Image* negativeZ, GLuint clampS = GL_CLAMP_TO_EDGE, GLuint clampT = GL_CLAMP_TO_EDGE,
 						GLuint magFilter = GL_LINEAR, GLuint minFilter = GL_LINEAR, GLuint internalFormat = GL_RGB, GLuint format = GL_RGB);
 
-				const bool activate(int unit = -1);
-				const bool deactivate();
+				const bool Activate(int unit = -1);
+				const bool Deactivate();
 
-				void setID(GLuint textureID);
-				void setTarget(GLuint target);
+				void SetID(GLuint textureID);
+				void SetTarget(GLuint target);
 
-				const GLuint getID() const;
-				const GLuint getTarget() const;
-				const GLuint getHeight() const;
-				const GLuint getWidth() const;
-				const GLuint getSizeInBytes() const;
+				const GLuint GetID() const;
+				const GLuint GetTarget() const;
+				const GLuint GetHeight() const;
+				const GLuint GetWidth() const;
+				const GLuint GetSizeInBytes() const;
 
-				void destroy();
+				void Unload();
 
 			  protected:
 				GLuint height, width;
@@ -55,24 +55,45 @@ namespace NGE {
 				GLuint target, id;
 				int currentUnit;
 
-				int getValidWrapMode(int clamp);
-				int getValidWrapMode(const std::string& clamp);
+				bool LoadTexture2D();
+				bool LoadTextureCubeMap();
 
-				int getValidMagFilter(int filter);
-				int getValidMagFilter(const std::string& filter);
+				int GetValidWrapMode(int clamp);
+				int GetValidWrapMode(const std::string& clamp);
 
-				int getValidMinFilter(int filter);
-				int getValidMinFilter(const std::string& filter);
+				int GetValidMagFilter(int filter);
+				int GetValidMagFilter(const std::string& filter);
 
-				int getValidCubeMap(int type);
-				int getValidCubeMap(const std::string& type);
+				int GetValidMinFilter(int filter);
+				int GetValidMinFilter(const std::string& filter);
 
-				int getValidFormat(int type);
-				int getValidFormat(const std::string& type);
+				int GetValidCubeMap(int type);
+				int GetValidCubeMap(const std::string& type);
+
+				int GetValidFormat(int type);
+				int GetValidFormat(const std::string& type);
+
+				/**
+				 * Get internal texture type id from input string.
+				 * @param textureType Can be "png", "jpeg" or "tga"
+				 * @return -1 in case of unsupported type. 0 >= if type is supported.
+				 */
+				int GetTextureType(const std::string& textureType);
+
+				Image* CreateImagePointer(const std::string& type);
+
+				template <typename T> void DeleteImagePointer(T pointer) {
+					delete pointer;
+				}
+
+				template <typename T, typename... Args> void DeleteImagePointer(T first, Args... args) {
+					delete first;
+					DeleteImagePointer(args...);
+				}
 			};
 		}
 	}
 }
 
-#endif	/* TEXTURE_HPP */
+#endif /* TEXTURE_HPP */
 

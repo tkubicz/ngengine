@@ -120,7 +120,7 @@ void SkyPlane::Render(int alpha) {
 		return;
 
 	shader->BindShader();
-	texture->activate();
+	texture->Activate();
 
 	shader->sendUniform4x4("modelview_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX));
 	shader->sendUniform4x4("projection_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(PROJECTION_MATRIX));

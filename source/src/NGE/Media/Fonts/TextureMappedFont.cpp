@@ -63,7 +63,7 @@ void TextureMappedFont::printString(const std::string& str, float x, float y, co
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	texture->activate();
+	texture->Activate();
 	shader->AutoEnableVertexAttribArray();
 
 	Rendering::Renderer::GetInstance().GetMatrixStack().PushMatrix();

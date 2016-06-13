@@ -361,7 +361,7 @@ void Terrain::Render() {
 	shader->sendUniform3x3("normal_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX).GetNormalMatrix());
 
 	for (unsigned int i = 0; i < textures.size(); ++i) {
-		textures[i]->activate(i);
+		textures[i]->Activate(i);
 		shader->sendUniform("texture" + std::to_string(i), i);
 	}
 

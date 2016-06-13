@@ -236,7 +236,7 @@ void SkyDome::RenderDome() {
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	shader->BindShader();
-	tex->activate();
+	tex->Activate();
 
 	shader->sendUniform4x4("modelview_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(MODELVIEW_MATRIX));
 	shader->sendUniform4x4("projection_matrix", Rendering::Renderer::GetInstance().GetMatrixStack().GetMatrix(PROJECTION_MATRIX));
@@ -247,7 +247,7 @@ void SkyDome::RenderDome() {
 	glBindVertexArray(0);
 
 	shader->UnbindShader();
-	tex->deactivate();
+	tex->Deactivate();
 
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }

@@ -10,6 +10,7 @@
 using namespace NGE::Media::Images;
 
 void TextureManager::Initialise() {
+	log_debug("Initialising global TextureManager");
 	NGE::Events::EventManager& eventManager = NGE::Events::EventManager::GetInstance();
 
 	eventDelegates.insert(EventDelegatePair(LoadTextureEvent::eventType, NGE::Events::EventDelegate("load-texture", NGE::Core::make_delegate(GetInstance(), &TextureManager::LoadTextureListener))));
@@ -23,7 +24,7 @@ void TextureManager::Initialise() {
 void TextureManager::Deinitialise() {
 	// Remove all textures from memory.
 	for (std::map<std::string, Texture*>::iterator i = textures.begin(); i != textures.end(); ++i) {
-		(i->second)->destroy();
+		(i->second)->Unload();
 		delete i->second;
 	}
 
@@ -40,7 +41,7 @@ bool TextureManager::AddTexture(const std::string& name, Texture* texture) {
 		return true;
 	else {
 		textures.insert(std::make_pair(name, texture));
-		log_info("New texture added: '{} ({} kB)'", name, texture->getSizeInBytes() / 1024);
+		log_info("New texture added: '{} ({} kB)'", name, texture->GetSizeInBytes() / 1024);
 		return true;
 	}
 }
@@ -65,9 +66,9 @@ bool TextureManager::LoadTexture(const pugi::xml_node& node) {
 		std::vector<std::string> paths = NGE::Media::MediaManager::GetInstance().getMediaPathManager().getPaths("texture");
 
 		for (std::vector<std::string>::iterator i = paths.begin(); i != paths.end(); ++i) {
-			if (texture->loadXMLSettings(node, *i)) {
+			if (texture->LoadXMLSettings(node, *i)) {
 				textures.insert(std::make_pair(name, texture));
-				log_info("New texture added: '{} ({} kB)'", name, texture->getSizeInBytes() / 1024);
+				log_info("New texture added: '{} ({} kB)'", name, texture->GetSizeInBytes() / 1024);
 				return true;
 			}
 		}
