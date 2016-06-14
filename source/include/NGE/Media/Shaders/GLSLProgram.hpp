@@ -35,6 +35,7 @@ namespace NGE {
 					unsigned int id;
 					std::string filename;
 					std::string source;
+					GLint type;
 
 					GLSLShader() : id(0) { }
 
@@ -114,6 +115,9 @@ namespace NGE {
 				void DeleteShader(unsigned int shaderId);
 				void DeleteProgram(unsigned int programId);
 
+				void SetShadersTypes();
+				const std::string GetShaderTypeAsString(GLint shaderType);
+
 				GLSLShader vertexShader;
 				GLSLShader fragmentShader;
 				GLSLShader geometryShader;
@@ -123,6 +127,7 @@ namespace NGE {
 				bool xmlShader = false;
 				bool fileShader = false;
 				bool geometryShaderAvailable = false;
+				bool linked = false;
 
 				std::string name;
 

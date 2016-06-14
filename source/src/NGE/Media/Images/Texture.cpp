@@ -211,18 +211,20 @@ bool Texture::Create2DTexture(Image* image, GLuint clampS, GLuint clampT, GLuint
 
 	sizeInBytes = height * width;
 
-	if (format == GL_RGB)
+	if (format == GL_RGB) {
 		sizeInBytes *= 3;
-	else if (format == GL_RGBA)
+	} else if (format == GL_RGBA) {
 		sizeInBytes *= 4;
+	}
 
 	if (mipmap) {
-		// TODO: Fix that on android!
+		// TODO: Fix that on android! Use glGenerateMipmap instead of this.
 #ifndef ANDROID
 		gluBuild2DMipmaps(target, internalFormat, image->getWidth(), image->getHeight(), format, GL_UNSIGNED_BYTE, image->getImageData());
 #endif
-	} else
+	} else {
 		glTexImage2D(target, 0, internalFormat, image->getWidth(), image->getHeight(), 0, format, GL_UNSIGNED_BYTE, image->getImageData());
+	}
 
 	return true;
 }

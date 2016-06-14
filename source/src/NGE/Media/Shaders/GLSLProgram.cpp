@@ -1,5 +1,4 @@
 #include <sstream>
-#include <boost/lexical_cast.hpp>
 #include "NGE/Media/Shaders/GLSLProgram.hpp"
 #include "NGE/Tools/Logger/NewLogger.hpp"
 #include "NGE/Tools/GLError.hpp"
@@ -105,7 +104,7 @@ bool GLSLProgram::LoadXMLSettings(const pugi::xml_node& node) {
 	xmlShader = true;
 
 	if (link)
-		Initialise(autobind);
+		return Initialise(autobind);
 
 	return true;
 }
@@ -126,6 +125,7 @@ void GLSLProgram::Terminate() {
 	geometryShader.Clear();
 	fragmentShader.Clear();
 	programId = 0;
+	linked = false;
 }
 
 // TOOD: Refactor this method.
@@ -139,6 +139,8 @@ bool GLSLProgram::Initialise(bool bindAttribs) {
 			geometryShader.source = ReadFile(geometryShader.filename);
 		}
 	}
+
+	SetShadersTypes();
 
 	if (vertexShader.source.empty() || fragmentShader.source.empty()) {
 		log_error("Shader source code could not be empty");
@@ -194,8 +196,13 @@ bool GLSLProgram::Initialise(bool bindAttribs) {
 		check_gl_error();
 	}
 
-	if (!CompileShader(vertexShader) || !CompileShader(fragmentShader)) {
-		log_error("Could not compile the shaders, they are invalid");
+	if (!CompileShader(vertexShader)) {
+		log_error("Could not compile vertex shader");
+		return false;
+	}
+
+	if (!CompileShader(fragmentShader)) {
+		log_error("Could not compile fragment shader");
 		return false;
 	}
 
@@ -223,6 +230,7 @@ void GLSLProgram::LinkProgram() {
 	glLinkProgram(programId);
 	check_gl_error();
 	OutputProgramLog(programId);
+	linked = true;
 }
 
 GLuint GLSLProgram::GetUniformLocation(const string& name) {
@@ -369,7 +377,7 @@ bool GLSLProgram::CompileShader(const GLSLShader& shader) {
 	check_gl_error();
 
 	if (!result) {
-		log_error("Could not compile shader: '{}'", shader.id);
+		log_error("Could not compile shader with id: '{}' ({})", shader.id, GetShaderTypeAsString(shader.type));
 		OutputShaderLog(shader.id);
 		return false;
 	}
@@ -386,7 +394,7 @@ void GLSLProgram::OutputShaderLog(unsigned int shaderId) {
 	infoLog.resize(infoLen);
 
 	std::stringstream ss;
-	ss << "Shader '" << shaderId << "' contains errors, please validate this shader!" << std::endl;
+	ss << fmt::format("Shader with id: '{}' contains error(s)\n", shaderId);
 	glGetShaderInfoLog(shaderId, infoLog.size(), &infoLen, &infoLog[0]);
 	check_gl_error();
 
@@ -411,7 +419,7 @@ void GLSLProgram::OutputProgramLog(unsigned int programId) {
 	infoLog.resize(infoLen);
 
 	std::stringstream ss;
-	ss << "Shader program: '" << programId << "' contains errors, please validate this shader!" << std::endl;
+	ss << fmt::format("Shader program with id: '{}' contains error(s)\n", programId);
 	glGetProgramInfoLog(programId, infoLog.size(), &infoLen, &infoLog[0]);
 	ss << string(infoLog.begin(), infoLog.end()) << std::endl;
 
@@ -419,7 +427,7 @@ void GLSLProgram::OutputProgramLog(unsigned int programId) {
 }
 
 void GLSLProgram::DetachShader(unsigned int programId, unsigned int shaderId) {
-	if (programId != 0 && shaderId != 0) {
+	if (programId != 0 && shaderId != 0 && linked == true) {
 		glDetachShader(programId, shaderId);
 		check_gl_error();
 	}
@@ -436,5 +444,30 @@ void GLSLProgram::DeleteProgram(unsigned int programId) {
 	if (programId != 0) {
 		glDeleteProgram(programId);
 		check_gl_error();
+	}
+}
+
+void GLSLProgram::SetShadersTypes() {
+	vertexShader.type = GL_VERTEX_SHADER;
+	fragmentShader.type = GL_FRAGMENT_SHADER;
+	geometryShader.type = GL_GEOMETRY_SHADER;
+}
+
+const std::string GLSLProgram::GetShaderTypeAsString(GLint shaderType) {
+	switch (shaderType) {
+		case GL_VERTEX_SHADER:
+			return "VERTEX_SHADER";
+			break;
+
+		case GL_FRAGMENT_SHADER:
+			return "FRAGMENT_SHADER";
+			break;
+
+		case GL_GEOMETRY_SHADER:
+			return "GEOMETRY_SHADER";
+			break;
+
+		default:
+			return "UNKNOWN";
 	}
 }
