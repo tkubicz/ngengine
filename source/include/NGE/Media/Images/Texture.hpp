@@ -2,7 +2,7 @@
  * File:   Texture.hpp
  * Author: tku
  *
- * Created on 25 czerwiec 2012, 01:10
+ * Created on 25 June 2012, 01:10
  */
 
 #ifndef TEXTURE_HPP
@@ -25,11 +25,11 @@ namespace NGE {
 
 				bool LoadXMLSettings(const pugi::xml_node& node, const std::string& path);
 
-				bool Load2DImage(Image*, GLuint clampS = GL_REPEAT, GLuint clampT = GL_REPEAT,
+				bool Create2DTexture(Image*, GLuint clampS = GL_REPEAT, GLuint clampT = GL_REPEAT,
 						GLuint magFilter = GL_LINEAR, GLuint minFilter = GL_LINEAR_MIPMAP_LINEAR,
 						GLuint internalFormat = GL_RGB, GLuint format = GL_RGB, bool mipmap = true);
 
-				bool LoadCubemap(Image* positiveX, Image* negativeX, Image* positiveY, Image* negativeY,
+				bool CreateCubemap(Image* positiveX, Image* negativeX, Image* positiveY, Image* negativeY,
 						Image* positiveZ, Image* negativeZ, GLuint clampS = GL_CLAMP_TO_EDGE, GLuint clampT = GL_CLAMP_TO_EDGE,
 						GLuint magFilter = GL_LINEAR, GLuint minFilter = GL_LINEAR, GLuint internalFormat = GL_RGB, GLuint format = GL_RGB);
 
@@ -47,16 +47,18 @@ namespace NGE {
 
 				void Unload();
 
-			  protected:
+			  private:
 				GLuint height, width;
 				GLuint sizeInBytes;
-
-			  private:
 				GLuint target, id;
 				int currentUnit;
 
-				bool LoadTexture2D();
-				bool LoadTextureCubeMap();
+			  private:
+
+				bool Load2DTexture(const pugi::xml_node& node, const std::string& path, const std::string& type, GLuint wrapS,
+						GLuint wrapT, GLuint magFilter, GLuint minFilter, GLuint internalFormat, GLuint format);
+				bool LoadCubemap(const pugi::xml_node& node, const std::string& path, const std::string& type, GLuint wrapS,
+						GLuint wrapT, GLuint magFilter, GLuint minFilter, GLuint internalFormat, GLuint format);
 
 				int GetValidWrapMode(int clamp);
 				int GetValidWrapMode(const std::string& clamp);

@@ -5,6 +5,7 @@
 #include "NGE/Media/Images/Texture.hpp"
 
 #include "NGE/Media/Images/TargaImage.hpp"
+#include "pugixml.hpp"
 
 #ifdef NGE_USE_IMAGE_PNG
 #include "NGE/Media/Images/PngImage.hpp"
@@ -48,7 +49,7 @@ bool Texture::LoadXMLSettings(const pugi::xml_node& node, const std::string& pat
 
 	std::string name = node.attribute("name").as_string();
 	if (name.length() == 0) {
-		log_error("Texture2D attribute 'name' is not valid");
+		log_error("Texture attribute 'name' is not valid");
 		return false;
 	}
 
@@ -67,6 +68,9 @@ bool Texture::LoadXMLSettings(const pugi::xml_node& node, const std::string& pat
 	}
 
 	std::string type = node.attribute("type").as_string();
+	if (type.empty()) {
+		log_error("Texture attribute 'type' is empty")
+	}
 
 	pugi::xml_node formatNode = node.child("Format");
 	GLuint internalFormat = 0, format = 0;
@@ -75,103 +79,11 @@ bool Texture::LoadXMLSettings(const pugi::xml_node& node, const std::string& pat
 		format = GetValidFormat(formatNode.attribute("format").as_string());
 	}
 
+
 	if (textureType == "Texture2D") {
-		std::string file = node.attribute("file").as_string();
-		if (file.length() == 0) {
-			log_error("Texture2D attribute 'file' is not valid");
-			return false;
-		}
-
-		Image* image = CreateImagePointer(type);
-		if (image == nullptr) {
-			return false;
-		}
-
-		if (!image->load(path + file, true)) {
-			log_error("Could not load image from: '{}{}'", path, file);
-			delete image;
-			return false;
-		}
-
-		bool mipmap = node.attribute("mipmap").empty() ? false : node.attribute("mipmap").as_bool();
-
-		bool loadResult = Load2DImage(image, wrapS, wrapT, magFilter, minFilter, internalFormat, format, mipmap);
-
-		// Cleanup image pointers.
-		DeleteImagePointer(image);
-
-		return loadResult;
-
+		return Load2DTexture(node, path, type, wrapS, wrapT, magFilter, minFilter, internalFormat, format);
 	} else if (textureType == "TextureCubeMap") {
-
-		Image* positiveX, *negativeX, *positiveY, *negativeY, *positiveZ, *negativeZ;
-
-		positiveX = CreateImagePointer(type);
-		negativeX = CreateImagePointer(type);
-		positiveY = CreateImagePointer(type);
-		negativeY = CreateImagePointer(type);
-		positiveZ = CreateImagePointer(type);
-		negativeZ = CreateImagePointer(type);
-
-		bool result = true;
-		for (pugi::xml_node texture = node.child("Texture"); texture; texture = texture.next_sibling("Texture")) {
-			std::string file = texture.attribute("file").as_string();
-			std::string target = texture.attribute("target").as_string();
-
-			if (file.length() == 0) {
-				log_error("Texture attribute file is not valid");
-				result = false;
-				break;
-			}
-
-			if (target == "positive_x") {
-				if (!positiveX->load(path + file, true)) {
-					result = false;
-					break;
-				}
-			} else if (target == "positive_y") {
-				if (!positiveY->load(path + file, true)) {
-					result = false;
-					break;
-				}
-			} else if (target == "positive_z") {
-				if (!positiveZ->load(path + file, true)) {
-					result = false;
-					break;
-				}
-			} else if (target == "negative_x") {
-				if (!negativeX->load(path + file, true)) {
-					result = false;
-					break;
-				}
-			} else if (target == "negative_y") {
-				if (!negativeY->load(path + file, true)) {
-					result = false;
-					break;
-				}
-			} else if (target == "negative_z") {
-				if (!negativeZ->load(path + file, true)) {
-					result = false;
-					break;
-				}
-			} else {
-				result = false;
-				break;
-			}
-		}
-
-		if (!result) {
-			DeleteImagePointer(positiveX, positiveY, positiveZ, negativeX, negativeY, negativeZ);
-			return false;
-		}
-
-		bool loadResult = LoadCubemap(positiveX, negativeX, positiveY, negativeY, positiveZ, negativeZ, wrapS, wrapT, magFilter, minFilter, internalFormat, format);
-
-		// Cleanup image pointers.
-		DeleteImagePointer(positiveX, positiveY, positiveZ, negativeX, negativeY, negativeZ);
-
-		return loadResult;
-
+		return LoadCubemap(node, path, type, wrapS, wrapT, magFilter, minFilter, internalFormat, format);
 	} else {
 		log_error("Texture type: '{}' is not supported", textureType);
 		return false;
@@ -180,7 +92,107 @@ bool Texture::LoadXMLSettings(const pugi::xml_node& node, const std::string& pat
 	return true;
 }
 
-bool Texture::Load2DImage(Image* image, GLuint clampS, GLuint clampT, GLuint magFilter, GLuint minFilter, GLuint internalFormat, GLuint format, bool mipmap) {
+bool Texture::Load2DTexture(const pugi::xml_node& node, const std::string& path, const std::string& type, GLuint wrapS,
+		GLuint wrapT, GLuint magFilter, GLuint minFilter, GLuint internalFormat, GLuint format) {
+	std::string file = node.attribute("file").as_string();
+	if (file.length() == 0) {
+		log_error("Texture2D attribute 'file' is not valid");
+		return false;
+	}
+
+	Image* image = CreateImagePointer(type);
+	if (image == nullptr) {
+		return false;
+	}
+
+	if (!image->load(path + file, true)) {
+		log_error("Could not load image from: '{}{}'", path, file);
+		delete image;
+		return false;
+	}
+
+	bool mipmap = node.attribute("mipmap").empty() ? false : node.attribute("mipmap").as_bool();
+
+	bool loadResult = Create2DTexture(image, wrapS, wrapT, magFilter, minFilter, internalFormat, format, mipmap);
+
+	// Cleanup image pointers.
+	DeleteImagePointer(image);
+
+	return loadResult;
+}
+
+bool Texture::LoadCubemap(const pugi::xml_node& node, const std::string& path, const std::string& type, GLuint wrapS,
+		GLuint wrapT, GLuint magFilter, GLuint minFilter, GLuint internalFormat, GLuint format) {
+	Image* positiveX, *negativeX, *positiveY, *negativeY, *positiveZ, *negativeZ;
+
+	positiveX = CreateImagePointer(type);
+	negativeX = CreateImagePointer(type);
+	positiveY = CreateImagePointer(type);
+	negativeY = CreateImagePointer(type);
+	positiveZ = CreateImagePointer(type);
+	negativeZ = CreateImagePointer(type);
+
+	bool result = true;
+	for (pugi::xml_node texture = node.child("Texture"); texture; texture = texture.next_sibling("Texture")) {
+		std::string file = texture.attribute("file").as_string();
+		std::string target = texture.attribute("target").as_string();
+
+		if (file.length() == 0) {
+			log_error("Texture attribute file is not valid");
+			result = false;
+			break;
+		}
+
+		if (target == "positive_x") {
+			if (!positiveX->load(path + file, true)) {
+				result = false;
+				break;
+			}
+		} else if (target == "positive_y") {
+			if (!positiveY->load(path + file, true)) {
+				result = false;
+				break;
+			}
+		} else if (target == "positive_z") {
+			if (!positiveZ->load(path + file, true)) {
+				result = false;
+				break;
+			}
+		} else if (target == "negative_x") {
+			if (!negativeX->load(path + file, true)) {
+				result = false;
+				break;
+			}
+		} else if (target == "negative_y") {
+			if (!negativeY->load(path + file, true)) {
+				result = false;
+				break;
+			}
+		} else if (target == "negative_z") {
+			if (!negativeZ->load(path + file, true)) {
+				result = false;
+				break;
+			}
+		} else {
+			result = false;
+			break;
+		}
+	}
+
+	if (!result) {
+		DeleteImagePointer(positiveX, positiveY, positiveZ, negativeX, negativeY, negativeZ);
+		return false;
+	}
+
+	bool loadResult = CreateCubemap(positiveX, negativeX, positiveY, negativeY, positiveZ, negativeZ, wrapS, wrapT, magFilter, minFilter, internalFormat, format);
+
+	// Cleanup image pointers.
+	DeleteImagePointer(positiveX, positiveY, positiveZ, negativeX, negativeY, negativeZ);
+
+	return loadResult;
+}
+
+bool Texture::Create2DTexture(Image* image, GLuint clampS, GLuint clampT, GLuint magFilter, GLuint minFilter, GLuint internalFormat, GLuint format, bool mipmap) {
 	Unload();
 	this->target = GL_TEXTURE_2D;
 
@@ -215,7 +227,7 @@ bool Texture::Load2DImage(Image* image, GLuint clampS, GLuint clampT, GLuint mag
 	return true;
 }
 
-bool Texture::LoadCubemap(Image* positiveX, Image* negativeX, Image* positiveY, Image* negativeY, Image* positiveZ, Image* negativeZ,
+bool Texture::CreateCubemap(Image* positiveX, Image* negativeX, Image* positiveY, Image* negativeY, Image* positiveZ, Image* negativeZ,
 		GLuint clampS, GLuint clampT, GLuint magFilter, GLuint minFilter, GLuint internalFormat, GLuint format) {
 	Unload();
 	this->target = GL_TEXTURE_CUBE_MAP;

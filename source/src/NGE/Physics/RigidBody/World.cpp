@@ -1,7 +1,7 @@
 #include "NGE/Physics/RigidBody/World.hpp"
 using namespace NGE::Physics::RigidBody;
 
-World::World(unsigned maxContacts, unsigned iterations) : firstBody(NULL), firstContactGen(NULL), resolver(iterations), maxContacts(maxContacts) {
+World::World(unsigned maxContacts, unsigned iterations) : resolver(iterations), maxContacts(maxContacts) {
 	contacts = new Contact[maxContacts];
 	calculateIterations = (iterations == 0);
 }

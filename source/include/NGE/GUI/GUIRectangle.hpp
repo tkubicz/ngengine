@@ -6,7 +6,7 @@
  */
 
 #ifndef GUIRECTANGLE_HPP
-#define	GUIRECTANGLE_HPP
+#define GUIRECTANGLE_HPP
 
 #include "NGE/Math/Vector2.hpp"
 #include "NGE/Math/Vector4.hpp"
@@ -33,6 +33,8 @@ namespace NGE {
 
 		  public:
 			GUIRectangle(const char* callback = NULL);
+
+			virtual ~GUIRectangle() { }
 
 			void SetCallbackString(const std::string& callback);
 			void SetCallbackString(const char* callback);
@@ -100,5 +102,5 @@ namespace NGE {
 	}
 }
 
-#endif	/* GUIRECTANGLE_HPP */
+#endif /* GUIRECTANGLE_HPP */
 

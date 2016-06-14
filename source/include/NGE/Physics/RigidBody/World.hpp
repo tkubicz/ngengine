@@ -40,7 +40,7 @@ namespace NGE {
 				/**
 				 * Holds the head of the list of registered bodies.
 				 */
-				BodyRegistration* firstBody;
+				BodyRegistration* firstBody = nullptr;
 
 				/**
 				 * Holds the resolver for sets of contacts.
@@ -58,7 +58,7 @@ namespace NGE {
 				/**
 				 * Holds the head of the list of contact generators.
 				 */
-				ContactGenRegistration* firstContactGen;
+				ContactGenRegistration* firstContactGen = nullptr;
 
 				/**
 				 * Holds an array of contacts, for filling by the contact generators.
