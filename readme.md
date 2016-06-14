@@ -60,7 +60,3 @@ By default tests are build too. To run tests use:
 ```sh
 $ ctest
 ```
-
-```java
-System.out.println("Hello world!")
-```
