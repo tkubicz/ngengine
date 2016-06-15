@@ -243,9 +243,9 @@ add_library(nge SHARED
     source/src/NGE/Windows/AndroidWindow.cpp
 )
 
-target_link_libraries(nge ${EXTRA_LIBS})
+target_link_libraries(${PROJECT_NAME} ${EXTRA_LIBS})
 
-install (TARGETS nge DESTINATION bin)
+install (TARGETS ${PROJECT_NAME} DESTINATION bin)
 install (DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/source/include/ DESTINATION include)
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/test/TestMakeLists.cmake)
