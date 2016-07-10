@@ -2,11 +2,11 @@
  * File:   Camera.hpp
  * Author: tku
  *
- * Created on 6 czerwiec 2012, 16:42
+ * Created on 6 June 2012, 16:42
  */
 
 #ifndef CAMERA_HPP
-#define	CAMERA_HPP
+#define CAMERA_HPP
 
 #include "NGE/Math/Vector2.hpp"
 #include "NGE/Math/Vector3.hpp"
@@ -22,13 +22,13 @@ namespace NGE {
             class Camera {
               public:
                 Camera(float positionX = 0.0f, float positionY = 0.0f, float positionZ = 0.0f,
-                       float focusX = 0.0f, float focusY = 0.0f, float focusZ = 0.0f,
-                       float upX = 0.0f, float upY = 1.0f, float upZ = 0.0f);
+                        float focusX = 0.0f, float focusY = 0.0f, float focusZ = 0.0f,
+                        float upX = 0.0f, float upY = 1.0f, float upZ = 0.0f);
 
                 void Set(const Math::vec3f& position, const Math::vec3f& focus, const Math::vec3f& up);
                 void Set(float positionX, float positionY, float positionZ,
-                         float focusX, float focusY, float focusZ,
-                         float upX, float upY, float upZ);
+                        float focusX, float focusY, float focusZ,
+                        float upX, float upY, float upZ);
 
                 void Update(float dt);
                 void Look();
@@ -39,9 +39,9 @@ namespace NGE {
                 bool IsMouseLocked();
 
                 void SetTouchInput(Events::TouchEvent& event);
-                
+
                 void SetKeyboardInput(Events::KeyboardEvent& event);
-                
+
                 void SetMouseInfo(const Math::vec2i& mousePosition);
                 void SetMouseInfo(int x = 0, int y = 0);
 
@@ -71,5 +71,5 @@ namespace NGE {
         }
     }
 }
-#endif	/* CAMERA_HPP */
+#endif /* CAMERA_HPP */
 
