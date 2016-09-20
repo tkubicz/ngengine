@@ -2,42 +2,44 @@
  * File:   Sphere.h
  * Author: tku
  *
- * Created on 28 styczeń 2014, 15:01
+ * Created on 28 January 2014, 15:01
  */
 
 #ifndef SPHERE_HPP
-#define	SPHERE_HPP
+#define SPHERE_HPP
 
 namespace NGE {
 	namespace Math {
 		namespace Objects3D {
 
 			/*
-			 * Szablon reprezentujący kulę w przestrzeni trójwymiarowej.
-			 * Kula matematycznie to |X - C| = R, gdzie C jest środkiem,
-			 * a R promieniem.
+			 * Class that represents sphere in three dimensional space. The sphere is defined
+			 * as |X - C| = R, where C is the centre, and R is a radius.
 			 */
 			template <typename T> class Sphere {
+			  protected:
+
+				Vector3<T> center;
+				T radius;
+
 			  public:
-				/* Konstruktory i destruktor */
 
 				/**
-				 * Domyślny konstruktor tworzy kulę o środku w punkcie (0,0,0)
-				 * i promieniu 1.
+				 * Default empty constructor creates with radius = 1 positioned at origin(0, 0, 0)
 				 */
-				Sphere();
+				Sphere() : radius(1) { }
 
 				/**
-				 * Konstruktor tworzący kulę z podanych parametrów.
-				 * @param center Wektor będący środkiem kuli.
-				 * @param radius Promień kuli.
+				 * Create sphere from provided parameters.
+				 * @param center Origin point of the sphere.
+				 * @param radius Radius of the sphere.
 				 */
-				Sphere(const Vector3<T>& center, T radius);
+				Sphere(const Vector3<T>& center, T radius) : center(center), radius(radius) { }
 
 				/**
-				 * Domyślny destruktor.
+				 * Default empthy descructor.
 				 */
-				virtual ~Sphere();
+				virtual ~Sphere() { }
 
 				/**
 				 * Operator kopiujący przypisujący aktualnej instancji
@@ -61,24 +63,40 @@ namespace NGE {
 				void SetCenter(const Vector3<T>& center);
 
 				/**
-				 * Metoda zwracająca promień kuli.
-				 * @return Promień kuli.
+				 * Get radius of the sphere.
+				 * @return Sphere radius.
 				 */
 				T GetRadius();
 
 				/**
-				 * Ustawienie promienia kuli.
-				 * @return Promień kuli.
+				 * Set sphere radius.
+				 * @return New sphere radius.
 				 */
 				void SetRadius(const T radius);
-
-			  protected:
-
-				Vector3<T> center;
-				T radius;
 			};
 
-#include "NGE/Math/Objects3D/Sphere.inc"
+			template <typename T> Math::Vector3<T> Sphere<T>::GetCenter() {
+				return center;
+			}
+
+			template <typename T> Sphere<T>& Sphere<T>::operator=(const Sphere<T>& copy) {
+				this->center = copy.center;
+				this->radius = copy.radius;
+
+				return *this;
+			}
+
+			template <typename T> void Sphere<T>::SetCenter(const Vector3<T>& center) {
+				this->center = center;
+			}
+
+			template <typename T> T Sphere<T>::GetRadius() {
+				return radius;
+			}
+
+			template <typename T> void Sphere<T>::SetRadius(const T radius) {
+				this->radius = radius;
+			}
 
 			typedef Sphere<float> spheref;
 			typedef Sphere<double> sphered;
@@ -86,5 +104,5 @@ namespace NGE {
 	}
 }
 
-#endif	/* SPHERE_HPP */
+#endif /* SPHERE_HPP */
 

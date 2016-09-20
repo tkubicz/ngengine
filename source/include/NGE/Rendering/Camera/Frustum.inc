@@ -5,7 +5,7 @@ template <typename T> void Frustum<T>::SetCameraInternals(T fieldOfView, T ratio
 	this->farDistance = farDistance;
 
 	tang = (T) std::tan(Math::MathUtils::DegToRad(fieldOfView) * 0.5);
-
+	
 	dimensions.y = nearDistance * tang;
 	dimensions.x = dimensions.y * ratio;
 	dimensions.w = farDistance * tang;
