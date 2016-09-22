@@ -22,6 +22,7 @@ test:
     stage: test
     script:
         - ls -la
+        - cd build/
         - ctest -V
     dependencies:
         - build
