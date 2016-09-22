@@ -15,8 +15,8 @@ stages:
 #    - cmake ..
 #    - make -j 4
 
-test:
-  stage: test
+build:
+  stage: build
   script:
     - git submodule init
     - git submodule update
@@ -24,4 +24,14 @@ test:
     - cd build
     - cmake ..
     - make -j 4
-    - ctest -V
+  artifacts:
+      paths:
+          - build/
+    
+test:
+    stage: test
+    script:
+        - ctest -V
+    dependencies:
+        - build
+        
