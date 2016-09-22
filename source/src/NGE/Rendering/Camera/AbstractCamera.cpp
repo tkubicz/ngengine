@@ -44,6 +44,16 @@ void AbstractCamera::SetFOV(const float fov) {
 	projectionMatrix.SetPerspectiveProjection(fov, aspectRatio, zNear, zFar);
 }
 
+const float AbstractCamera::GetAspectRatio() const {
+	return aspectRatio;
+}
+
+void AbstractCamera::CalculateFrustumPlanes() {
+	Math::vec3f cN = position + look * zNear;
+	Math::vec3f cF = position + look * zFar;
+}
+
+
 void AbstractCamera::Rotate(const float yaw, const float pitch, const float roll) {
 	this->yaw = Math::MathUtils::DegToRad(yaw);
 	this->pitch = Math::MathUtils::DegToRad(pitch);
