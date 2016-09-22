@@ -5,16 +5,6 @@ stages:
   - test
   - deploy
 
-# Until sharing artifacts between jobs won't be implemented this stage
-# is disabled.
-#build:
-#  stage: build
-#  script:
-#    - mkdir build/
-#    - cd build
-#    - cmake ..
-#    - make -j 4
-
 build:
   stage: build
   script:
@@ -31,6 +21,7 @@ build:
 test:
     stage: test
     script:
+        - ls -la
         - ctest -V
     dependencies:
         - build
