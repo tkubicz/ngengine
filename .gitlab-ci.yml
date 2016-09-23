@@ -14,9 +14,9 @@ build:
     - cd build
     - cmake ..
     - make -j 4
-#  artifacts:
-#      paths:
-#          - build/
+  artifacts:
+      paths:
+          - build/
     
 test:
     stage: test
