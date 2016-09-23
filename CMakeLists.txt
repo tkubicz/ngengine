@@ -220,6 +220,7 @@ add_library(nge SHARED
 	source/src/NGE/Physics/RigidBody/World.cpp
 
 	source/src/NGE/Rendering/Camera/AbstractCamera.cpp
+	source/src/NGE/Rendering/Camera/FreeCamera.cpp
 	source/src/NGE/Rendering/Camera/TargetCamera.cpp
 	source/src/NGE/Rendering/Camera/Camera.cpp
 	source/src/NGE/Rendering/Renderer.cpp
