@@ -4,8 +4,9 @@
 namespace m = NGE::Math;
 
 SCENARIO("Matrix4 rotation", "[math][matrix]") {
+    
 	GIVEN("Yaw, pitch, roll parameters in radians") {
-		float yaw = 10, pitch = 20, roll = 30;
+		float yaw = 1.5, pitch = 1.2, roll = 2.1;
 
 		WHEN("Matrix is rotated") {
 			m::mat4f matXYZ, matX, matY, matZ;
@@ -15,7 +16,7 @@ SCENARIO("Matrix4 rotation", "[math][matrix]") {
 			matXYZ.RotateXYZ(roll, pitch, yaw);
 
 			THEN("Matrices are the same") {
-				REQUIRE(matXYZ == matX * matY * matZ);
+				REQUIRE(matXYZ == matZ * matY * matX);
 			}
 		}
 	}
