@@ -78,24 +78,27 @@ namespace NGE {
 
 			/**
 			 * Create an X-axis rotation matrix.
+			 * Camera roll.
 			 * @param angle Angle in radians.
 			 */
 			inline void RotateX(const T angle);
 
 			/**
 			 * Create an Y-axis rotation matrix.
+			 * Camera pitch.
 			 * @param angle Angle in radians.
 			 */
 			inline void RotateY(const T angle);
 
 			/**
 			 * Create an Z-axis rotation matrix.
+			 * Camera yaw.
 			 * @param angle Angle in radians.
 			 */
 			inline void RotateZ(const T angle);
-			
-			/*inline void RotateXYZ(const Vector3<T> &vec);
-			inline void RotateXYZ(float x, float y, float z);*/
+
+			// inline void RotateXYZ(const Vector3<T> &vec);
+			inline void RotateXYZ(float x, float y, float z);
 
 			inline void Translate(const T x, const T y, const T z);
 			inline void Translate(const Vector3<T> &v);
@@ -530,26 +533,51 @@ namespace NGE {
 
 		template <typename T> inline void Matrix4<T>::RotateX(const T angle) {
 			SetIdentity();
-			m[5] = cos(angle);
-			m[6] = sin(angle);
+			m[5] = std::cos(angle);
+			m[6] = std::sin(angle);
 			m[9] = -m[6];
 			m[10] = m[5];
 		}
 
 		template <typename T> inline void Matrix4<T>::RotateY(const T angle) {
 			SetIdentity();
-			m[0] = cos(angle);
-			m[2] = sin(angle);
+			m[0] = std::cos(angle);
+			m[2] = std::sin(angle);
 			m[8] = -m[2];
 			m[10] = m[0];
 		}
 
 		template <typename T> inline void Matrix4<T>::RotateZ(const T angle) {
 			SetIdentity();
-			m[0] = cos(angle);
-			m[1] = sin(angle);
+			m[0] = std::cos(angle);
+			m[1] = std::sin(angle);
 			m[8] = -m[2];
 			m[10] = m[0];
+		}
+
+		template <typename T> inline void Matrix4<T>::RotateXYZ(float x, float y, float z) {
+			SetIdentity();
+
+			T sinX = std::sin(x);
+			T cosX = std::cos(x);
+
+			T sinY = std::sin(y);
+			T cosY = std::cos(y);
+
+			T sinZ = std::sin(z);
+			T cosZ = std::cos(z);
+
+			m[0] = cosZ * cosY;
+			m[1] = sinZ * cosY;
+			m[2] = -sinY;
+
+			m[4] = cosZ * sinY * sinX - sinZ * cosX;
+			m[5] = sinZ * sinY * sinX + cosZ * cosX;
+			m[6] = cosY * sinX;
+
+			m[8] = cosZ * sinY * cosX + sinZ * sinX;
+			m[9] = sinZ * sinY * cosX - cosZ * sinX;
+			m[10] = cosY * cosX;
 		}
 
 		template <typename T> inline void Matrix4<T>::Translate(const T x, const T y, const T z) {

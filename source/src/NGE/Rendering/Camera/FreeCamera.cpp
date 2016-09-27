@@ -10,11 +10,9 @@ FreeCamera::~FreeCamera() {
 }
 
 void FreeCamera::Update() {
-}
+	
+}	
 
 void FreeCamera::Rotate(const float yaw, const float pitch, const float roll) {
 
 }
-
-
-
