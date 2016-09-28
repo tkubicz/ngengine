@@ -14,20 +14,31 @@
 namespace NGE {
 	namespace Rendering {
 		namespace Camera {
+
 			class FreeCamera : public AbstractCamera {
 			  public:
 				FreeCamera();
 				virtual ~FreeCamera();
-				
-				void Update() override; 
-				void Rotate(const float yaw, const float pitch, const float roll) override;
-				
-				void Walk(const float amount);
-				void Strafe(const float amount);
-				void Lift(const float amount);
-				
+
+				void Update() override;
+
+				void Walk(const float dt);
+				void Strafe(const float dt);
+				void Lift(const float dt);
+
+				float GetSpeed() const;
+				void SetSpeed(float speed);
+
+				Math::vec3f GetTranslation() const;
+				void SetTranslation(Math::vec3f translation);
+
 			  protected:
-				float yaw, pitch, roll;
+
+				/**
+				 * Move speed of the camera in m/s.
+				 */
+				float speed;
+
 				Math::vec3f translation;
 			};
 		}

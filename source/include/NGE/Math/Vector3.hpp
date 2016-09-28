@@ -7,6 +7,8 @@
 namespace NGE {
 	namespace Math {
 
+		template <typename T> class Vector4;
+		
 		template <typename T> class Vector3 {
 		  public:
 			T x, y, z;
@@ -14,6 +16,8 @@ namespace NGE {
 			Vector3(const T x = 0, const T y = 0, const T z = 0) : x(x), y(y), z(z) { }
 
 			Vector3(const Vector3<T> &v) : x(v.x), y(v.y), z(v.z) { }
+
+			Vector3(const Vector4<T> &v) : x(v.x), y(v.y), z(v.z) { }
 
 			inline Vector3 &operator=(const Vector3& vec);
 

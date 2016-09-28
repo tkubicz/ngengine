@@ -2,7 +2,7 @@
  * File:   Vector4.hpp
  * Author: tku
  *
- * Created on 29 styczeń 2012, 04:19
+ * Created on 29 January 2012, 04:19
  */
 
 #ifndef VECTOR4_HPP
