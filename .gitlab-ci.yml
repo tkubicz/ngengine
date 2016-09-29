@@ -28,9 +28,12 @@ test:
 
 pages:
     stage: deploy
+    script:
+        - mkdir public
+        - cp doc/* public
     artifacts:
         paths:
-            - doc/
+            - public
 #    only:
 #        - master
         
