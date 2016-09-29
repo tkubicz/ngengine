@@ -25,4 +25,12 @@ test:
         - ctest -V
     dependencies:
         - build
+
+pages:
+    stage: deploy
+    artifacts:
+        paths:
+            - doc/
+#    only:
+#        - master
         
