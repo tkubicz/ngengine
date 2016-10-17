@@ -2,7 +2,7 @@
  * File:   FreeTypeFont.hpp
  * Author: tku
  *
- * Created on 21 luty 2013, 22:39
+ * Created on 21 February 2013, 22:39
  */
 
 #ifndef FREETYPEFONT_HPP
@@ -11,7 +11,7 @@
 #ifdef NGE_USE_FREETYPE
 
 #include <string>
-#include <ft2build.h>
+#include <freetype2/ft2build.h>
 #include FT_FREETYPE_H
 
 #include "NGE/Media/Shaders/GLSLProgram.hpp"

@@ -2,7 +2,7 @@
  * File:   GUIText.hpp
  * Author: tku
  *
- * Created on 18 marzec 2013, 17:26
+ * Created on 18 March 2013, 17:26
  */
 
 #ifndef GUITEXT_HPP
@@ -15,7 +15,7 @@
 #include "NGE/Core/Core.hpp"
 
 #ifdef NGE_USE_FREETYPE
-#include "NGE/Media/Fonts/FreeTypeFont.h"
+#include "NGE/Media/Fonts/FreeTypeFont.hpp"
 #endif
 
 namespace NGE {
