@@ -2,7 +2,7 @@
  * File:   EventsTypes.hpp
  * Author: tku
  *
- * Created on 3 kwiecień 2013, 02:21
+ * Created on 3 April 2013, 02:21
  */
 
 #ifndef EVENTSTYPES_HPP

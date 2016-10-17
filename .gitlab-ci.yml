@@ -25,4 +25,15 @@ test:
         - ctest -V
     dependencies:
         - build
+
+pages:
+    stage: deploy
+    script:
+        - mkdir public
+        - cp doc/* public
+    artifacts:
+        paths:
+            - public
+#    only:
+#        - master
         
