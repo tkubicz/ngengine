@@ -2,6 +2,7 @@
 #include <chrono>
 #include "catch.hpp"
 #include "NGE/Tools/Timing.hpp"
+#include "NGE/Parsers/StringUtils.hpp"
 
 namespace t = NGE::Tools;
 namespace ch = std::chrono;
@@ -30,13 +31,19 @@ void verifyTimeDefaultFormat(const std::string& timeInFormat, const std::tm& loc
 }
 
 void verivyTimeInDDMMYYFormat(const std::string& timeInFormat, const std::tm& localTime) {
-	int mday = std::stoi(timeInFormat.substr(0, 2));
+	
+	std::vector<std::string> tokens = NGE::Parsers::StringUtils::Split(timeInFormat, '-');
+	
+	//int mday = std::stoi(timeInFormat.substr(0, 2));
+	int mday = std::stoi(tokens[0]);
 	REQUIRE(mday == localTime.tm_mday);
-
-	int month = std::stoi(timeInFormat.substr(4, 2));
+	
+	//int month = std::stoi(timeInFormat.substr(4, 2));
+	int month = std::stoi(tokens[1]);
 	REQUIRE((month - 1) == localTime.tm_mon);
 
-	int year = std::stoi(timeInFormat.substr(6, 2));
+	//int year = std::stoi(timeInFormat.substr(6, 2));
+	int year = std::stoi(tokens[2]);
 	REQUIRE((year + 100) == localTime.tm_year);
 }
 
