@@ -249,6 +249,23 @@ void GLFW3Window::SetMousePosition(const int x, const int y) {
     glfwSetCursorPos(window, x, y);
 }
 
+void GLFW3Window::GetMaxResolution(int* width, int* height) {
+    int count;
+    const GLFWvidmode* modes = glfwGetVideoModes(glfwGetPrimaryMonitor(), &count);
+
+    int maxWidth = 0, maxHeight = 0;
+    for (int i = 0; i < count; ++i) {
+        if (modes[i].width > maxWidth) {
+            maxWidth = modes[i].width;
+        }
+        if (modes[i].height > maxHeight) {
+            maxHeight = modes[i].height;
+        }
+    }
+    *width = maxWidth;
+    *height = maxHeight;
+}
+
 void GLFW3Window::ResizeEvent(GLFWwindow* window, int width, int height) {
     GLFW3Window::app->OnResize(width, height);
 }

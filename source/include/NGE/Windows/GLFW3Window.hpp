@@ -72,6 +72,8 @@ namespace NGE {
 
 			Math::vec2i GetMousePosition() const;
 			void SetMousePosition(const int x, const int y);
+            
+            void GetMaxResolution(int* width, int* height) override;
 
 		  protected:
 			static void ResizeEvent(GLFWwindow* window, int width, int height);

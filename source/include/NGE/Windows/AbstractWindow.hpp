@@ -66,6 +66,8 @@ namespace NGE {
             virtual void EnableMouseCursor(bool) = 0;
             virtual bool IsMouseCursorEnable() = 0;
             virtual Math::vec2i GetMousePosition() const = 0;
+            
+            virtual void GetMaxResolution(int* width, int* height) = 0;
         };
     }
 }
