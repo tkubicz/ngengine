@@ -2,7 +2,7 @@
  * File:   GUI.hpp
  * Author: tku
  *
- * Created on 11 marzec 2013, 16:58
+ * Created on 11 March 2013, 16:58
  */
 
 #ifndef GUI_HPP
